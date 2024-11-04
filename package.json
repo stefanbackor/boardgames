@@ -1,0 +1,38 @@
+{
+  "name": "boardgames",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "lint-staged": "turbo lint-staged",
+    "prepare": "husky || true"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "husky": "^9.1.6",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "turbo": "^2.2.3",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "prettier": {
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all"
+  },
+  "packageManager": "yarn@1.22.21",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

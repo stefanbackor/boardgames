@@ -1,0 +1,28 @@
+body {
+  background-image: url('/iStock-1144989152.jpg');
+  background-size: 250px 250px;
+  background-position: top left;
+  background-repeat: repeat;
+}
+
+.radix-themes {
+  --default-font-family: var(--font-noto-serif) !important;
+  --heading-font-family: var(--font-bubblegum-sans) !important;
+}
+
+.radix-themes .rt-ContainerInner {
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .radix-themes .rt-ContainerInner {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .radix-themes .rt-ContainerInner {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}

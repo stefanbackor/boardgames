@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Chonburi&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+.radix-themes {
+  /* Overriding default fonts */
+  --default-font-family: 'Noto Serif', serif;
+  --heading-font-family: 'Chonburi', serif;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  /* Radix font weight for "bold" changed from 700 to 900 for better clarity */
+  --font-weight-bold: 900;
+}

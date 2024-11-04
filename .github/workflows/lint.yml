@@ -1,0 +1,24 @@
+name: "Lint"
+
+on: push
+
+jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+          cache-dependency-path: yarn.lock
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build local dependencies
+        run: npx turbo build --filter="./packages/*"
+      - name: Lint
+        run: yarn lint
