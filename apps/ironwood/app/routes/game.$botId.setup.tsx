@@ -3,7 +3,7 @@ import { useParams } from '@remix-run/react'
 import random from 'lodash/random'
 import { useMemo } from 'react'
 
-// import { GameSetup as IronbotGameSetup } from '~/components/ironbot/GameSetup'
+import { GameSetup as IronbotGameSetup } from '~/components/ironbot/GameSetup'
 import { LinkNext } from '~/components/LinkNext'
 import { NavBar } from '~/components/NavBar'
 import { GameSetup as WoodenbotGameSetup } from '~/components/woodenbot/GameSetup'
@@ -29,7 +29,7 @@ export default function Page() {
       </NavBar>
 
       {botId === Bot.WOODENBOT ? <WoodenbotGameSetup /> : null}
-      {/* {botId === Bot.IRONBOT ? <IronbotGameSetup /> : null} */}
+      {botId === Bot.IRONBOT ? <IronbotGameSetup /> : null}
     </Flex>
   )
 }

@@ -39,6 +39,7 @@ export const LinkNext = (props: LinkProps) => {
         'woodenbot_spirit_cubes',
         'woodenbot_difficulty',
         'woodenbot_vision_cards',
+        'ironbot_difficulty',
       ]}
       {...rest}
     />
