@@ -7,17 +7,17 @@ import {
   IconButton,
   Section,
 } from '@radix-ui/themes'
-import { Link, Outlet, useParams } from '@remix-run/react'
+import { Link, Outlet } from '@remix-run/react'
 
-// import { DifficultyLevelButton as IronbotDifficultyLevelButton } from '~/components/ironbot/DifficultyLevelButton'
 import { DifficultyLevelButton as WoodenbotDifficultyLevelButton } from '~/components/woodenbot/DifficultyLevelButton'
+import { useGameParams } from '~/hooks/useGameParams'
 import { useDebugMode } from '~/utils/debug/useDebug'
 import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
 export default function Layout() {
-  const { botId } = useParams()
+  const { botId } = useGameParams()
   const { isDebugMode } = useDebugMode()
 
   return (
@@ -58,7 +58,6 @@ export default function Layout() {
         </Heading>
 
         {botId === Bot.WOODENBOT && <WoodenbotDifficultyLevelButton />}
-        {/* {botId === Bot.IRONBOT && <IronbotDifficultyLevelButton />} */}
       </Flex>
       <Section size="1">
         <Outlet />

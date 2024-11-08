@@ -1,7 +1,7 @@
 import { Box, Flex } from '@radix-ui/themes'
-import { useParams } from '@remix-run/react'
 import { PropsWithChildren } from 'react'
 
+import { useGameParams } from '~/hooks/useGameParams'
 import { Bot } from '~/utils/state/types'
 
 import { MagicDie } from './MagicDie'
@@ -10,7 +10,7 @@ import { SpiritCubesButton } from './woodenbot/SpiritCubesButton'
 import { WagerDefenseCardButton } from './woodenbot/WagerDefenseCardButton'
 
 export const NavBar = ({ children }: PropsWithChildren) => {
-  const { botId, actionId } = useParams()
+  const { botId, actionId } = useGameParams()
 
   return (
     <Box

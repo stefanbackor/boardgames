@@ -1,10 +1,10 @@
 import { Badge, Box, Flex, Grid, Separator, Text } from '@radix-ui/themes'
-import { useParams } from '@remix-run/react'
 import { useMemo } from 'react'
 
 import { CardBadge } from '~/components/CardBadge'
 import { WWAction } from '~/constants/woodenbot'
 import { PILE_PAIRS, useDeck } from '~/hooks/useDeck'
+import { useGameParams } from '~/hooks/useGameParams'
 import { useDifficulty, WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
 import { isRedCardAction } from '~/utils/cards/isRedCardAction'
 import { DebugOnly } from '~/utils/debug/DebugOnly'
@@ -14,10 +14,10 @@ import { CardAction } from './cards/CardAction'
 import { CardUnavailable } from './cards/CardUnavailable'
 
 export const Expend = () => {
+  const { actionId } = useGameParams()
   const { deck } = useDeck()
   const { hasDifficulty } = useDifficulty()
 
-  const { actionId } = useParams()
   const currentActionId = parseInt(actionId || '0', 10)
 
   const cards = useMemo(() => {
