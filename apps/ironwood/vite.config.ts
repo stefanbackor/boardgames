@@ -16,4 +16,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  define: {
+    'process.env.APP_ENV': process.env.VITE_VERCEL_ENV,
+  },
 })
