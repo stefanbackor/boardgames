@@ -14,6 +14,7 @@ import sample from 'lodash/sample'
 import { type PropsWithChildren } from 'react'
 
 import { Footer } from './components/Footer'
+import { IS_PRODUCTION } from './constants/environment'
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -33,19 +34,23 @@ export function Layout({ children }: PropsWithChildren) {
         <Meta />
         <Links />
 
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-MCJSZY4FKF"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              `window.dataLayer = window.dataLayer || [];` +
-              `function gtag(){dataLayer.push(arguments);}` +
-              `gtag('js', new Date());` +
-              `gtag('config', 'G-MCJSZY4FKF');`,
-          }}
-        ></script>
+        {IS_PRODUCTION && (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-MCJSZY4FKF"
+            ></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html:
+                  `window.dataLayer = window.dataLayer || [];` +
+                  `function gtag(){dataLayer.push(arguments);}` +
+                  `gtag('js', new Date());` +
+                  `gtag('config', 'G-MCJSZY4FKF');`,
+              }}
+            ></script>
+          </>
+        )}
       </head>
       <body
         style={{
