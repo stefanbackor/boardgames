@@ -15,8 +15,8 @@ import { DebugOnly } from '~/utils/debug/DebugOnly'
 import { Pile } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { CardBadge } from './CardBadge'
-import { VisionCardBadge } from './woodenbot/VisionCardBadge'
+import { CardBadge } from '../CardBadge'
+import { VisionCardBadge } from './VisionCardBadge'
 
 export const WoodenbotHand = () => {
   const { deck } = useDeck()

@@ -43,13 +43,13 @@ export function useLocationState<K extends keyof LocationState>(key: K) {
         [`${key}`]: newValue,
       }
 
-      navigate(location.pathname, {
+      navigate(location.pathname + location.search, {
         replace: true,
         preventScrollReset: true,
         state: locationStateRef.current,
       })
     },
-    [key, location.pathname, navigate],
+    [key, location.pathname, location.search, navigate],
   )
 
   return [locationStateRef.current[key], setter] as const

@@ -1,18 +1,18 @@
 import { Button, Flex, Heading } from '@radix-ui/themes'
-import { useParams } from '@remix-run/react'
 import { useEffect } from 'react'
 
+import { BotHand } from '~/components/BotHand'
 import { LinkNext } from '~/components/LinkNext'
 import { NavBar } from '~/components/NavBar'
 import { RoundEnd } from '~/components/woodenbot/RoundEnd'
-import { WoodenbotHand } from '~/components/WoodenbotHand'
 import { useDeck } from '~/hooks/useDeck'
+import { useGameParams } from '~/hooks/useGameParams'
 import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
 export default function Page() {
-  const { botId, gameId, roundId } = useParams()
+  const { botId, gameId, roundId } = useGameParams()
   const { cleanupRoundCards } = useDeck()
 
   useEffect(() => {
@@ -21,14 +21,16 @@ export default function Page() {
 
   return (
     <>
-      <WoodenbotHand />
+      <BotHand />
       <Flex direction="column" gap="3">
         <NavBar>
           <Button asChild>
             <LinkNext
-              to={`/game/${botId}/${gameId}/round/${
-                parseInt(roundId || '0') + 1
-              }/prepare`}
+              to={`/game/${botId}/round/prepare`}
+              params={{
+                gameId,
+                roundId: (parseInt(roundId || '0') + 1).toString(),
+              }}
             >
               New Round
             </LinkNext>
