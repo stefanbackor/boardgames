@@ -11,7 +11,7 @@ export const RoundPrepare = () => (
       No change from the core rules. <Strong>You gain 2&nbsp;crystals</Strong>,
       the bot gains 1 crystal.
       <Box mt="2">
-        <ExecuteButton done={true} />
+        <ExecuteButton done={true} onClick={() => {}} />
       </Box>
     </Box>
 
@@ -26,7 +26,7 @@ export const RoundPrepare = () => (
       For the bot, draw 2 cards from its deck and shuffle them into its hand
       (keeping its hand face down).
       <Box mt="2">
-        <ExecuteButton done={true} />
+        <ExecuteButton done={true} onClick={() => {}} />
       </Box>
     </Box>
 

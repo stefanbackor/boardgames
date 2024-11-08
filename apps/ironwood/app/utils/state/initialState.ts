@@ -6,7 +6,10 @@ export const initialState: LocationState = {
   round_preparation_done: false,
   round_action_done: false,
   round_end_done: false,
+  // Woodenbot
   woodenbot_difficulty: 0,
   woodenbot_spirit_cubes: 0,
   woodenbot_vision_cards: '',
+  // Ironbot
+  ironbot_difficulty: 0,
 }

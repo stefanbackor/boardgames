@@ -62,7 +62,6 @@ export default function Start() {
               </Flex>
             </RadioCards.Item>
             <RadioCards.Item
-              disabled
               value={Bot.IRONBOT}
               style={{ cursor: 'var(--cursor-link)' }}
             >

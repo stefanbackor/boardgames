@@ -1,11 +1,11 @@
-import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Button, Callout, Flex, Heading } from '@radix-ui/themes'
+import { Button, Flex } from '@radix-ui/themes'
 import { useParams } from '@remix-run/react'
 import random from 'lodash/random'
 
+import { GameSetup as IronbotGameSetup } from '~/components/ironbot/GameSetup'
 import { LinkNext } from '~/components/LinkNext'
 import { NavBar } from '~/components/NavBar'
-import { GameSetup } from '~/components/woodenbot/GameSetup'
+import { GameSetup as WoodenbotGameSetup } from '~/components/woodenbot/GameSetup'
 import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
@@ -25,27 +25,8 @@ export default function Woodenbot() {
         </Button>
       </NavBar>
 
-      {botId === Bot.WOODENBOT ? <GameSetup /> : null}
-
-      {botId === Bot.IRONBOT ? (
-        <>
-          <Heading>Ironbot Game Setup</Heading>
-          <ol>
-            <li>TBD</li>
-          </ol>
-
-          <Callout.Root color="brown">
-            <Callout.Icon>
-              <InfoCircledIcon />
-            </Callout.Icon>
-            <Callout.Text>
-              You win the game if you discover 3 Totems and secure them by
-              moving them to the outer forests. If the Ironbot builds 3
-              additional Forges (besides Ferrum), you lose the game.
-            </Callout.Text>
-          </Callout.Root>
-        </>
-      ) : null}
+      {botId === Bot.WOODENBOT ? <WoodenbotGameSetup /> : null}
+      {botId === Bot.IRONBOT ? <IronbotGameSetup /> : null}
     </Flex>
   )
 }
