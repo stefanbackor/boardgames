@@ -1,4 +1,3 @@
-import { useParams } from '@remix-run/react'
 import { Decker } from '@repo/decker'
 import shuffle from 'lodash/shuffle'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -9,6 +8,7 @@ import { WW_CARDS_BASE, WW_CARDS_SPECIAL } from '~/constants/woodenbot'
 import { createDeck } from '../utils/deck/deck'
 import { Bot, IWCard, Pile } from '../utils/state/types'
 import { useLocationState } from '../utils/state/useLocationState'
+import { useGameParams } from './useGameParams'
 
 export const PILE_PAIRS = [
   [Pile.ACTION1_SPECIAL, Pile.ACTION1_BASE],
@@ -53,7 +53,7 @@ const drawFromHand = (
  * @returns
  */
 export const useDeck = () => {
-  const { botId } = useParams()
+  const { botId } = useGameParams()
   const [cardsBase, cardsSpecial] = useMemo(
     () =>
       botId === Bot.WOODENBOT

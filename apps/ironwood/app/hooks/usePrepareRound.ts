@@ -1,4 +1,3 @@
-import { useParams } from '@remix-run/react'
 import { useCallback, useRef } from 'react'
 
 import { useDeck } from '~/hooks/useDeck'
@@ -6,12 +5,14 @@ import { useDifficulty, WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
 import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { useGameParams } from './useGameParams'
+
 /**
  * Hook providing callback to prepare round cards once, add crystals.
  * @returns
  */
 export const usePrepareRound = () => {
-  const { botId, roundId } = useParams()
+  const { botId, roundId } = useGameParams()
   const { prepareRoundCards } = useDeck()
   const { hasDifficulty } = useDifficulty()
   const [crystals, setCrystals] = useLocationState('crystals')

@@ -1,15 +1,14 @@
 import { Box } from '@radix-ui/themes'
-import { useParams } from '@remix-run/react'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
 import { useDeck } from '~/hooks/useDeck'
+import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../../keywords/KeywordButton'
-
 export const Alert = () => {
-  const { actionId } = useParams()
+  const { actionId } = useGameParams()
   const { expendCard } = useDeck()
 
   const [done, setDone] = useLocationState(

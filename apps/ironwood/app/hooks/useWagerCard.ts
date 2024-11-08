@@ -1,4 +1,3 @@
-import { useParams } from '@remix-run/react'
 import { useCallback } from 'react'
 
 import { WWStance } from '~/constants/woodenbot'
@@ -6,6 +5,7 @@ import { Bot, LocationState } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { useDeck } from './useDeck'
+import { useGameParams } from './useGameParams'
 
 export enum WagerCardPurpose {
   ATTACK_DISRUPTIVE,
@@ -49,7 +49,7 @@ const PURPOSE_STORES: Record<
  * Wager a card for combat. Provides props for <WagerCardContent />
  */
 export const useWagerCard = (purpose: WagerCardPurpose) => {
-  const { botId } = useParams()
+  const { botId } = useGameParams()
   const { wagerCard, drawCard } = useDeck()
   const [combatCard, setCombatCard] = useLocationState(
     PURPOSE_STORES[purpose][0],
