@@ -1,6 +1,7 @@
 import { Button, Flex } from '@radix-ui/themes'
 import { useParams } from '@remix-run/react'
 import random from 'lodash/random'
+import { useMemo } from 'react'
 
 import { GameSetup as IronbotGameSetup } from '~/components/ironbot/GameSetup'
 import { LinkNext } from '~/components/LinkNext'
@@ -10,15 +11,17 @@ import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
-export default function Woodenbot() {
+export default function Page() {
   const { botId } = useParams()
+  const gameId = useMemo(() => random(100, 999, false), [])
 
   return (
     <Flex direction="column" gap="3">
       <NavBar>
         <Button asChild>
           <LinkNext
-            to={`/game/${botId}/${random(100, 999, false)}/round/1/prepare`}
+            to={`/game/${botId}/round/prepare`}
+            params={{ gameId: gameId.toString(), roundId: '1' }}
           >
             Continue
           </LinkNext>

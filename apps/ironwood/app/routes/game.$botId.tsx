@@ -9,8 +9,10 @@ import {
 } from '@radix-ui/themes'
 import { Link, Outlet, useParams } from '@remix-run/react'
 
-import { DifficultyLevelButton } from '~/components/woodenbot/DifficultyLevelButton'
+// import { DifficultyLevelButton as IronbotDifficultyLevelButton } from '~/components/ironbot/DifficultyLevelButton'
+import { DifficultyLevelButton as WoodenbotDifficultyLevelButton } from '~/components/woodenbot/DifficultyLevelButton'
 import { useDebugMode } from '~/utils/debug/useDebug'
+import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
@@ -54,7 +56,9 @@ export default function Layout() {
             </a>
           ) : null}
         </Heading>
-        <DifficultyLevelButton />
+
+        {botId === Bot.WOODENBOT && <WoodenbotDifficultyLevelButton />}
+        {/* {botId === Bot.IRONBOT && <IronbotDifficultyLevelButton />} */}
       </Flex>
       <Section size="1">
         <Outlet />
