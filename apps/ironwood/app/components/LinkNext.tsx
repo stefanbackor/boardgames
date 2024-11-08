@@ -2,7 +2,12 @@ import { Link } from '@remix-run/react'
 
 import { LinkWithPreservedState } from '~/utils/state/LinkWithPreservedState'
 
-type LinkProps = Parameters<typeof Link>[0]
+type LinkProps = Parameters<typeof Link>[0] & {
+  params?: {
+    gameId: string | null
+    roundId: string | null
+  }
+}
 
 /**
  * Link component that preserves state between navigation. Use this
@@ -12,9 +17,22 @@ type LinkProps = Parameters<typeof Link>[0]
  * @returns
  */
 export const LinkNext = (props: LinkProps) => {
+  const { params, to, ...rest } = props
+  const { gameId, roundId } = params ?? {}
+
+  const toWithParams = params
+    ? `${to}?${new URLSearchParams(
+        Object.fromEntries(
+          Object.entries({ game: gameId, round: roundId })
+            .filter(([, value]) => value !== null)
+            .map(([key, value]) => [key, value as string]),
+        ),
+      ).toString()}`
+    : to
+
   return (
     <LinkWithPreservedState
-      {...props}
+      to={toWithParams}
       preserveStateKey={[
         'cards',
         'crystals',
@@ -22,6 +40,7 @@ export const LinkNext = (props: LinkProps) => {
         'woodenbot_difficulty',
         'woodenbot_vision_cards',
       ]}
+      {...rest}
     />
   )
 }
