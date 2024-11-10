@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { reactRouterParameters } from 'storybook-addon-remix-react-router'
 
 import { WWAction, WWStance } from '~/constants/woodenbot'
 
@@ -11,13 +10,21 @@ const meta: Meta<typeof CardAction> = {
   title: 'Woodenbot/Cards/Actions/Exalted',
   component: CardAction,
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        state: {
-          woodenbot_action_stance: WWStance.EXALTED,
+    routing: [{ path: '/:botId/:actionId' }],
+    routerOpts: {
+      initialEntries: [
+        {
+          pathname: '/woodenbot/1',
+          search: new URLSearchParams({
+            gameId: '123',
+            roundId: '456',
+          }).toString(),
+          state: {
+            woodenbot_action_stance: WWStance.EXALTED,
+          },
         },
-      },
-    }),
+      ],
+    },
   },
 }
 
