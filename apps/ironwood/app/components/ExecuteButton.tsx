@@ -6,6 +6,7 @@ type Props = {
   done: ButtonProps['disabled']
   onClick: ButtonProps['onClick']
   label?: string
+  testId?: string
 }
 
 /**
@@ -14,11 +15,17 @@ type Props = {
  * @returns
  */
 export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
-  ({ done, onClick, label }, ref) => {
+  ({ done, onClick, label, testId }, ref) => {
     return (
-      <Button ref={ref} size="1" disabled={done} onClick={onClick}>
+      <Button
+        ref={ref}
+        size="1"
+        disabled={done}
+        onClick={onClick}
+        data-testid={testId || 'execute-button'}
+      >
         {done && <CheckIcon />}
-        {done ? 'Done' : label ?? 'Execute'}
+        {done ? 'Done' : (label ?? 'Execute')}
       </Button>
     )
   },

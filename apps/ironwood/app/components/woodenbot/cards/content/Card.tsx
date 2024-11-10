@@ -2,10 +2,9 @@ import { Box } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
 import { useDeck } from '~/hooks/useDeck'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { Keyword } from '../../keywords/KeywordButton'
 
 export const Card = () => {
   const { drawCardToTop } = useDeck()
