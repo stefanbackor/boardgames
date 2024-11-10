@@ -1,4 +1,3 @@
-// import { useParams } from "@remix-run/react";
 import { useEffect } from 'react'
 
 import { useDeck } from '~/hooks/useDeck'
