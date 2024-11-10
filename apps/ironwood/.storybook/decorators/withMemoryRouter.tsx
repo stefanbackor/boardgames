@@ -16,10 +16,12 @@ export const withMemoryRouter = (Story: React.ComponentType, opts: any) => {
     routing: Parameters<typeof createMemoryRouter>[0]
     routerOpts?: Parameters<typeof createMemoryRouter>[1]
   }
-  const router = createMemoryRouter(
-    routing.map((route) => ({ ...route, element: <Story /> })),
-    routerOpts,
-  )
+  const router = routing
+    ? createMemoryRouter(
+        routing.map((route) => ({ ...route, element: <Story /> })),
+        routerOpts,
+      )
+    : undefined
   opts.storyGlobals.router = router
-  return <RouterProvider router={router} />
+  return router ? <RouterProvider router={router} /> : <Story />
 }
