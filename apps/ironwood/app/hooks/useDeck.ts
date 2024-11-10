@@ -1,11 +1,11 @@
 import { Decker } from '@repo/decker'
 import shuffle from 'lodash/shuffle'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { IC_CARDS_BASE, IC_CARDS_SPECIAL } from '~/constants/ironbot'
-import { WW_CARDS_BASE, WW_CARDS_SPECIAL } from '~/constants/woodenbot'
+import { createIronbotDeck } from '~/utils/deck/createIronbotDeck'
+import { createWoodenbotDeck } from '~/utils/deck/createWoodenbotDeck'
+import { loadDeck } from '~/utils/deck/loadDeck'
 
-import { createDeck } from '../utils/deck/deck'
 import { Bot, IWCard, Pile } from '../utils/state/types'
 import { useLocationState } from '../utils/state/useLocationState'
 import { useGameParams } from './useGameParams'
@@ -54,27 +54,24 @@ const drawFromHand = (
  */
 export const useDeck = () => {
   const { botId } = useGameParams()
-  const [cardsBase, cardsSpecial] = useMemo(
-    () =>
-      botId === Bot.WOODENBOT
-        ? [WW_CARDS_BASE, WW_CARDS_SPECIAL]
-        : botId === Bot.IRONBOT
-          ? [IC_CARDS_BASE, IC_CARDS_SPECIAL]
-          : [[], []],
-    [botId],
-  )
 
   const [cardsJSON, setCardsJSON] = useLocationState('cards')
 
   const roundActionDoneRef = useRef<Array<boolean>>([])
 
   const [deck, setDeck] = useState<Decker<IWCard, Pile>>(
-    createDeck(cardsBase, cardsSpecial, cardsJSON),
+    cardsJSON
+      ? loadDeck(cardsJSON)
+      : botId === Bot.WOODENBOT
+        ? createWoodenbotDeck()
+        : createIronbotDeck(),
   )
 
   useEffect(() => {
-    setDeck(createDeck(cardsBase, cardsSpecial, cardsJSON))
-  }, [cardsBase, cardsJSON, cardsSpecial])
+    if (cardsJSON) {
+      setDeck(loadDeck(cardsJSON))
+    }
+  }, [cardsJSON])
 
   const deckCommit = useCallback(() => {
     setCardsJSON(deck.export())
