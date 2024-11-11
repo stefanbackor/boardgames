@@ -1,7 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { reactRouterParameters } from 'storybook-addon-remix-react-router'
+import { expect, userEvent, within } from '@storybook/test'
 
-import { WWAction, WWStance } from '~/constants/woodenbot'
+import {
+  WW_VISION_CARDS_INSIDE,
+  WWAction,
+  WWStance,
+} from '~/constants/woodenbot'
+import { loadDeck } from '~/utils/deck/loadDeck'
+import { Pile } from '~/utils/state/types'
 
 import { CardAction } from './CardAction'
 
@@ -11,13 +17,21 @@ const meta: Meta<typeof CardAction> = {
   title: 'Woodenbot/Cards/Actions/Disruptive',
   component: CardAction,
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        state: {
-          woodenbot_action_stance: WWStance.DISRUPTIVE,
+    routing: [{ path: '/:botId/:actionId' }],
+    routerOpts: {
+      initialEntries: [
+        {
+          pathname: '/woodenbot/1',
+          search: new URLSearchParams({
+            gameId: '123',
+            roundId: '456',
+          }).toString(),
+          state: {
+            woodenbot_action_stance: WWStance.DISRUPTIVE,
+          },
         },
-      },
-    }),
+      ],
+    },
   },
 }
 
@@ -27,6 +41,20 @@ export const Card: Story = {
   args: {
     action: WWAction.CARD,
   },
+}
+Card.play = async (arg) => {
+  const {
+    canvasElement,
+    storyGlobals: { router },
+  } = arg
+  const canvas = within(canvasElement)
+  const executeButton = canvas.getByTestId('execute-button')
+
+  await userEvent.click(executeButton)
+
+  const state = router.state.location.state
+  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(loadDeck(state.cards).pile(Pile.HAND_SPECIAL_PRIORITY).length).toBe(1)
 }
 
 export const CardAsRed: Story = {
@@ -94,12 +122,27 @@ export const Cubes: Story = {
     action: WWAction.CUBES,
   },
 }
+Cubes.play = async (arg) => {
+  const {
+    canvasElement,
+    storyGlobals: { router },
+  } = arg
+  const canvas = within(canvasElement)
+  const executeButton = canvas.getByTestId('execute-button')
+
+  await userEvent.click(executeButton)
+
+  const state = router.state.location.state
+  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_spirit_cubes).toBe(2)
+}
 
 export const CubesAsRed: Story = {
   args: {
     action: WWAction.CUBES_RED,
   },
 }
+CubesAsRed.play = Cubes.play
 
 export const Battle: Story = {
   args: {
@@ -111,6 +154,39 @@ export const Search: Story = {
   args: {
     action: WWAction.SEARCH,
   },
+}
+
+export const SearchExecuted: Story = { ...Search }
+SearchExecuted.play = async (arg) => {
+  const {
+    canvasElement,
+    storyGlobals: { router },
+  } = arg
+  const canvas = within(canvasElement)
+  const choiceButton = canvas.queryAllByRole('radio')
+  const executeButton = canvas.getByTestId('execute-button')
+
+  const mountain = 'AURIA'
+  const mountainVisionCard = WW_VISION_CARDS_INSIDE.find(
+    (c) => c[0] === mountain,
+  )
+
+  await userEvent.click(
+    choiceButton.find((b) => b.getAttribute('value') === mountain)!,
+  )
+  await userEvent.click(executeButton)
+
+  const state = router.state.location.state
+
+  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_vision_discovery_search_card_done).toBe(true)
+  expect(state.woodenbot_vision_discovery_search_card_card).toBe(
+    mountainVisionCard,
+  )
+  expect(state.woodenbot_vision_discovery_search_card_marked.length).toBe(5)
+  expect(state.woodenbot_vision_discovery_search_card_marked).not.toContain(
+    mountainVisionCard,
+  )
 }
 
 export const SearchAsRed: Story = {

@@ -1,9 +1,9 @@
 import type { Preview } from '@storybook/react'
-import { withRouter } from 'storybook-addon-remix-react-router'
 import { withRadixTheme } from './decorators/withRadixTheme'
+import { withMemoryRouter } from './decorators/withMemoryRouter'
 
 const preview: Preview = {
-  decorators: [withRouter, withRadixTheme],
+  decorators: [withMemoryRouter, withRadixTheme],
   parameters: {
     controls: {
       matchers: {
