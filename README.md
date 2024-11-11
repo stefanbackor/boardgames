@@ -1,3 +1,5 @@
+[![Test](https://github.com/stefanbackor/boardgames/actions/workflows/test.yml/badge.svg)](https://github.com/stefanbackor/boardgames/actions/workflows/test.yml)
+
 # Stefan's Boardgames Apps
 
 Various boardgame solo apps and companions.
