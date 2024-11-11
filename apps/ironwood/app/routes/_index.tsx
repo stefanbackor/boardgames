@@ -20,7 +20,7 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  const [selectedBot, setSelectedBot] = useState<Bot>(Bot.IRONBOT)
+  const [selectedBot, setSelectedBot] = useState<Bot>(Bot.WOODENBOT)
   const navigate = useNavigate()
 
   const onConfirm = useCallback(
