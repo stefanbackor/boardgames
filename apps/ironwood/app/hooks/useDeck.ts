@@ -77,30 +77,30 @@ export const useDeck = () => {
     setCardsJSON(deck.export())
   }, [deck, setCardsJSON])
 
-  /**
-   * Prepare cards for around. Draw 2 cards from the draw pile, then shuffle the hand.
-   * Using a ref to ensure this only runs once per render and history state to prevent
-   * drawing after refresh.
-   */
-  const prepareRoundCards = useCallback(
-    (draws = 2) => {
-      for (let i = 0; i < draws; i++) {
-        deck.draw(Pile.DRAW_SPECIAL, Pile.HAND_SPECIAL)
-      }
-      deck.shuffle(Pile.HAND_SPECIAL)
-      deck.shuffle(Pile.HAND_BASE)
-
-      deckCommit()
-    },
-    [deck, deckCommit],
-  )
-
   return {
     // Deck state
     // TODO: Provide specific action with pre-filtered state
     deck,
+
     // Game actions
-    prepareRoundCards,
+
+    /**
+     * Prepare cards for around. Draw 2 cards from the draw pile, then shuffle the hand.
+     * Using a ref to ensure this only runs once per render and history state to prevent
+     * drawing after refresh.
+     */
+    prepareRoundCards: useCallback(
+      (draws: number) => {
+        for (let i = 0; i < draws; i++) {
+          deck.draw(Pile.DRAW_SPECIAL, Pile.HAND_SPECIAL)
+        }
+        deck.shuffle(Pile.HAND_SPECIAL)
+        deck.shuffle(Pile.HAND_BASE)
+
+        deckCommit()
+      },
+      [deck, deckCommit],
+    ),
 
     /**
      * Cleanup piles after round ends. Reshuffle base cards back

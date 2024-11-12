@@ -1,10 +1,12 @@
 import { useCallback, useRef } from 'react'
 
+import { IBDifficulty } from '~/constants/ironbot'
+import { WBDifficulty } from '~/constants/woodenbot'
 import { useDeck } from '~/hooks/useDeck'
-import { useDifficulty, WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
 import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { useDifficulty } from './useDifficulty'
 import { useGameParams } from './useGameParams'
 
 /**
@@ -27,23 +29,27 @@ export const usePrepareRound = () => {
     if (roundId && !roundCardsReady && !roundCardsReadyRef.current[roundId]) {
       if (botId === Bot.WOODENBOT) {
         setCrystals((crystals) => crystals + 1)
+        prepareRoundCards(2)
 
         if (roundId === '1') {
-          if (hasDifficulty(WWDifficulty.ADD_EXTRA_SPIRIT_CUBES)) {
+          if (hasDifficulty(WBDifficulty.ADD_EXTRA_SPIRIT_CUBES)) {
             setSpiritCubes(2)
           }
-          if (hasDifficulty(WWDifficulty.ADD_EXTRA_SPECIAL_CARDS)) {
-            prepareRoundCards(4)
-          } else {
+          if (hasDifficulty(WBDifficulty.ADD_EXTRA_SPECIAL_CARDS)) {
             prepareRoundCards(2)
           }
-        } else {
-          prepareRoundCards(2)
         }
       }
 
       if (botId === Bot.IRONBOT) {
         setCrystals((crystals) => crystals + 2)
+        prepareRoundCards(2)
+
+        if (roundId === '1') {
+          if (hasDifficulty(IBDifficulty.ADD_EXTRA_SPECIAL_CARDS)) {
+            prepareRoundCards(2)
+          }
+        }
       }
 
       setRoundCardsReady(true)

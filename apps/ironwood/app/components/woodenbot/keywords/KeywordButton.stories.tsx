@@ -16,12 +16,12 @@ export const Buttons: Story = {
   render: () => (
     <Flex gap="3" direction="column" justify="start" align="start">
       {Object.entries(Keyword).map(([name, Component]) => (
-        <Component key={name} />
+        <Component key={name} count="1" />
       ))}
     </Flex>
   ),
 }
 
 export const Plunder: Story = {
-  render: () => <Keyword.Plunder dialogProps={{ open: true }} />,
+  render: () => <Keyword.Plunder count="1" dialogProps={{ open: true }} />,
 }

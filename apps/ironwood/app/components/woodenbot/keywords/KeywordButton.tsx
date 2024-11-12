@@ -69,6 +69,7 @@ export const Keyword = {
       {/*  <KeywordImg alt="Totem" src={assetTotem} /> */}
     </KeywordInline>
   ),
+  Ironbot: () => <KeywordInline>Ironbot</KeywordInline>,
   Woodenbot: () => <KeywordInline>Woodenbot</KeywordInline>,
   WoodwalkerWarband: ({ count }: { count?: WarriorCountProps['count'] }) => (
     <KeywordInline>
@@ -153,10 +154,7 @@ export const Keyword = {
       <Discovers />
     </ModalDialog>
   ),
-  Secure: ({
-    dialogProps,
-    count,
-  }: KeywordButtonProps & { count: string | number }) => {
+  Secure: ({ dialogProps, count }: KeywordButtonProps & { count: string }) => {
     return (
       <ModalDialog
         title={<Text color="yellow">Secure</Text>}

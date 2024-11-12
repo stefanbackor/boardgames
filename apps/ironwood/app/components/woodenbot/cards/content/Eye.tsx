@@ -5,8 +5,8 @@ import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
 import { useLocate } from '~/components/woodenbot/useLocate'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import {
-  WWStance,
-  WWVisionLocatePurpose,
+  WBStance,
+  WBVisionLocatePurpose,
   WWWarriorType,
 } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
@@ -20,15 +20,15 @@ export const Eye = () => {
     discardDone,
     discardPileTopCard,
     discardPileTopCardBackToDraw: onDisruptiveExecute,
-  } = useVisionDeck({ purpose: WWVisionLocatePurpose.CARD_EYE })
+  } = useVisionDeck({ purpose: WBVisionLocatePurpose.CARD_EYE })
 
   const { render: renderLocate } = useLocate({
-    purpose: WWVisionLocatePurpose.CARD_EYE,
+    purpose: WBVisionLocatePurpose.CARD_EYE,
   })
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE ? (
+      {stance === WBStance.DISRUPTIVE ? (
         <>
           <Box>
             Shuffle a random discarded <Keyword.VisionCard /> back into the{' '}
@@ -49,7 +49,7 @@ export const Eye = () => {
           </Box>
         </>
       ) : null}
-      {stance === WWStance.EXALTED ? (
+      {stance === WBStance.EXALTED ? (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarband count="2" />{' '}

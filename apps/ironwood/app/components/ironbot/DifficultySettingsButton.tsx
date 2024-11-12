@@ -10,7 +10,8 @@ import {
 import { useCallback, useState } from 'react'
 
 import { ModalDialog } from '~/components/ModalDialog'
-import { IBDifficulty, useDifficulty } from '~/hooks/ironbot/useDifficulty'
+import { IBDifficulty } from '~/constants/ironbot'
+import { useDifficulty } from '~/hooks/useDifficulty'
 
 export const DifficultySettingsButton = () => {
   const { hasDifficulty, setDifficulty, resetDifficulty, getDifficultyLevel } =
@@ -34,14 +35,14 @@ export const DifficultySettingsButton = () => {
     hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ONE)
       ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ONE
       : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO)
-        ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO
-        : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE)
-          ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE
-          : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR)
-            ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR
-            : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL)
-              ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL
-              : '',
+      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO
+      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE)
+      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE
+      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR)
+      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR
+      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL)
+      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL
+      : '',
   )
 
   const onReset = useCallback(() => {

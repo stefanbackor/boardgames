@@ -10,11 +10,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import sample from 'lodash/sample'
-import { type PropsWithChildren } from 'react'
+import { type PropsWithChildren, useLayoutEffect } from 'react'
 
 import { Footer } from './components/Footer'
 import { IS_PRODUCTION } from './constants/environment'
+import { useGameParams } from './hooks/useGameParams'
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -52,18 +52,7 @@ export function Layout({ children }: PropsWithChildren) {
           </>
         )}
       </head>
-      <body
-        style={{
-          backgroundImage: `url("${sample([
-            'https://cf.geekdo-images.com/Qk4Narg7ZVrBv9VP-pzv-w__imagepagezoom/img/dIiE9c81r3bM40pbBaJ8Rgee6uU=/fit-in/1200x900/filters:no_upscale():strip_icc()/pic8199749.jpg',
-          ])}")`,
-          backgroundAttachment: 'fixed',
-          backgroundOrigin: 'border-box',
-          backgroundPosition: 'center -400px',
-          backgroundSize: '1500px auto',
-          margin: 0,
-        }}
-      >
+      <body>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -73,6 +62,12 @@ export function Layout({ children }: PropsWithChildren) {
 }
 
 export default function App({ children }: PropsWithChildren) {
+  const { botId } = useGameParams()
+
+  useLayoutEffect(() => {
+    botId && (document.body.dataset.bot = botId)
+  }, [botId])
+
   return (
     <Theme
       accentColor="green"

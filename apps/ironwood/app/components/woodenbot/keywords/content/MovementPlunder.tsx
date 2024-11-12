@@ -4,7 +4,7 @@ import { Box, Callout, Flex, Strong } from '@radix-ui/themes'
 import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
 
 type Props = {
-  count: string | number
+  count: string
 }
 
 export const MovementPlunder = ({ count }: Props) => {

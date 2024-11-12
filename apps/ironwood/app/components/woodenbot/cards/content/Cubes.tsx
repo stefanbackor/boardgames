@@ -2,7 +2,7 @@ import { Box } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { Keyword } from '../../keywords/KeywordButton'
@@ -28,14 +28,14 @@ export const Cubes = () => {
         </Box>
       </Box>
 
-      {stance === WWStance.DISRUPTIVE ? (
+      {stance === WBStance.DISRUPTIVE ? (
         <Box>
           <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" /> to{' '}
           <Keyword.Interfere count="2" />
         </Box>
       ) : null}
 
-      {stance === WWStance.EXALTED ? (
+      {stance === WBStance.EXALTED ? (
         <Box>
           <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" /> to{' '}
           <Keyword.Secure count="2" />

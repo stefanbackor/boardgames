@@ -1,11 +1,11 @@
-import { ICAction, ICCard } from '~/constants/ironbot'
-import { WWAction, WWCard } from '~/constants/woodenbot'
+import { IBAction, ICCard } from '~/constants/ironbot'
+import { WBAction, WWCard } from '~/constants/woodenbot'
 
 import { LocationState as IronBotLocationState } from './ironbot'
 import { LocationState as WoodenbotLocationState } from './woodenbot'
 
 export type IWCard = WWCard | ICCard
-export type IWCardAction = WWAction | ICAction
+export type IWCardAction = WBAction | IBAction
 
 export enum Bot {
   IRONBOT = 'ironbot',
@@ -41,6 +41,7 @@ export type LocationState = {
   // Carried over state
   cards: string // `Decker` JSON export
   crystals: number // Current number of crystals for each bot.
+  difficulty: number // Current difficulty for each bot.
   // Page-only state
   round_preparation_done: boolean // Flag to indicate that round preparation was done.
   round_action_done: boolean

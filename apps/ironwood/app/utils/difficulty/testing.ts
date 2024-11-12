@@ -1,4 +1,5 @@
-import { WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
+import { IBDifficulty } from '~/constants/ironbot'
+import { WBDifficulty } from '~/constants/woodenbot'
 
 import { BitSet } from '../BitSet'
 
@@ -7,7 +8,9 @@ import { BitSet } from '../BitSet'
  * @param diff
  * @returns
  */
-export function testingSetDifficultyValue(diffs: Array<WWDifficulty>) {
+export function testingSetDifficultyValue(
+  diffs: Array<WBDifficulty> | Array<IBDifficulty>,
+) {
   const bs = new BitSet()
   diffs.forEach((diff) => {
     bs.set(Number(diff))

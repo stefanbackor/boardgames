@@ -1,6 +1,6 @@
 import { Box } from '@radix-ui/themes'
 
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { Keyword } from '../../keywords/KeywordButton'
@@ -10,7 +10,7 @@ export const Warband = () => {
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE && (
+      {stance === WBStance.DISRUPTIVE && (
         <>
           <Box>
             <Keyword.Woodenbot /> <Keyword.Recruits count="1" />{' '}
@@ -19,7 +19,7 @@ export const Warband = () => {
         </>
       )}
 
-      {stance === WWStance.EXALTED && (
+      {stance === WBStance.EXALTED && (
         <>
           <Box>
             If <Keyword.Totem /> is with <Keyword.WoodwalkerWarband />:{' '}

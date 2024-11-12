@@ -1,6 +1,6 @@
 import { Badge, Flex } from '@radix-ui/themes'
 
-import { WWAction } from '~/constants/woodenbot'
+import { WBAction } from '~/constants/woodenbot'
 
 import { Alert } from './content/Alert'
 import { Arrows } from './content/Arrows'
@@ -14,7 +14,7 @@ import { Shield } from './content/Shield'
 import { Warband } from './content/Warband'
 
 type Props = {
-  action: WWAction
+  action: WBAction
 }
 
 export const CardAction = ({ action }: Props) => {
@@ -22,32 +22,32 @@ export const CardAction = ({ action }: Props) => {
     <Flex direction="column" gap="3">
       {(() => {
         switch (action) {
-          case WWAction.CARD:
-          case WWAction.CARD_RED:
+          case WBAction.CARD:
+          case WBAction.CARD_RED:
             return <Card />
-          case WWAction.CRYSTALS:
+          case WBAction.CRYSTALS:
             return <Crystals />
-          case WWAction.EYE:
-          case WWAction.EYE_RED:
+          case WBAction.EYE:
+          case WBAction.EYE_RED:
             return <Eye />
-          case WWAction.WARBAND:
-          case WWAction.WARBAND_RED:
+          case WBAction.WARBAND:
+          case WBAction.WARBAND_RED:
             return <Warband />
-          case WWAction.SHIELD:
-          case WWAction.SHIELD_RED:
+          case WBAction.SHIELD:
+          case WBAction.SHIELD_RED:
             return <Shield />
-          case WWAction.ALERT:
-          case WWAction.ALERT_RED:
+          case WBAction.ALERT:
+          case WBAction.ALERT_RED:
             return <Alert />
-          case WWAction.CUBES:
-          case WWAction.CUBES_RED:
+          case WBAction.CUBES:
+          case WBAction.CUBES_RED:
             return <Cubes />
-          case WWAction.BATTLE:
+          case WBAction.BATTLE:
             return <Battle />
-          case WWAction.SEARCH:
-          case WWAction.SEARCH_RED:
+          case WBAction.SEARCH:
+          case WBAction.SEARCH_RED:
             return <Search />
-          case WWAction.ARROWS:
+          case WBAction.ARROWS:
             return <Arrows />
           default:
             return <Badge color="red">Unknown {action}</Badge>

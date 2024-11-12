@@ -1,56 +1,22 @@
-import {
-  Badge,
-  Flex,
-  Heading,
-  Section,
-  Separator,
-  Text,
-} from '@radix-ui/themes'
-import shuffle from 'lodash/shuffle'
+import { Badge, Flex, Heading, Section, Text } from '@radix-ui/themes'
 
-import { WBVisionPile } from '~/constants/woodenbot'
 import { useDeck } from '~/hooks/useDeck'
-import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { DebugOnly } from '~/utils/debug/DebugOnly'
 import { Pile } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { CardBadge } from '../CardBadge'
-import { VisionCardBadge } from './VisionCardBadge'
 
-export const WoodenbotHand = () => {
+export const IronbotHand = () => {
   const { deck } = useDeck()
-  const { deck: visionDeck } = useVisionDeck()
-
   const [crystals] = useLocationState('crystals')
-  const [woodenbotSpiritCubes] = useLocationState('woodenbot_spirit_cubes')
 
   return (
     <>
       <Section size="1">
         <Flex gap="1" wrap="wrap" align="center">
           <Heading>Bot&apos;s Hand</Heading>
-          <Badge color="bronze">Spirit cubes: {woodenbotSpiritCubes}</Badge>
           <Badge color="blue">Crystals: {crystals}</Badge>
-        </Flex>
-
-        <Flex gap="1" direction="column">
-          <Flex gap="1" align="center" wrap="wrap">
-            <Text size="1">Possible mountains:</Text>
-            {shuffle(visionDeck.get(WBVisionPile.DRAW)).map((card) => (
-              <VisionCardBadge key={card[0]} card={card} />
-            ))}
-          </Flex>
-
-          {visionDeck.size(WBVisionPile.DISCOVERED) > 0 && (
-            <Flex align="center" gap="1">
-              <Separator orientation="vertical" decorative={false} />
-              <Text size="1">Discovered in:</Text>
-              {visionDeck.get(WBVisionPile.DISCOVERED).map((card) => (
-                <VisionCardBadge key={card[0]} card={card} />
-              ))}
-            </Flex>
-          )}
         </Flex>
 
         <DebugOnly>

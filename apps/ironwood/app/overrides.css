@@ -1,5 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Chonburi&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 
+body {
+  background-image: url('https://cf.geekdo-images.com/m_HN0ahrcwrSr2S3HI3Taw__imagepagezoom/img/BfKoCG1opf6eShOTo4-hn0JHEqs=/fit-in/1200x900/filters:no_upscale():strip_icc()/pic8489990.jpg');
+  background-attachment: fixed;
+  background-origin: border-box;
+  background-position: center -400px;
+  background-size: 100% auto;
+  margin: 0;
+}
+
+body[data-bot='ironbot'] {
+  background-image: url('https://cf.geekdo-images.com/vbbwyOcnsW4zMeiRZD3_Ng__imagepagezoom/img/PuoWjBIlfCRaiZvg44CycnvFDls=/fit-in/1200x900/filters:no_upscale():strip_icc()/pic8295032.jpg');
+  background-position: center -400px;
+  background-size: 1400px auto;
+}
+
+body[data-bot='woodenbot'] {
+  background-image: url('https://cf.geekdo-images.com/Qk4Narg7ZVrBv9VP-pzv-w__imagepagezoom/img/dIiE9c81r3bM40pbBaJ8Rgee6uU=/fit-in/1200x900/filters:no_upscale():strip_icc()/pic8199749.jpg');
+  background-position: center -250px;
+  background-size: 1500px auto;
+}
+
 .radix-themes {
   /* Overriding default fonts */
   --default-font-family: 'Noto Serif', serif;

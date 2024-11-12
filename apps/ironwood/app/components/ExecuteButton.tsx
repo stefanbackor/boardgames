@@ -3,8 +3,8 @@ import { Button, ButtonProps } from '@radix-ui/themes'
 import { forwardRef } from 'react'
 
 type Props = {
-  done: ButtonProps['disabled']
-  onClick: ButtonProps['onClick']
+  done?: ButtonProps['disabled']
+  onClick?: ButtonProps['onClick']
   label?: string
   testId?: string
 }

@@ -1,7 +1,7 @@
 import { Box, Flex } from '@radix-ui/themes'
 
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 import { WagerCardPurpose } from '~/hooks/useWagerCard'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useLocationState } from '~/utils/state/useLocationState'
@@ -15,7 +15,7 @@ export const Battle = () => {
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE && (
+      {stance === WBStance.DISRUPTIVE && (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" />{' '}
@@ -49,7 +49,7 @@ export const Battle = () => {
         </>
       )}
 
-      {stance === WWStance.EXALTED && (
+      {stance === WBStance.EXALTED && (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" />{' '}

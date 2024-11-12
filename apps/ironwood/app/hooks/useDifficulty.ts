@@ -1,40 +1,14 @@
 import { useCallback, useRef } from 'react'
 
+import { IBDifficulty } from '~/constants/ironbot'
+import { WBDifficulty, WBDifficultyLevel } from '~/constants/woodenbot'
 import { BitSet } from '~/utils/BitSet'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-/**
- * Woodenbot difficulty bits.
- */
-export enum WWDifficulty {
-  RESOLVE_RED_ACTIONS = '0',
-  ADD_EXTRA_SPIRIT_CUBES = '1',
-  ADD_EXTRA_SPECIAL_CARDS = '2',
-  REMOVE_FOUNDATIONS = '3',
-  ADD_EXTRA_WOODWALKER_TO_ONE = '4',
-  ADD_EXTRA_WOODWALKER_TO_TWO = '5',
-  ADD_EXTRA_WOODWALKER_TO_THREE = '6',
-  ADD_EXTRA_WOODWALKER_TO_FOUR = '7',
-  ADD_EXTRA_WOODWALKER_TO_ALL = '8',
-}
-
-/**
- * Woodenbot numeric levels to each difficulty bit.
- */
-export const WWDifficultyLevel: Record<WWDifficulty, number> = {
-  [WWDifficulty.RESOLVE_RED_ACTIONS]: 2,
-  [WWDifficulty.ADD_EXTRA_SPIRIT_CUBES]: 3,
-  [WWDifficulty.ADD_EXTRA_SPECIAL_CARDS]: 2,
-  [WWDifficulty.REMOVE_FOUNDATIONS]: 3,
-  [WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE]: 1,
-  [WWDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO]: 2,
-  [WWDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE]: 3,
-  [WWDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR]: 4,
-  [WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL]: 5,
-}
+type Difficulty = WBDifficulty | IBDifficulty
 
 export const useDifficulty = () => {
-  const [difficulty, setDifficulty] = useLocationState('woodenbot_difficulty')
+  const [difficulty, setDifficulty] = useLocationState('difficulty')
   const difficultyRef = useRef(difficulty)
   difficultyRef.current = difficulty
 
@@ -44,7 +18,7 @@ export const useDifficulty = () => {
      */
 
     hasDifficulty: useCallback(
-      (diff: WWDifficulty) =>
+      (diff: Difficulty) =>
         new BitSet(difficultyRef.current).test(Number(diff)),
       [],
     ),
@@ -53,7 +27,7 @@ export const useDifficulty = () => {
      */
 
     setDifficulty: useCallback(
-      (diff: WWDifficulty) => {
+      (diff: Difficulty) => {
         const bs = new BitSet(difficultyRef.current)
         bs.set(Number(diff))
 
@@ -76,12 +50,12 @@ export const useDifficulty = () => {
      */
     getDifficultyLevel: useCallback(
       () =>
-        Object.values(WWDifficulty)
+        Object.values(WBDifficulty)
           .filter((value) =>
             new BitSet(difficultyRef.current).test(Number(value)),
           )
-          .reduce((acc, diff: WWDifficulty) => {
-            return acc + WWDifficultyLevel[diff]
+          .reduce((acc, diff: Difficulty) => {
+            return acc + WBDifficultyLevel[diff]
           }, 0),
       [],
     ),

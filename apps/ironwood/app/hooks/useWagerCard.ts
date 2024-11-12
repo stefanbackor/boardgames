@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
-import { WWStance } from '~/constants/woodenbot'
-import { Bot, LocationState } from '~/utils/state/types'
+import { WBStance } from '~/constants/woodenbot'
+import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { useDeck } from './useDeck'
@@ -19,30 +19,27 @@ export enum WagerCardPurpose {
  * Purpose of the wagered combat card.
  * It is possible to have multiple attacks in a single round (WW16).
  */
-const PURPOSE_STORES: Record<
-  WagerCardPurpose,
-  [keyof LocationState, keyof LocationState]
-> = {
+const PURPOSE_STORES = {
   [WagerCardPurpose.ATTACK_DISRUPTIVE]: [
     'woodenbot_attack_disruptive',
     'woodenbot_spirit_cube_for_attack_disruptive_used',
-  ],
+  ] as const,
   [WagerCardPurpose.ATTACK_ARROWS]: [
     'woodenbot_attack_arrows_card',
     'woodenbot_spirit_cube_for_attack_arrows_used',
-  ],
+  ] as const,
   [WagerCardPurpose.ATTACK_BATTLE]: [
     'woodenbot_attack_battle_card',
     'woodenbot_spirit_cube_for_attack_battle_used',
-  ],
+  ] as const,
   [WagerCardPurpose.ATTACK_CRYSTALS]: [
     'woodenbot_attack_crystals_card',
     'woodenbot_spirit_cube_for_attack_crystals_used',
-  ],
+  ] as const,
   [WagerCardPurpose.DEFENSE]: [
     'combat_defend_card',
     'woodenbot_spirit_cube_for_defense_used',
-  ],
+  ] as const,
 }
 
 /**
@@ -51,9 +48,9 @@ const PURPOSE_STORES: Record<
 export const useWagerCard = (purpose: WagerCardPurpose) => {
   const { botId } = useGameParams()
   const { wagerCard, drawCard } = useDeck()
-  const [combatCard, setCombatCard] = useLocationState(
-    PURPOSE_STORES[purpose][0],
-  )
+
+  const combatCardKey = PURPOSE_STORES[purpose][0]
+  const [combatCard, setCombatCard] = useLocationState(combatCardKey)
 
   const [stance] = useLocationState('woodenbot_action_stance')
   const [spiritCubes, setSpiritCubes] = useLocationState(
@@ -93,13 +90,13 @@ export const useWagerCard = (purpose: WagerCardPurpose) => {
 
   const damage = combatCard ? combatCard[1][0] : 0
   const damageModifier =
-    botId === Bot.WOODENBOT && stance === WWStance.DISRUPTIVE && spiritCubesUsed
+    botId === Bot.WOODENBOT && stance === WBStance.DISRUPTIVE && spiritCubesUsed
       ? 1
       : 0
 
   const defense = combatCard ? combatCard[1][1] : 0
   const defenseModifier =
-    botId === Bot.WOODENBOT && stance === WWStance.EXALTED && spiritCubesUsed
+    botId === Bot.WOODENBOT && stance === WBStance.EXALTED && spiritCubesUsed
       ? 1
       : 0
 

@@ -69,7 +69,7 @@ const FACES = [
 ]
 
 type MagicDieProps = {
-  triggerButtonComponent?: typeof Button
+  triggerButtonComponent?: React.ReactNode
 }
 
 const doRoll = () => sample([0, 1, 2, 3])

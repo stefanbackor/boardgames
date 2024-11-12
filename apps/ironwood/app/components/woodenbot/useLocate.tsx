@@ -1,6 +1,7 @@
 import { Box, Strong } from '@radix-ui/themes'
+import { useCallback } from 'react'
 
-import { WWVisionLocatePurpose } from '~/constants/woodenbot'
+import { WBVisionLocatePurpose } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
 
@@ -9,7 +10,7 @@ import { Keyword } from './keywords/KeywordButton'
 import { VisionCardBadge } from './VisionCardBadge'
 
 type Props = {
-  purpose: WWVisionLocatePurpose
+  purpose: WBVisionLocatePurpose
 }
 
 export const useLocate = ({ purpose }: Props) => {
@@ -30,6 +31,16 @@ export const useLocate = ({ purpose }: Props) => {
   const shouldDisplayDiscovery =
     !discardDone && (discoveryDone || (!discoveryDone && drawPileSize === 1))
 
+  const handleDiscard = useCallback(
+    () => discardVisionCard(),
+    [discardVisionCard],
+  )
+
+  const handleDiscover = useCallback(
+    () => discoverVisionCard(),
+    [discoverVisionCard],
+  )
+
   return {
     shouldDisplayDiscard,
     shouldDisplayDiscovery,
@@ -41,7 +52,7 @@ export const useLocate = ({ purpose }: Props) => {
               Remove the marker from{' '}
               <VisionCardBadge card={discardCard || drawPileTopCard} />
               <Box mt="1">
-                <ExecuteButton done={discardDone} onClick={discardVisionCard} />
+                <ExecuteButton done={discardDone} onClick={handleDiscard} />
               </Box>
             </li>
           </ul>
@@ -74,10 +85,7 @@ export const useLocate = ({ purpose }: Props) => {
 
             <li style={{ listStyleType: 'none' }}>
               <Box mt="1">
-                <ExecuteButton
-                  done={discoveryDone}
-                  onClick={discoverVisionCard}
-                />
+                <ExecuteButton done={discoveryDone} onClick={handleDiscover} />
               </Box>
             </li>
           </ul>

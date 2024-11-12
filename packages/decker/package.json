@@ -16,7 +16,8 @@
     "build": "tsc --project ./tsconfig.build.json && vite build",
     "prepublishOnly": "yarn run build",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "typecheck": "tsc"
   },
   "peerDependencies": {},
   "devDependencies": {

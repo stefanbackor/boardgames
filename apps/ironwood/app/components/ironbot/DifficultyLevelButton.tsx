@@ -1,6 +1,6 @@
 import { Badge, Text } from '@radix-ui/themes'
 
-import { useDifficulty } from '~/hooks/ironbot/useDifficulty'
+import { useDifficulty } from '~/hooks/useDifficulty'
 
 export const DifficultyLevelButton = () => {
   const { getDifficultyLevel } = useDifficulty()
