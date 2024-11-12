@@ -1,8 +1,8 @@
 import { Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
-import { useParams } from '@remix-run/react'
 import { useCallback } from 'react'
 
 import { WWStance } from '~/constants/woodenbot'
+import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { Keyword } from './keywords/KeywordButton'
@@ -10,7 +10,7 @@ import { RoundActionDisruptive } from './RoundActionDisruptive'
 import { RoundActionExalted } from './RoundActionExalted'
 
 export const RoundAction = () => {
-  const { actionId } = useParams()
+  const { actionId } = useGameParams()
   const [stance, setStance] = useLocationState('woodenbot_action_stance')
 
   const onStanceChange = useCallback(
@@ -22,8 +22,8 @@ export const RoundAction = () => {
     stance === WWStance.DISRUPTIVE
       ? 'red'
       : stance === WWStance.EXALTED
-        ? 'blue'
-        : undefined
+      ? 'blue'
+      : undefined
 
   return (
     <>

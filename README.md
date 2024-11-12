@@ -1,8 +1,12 @@
+[![Test](https://github.com/stefanbackor/boardgames/actions/workflows/test.yml/badge.svg)](https://github.com/stefanbackor/boardgames/actions/workflows/test.yml)
+
 # Stefan's Boardgames Apps
 
 Various boardgame solo apps and companions.
 
 ## Apps and Packages
+
+![Ironwood box art](https://github.com/user-attachments/assets/0acf462e-de82-41ea-895d-aebba017815d)
 
 - `ironwood`: a [Ironwood](https://boardgamegeek.com/boardgame/407343/ironwood) solo AI automa app
 - `@repo/decker`: Cards management tool

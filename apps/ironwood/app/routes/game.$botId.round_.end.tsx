@@ -1,11 +1,10 @@
 import { Button, Flex, Heading } from '@radix-ui/themes'
-import { useEffect } from 'react'
 
 import { BotHand } from '~/components/BotHand'
 import { LinkNext } from '~/components/LinkNext'
 import { NavBar } from '~/components/NavBar'
 import { RoundEnd } from '~/components/woodenbot/RoundEnd'
-import { useDeck } from '~/hooks/useDeck'
+import { useEndRound } from '~/hooks/useEndRound'
 import { useGameParams } from '~/hooks/useGameParams'
 import { Bot } from '~/utils/state/types'
 
@@ -13,11 +12,7 @@ export const meta = () => []
 
 export default function Page() {
   const { botId, gameId, roundId } = useGameParams()
-  const { cleanupRoundCards } = useDeck()
-
-  useEffect(() => {
-    cleanupRoundCards()
-  }, [cleanupRoundCards])
+  useEndRound()
 
   return (
     <>
