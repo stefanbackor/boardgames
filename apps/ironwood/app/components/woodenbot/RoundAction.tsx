@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
+import { NoChangeCallout } from '~/components/NoChangeCallout'
 import { WWStance } from '~/constants/woodenbot'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
@@ -22,8 +23,8 @@ export const RoundAction = () => {
     stance === WWStance.DISRUPTIVE
       ? 'red'
       : stance === WWStance.EXALTED
-        ? 'blue'
-        : undefined
+      ? 'blue'
+      : undefined
 
   return (
     <>
@@ -87,6 +88,8 @@ export const RoundAction = () => {
       <Flex direction="column" gap="3">
         {stance === WWStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
         {stance === WWStance.EXALTED ? <RoundActionExalted /> : null}
+
+        <NoChangeCallout />
 
         {stance && (
           <Flex justify="center">
