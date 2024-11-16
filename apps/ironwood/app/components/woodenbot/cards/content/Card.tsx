@@ -8,16 +8,16 @@ import { useLocationState } from '~/utils/state/useLocationState'
 
 export const Card = () => {
   const { drawCardToTop } = useDeck()
-  const [crystals, setCrystals] = useLocationState('crystals')
+  const [, setCrystals] = useLocationState('crystals')
   const [done, setDone] = useLocationState(
     'woodenbot_expended_card_action_done',
   )
 
   const onExecute = useCallback(() => {
     drawCardToTop()
-    setCrystals(crystals + 1)
+    setCrystals((crystals) => crystals + 1)
     setDone(true)
-  }, [crystals, drawCardToTop, setCrystals, setDone])
+  }, [drawCardToTop, setCrystals, setDone])
 
   return (
     <Box>

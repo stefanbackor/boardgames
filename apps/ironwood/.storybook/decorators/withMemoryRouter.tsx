@@ -13,7 +13,7 @@ import React from 'react'
  */
 export const withMemoryRouter = (Story: React.ComponentType, opts: any) => {
   const { routing, routerOpts } = opts.parameters as {
-    routing: Parameters<typeof createMemoryRouter>[0]
+    routing?: Parameters<typeof createMemoryRouter>[0]
     routerOpts?: Parameters<typeof createMemoryRouter>[1]
   }
   const router = routing
@@ -22,6 +22,7 @@ export const withMemoryRouter = (Story: React.ComponentType, opts: any) => {
         routerOpts,
       )
     : undefined
+
   opts.storyGlobals.router = router
   return router ? <RouterProvider router={router} /> : <Story />
 }

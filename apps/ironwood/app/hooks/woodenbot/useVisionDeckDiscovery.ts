@@ -5,6 +5,7 @@ import {
   WWVisionLocatePurpose,
   WWVisionPile,
 } from '~/constants/woodenbot'
+import { shuffle } from '~/utils/deck/shuffle'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { useVisionDeck } from './useVisionDeck'
@@ -73,7 +74,7 @@ export const useVisionDeckDiscovery = ({ purpose }: Props) => {
           .map(() => deck.draw(WWVisionPile.DISCARD, WWVisionPile.DRAW))
 
         // Shuffle the draw pile.
-        deck.shuffle(WWVisionPile.DRAW)
+        shuffle(deck, WWVisionPile.DRAW)
 
         // Commit the deck changes.
         deckCommit()
