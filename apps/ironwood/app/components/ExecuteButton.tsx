@@ -18,6 +18,7 @@ export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
   ({ done, onClick, label, testId }, ref) => {
     return (
       <Button
+        color="green"
         ref={ref}
         size="1"
         disabled={done}

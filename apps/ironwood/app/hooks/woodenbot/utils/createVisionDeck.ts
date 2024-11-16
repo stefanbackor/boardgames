@@ -6,6 +6,7 @@ import {
   WW_VISION_CARDS_OUTSIDE,
   WWVisionCard,
 } from '~/constants/woodenbot'
+import { shuffle } from '~/utils/deck/shuffle'
 
 /**
  * Create deck of Woodwalker Vision cards.
@@ -20,8 +21,8 @@ export const createVisionDeck = (exportJSON?: string) => {
   } else {
     deck.createPile(WBVisionPile.DRAW, WW_VISION_CARDS_INSIDE)
     deck.createPile(WBVisionPile.DISCARD, WW_VISION_CARDS_OUTSIDE)
-    deck.shuffle(WBVisionPile.DRAW)
-    deck.shuffle(WBVisionPile.DISCARD)
+    shuffle(deck, WBVisionPile.DRAW)
+    shuffle(deck, WBVisionPile.DISCARD)
   }
 
   return deck

@@ -42,11 +42,7 @@ export const Card: Story = {
     action: WBAction.CARD,
   },
 }
-Card.play = async (arg) => {
-  const {
-    canvasElement,
-    storyGlobals: { router },
-  } = arg
+Card.play = async ({ canvasElement, storyGlobals: { router } }) => {
   const canvas = within(canvasElement)
   const executeButton = canvas.getByTestId('execute-button')
 

@@ -6,6 +6,7 @@ import {
   WBVisionPile,
   WWVisionCard,
 } from '~/constants/woodenbot'
+import { shuffle } from '~/utils/deck/shuffle'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { createVisionDeck } from './utils/createVisionDeck'
@@ -65,7 +66,7 @@ export const useVisionDeck = (props?: Props) => {
      */
     discardPileTopCardBackToDraw: useCallback(() => {
       const card = deck.draw(WBVisionPile.DISCARD, WBVisionPile.DRAW)
-      deck.shuffle(WBVisionPile.DRAW)
+      shuffle(deck, WBVisionPile.DRAW)
       deckCommit()
       setDiscardDone(true)
       setDiscardCard(card)
@@ -79,7 +80,7 @@ export const useVisionDeck = (props?: Props) => {
      */
     discardVisionCard: useCallback(() => {
       const card = deck.discard(WBVisionPile.DRAW, WBVisionPile.DISCARD)
-      deck.shuffle(WBVisionPile.DISCARD)
+      shuffle(deck, WBVisionPile.DISCARD)
       deckCommit()
       setDiscardDone(true)
       setDiscardCard(card)

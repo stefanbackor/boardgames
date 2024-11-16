@@ -5,6 +5,7 @@ import { WBStance } from '~/constants/woodenbot'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { NoChangeCallout } from '../NoChangeCallout'
 import { Keyword } from './keywords/KeywordButton'
 import { RoundActionDisruptive } from './RoundActionDisruptive'
 import { RoundActionExalted } from './RoundActionExalted'
@@ -22,8 +23,8 @@ export const RoundAction = () => {
     stance === WBStance.DISRUPTIVE
       ? 'red'
       : stance === WBStance.EXALTED
-      ? 'blue'
-      : undefined
+        ? 'blue'
+        : undefined
 
   return (
     <>
@@ -87,6 +88,8 @@ export const RoundAction = () => {
       <Flex direction="column" gap="3">
         {stance === WBStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
         {stance === WBStance.EXALTED ? <RoundActionExalted /> : null}
+
+        <NoChangeCallout />
 
         {stance && (
           <Flex justify="center">

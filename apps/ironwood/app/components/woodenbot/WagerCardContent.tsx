@@ -9,7 +9,9 @@ import {
   Text,
 } from '@radix-ui/themes'
 
+import { useGameParams } from '~/hooks/useGameParams'
 import { useWagerCard } from '~/hooks/useWagerCard'
+import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { CardBadge } from '../CardBadge'
@@ -29,6 +31,7 @@ export const WagerCardContent = ({
   hasModifiers,
   shouldHaveModifiers,
 }: Props) => {
+  const { botId } = useGameParams()
   const [stance] = useLocationState('woodenbot_action_stance')
 
   return (
@@ -109,26 +112,32 @@ export const WagerCardContent = ({
                     </DataList.Value>
                   </DataList.Item>
                 </DataList.Root>
-                <Separator size="4" my="3" />
-                <Box>
-                  <Text size="1">if your Ferrum or Drill defeated:</Text>
-                  <Box>
-                    <CrystalsButton />
-                  </Box>
-                </Box>
-                <Separator size="4" my="3" />
-                <Callout.Root size="1" color="brown">
-                  <Callout.Icon>
-                    <InfoCircledIcon />
-                  </Callout.Icon>
-                  <Callout.Text>
-                    If the bot wins, and forces you to retreat, it forces you to
-                    move to an adjacent mountain with the fewest (including
-                    zero) Ironclad combat units, preferring a mountain without a
-                    marker (i.e., not a possible mountain). In case of a tie,
-                    use the <Keyword.MagicDie size="2" />.
-                  </Callout.Text>
-                </Callout.Root>
+
+                {botId === Bot.WOODENBOT && (
+                  <>
+                    <Separator size="4" my="3" />
+                    <Box>
+                      <Text size="1">if your Ferrum or Drill defeated:</Text>
+                      <Box>
+                        <CrystalsButton />
+                      </Box>
+                    </Box>
+                    <Separator size="4" my="3" />
+                    <Callout.Root size="1" color="brown">
+                      <Callout.Icon>
+                        <InfoCircledIcon />
+                      </Callout.Icon>
+                      <Callout.Text>
+                        If the bot wins, and forces you to retreat, it forces
+                        you to move to an adjacent mountain with the fewest
+                        (including zero) Ironclad combat units, preferring a
+                        mountain without a marker (i.e., not a possible
+                        mountain). In case of a tie, use the{' '}
+                        <Keyword.MagicDie size="2" />.
+                      </Callout.Text>
+                    </Callout.Root>
+                  </>
+                )}
               </Flex>
             </Flex>
           </Flex>
