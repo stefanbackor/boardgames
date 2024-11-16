@@ -1,0 +1,20 @@
+/** Woodenbot Card Actions */
+export enum IBAction {
+  CARD = 'CARD',
+  CARD_RED = 'CARD_RED',
+  CRYSTALS = 'CRYSTALS',
+  CRYSTALS_RED = 'CRYSTALS_RED',
+  DRILL = 'DRILL',
+  DRILL_RED = 'DRILL_RED',
+  WARBAND = 'WARBAND',
+  WARBAND_RED = 'WARBAND_RED',
+  GOLEM = 'GOLEM',
+  GOLEM_RED = 'GOLEM_RED',
+  //
+  HIT = 'HIT',
+  BATTLE = 'BATTLE',
+  SHIELD = 'SHIELD',
+  SHIELD_RED = 'SHIELD_RED',
+  COMPASS = 'COMPASS',
+  FORGE = 'FORGE',
+}

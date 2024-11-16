@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from '@storybook/test'
 
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 
 import { CardUnavailable } from './CardUnavailable'
 
@@ -21,7 +21,7 @@ const meta: Meta<typeof CardUnavailable> = {
             roundId: '456',
           }).toString(),
           state: {
-            woodenbot_action_stance: WWStance.DISRUPTIVE,
+            woodenbot_action_stance: WBStance.DISRUPTIVE,
           },
         },
       ],
@@ -40,7 +40,7 @@ Default.play = async ({ canvasElement, storyGlobals: { router } }) => {
 
   const state = router.state.location.state
 
-  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
   expect(state.woodenbot_expended_unavailable_done).toBe(true)
   expect(state.crystals).toBe(1)
 }

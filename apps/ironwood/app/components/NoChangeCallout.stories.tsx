@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 
 import { NoChangeCallout } from './NoChangeCallout'
 
@@ -20,7 +20,7 @@ const meta: Meta<typeof NoChangeCallout> = {
             roundId: '456',
           }).toString(),
           state: {
-            woodenbot_action_stance: WWStance.DISRUPTIVE,
+            woodenbot_action_stance: WBStance.DISRUPTIVE,
           },
         },
       ],

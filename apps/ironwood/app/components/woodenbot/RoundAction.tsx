@@ -23,8 +23,8 @@ export const RoundAction = () => {
     stance === WBStance.DISRUPTIVE
       ? 'red'
       : stance === WBStance.EXALTED
-        ? 'blue'
-        : undefined
+      ? 'blue'
+      : undefined
 
   return (
     <>
@@ -89,7 +89,7 @@ export const RoundAction = () => {
         {stance === WBStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
         {stance === WBStance.EXALTED ? <RoundActionExalted /> : null}
 
-        <NoChangeCallout />
+        {stance && <NoChangeCallout />}
 
         {stance && (
           <Flex justify="center">
