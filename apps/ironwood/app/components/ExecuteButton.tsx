@@ -18,6 +18,7 @@ export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
   ({ done, onClick, label, testId }, ref) => {
     return (
       <Button
+        color="green"
         ref={ref}
         size="1"
         disabled={done}
@@ -25,7 +26,7 @@ export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
         data-testid={testId || 'execute-button'}
       >
         {done && <CheckIcon />}
-        {done ? 'Done' : (label ?? 'Execute')}
+        {done ? 'Done' : label ?? 'Execute'}
       </Button>
     )
   },
