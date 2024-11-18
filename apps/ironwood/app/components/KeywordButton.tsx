@@ -7,24 +7,20 @@ import type { Props as WarriorCountProps } from '~/components/WarriorCount'
 import { WarriorCount } from '~/components/WarriorCount'
 import { WWWarriorType } from '~/constants/woodenbot'
 
+import { Attack as IronbotAttack } from './ironbot/keywords/content/Attack'
 import { Chase } from './ironbot/keywords/content/Chase'
 import { Expand } from './ironbot/keywords/content/Expand'
 import { MovingDrill } from './ironbot/keywords/content/MovingDrill'
 import { Protect } from './ironbot/keywords/content/Protect'
 import { Recruits as IronbotRecruits } from './ironbot/keywords/content/Recruits'
 // import { WagerButton } from '~/components/woodenbot/WagerAttackCardButton'
-import { Attack } from './woodenbot/keywords/content/Attack'
+import { Attack as WoodenbotAttack } from './woodenbot/keywords/content/Attack'
 import { Discovers } from './woodenbot/keywords/content/Discovers'
 import { Locate } from './woodenbot/keywords/content/Locate'
 import { MovementInterfere } from './woodenbot/keywords/content/MovementInterfere'
 import { MovementPlunder } from './woodenbot/keywords/content/MovementPlunder'
 import { MovementSecure } from './woodenbot/keywords/content/MovementSecure'
 import { Recruits as WoodenbotRecruits } from './woodenbot/keywords/content/Recruits'
-
-// import assetTotem from "~/assets/totem.png";
-// import assetCrystal from "~/assets/crystal.png";
-// import assetWoodwalkerWarrior from "~/assets/woodwalker-warrior.png";
-// import assetIroncladWarrior from "~/assets/ironclad-warrior.png";
 
 type KeywordButtonProps = {
   dialogProps?: Dialog.RootProps
@@ -139,7 +135,7 @@ export const Keyword = {
         </KeywordButton>
       }
     >
-      <Attack />
+      <IronbotAttack />
     </ModalDialog>
   ),
   IronbotRecruits: ({ count }: { count: string }) => (
@@ -197,7 +193,7 @@ export const Keyword = {
         </KeywordButton>
       }
     >
-      <Attack />
+      <WoodenbotAttack />
     </ModalDialog>
   ),
   Expend: () => <KeywordInline>Expend</KeywordInline>,

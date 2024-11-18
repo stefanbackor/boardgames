@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Strong } from '@radix-ui/themes'
 
+import { UnmarkedMountains } from '~/components/ironbot/UnmarkedMountains'
 import { Keyword } from '~/components/KeywordButton'
 
 export const Protect = () => {
@@ -22,6 +23,8 @@ export const Protect = () => {
           </li>
         </Flex>
       </ul>
+
+      <UnmarkedMountains />
 
       <Box>
         Use the <Keyword.MagicDie /> if multiple are tied in any of the above

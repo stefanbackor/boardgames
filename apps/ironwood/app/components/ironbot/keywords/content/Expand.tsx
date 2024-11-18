@@ -1,12 +1,12 @@
 import { Box, Flex, Heading, Strong } from '@radix-ui/themes'
 
+import { UnmarkedMountains } from '~/components/ironbot/UnmarkedMountains'
 import { Keyword } from '~/components/KeywordButton'
 
 export const Expand = () => {
   return (
     <Flex direction="column" gap="2">
       <Heading size="4">Target of the movement:</Heading>
-
       <ul>
         <Flex direction="column" gap="2">
           <li>
@@ -28,13 +28,13 @@ export const Expand = () => {
         </Flex>
       </ul>
 
+      <UnmarkedMountains />
+
       <Box>
         Use the <Keyword.MagicDie /> if multiple are tied in any of the above
         above choices.
       </Box>
-
       <Heading size="4">Source of the movement:</Heading>
-
       <Box>
         The mountain with the largest Ironclad Warband adjacent to the target.
         If this is Ferrum, ignore 3 Ironclad Fighters there (as they would be

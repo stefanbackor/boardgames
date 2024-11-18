@@ -1,3 +1,5 @@
+import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { Separator } from '@radix-ui/themes'
 import { Link } from '@remix-run/react'
 
 import { LinkWithPreservedState } from '~/utils/state/LinkWithPreservedState'
@@ -12,12 +14,11 @@ type LinkProps = Parameters<typeof Link>[0] & {
 /**
  * Link component that preserves state between navigation. Use this
  * to create link to next game step.
- *
  * @param props
  * @returns
  */
 export const LinkNext = (props: LinkProps) => {
-  const { params, to, ...rest } = props
+  const { params, to, children, ...rest } = props
   const { gameId, roundId } = params ?? {}
 
   const toWithParams = params
@@ -42,8 +43,13 @@ export const LinkNext = (props: LinkProps) => {
         'ironbot_1_turn_procedure',
         'ironbot_2_turn_procedure',
         'ironbot_3_turn_procedure',
+        'ironbot_mountains_marked',
       ]}
       {...rest}
-    />
+    >
+      {children}
+      <Separator orientation="vertical" />
+      <ChevronRightIcon />
+    </LinkWithPreservedState>
   )
 }

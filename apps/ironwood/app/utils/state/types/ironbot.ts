@@ -1,4 +1,5 @@
 import { IBStance, IBTurnProcedure } from '~/constants/ironbot'
+import { WWVisionCard } from '~/constants/woodenbot'
 
 import { IWCard } from '.'
 
@@ -12,6 +13,8 @@ export type LocationState = {
   ironbot_attack_compass_card?: IWCard | null // Current combat card for "compass" card action.
   ironbot_attack_forge_card?: IWCard | null // Current combat card for "forge" card action.
   ironbot_attack_hit_card?: IWCard | null // Current combat card for "hit" card action.
+
+  ironbot_mountains_marked?: Array<WWVisionCard> // List of marked mountains based on vision cards being played, discarded, or burned.
 
   ironbot_aggressive_alert_done?: boolean // Flag to indicate that Ironbot has executed aggressive's stance action #1.
   ironbot_defensive_alert_done?: boolean // Flag to indicate that Ironbot has executed defensive's stance action #1.

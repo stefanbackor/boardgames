@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Strong } from '@radix-ui/themes'
 
+import { UnmarkedMountains } from '~/components/ironbot/UnmarkedMountains'
 import { Keyword } from '~/components/KeywordButton'
 
 export const Chase = () => {
@@ -18,6 +19,8 @@ export const Chase = () => {
         However, if the Ironclad already has more units in the Warband adjacent
         to the Warband in focus, it does not move at all.
       </Box>
+
+      <UnmarkedMountains />
 
       <Heading size="4">Source of the movement:</Heading>
 

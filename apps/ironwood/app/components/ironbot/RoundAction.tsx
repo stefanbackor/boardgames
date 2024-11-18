@@ -1,5 +1,13 @@
 import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
-import { Badge, Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
+import {
+  Badge,
+  Box,
+  Flex,
+  Heading,
+  RadioCards,
+  Strong,
+  Text,
+} from '@radix-ui/themes'
 import { useCallback, useEffect } from 'react'
 
 import { IBStance, IBTurnProcedure } from '~/constants/ironbot'
@@ -9,6 +17,7 @@ import { useLocationState } from '~/utils/state/useLocationState'
 
 import { Keyword } from '../KeywordButton'
 import { NoChangeCallout } from '../NoChangeCallout'
+import { MarkMountainButton } from './MarkMountainButton'
 import { RoundActionAlertAggressive } from './RoundActionAlertAggressive'
 import { RoundActionAlertDefensive } from './RoundActionAlertDefensive'
 import { RoundActionAlertExpansive } from './RoundActionAlertExpansive'
@@ -36,10 +45,10 @@ export const RoundAction = () => {
     stance === IBStance.AGGRESSIVE
       ? 'red'
       : stance === IBStance.DEFENSIVE
-      ? 'blue'
-      : stance === IBStance.EXPANSIVE
-      ? 'orange'
-      : undefined
+        ? 'blue'
+        : stance === IBStance.EXPANSIVE
+          ? 'orange'
+          : undefined
 
   return (
     <>
@@ -171,9 +180,30 @@ export const RoundAction = () => {
         {stance && <NoChangeCallout />}
 
         {stance && (
-          <Flex justify="center">
-            <Heading>Now take your turn.</Heading>
-          </Flex>
+          <>
+            <Heading my="6" align="center">
+              Now take your turn:
+            </Heading>
+
+            <Flex direction="column" gap="3" justify="center">
+              <Box>
+                Things to keep in mind:
+                <ul>
+                  <li>
+                    Whenever you{' '}
+                    <Strong>play, discard, or burn a vision card</Strong>, the
+                    Ironbot marks the corresponding mountain so it will “know”
+                    that you will never try to discover there again. To mark a
+                    mountain, place a marker on the marking slot at the relevant
+                    mountain.
+                    <Box mt="2">
+                      <MarkMountainButton />
+                    </Box>
+                  </li>
+                </ul>
+              </Box>
+            </Flex>
+          </>
         )}
       </Flex>
     </>

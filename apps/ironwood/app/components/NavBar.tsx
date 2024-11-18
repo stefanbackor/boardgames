@@ -18,6 +18,7 @@ export const NavBar = ({ children }: PropsWithChildren) => {
       style={{
         position: 'sticky',
         top: '0',
+        bottom: '0',
         zIndex: 1,
       }}
     >
