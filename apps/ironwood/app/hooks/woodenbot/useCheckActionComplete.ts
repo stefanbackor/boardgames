@@ -14,23 +14,27 @@ export const useCheckActionComplete = () => {
 
   const { expendCard } = useDeck()
 
-  const [stance] = useLocationState('woodenbot_action_stance')
+  const [stance] = useLocationState(
+    botId === Bot.WOODENBOT
+      ? 'woodenbot_action_stance'
+      : 'ironbot_action_stance',
+  )
 
   const handleCheck = useCallback(
     (event: React.SyntheticEvent) => {
-      if (botId === Bot.WOODENBOT && !stance) {
+      if (!stance) {
         event.preventDefault()
         setAlert('Pick a stance first!')
       }
     },
-    [botId, stance],
+    [stance],
   )
 
   /**
    * Woodenbot expends card for each action.
    */
   useEffect(() => {
-    if (botId === Bot.WOODENBOT && actionId) {
+    if (actionId) {
       expendCard(actionId)
     }
   }, [actionId, expendCard, botId])

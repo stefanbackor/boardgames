@@ -1,6 +1,6 @@
 import { Flex, Strong } from '@radix-ui/themes'
 
-import { Keyword } from '../KeywordButton'
+import { Keyword } from '../../../KeywordButton'
 
 export const Discovers = () => {
   return (

@@ -1,7 +1,7 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Callout, Flex, Strong, Text } from '@radix-ui/themes'
 
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 import { WWWarriorType } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 

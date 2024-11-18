@@ -3,12 +3,12 @@ import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
-import { WWStance } from '~/constants/woodenbot'
-import { WagerCardPurpose } from '~/hooks/useWagerCard'
+import { WBStance } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../../keywords/KeywordButton'
+import { Keyword } from '../../../KeywordButton'
 import { VisionCardBadge } from '../../VisionCardBadge'
 
 export const Crystals = () => {
@@ -27,14 +27,14 @@ export const Crystals = () => {
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE ? (
+      {stance === WBStance.DISRUPTIVE ? (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" />{' '}
             to <Keyword.Plunder count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 <Keyword.IroncladDrill />
@@ -51,14 +51,14 @@ export const Crystals = () => {
           </Box>
         </>
       ) : null}
-      {stance === WWStance.EXALTED ? (
+      {stance === WBStance.EXALTED ? (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="2" />{' '}
             to <Keyword.Interfere count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 a controlled <Keyword.Foundation />

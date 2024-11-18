@@ -1,5 +1,6 @@
 import { Flex } from '@radix-ui/themes'
 import { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 
 import { Keyword } from './KeywordButton'
 
@@ -16,12 +17,16 @@ export const Buttons: Story = {
   render: () => (
     <Flex gap="3" direction="column" justify="start" align="start">
       {Object.entries(Keyword).map(([name, Component]) => (
-        <Component key={name} />
+        <Component key={name} count="1" />
       ))}
     </Flex>
   ),
 }
 
 export const Plunder: Story = {
-  render: () => <Keyword.Plunder dialogProps={{ open: true }} />,
+  render: () => <Keyword.Plunder count="1" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByText('Plunder'))
+  },
 }

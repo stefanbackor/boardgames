@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from '@storybook/test'
 
 import {
+  WBAction,
+  WBStance,
   WW_VISION_CARDS_INSIDE,
-  WWAction,
-  WWStance,
 } from '~/constants/woodenbot'
 import { loadDeck } from '~/utils/deck/loadDeck'
 import { Pile } from '~/utils/state/types'
@@ -27,7 +27,7 @@ const meta: Meta<typeof CardAction> = {
             roundId: '456',
           }).toString(),
           state: {
-            woodenbot_action_stance: WWStance.DISRUPTIVE,
+            woodenbot_action_stance: WBStance.DISRUPTIVE,
           },
         },
       ],
@@ -39,7 +39,7 @@ export default meta
 
 export const Card: Story = {
   args: {
-    action: WWAction.CARD,
+    action: WBAction.CARD,
   },
 }
 Card.play = async ({ canvasElement, storyGlobals: { router } }) => {
@@ -49,73 +49,73 @@ Card.play = async ({ canvasElement, storyGlobals: { router } }) => {
   await userEvent.click(executeButton)
 
   const state = router.state.location.state
-  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
   expect(loadDeck(state.cards).pile(Pile.HAND_SPECIAL_PRIORITY).length).toBe(1)
 }
 
 export const CardAsRed: Story = {
   args: {
-    action: WWAction.CARD_RED,
+    action: WBAction.CARD_RED,
   },
 }
 
 export const Crystals: Story = {
   args: {
-    action: WWAction.CRYSTALS,
+    action: WBAction.CRYSTALS,
   },
 }
 
 export const Eye: Story = {
   args: {
-    action: WWAction.EYE,
+    action: WBAction.EYE,
   },
 }
 
 export const EyeAsRed: Story = {
   args: {
-    action: WWAction.EYE_RED,
+    action: WBAction.EYE_RED,
   },
 }
 
 export const Warband: Story = {
   args: {
-    action: WWAction.WARBAND,
+    action: WBAction.WARBAND,
   },
 }
 
 export const WarbandAsRed: Story = {
   args: {
-    action: WWAction.WARBAND_RED,
+    action: WBAction.WARBAND_RED,
   },
 }
 
 export const Shield: Story = {
   args: {
-    action: WWAction.SHIELD,
+    action: WBAction.SHIELD,
   },
 }
 
 export const ShieldAsRed: Story = {
   args: {
-    action: WWAction.SHIELD_RED,
+    action: WBAction.SHIELD_RED,
   },
 }
 
 export const Alert: Story = {
   args: {
-    action: WWAction.ALERT,
+    action: WBAction.ALERT,
   },
 }
 
 export const AlertAsRed: Story = {
   args: {
-    action: WWAction.ALERT_RED,
+    action: WBAction.ALERT_RED,
   },
 }
 
 export const Cubes: Story = {
   args: {
-    action: WWAction.CUBES,
+    action: WBAction.CUBES,
   },
 }
 Cubes.play = async (arg) => {
@@ -129,26 +129,26 @@ Cubes.play = async (arg) => {
   await userEvent.click(executeButton)
 
   const state = router.state.location.state
-  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
   expect(state.woodenbot_spirit_cubes).toBe(2)
 }
 
 export const CubesAsRed: Story = {
   args: {
-    action: WWAction.CUBES_RED,
+    action: WBAction.CUBES_RED,
   },
 }
 CubesAsRed.play = Cubes.play
 
 export const Battle: Story = {
   args: {
-    action: WWAction.BATTLE,
+    action: WBAction.BATTLE,
   },
 }
 
 export const Search: Story = {
   args: {
-    action: WWAction.SEARCH,
+    action: WBAction.SEARCH,
   },
 }
 
@@ -174,7 +174,7 @@ SearchExecuted.play = async (arg) => {
 
   const state = router.state.location.state
 
-  expect(state.woodenbot_action_stance).toBe(WWStance.DISRUPTIVE)
+  expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
   expect(state.woodenbot_vision_discovery_search_card_done).toBe(true)
   expect(state.woodenbot_vision_discovery_search_card_card).toBe(
     mountainVisionCard,
@@ -187,12 +187,12 @@ SearchExecuted.play = async (arg) => {
 
 export const SearchAsRed: Story = {
   args: {
-    action: WWAction.SEARCH_RED,
+    action: WBAction.SEARCH_RED,
   },
 }
 
 export const Arrows: Story = {
   args: {
-    action: WWAction.ARROWS,
+    action: WBAction.ARROWS,
   },
 }

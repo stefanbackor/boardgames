@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 
 import {
+  WBVisionLocatePurpose,
+  WBVisionPile,
   WWVisionCard,
-  WWVisionLocatePurpose,
-  WWVisionPile,
 } from '~/constants/woodenbot'
 import { shuffle } from '~/utils/deck/shuffle'
 import { useLocationState } from '~/utils/state/useLocationState'
@@ -11,7 +11,7 @@ import { useLocationState } from '~/utils/state/useLocationState'
 import { useVisionDeck } from './useVisionDeck'
 
 type Props = {
-  purpose: WWVisionLocatePurpose
+  purpose: WBVisionLocatePurpose
 }
 
 export const useVisionDeckDiscovery = ({ purpose }: Props) => {
@@ -20,25 +20,25 @@ export const useVisionDeckDiscovery = ({ purpose }: Props) => {
 
   // Discovery state
   const [discoveryDone, setDiscoveryDone] = useLocationState(
-    purpose === WWVisionLocatePurpose.CARD_SEARCH
+    purpose === WBVisionLocatePurpose.CARD_SEARCH
       ? 'woodenbot_vision_discovery_search_card_done'
-      : purpose === WWVisionLocatePurpose.CARD_EYE
-      ? 'woodenbot_vision_discovery_eye_card_done'
-      : 'woodenbot_vision_discovery_done',
+      : purpose === WBVisionLocatePurpose.CARD_EYE
+        ? 'woodenbot_vision_discovery_eye_card_done'
+        : 'woodenbot_vision_discovery_done',
   )
   const [discoveryCard, setDiscoveryCard] = useLocationState(
-    purpose === WWVisionLocatePurpose.CARD_SEARCH
+    purpose === WBVisionLocatePurpose.CARD_SEARCH
       ? 'woodenbot_vision_discovery_search_card_card'
-      : purpose === WWVisionLocatePurpose.CARD_EYE
-      ? 'woodenbot_vision_discovery_eye_card_card'
-      : 'woodenbot_vision_discovery_card',
+      : purpose === WBVisionLocatePurpose.CARD_EYE
+        ? 'woodenbot_vision_discovery_eye_card_card'
+        : 'woodenbot_vision_discovery_card',
   )
   const [discoveryMarked, setDiscoveryMarked] = useLocationState(
-    purpose === WWVisionLocatePurpose.CARD_SEARCH
+    purpose === WBVisionLocatePurpose.CARD_SEARCH
       ? 'woodenbot_vision_discovery_search_card_marked'
-      : purpose === WWVisionLocatePurpose.CARD_EYE
-      ? 'woodenbot_vision_discovery_eye_card_marked'
-      : 'woodenbot_vision_discovery_marked',
+      : purpose === WBVisionLocatePurpose.CARD_EYE
+        ? 'woodenbot_vision_discovery_eye_card_marked'
+        : 'woodenbot_vision_discovery_marked',
   )
 
   return {
@@ -56,25 +56,25 @@ export const useVisionDeckDiscovery = ({ purpose }: Props) => {
         if (name) {
           // Find the card by name in the draw pile.
           const cardIndex = deck
-            .get(WWVisionPile.DRAW)
+            .get(WBVisionPile.DRAW)
             .findIndex((card) => card[0] === name)
           card = deck.draw(
-            WWVisionPile.DRAW,
-            WWVisionPile.DISCOVERED,
+            WBVisionPile.DRAW,
+            WBVisionPile.DISCOVERED,
             cardIndex,
           )
         } else {
           // Move a vision card from the draw pile to the discovered pile.
-          card = deck.draw(WWVisionPile.DRAW, WWVisionPile.DISCOVERED)
+          card = deck.draw(WBVisionPile.DRAW, WBVisionPile.DISCOVERED)
         }
 
         // Refill the draw pile with discarded vision cards until it has 5 cards.
-        Array(Math.max(0, 5 - deck.size(WWVisionPile.DRAW)))
+        Array(Math.max(0, 5 - deck.size(WBVisionPile.DRAW)))
           .fill(null)
-          .map(() => deck.draw(WWVisionPile.DISCARD, WWVisionPile.DRAW))
+          .map(() => deck.draw(WBVisionPile.DISCARD, WBVisionPile.DRAW))
 
         // Shuffle the draw pile.
-        shuffle(deck, WWVisionPile.DRAW)
+        shuffle(deck, WBVisionPile.DRAW)
 
         // Commit the deck changes.
         deckCommit()
@@ -86,7 +86,7 @@ export const useVisionDeckDiscovery = ({ purpose }: Props) => {
           // Set the discovery flag to true.
           setDiscoveryDone(true)
           setDiscoveryCard(card)
-          setDiscoveryMarked(deck.get(WWVisionPile.DRAW))
+          setDiscoveryMarked(deck.get(WBVisionPile.DRAW))
         }
       },
       [

@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/themes'
 import shuffle from 'lodash/shuffle'
 
-import { WWVisionPile } from '~/constants/woodenbot'
+import { WBVisionPile } from '~/constants/woodenbot'
 import { useDeck } from '~/hooks/useDeck'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { DebugOnly } from '~/utils/debug/DebugOnly'
@@ -37,16 +37,16 @@ export const WoodenbotHand = () => {
         <Flex gap="1" direction="column">
           <Flex gap="1" align="center" wrap="wrap">
             <Text size="1">Possible mountains:</Text>
-            {shuffle(visionDeck.get(WWVisionPile.DRAW)).map((card) => (
+            {shuffle(visionDeck.get(WBVisionPile.DRAW)).map((card) => (
               <VisionCardBadge key={card[0]} card={card} />
             ))}
           </Flex>
 
-          {visionDeck.size(WWVisionPile.DISCOVERED) > 0 && (
+          {visionDeck.size(WBVisionPile.DISCOVERED) > 0 && (
             <Flex align="center" gap="1">
               <Separator orientation="vertical" decorative={false} />
               <Text size="1">Discovered in:</Text>
-              {visionDeck.get(WWVisionPile.DISCOVERED).map((card) => (
+              {visionDeck.get(WBVisionPile.DISCOVERED).map((card) => (
                 <VisionCardBadge key={card[0]} card={card} />
               ))}
             </Flex>

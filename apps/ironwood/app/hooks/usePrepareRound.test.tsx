@@ -5,12 +5,12 @@ import {
 import { renderHook } from '@testing-library/react'
 import { act } from 'react'
 
+import { WBDifficulty } from '~/constants/woodenbot'
 import { loadDeck } from '~/utils/deck/loadDeck'
 import { testingSetDifficultyValue } from '~/utils/difficulty/testing'
 import { Bot, Pile } from '~/utils/state/types'
 
 import { usePrepareRound } from './usePrepareRound'
-import { WWDifficulty } from './woodenbot/useDifficulty'
 
 describe('usePrepareRound', () => {
   let router: ReturnType<typeof createMemoryRouter>
@@ -22,7 +22,7 @@ describe('usePrepareRound', () => {
    * @returns
    */
   function renderHookWithRouter(options?: {
-    difficulty?: Array<WWDifficulty>
+    difficulty?: Array<WBDifficulty>
     roundId?: string
     gameId?: string
   }) {
@@ -50,10 +50,7 @@ describe('usePrepareRound', () => {
                 pathname: `/${botId}`,
                 search: `?game=${opts.gameId}&round=${opts.roundId}`,
                 state: {
-                  woodenbot_difficulty: opts.difficulty
-                    ? testingSetDifficultyValue(opts.difficulty)
-                    : 0,
-                  ironbot_difficulty: opts.difficulty
+                  difficulty: opts.difficulty
                     ? testingSetDifficultyValue(opts.difficulty)
                     : 0,
                 },
@@ -118,7 +115,7 @@ describe('usePrepareRound', () => {
       it('2 spirit cubes in round 1', () => {
         renderHookWithRouter({
           roundId: '1',
-          difficulty: [WWDifficulty.ADD_EXTRA_SPIRIT_CUBES],
+          difficulty: [WBDifficulty.ADD_EXTRA_SPIRIT_CUBES],
         })
 
         expect(router.state.location.state.woodenbot_spirit_cubes).toBe(2)
@@ -127,7 +124,7 @@ describe('usePrepareRound', () => {
       it('no spirit cubes in round 2', () => {
         renderHookWithRouter({
           roundId: '2',
-          difficulty: [WWDifficulty.ADD_EXTRA_SPIRIT_CUBES],
+          difficulty: [WBDifficulty.ADD_EXTRA_SPIRIT_CUBES],
         })
 
         expect(router.state.location.state.woodenbot_spirit_cubes).toBe(0)
@@ -135,7 +132,7 @@ describe('usePrepareRound', () => {
 
       it('4 special cards', () => {
         renderHookWithRouter({
-          difficulty: [WWDifficulty.ADD_EXTRA_SPECIAL_CARDS],
+          difficulty: [WBDifficulty.ADD_EXTRA_SPECIAL_CARDS],
         })
 
         expect(

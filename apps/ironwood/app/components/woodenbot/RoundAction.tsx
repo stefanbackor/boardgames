@@ -1,12 +1,12 @@
 import { Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
-import { NoChangeCallout } from '~/components/NoChangeCallout'
-import { WWStance } from '~/constants/woodenbot'
+import { WBStance } from '~/constants/woodenbot'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from './keywords/KeywordButton'
+import { Keyword } from '../KeywordButton'
+import { NoChangeCallout } from '../NoChangeCallout'
 import { RoundActionDisruptive } from './RoundActionDisruptive'
 import { RoundActionExalted } from './RoundActionExalted'
 
@@ -15,16 +15,16 @@ export const RoundAction = () => {
   const [stance, setStance] = useLocationState('woodenbot_action_stance')
 
   const onStanceChange = useCallback(
-    (value: WWStance) => setStance(value),
+    (value: WBStance) => setStance(value),
     [setStance],
   )
 
   const color =
-    stance === WWStance.DISRUPTIVE
+    stance === WBStance.DISRUPTIVE
       ? 'red'
-      : stance === WWStance.EXALTED
-      ? 'blue'
-      : undefined
+      : stance === WBStance.EXALTED
+        ? 'blue'
+        : undefined
 
   return (
     <>
@@ -42,7 +42,7 @@ export const RoundAction = () => {
           size="2"
         >
           <RadioCards.Item
-            value={WWStance.DISRUPTIVE}
+            value={WBStance.DISRUPTIVE}
             style={{
               justifyContent: 'start',
               alignItems: 'start',
@@ -50,7 +50,7 @@ export const RoundAction = () => {
           >
             <Flex direction="column" gap="3">
               <Heading as="h2" weight="bold" color="red">
-                {stance === WWStance.DISRUPTIVE ? 'Disruptive!' : 'Disruptive?'}
+                {stance === WBStance.DISRUPTIVE ? 'Disruptive!' : 'Disruptive?'}
               </Heading>
 
               <Box>
@@ -67,7 +67,7 @@ export const RoundAction = () => {
             </Flex>
           </RadioCards.Item>
           <RadioCards.Item
-            value={WWStance.EXALTED}
+            value={WBStance.EXALTED}
             style={{
               justifyContent: 'start',
               alignItems: 'start',
@@ -75,7 +75,7 @@ export const RoundAction = () => {
           >
             <Flex direction="column" gap="3">
               <Heading as="h2" weight="bold" color="blue">
-                {stance === WWStance.EXALTED ? 'Exalted!' : 'Exalted?'}
+                {stance === WBStance.EXALTED ? 'Exalted!' : 'Exalted?'}
               </Heading>
 
               <Box>
@@ -86,8 +86,10 @@ export const RoundAction = () => {
         </RadioCards.Root>
       </Flex>
       <Flex direction="column" gap="3">
-        {stance === WWStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
-        {stance === WWStance.EXALTED ? <RoundActionExalted /> : null}
+        {stance === WBStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
+        {stance === WBStance.EXALTED ? <RoundActionExalted /> : null}
+
+        {stance && <NoChangeCallout />}
 
         <NoChangeCallout />
 

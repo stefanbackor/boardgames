@@ -1,11 +1,11 @@
-import { ICAction, ICCard } from '~/constants/ironbot'
-import { WWAction, WWCard } from '~/constants/woodenbot'
+import { IBAction, ICCard } from '~/constants/ironbot'
+import { WBAction, WWCard } from '~/constants/woodenbot'
 
 import { LocationState as IronBotLocationState } from './ironbot'
 import { LocationState as WoodenbotLocationState } from './woodenbot'
 
 export type IWCard = WWCard | ICCard
-export type IWCardAction = WWAction | ICAction
+export type IWCardAction = WBAction | IBAction
 
 export enum Bot {
   IRONBOT = 'ironbot',
@@ -41,12 +41,16 @@ export type LocationState = {
   // Carried over state
   cards: string // `Decker` JSON export
   crystals: number // Current number of crystals for each bot.
+  difficulty: number // Current difficulty for each bot.
   // Page-only state
   round_preparation_done: boolean // Flag to indicate that round preparation was done.
   round_action_done: boolean
   round_end_done: boolean
+  round_end_recruitment_done?: boolean // Flag to indicate that bot has recruited warriors for crystals.
+  round_end_recruitment_crystals?: number // Number of crystals used for recruitment.
+
   roller?: string // `DiceRoller` JSON export as a state of Magic die rolls.
   combat_defend_card?: IWCard | null // Current combat card for defense.
-  no_change_crystals_done: boolean // Flag to indicate that no change to game state (crystal gain) was done.
+  no_change_crystals_done?: boolean // Flag to indicate that no change to game state (crystal gain) was done.
 } & WoodenbotLocationState &
   IronBotLocationState

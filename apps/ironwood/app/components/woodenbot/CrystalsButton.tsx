@@ -4,10 +4,14 @@ import { useCallback } from 'react'
 
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { Keyword } from '../KeywordButton'
 import { ModalDialog } from '../ModalDialog'
-import { Keyword } from './keywords/KeywordButton'
 
-export const CrystalsButton = () => {
+type Props = {
+  label?: string
+}
+
+export const CrystalsButton = ({ label }: Props) => {
   const [crystals, setCrystals] = useLocationState('crystals')
 
   const onAddClick = useCallback(() => {
@@ -19,7 +23,10 @@ export const CrystalsButton = () => {
   }, [setCrystals])
 
   return (
-    <ModalDialog title="Crystals" trigger={<Button>Add crystal</Button>}>
+    <ModalDialog
+      title="Crystals"
+      trigger={<Button>{label || 'Add crystal'}</Button>}
+    >
       <Flex direction="column" gap="3">
         <Callout.Root color="brown">
           <Callout.Icon>
@@ -50,7 +57,7 @@ export const CrystalsButton = () => {
           <Button variant="soft" onClick={onRemoveClick}>
             Remove
           </Button>
-          <Button onClick={onAddClick}>Add 1 crystal</Button>
+          <Button onClick={onAddClick}>Add crystal</Button>
         </Flex>
       </Flex>
     </ModalDialog>

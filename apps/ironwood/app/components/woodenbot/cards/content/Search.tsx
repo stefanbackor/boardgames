@@ -2,12 +2,12 @@ import { Box, Flex, RadioGroup, Strong } from '@radix-ui/themes'
 import { useCallback, useState } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import {
-  WWStance,
-  WWVisionLocatePurpose,
-  WWVisionPile,
+  WBStance,
+  WBVisionLocatePurpose,
+  WBVisionPile,
 } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
@@ -15,10 +15,10 @@ import { useLocationState } from '~/utils/state/useLocationState'
 
 export const Search = () => {
   const [stance] = useLocationState('woodenbot_action_stance')
-  const { deck } = useVisionDeck({ purpose: WWVisionLocatePurpose.CARD_SEARCH })
+  const { deck } = useVisionDeck({ purpose: WBVisionLocatePurpose.CARD_SEARCH })
   const { discoveryDone, discoveryCard, discoveryMarked, discoverVisionCard } =
     useVisionDeckDiscovery({
-      purpose: WWVisionLocatePurpose.CARD_SEARCH,
+      purpose: WBVisionLocatePurpose.CARD_SEARCH,
     })
 
   const [discoverCardName, setDiscoverCardName] = useState('')
@@ -28,7 +28,7 @@ export const Search = () => {
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE && (
+      {stance === WBStance.DISRUPTIVE && (
         <>
           <Box>
             If <Keyword.WoodwalkerWarband /> on inner <Keyword.Forrest /> is
@@ -37,7 +37,7 @@ export const Search = () => {
             <Flex direction="column" align="start" gap="3">
               {!discoveryDone && (
                 <RadioGroup.Root onValueChange={setDiscoverCardName}>
-                  {deck.get(WWVisionPile.DRAW).map((card) => (
+                  {deck.get(WBVisionPile.DRAW).map((card) => (
                     <RadioGroup.Item key={card[0]} value={card[0]}>
                       <VisionCardBadge card={card} />
                     </RadioGroup.Item>
@@ -74,7 +74,7 @@ export const Search = () => {
         </>
       )}
 
-      {stance === WWStance.EXALTED && (
+      {stance === WBStance.EXALTED && (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="3" />{' '}

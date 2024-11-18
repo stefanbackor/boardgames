@@ -1,0 +1,19 @@
+/** Ironbot Card Actions */
+export enum IBAction {
+  BATTLE = 'BATTLE',
+  CARD = 'CARD',
+  CARD_RED = 'CARD_RED',
+  COMPASS = 'COMPASS',
+  CRYSTALS = 'CRYSTALS',
+  CRYSTALS_RED = 'CRYSTALS_RED',
+  DRILL = 'DRILL',
+  DRILL_RED = 'DRILL_RED',
+  FORGE = 'FORGE',
+  GOLEM = 'GOLEM',
+  GOLEM_RED = 'GOLEM_RED',
+  HIT = 'HIT',
+  SHIELD = 'SHIELD',
+  SHIELD_RED = 'SHIELD_RED',
+  WARBAND = 'WARBAND',
+  WARBAND_RED = 'WARBAND_RED',
+}

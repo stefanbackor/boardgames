@@ -1,18 +1,17 @@
 import { Box } from '@radix-ui/themes'
 
+import { Keyword } from '~/components/KeywordButton'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
-import { WWStance } from '~/constants/woodenbot'
-import { WagerCardPurpose } from '~/hooks/useWagerCard'
+import { WBStance } from '~/constants/woodenbot'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { Keyword } from '../../keywords/KeywordButton'
 
 export const Arrows = () => {
   const [stance] = useLocationState('woodenbot_action_stance')
 
   return (
     <>
-      {stance === WWStance.DISRUPTIVE ? (
+      {stance === WBStance.DISRUPTIVE ? (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="3" />{' '}
@@ -21,7 +20,7 @@ export const Arrows = () => {
             <Keyword.Plunder count="2" />.
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 a controlled possible <Keyword.Mountain />
@@ -43,7 +42,7 @@ export const Arrows = () => {
         </>
       ) : null}
 
-      {stance === WWStance.EXALTED ? (
+      {stance === WBStance.EXALTED ? (
         <>
           <Box>
             <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="3" />{' '}
@@ -52,7 +51,7 @@ export const Arrows = () => {
             <Keyword.Interfere count="2" />.
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 <Keyword.IroncladDrill />

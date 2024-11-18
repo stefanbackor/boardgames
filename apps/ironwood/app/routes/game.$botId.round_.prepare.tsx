@@ -2,9 +2,10 @@ import { Button, Flex, Heading } from '@radix-ui/themes'
 import { useEffect } from 'react'
 
 import { BotHand } from '~/components/BotHand'
+import { RoundPrepare as IronbotRoundPrepare } from '~/components/ironbot/RoundPrepare'
 import { LinkNext } from '~/components/LinkNext'
 import { NavBar } from '~/components/NavBar'
-import { RoundPrepare } from '~/components/woodenbot/RoundPrepare'
+import { RoundPrepare as WoodenbotRoundPrepare } from '~/components/woodenbot/RoundPrepare'
 import { useGameParams } from '~/hooks/useGameParams'
 import { usePrepareRound } from '~/hooks/usePrepareRound'
 import { Bot } from '~/utils/state/types'
@@ -37,8 +38,8 @@ export default function Page() {
         <Heading size="8">Round Prepare</Heading>
 
         <Flex direction="column" gap="3">
-          {botId === Bot.IRONBOT ? <>TBD</> : null}
-          {botId === Bot.WOODENBOT ? <RoundPrepare /> : null}
+          {botId === Bot.IRONBOT ? <IronbotRoundPrepare /> : null}
+          {botId === Bot.WOODENBOT ? <WoodenbotRoundPrepare /> : null}
         </Flex>
       </Flex>
     </>

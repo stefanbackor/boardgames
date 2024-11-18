@@ -9,7 +9,8 @@ import {
 } from '@radix-ui/themes'
 import { useCallback, useState } from 'react'
 
-import { useDifficulty, WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
+import { WBDifficulty } from '~/constants/woodenbot'
+import { useDifficulty } from '~/hooks/useDifficulty'
 
 import { ModalDialog } from '../ModalDialog'
 
@@ -18,30 +19,30 @@ export const DifficultySettingsButton = () => {
     useDifficulty()
 
   const [valuesMain, setValuesMain] = useState<string[]>(() =>
-    Object.values(WWDifficulty)
+    Object.values(WBDifficulty)
       .filter(
         (value) =>
           value in
           [
-            WWDifficulty.RESOLVE_RED_ACTIONS,
-            WWDifficulty.ADD_EXTRA_SPIRIT_CUBES,
-            WWDifficulty.ADD_EXTRA_SPECIAL_CARDS,
-            WWDifficulty.REMOVE_FOUNDATIONS,
+            WBDifficulty.RESOLVE_RED_ACTIONS,
+            WBDifficulty.ADD_EXTRA_SPIRIT_CUBES,
+            WBDifficulty.ADD_EXTRA_SPECIAL_CARDS,
+            WBDifficulty.REMOVE_FOUNDATIONS,
           ],
       )
       .map((value) => (hasDifficulty(value) ? value : '')),
   )
   const [valuesExtraFighters, setValuesExtraFighters] = useState<string>(() =>
-    hasDifficulty(WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE)
-      ? WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE
-      : hasDifficulty(WWDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO)
-      ? WWDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO
-      : hasDifficulty(WWDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE)
-      ? WWDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE
-      : hasDifficulty(WWDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR)
-      ? WWDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR
-      : hasDifficulty(WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL)
-      ? WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL
+    hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE)
+      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE
+      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO)
+      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO
+      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE)
+      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE
+      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR)
+      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR
+      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL)
+      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL
       : '',
   )
 
@@ -55,7 +56,7 @@ export const DifficultySettingsButton = () => {
     const values = [...valuesMain, valuesExtraFighters].filter(Boolean)
 
     resetDifficulty()
-    values.forEach((value) => setDifficulty(value as WWDifficulty))
+    values.forEach((value) => setDifficulty(value as WBDifficulty))
   }, [resetDifficulty, setDifficulty, valuesExtraFighters, valuesMain])
 
   return (
@@ -93,20 +94,20 @@ export const DifficultySettingsButton = () => {
               setValuesMain(values.filter(Boolean))
             }}
           >
-            <CheckboxCards.Item value={WWDifficulty.RESOLVE_RED_ACTIONS}>
+            <CheckboxCards.Item value={WBDifficulty.RESOLVE_RED_ACTIONS}>
               Do not ignore, but resolve the action icons in red when instructed
               (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WWDifficulty.ADD_EXTRA_SPIRIT_CUBES}>
+            <CheckboxCards.Item value={WBDifficulty.ADD_EXTRA_SPIRIT_CUBES}>
               During setup, place 2 markers next to the Spirits of the Forest
               card (3&nbsp;levels). (Do not remove a marker in the first
               preparation phase.)
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WWDifficulty.ADD_EXTRA_SPECIAL_CARDS}>
+            <CheckboxCards.Item value={WBDifficulty.ADD_EXTRA_SPECIAL_CARDS}>
               During setup, shuffle 4 special cards (instead of 2) into the
               bot’s hand. (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WWDifficulty.REMOVE_FOUNDATIONS}>
+            <CheckboxCards.Item value={WBDifficulty.REMOVE_FOUNDATIONS}>
               During setup, remove 2 foundations from your player mat and put
               them back in the gamebox (3&nbsp;levels).
             </CheckboxCards.Item>
@@ -121,31 +122,31 @@ export const DifficultySettingsButton = () => {
                   onValueChange={(value) => setValuesExtraFighters(value)}
                 >
                   <RadioGroup.Item
-                    value={WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE}
+                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE}
                   >
                     1 Woodwalker Fighter to a random outer forest
                     (1&nbsp;level).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={WWDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO}
+                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO}
                   >
                     1 Woodwalker Fighter to two different random outer forests
                     (2&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={WWDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE}
+                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE}
                   >
                     1 Woodwalker Fighter to three different random outer forests
                     (3&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={WWDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR}
+                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR}
                   >
                     1 Woodwalker Fighter to four different random outer forests
                     (4&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={WWDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL}
+                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL}
                   >
                     1 Woodwalker Fighter to each outer forest (5&nbsp;levels).
                   </RadioGroup.Item>

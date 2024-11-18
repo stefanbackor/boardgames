@@ -2,10 +2,10 @@ import { Badge, Box, Flex, Grid, Separator, Text } from '@radix-ui/themes'
 import { useMemo } from 'react'
 
 import { CardBadge } from '~/components/CardBadge'
-import { WWAction } from '~/constants/woodenbot'
+import { WBAction, WBDifficulty } from '~/constants/woodenbot'
 import { PILE_PAIRS, useDeck } from '~/hooks/useDeck'
+import { useDifficulty } from '~/hooks/useDifficulty'
 import { useGameParams } from '~/hooks/useGameParams'
-import { useDifficulty, WWDifficulty } from '~/hooks/woodenbot/useDifficulty'
 import { isRedCardAction } from '~/utils/cards/isRedCardAction'
 import { DebugOnly } from '~/utils/debug/DebugOnly'
 import { IWCard, IWCardAction } from '~/utils/state/types'
@@ -32,7 +32,7 @@ export const Expend = () => {
       action &&
       (!isRedCardAction(action) ||
         (isRedCardAction(action) &&
-          hasDifficulty(WWDifficulty.RESOLVE_RED_ACTIONS)))
+          hasDifficulty(WBDifficulty.RESOLVE_RED_ACTIONS)))
     )
   }
 
@@ -74,7 +74,7 @@ export const Expend = () => {
                       {index > 0 && (
                         <Separator orientation="horizontal" size="4" my="3" />
                       )}
-                      <CardAction key={index} action={action as WWAction} />
+                      <CardAction key={index} action={action as WBAction} />
                     </Box>
                   ))}
               </Flex>

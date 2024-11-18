@@ -4,15 +4,15 @@ import { useCallback } from 'react'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { ExecuteButton } from '../ExecuteButton'
-import { Keyword } from './keywords/KeywordButton'
+import { Keyword } from '../KeywordButton'
 
 export const RoundEnd = () => {
   const [crystals, setCrystals] = useLocationState('crystals')
   const [recruitmentDone, setRecruitmentDone] = useLocationState(
-    'woodenbot_round_end_recruitment_done',
+    'round_end_recruitment_done',
   )
   const [recruitmentCrystals, setRecruitmentCrystals] = useLocationState(
-    'woodenbot_round_end_recruitment_crystals',
+    'round_end_recruitment_crystals',
   )
 
   const recruitNumbers = Math.floor((recruitmentCrystals || crystals) / 2)
@@ -28,8 +28,9 @@ export const RoundEnd = () => {
     <>
       <Heading as="h3">Recover/discard action cards</Heading>
       <Box>
-        Find any base cards it expended or wagered during the turn, and place
-        them back onto its hand. Discard the played special cards.
+        Take all your base cards back into your hand. Ongoing cards with
+        marker(s) are moved above the player board. Discard all other played
+        cards. Check your hand limit of special cards (8 including base cards).
       </Box>
       <Heading as="h3">Fade Totem</Heading>
       <Box>
