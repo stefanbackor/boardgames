@@ -3,6 +3,7 @@ import { Button, ButtonProps } from '@radix-ui/themes'
 import { forwardRef } from 'react'
 
 type Props = {
+  disabled?: ButtonProps['disabled']
   done?: ButtonProps['disabled']
   onClick?: ButtonProps['onClick']
   label?: string
@@ -15,13 +16,13 @@ type Props = {
  * @returns
  */
 export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
-  ({ done, onClick, label, testId }, ref) => {
+  ({ disabled, done, onClick, label, testId }, ref) => {
     return (
       <Button
         color="green"
         ref={ref}
         size="1"
-        disabled={done}
+        disabled={done || disabled}
         onClick={onClick}
         data-testid={testId || 'execute-button'}
       >

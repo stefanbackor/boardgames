@@ -1,13 +1,12 @@
 import { Box, Flex } from '@radix-ui/themes'
 
+import { Keyword } from '~/components/KeywordButton'
+import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WBStance } from '~/constants/woodenbot'
-import { WagerCardPurpose } from '~/hooks/useWagerCard'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { Keyword } from '../../keywords/KeywordButton'
-import { VisionCardBadge } from '../../VisionCardBadge'
 
 export const Battle = () => {
   const [stance] = useLocationState('woodenbot_action_stance')
@@ -22,7 +21,7 @@ export const Battle = () => {
             to <Keyword.Interfere count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 a controlled <Keyword.Foundation />
@@ -36,7 +35,7 @@ export const Battle = () => {
                 </Flex>
               </li>
               <li>
-                <Keyword.IroncladDrill />
+                <Keyword.Drill />
               </li>
               <li>
                 an adjacent <Keyword.IroncladWarband />
@@ -56,7 +55,7 @@ export const Battle = () => {
             to <Keyword.Secure count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 an <Keyword.IroncladWarband /> adjacent to <Keyword.Totem />

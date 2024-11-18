@@ -1,6 +1,6 @@
 import { WBStance, WWVisionCard } from '~/constants/woodenbot'
 
-import { IWCard } from '../types'
+import { IWCard } from '.'
 
 /**
  * Woodenbot specific keys stored in location state.
@@ -36,9 +36,6 @@ export type LocationState = {
   woodenbot_vision_discovery_eye_card_done?: boolean
   woodenbot_vision_discovery_eye_card_card?: WWVisionCard
   woodenbot_vision_discovery_eye_card_marked?: Array<WWVisionCard>
-
-  woodenbot_round_end_recruitment_done?: boolean // Flag to indicate that Woodenbot has recruited warriors for crystals.
-  woodenbot_round_end_recruitment_crystals?: number // Number of crystals used for recruitment.
 
   woodenbot_expended_alert_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "alert" action.
   woodenbot_expended_card_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "card" action.

@@ -46,6 +46,9 @@ export type LocationState = {
   round_preparation_done: boolean // Flag to indicate that round preparation was done.
   round_action_done: boolean
   round_end_done: boolean
+  round_end_recruitment_done?: boolean // Flag to indicate that bot has recruited warriors for crystals.
+  round_end_recruitment_crystals?: number // Number of crystals used for recruitment.
+
   roller?: string // `DiceRoller` JSON export as a state of Magic die rolls.
   combat_defend_card?: IWCard | null // Current combat card for defense.
   no_change_crystals_done?: boolean // Flag to indicate that no change to game state (crystal gain) was done.

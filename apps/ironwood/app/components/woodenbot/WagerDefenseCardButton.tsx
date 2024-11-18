@@ -1,6 +1,6 @@
 import { Button } from '@radix-ui/themes'
 
-import { useWagerCard, WagerCardPurpose } from '~/hooks/useWagerCard'
+import { useWagerCard, WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { ModalDialog } from '../ModalDialog'

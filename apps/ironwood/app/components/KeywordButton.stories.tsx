@@ -1,5 +1,6 @@
 import { Flex } from '@radix-ui/themes'
 import { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 
 import { Keyword } from './KeywordButton'
 
@@ -23,5 +24,9 @@ export const Buttons: Story = {
 }
 
 export const Plunder: Story = {
-  render: () => <Keyword.Plunder count="1" dialogProps={{ open: true }} />,
+  render: () => <Keyword.Plunder count="1" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByText('Plunder'))
+  },
 }

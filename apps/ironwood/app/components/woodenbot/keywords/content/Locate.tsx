@@ -1,6 +1,6 @@
 import { Flex, Text } from '@radix-ui/themes'
 
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 
 export const Locate = () => {
   return (

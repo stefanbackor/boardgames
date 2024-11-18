@@ -6,3 +6,11 @@ export enum IBStance {
   DEFENSIVE = 'defensive',
   EXPANSIVE = 'expansive',
 }
+
+/**
+ * Ironbot turn procedures.
+ */
+export enum IBTurnProcedure {
+  ALERT = 'alert',
+  EXHAUSTED = 'exhausted',
+}

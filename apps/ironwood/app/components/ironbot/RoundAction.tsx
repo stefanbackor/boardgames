@@ -1,17 +1,31 @@
-import { Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
-import { useCallback } from 'react'
+import { CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { Badge, Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
+import { useCallback, useEffect } from 'react'
 
-import { IBStance } from '~/constants/ironbot'
+import { IBStance, IBTurnProcedure } from '~/constants/ironbot'
+import { useTurnProcedure } from '~/hooks/ironbot/useTurnProcedure'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from './keywords/KeywordButton'
-// import { RoundActionDisruptive } from './RoundActionDisruptive'
-// import { RoundActionExalted } from './RoundActionExalted'
+import { Keyword } from '../KeywordButton'
+import { NoChangeCallout } from '../NoChangeCallout'
+import { RoundActionAlertAggressive } from './RoundActionAlertAggressive'
+import { RoundActionAlertDefensive } from './RoundActionAlertDefensive'
+import { RoundActionAlertExpansive } from './RoundActionAlertExpansive'
+import { RoundActionExhausted } from './RoundActionExhausted'
 
 export const RoundAction = () => {
   const { actionId } = useGameParams()
+  const [crystals] = useLocationState('crystals')
   const [stance, setStance] = useLocationState('ironbot_action_stance')
+
+  const { turnProcedure, flipTurnProcedure } = useTurnProcedure()
+
+  useEffect(() => {
+    if (turnProcedure === IBTurnProcedure.EXHAUSTED) {
+      flipTurnProcedure()
+    }
+  }, [turnProcedure, flipTurnProcedure])
 
   const onStanceChange = useCallback(
     (value: IBStance) => setStance(value),
@@ -66,6 +80,7 @@ export const RoundAction = () => {
               justifyContent: 'start',
               alignItems: 'start',
             }}
+            // disabled={crystals < 5}
           >
             <Flex direction="column" gap="3">
               <Heading as="h2" weight="bold" color="blue">
@@ -75,9 +90,33 @@ export const RoundAction = () => {
               <Box>
                 If <Keyword.Ironbot /> has{' '}
                 <Text wrap="nowrap">
-                  5+ <Keyword.Crystal />
+                  5+ <Keyword.Crystal />{' '}
+                  {crystals < 5 ? (
+                    <Badge
+                      size="1"
+                      color="gray"
+                      radius="full"
+                      variant="solid"
+                      style={{ verticalAlign: 'bottom' }}
+                    >
+                      <Cross2Icon color="white" />
+                    </Badge>
+                  ) : (
+                    <Badge
+                      size="1"
+                      color="green"
+                      radius="full"
+                      variant="solid"
+                      style={{ verticalAlign: 'bottom' }}
+                    >
+                      <CheckIcon color="white" />
+                    </Badge>
+                  )}
                 </Text>{' '}
-                and controls at least 1 <Keyword.Foundation />
+                and controls{' '}
+                <Text wrap="pretty">
+                  1+ <Keyword.Foundation />
+                </Text>
               </Box>
             </Flex>
           </RadioCards.Item>
@@ -93,14 +132,43 @@ export const RoundAction = () => {
                 {stance === IBStance.EXPANSIVE ? 'Expansive!' : 'Expansive?'}
               </Heading>
 
-              <Box>Othwerwise</Box>
+              <Box>Otherwise</Box>
             </Flex>
+          </RadioCards.Item>
+        </RadioCards.Root>
+        <RadioCards.Root
+          gap="1"
+          size="1"
+          variant="surface"
+          value={turnProcedure}
+          disabled
+        >
+          <RadioCards.Item value={IBTurnProcedure.ALERT}>Alert</RadioCards.Item>
+          <RadioCards.Item value={IBTurnProcedure.EXHAUSTED}>
+            Exhausted
           </RadioCards.Item>
         </RadioCards.Root>
       </Flex>
       <Flex direction="column" gap="3">
-        {/* {stance === IBStance.AGGRESSIVE ? <RoundActionAggressive /> : null}
-        {stance === IBStance.DEFENSIVE ? <RoundActionDefensive /> : null} */}
+        <ol>
+          <Flex direction="column" gap="2">
+            {turnProcedure === IBTurnProcedure.ALERT && (
+              <>
+                {stance === IBStance.AGGRESSIVE && (
+                  <RoundActionAlertAggressive />
+                )}
+                {stance === IBStance.DEFENSIVE && <RoundActionAlertDefensive />}
+                {stance === IBStance.EXPANSIVE && <RoundActionAlertExpansive />}
+              </>
+            )}
+
+            {stance && turnProcedure === IBTurnProcedure.EXHAUSTED && (
+              <RoundActionExhausted />
+            )}
+          </Flex>
+        </ol>
+
+        {stance && <NoChangeCallout />}
 
         {stance && (
           <Flex justify="center">

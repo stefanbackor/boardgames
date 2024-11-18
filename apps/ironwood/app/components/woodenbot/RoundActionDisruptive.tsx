@@ -1,10 +1,10 @@
 import { Box, Flex, Strong } from '@radix-ui/themes'
 
 import { WBVisionLocatePurpose } from '~/constants/woodenbot'
-import { WagerCardPurpose } from '~/hooks/useWagerCard'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 
+import { Keyword } from '../KeywordButton'
 import { Expend } from './Expend'
-import { Keyword } from './keywords/KeywordButton'
 import { useLocate } from './useLocate'
 import { WagerAttackCardButton } from './WagerAttackCardButton'
 
@@ -31,9 +31,10 @@ export const RoundActionDisruptive = () => {
               </Strong>
               , <Keyword.Woodenbot /> moves{' '}
               <Keyword.WoodwalkerWarrior count="5" /> to{' '}
-              <Keyword.Plunder count="5" />. Then it <Keyword.Attacks />{' '}
-              <Keyword.Ferrum /> (if applicable) or a controlled{' '}
-              <Keyword.Foundation /> (if applicable). End bot&apos;s turn.
+              <Keyword.Plunder count="5" />. Then it{' '}
+              <Keyword.WoodenbotAttacks /> <Keyword.Ferrum /> (if applicable) or
+              a controlled <Keyword.Foundation /> (if applicable). End
+              bot&apos;s turn.
               <Box mt="2">
                 <WagerAttackCardButton
                   purpose={WagerCardPurpose.ATTACK_DISRUPTIVE}

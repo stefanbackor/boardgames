@@ -1,3 +1,5 @@
+import { IBTurnProcedure } from '~/constants/ironbot'
+
 import { LocationState } from './types'
 
 export const initialState: LocationState = {
@@ -11,4 +13,7 @@ export const initialState: LocationState = {
   woodenbot_spirit_cubes: 0,
   woodenbot_vision_cards: '',
   // Ironbot
+  ironbot_1_turn_procedure: IBTurnProcedure.ALERT,
+  ironbot_2_turn_procedure: IBTurnProcedure.ALERT,
+  ironbot_3_turn_procedure: IBTurnProcedure.ALERT,
 }

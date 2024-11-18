@@ -2,7 +2,7 @@ import { Box, Flex, RadioGroup, Strong } from '@radix-ui/themes'
 import { useCallback, useState } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import {
   WBStance,

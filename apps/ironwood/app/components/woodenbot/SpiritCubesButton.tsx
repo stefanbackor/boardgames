@@ -4,8 +4,8 @@ import { useCallback } from 'react'
 
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { Keyword } from '../KeywordButton'
 import { ModalDialog } from '../ModalDialog'
-import { Keyword } from './keywords/KeywordButton'
 
 export const SpiritCubesButton = () => {
   const [, setSpiritCubes] = useLocationState('woodenbot_spirit_cubes')

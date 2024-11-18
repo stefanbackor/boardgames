@@ -12,3 +12,8 @@ export const IS_DEVELOPMENT = process.env.APP_ENV === 'development'
  * Check if the app is running in preview. Based on the Vercel environment.
  */
 export const IS_PREVIEW = process.env.APP_ENV === 'preview'
+
+/**
+ * Check if the app is running in storybook.
+ */
+export const IS_STORYBOOK = process.env.APP_ENV === 'storybook'

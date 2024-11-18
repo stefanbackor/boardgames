@@ -1,7 +1,7 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Callout, Flex, Text } from '@radix-ui/themes'
+import { Box, Callout, Flex } from '@radix-ui/themes'
 
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 
 type Props = {
   count: string
@@ -18,11 +18,11 @@ export const Recruits = ({ count }: Props) => {
           Recruit <Keyword.WoodwalkerWarrior count={count} />
         </Callout.Text>
       </Callout.Root>
-      <Text size="4">
+      <Box>
         Use the following priority list when recruiting for the Woodenbot,
         placing a Woodwalker Fighter in the indicated outer Forest with the
         smallest number (including zero) of Woodwalker Fighters:
-      </Text>
+      </Box>
       <ol>
         <li>Adjacent to a Totem.</li>
         <li>Adjacent to a controlled Foundation.</li>

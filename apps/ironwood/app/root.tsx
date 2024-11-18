@@ -13,7 +13,7 @@ import {
 import { type PropsWithChildren, useLayoutEffect } from 'react'
 
 import { Footer } from './components/Footer'
-import { IS_PRODUCTION } from './constants/environment'
+import { IS_PRODUCTION, IS_STORYBOOK } from './constants/environment'
 import { useGameParams } from './hooks/useGameParams'
 
 export const links: LinksFunction = () => [
@@ -65,7 +65,7 @@ export default function App({ children }: PropsWithChildren) {
   const { botId } = useGameParams()
 
   useLayoutEffect(() => {
-    botId && (document.body.dataset.bot = botId)
+    !IS_STORYBOOK && (document.body.dataset.bot = botId || 'not-selected')
   }, [botId])
 
   return (
@@ -73,8 +73,8 @@ export default function App({ children }: PropsWithChildren) {
       accentColor="green"
       appearance="dark"
       grayColor="sage"
-      panelBackground="translucent"
       hasBackground={false}
+      panelBackground="translucent"
       style={{
         backgroundColor:
           'color-mix(in srgb, var(--color-background) 75%, transparent)',

@@ -4,8 +4,8 @@ import { WBStance } from '~/constants/woodenbot'
 import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { useDeck } from './useDeck'
-import { useGameParams } from './useGameParams'
+import { useDeck } from '../useDeck'
+import { useGameParams } from '../useGameParams'
 
 export enum WagerCardPurpose {
   ATTACK_DISRUPTIVE,

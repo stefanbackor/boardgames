@@ -4,11 +4,11 @@ import { useCallback } from 'react'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WBStance } from '~/constants/woodenbot'
-import { WagerCardPurpose } from '~/hooks/useWagerCard'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../../keywords/KeywordButton'
+import { Keyword } from '../../../KeywordButton'
 import { VisionCardBadge } from '../../VisionCardBadge'
 
 export const Crystals = () => {
@@ -34,10 +34,10 @@ export const Crystals = () => {
             to <Keyword.Plunder count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
-                <Keyword.IroncladDrill />
+                <Keyword.Drill />
               </li>
               <li>
                 <Keyword.Ferrum />
@@ -58,7 +58,7 @@ export const Crystals = () => {
             to <Keyword.Interfere count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.Attacks />:
+            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
                 a controlled <Keyword.Foundation />

@@ -5,7 +5,7 @@ import { ExecuteButton } from '~/components/ExecuteButton'
 import { WBStance } from '~/constants/woodenbot'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../../keywords/KeywordButton'
+import { Keyword } from '../../../KeywordButton'
 
 export const Cubes = () => {
   const [stance] = useLocationState('woodenbot_action_stance')

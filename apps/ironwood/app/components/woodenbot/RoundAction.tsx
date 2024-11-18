@@ -5,8 +5,8 @@ import { WBStance } from '~/constants/woodenbot'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { Keyword } from '../KeywordButton'
 import { NoChangeCallout } from '../NoChangeCallout'
-import { Keyword } from './keywords/KeywordButton'
 import { RoundActionDisruptive } from './RoundActionDisruptive'
 import { RoundActionExalted } from './RoundActionExalted'
 

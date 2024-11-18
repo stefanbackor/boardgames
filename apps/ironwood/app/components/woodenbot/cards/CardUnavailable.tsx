@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../keywords/KeywordButton'
+import { Keyword } from '../../KeywordButton'
 
 export const CardUnavailable = () => {
   const [, setCrystals] = useLocationState('crystals')

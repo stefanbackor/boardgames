@@ -1,7 +1,7 @@
 import { Box } from '@radix-ui/themes'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 import { useLocate } from '~/components/woodenbot/useLocate'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import {

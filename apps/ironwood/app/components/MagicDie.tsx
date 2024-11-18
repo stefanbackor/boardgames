@@ -23,7 +23,7 @@ import {
   useState,
 } from 'react'
 
-import { isStorybook } from '~/utils/storybook/isStorybook'
+import { IS_STORYBOOK } from '~/constants/environment'
 
 import { ModalDialog } from './ModalDialog'
 
@@ -74,7 +74,7 @@ type MagicDieProps = {
   triggerButtonComponent?: React.ReactNode
 }
 
-const doRoll = () => sample(isStorybook() ? [0] : [0, 1, 2, 3])
+const doRoll = () => sample(IS_STORYBOOK ? [0] : [0, 1, 2, 3])
 
 export const MagicDie = ({ triggerButtonComponent }: MagicDieProps) => {
   const [rolls, setRolls] = useState<number[]>([doRoll()])

@@ -6,7 +6,7 @@ import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
 
 import { ExecuteButton } from '../ExecuteButton'
-import { Keyword } from './keywords/KeywordButton'
+import { Keyword } from '../KeywordButton'
 import { VisionCardBadge } from './VisionCardBadge'
 
 type Props = {

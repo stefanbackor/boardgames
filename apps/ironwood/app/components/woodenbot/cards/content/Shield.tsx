@@ -2,7 +2,7 @@ import { Box, Strong } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { Keyword } from '~/components/woodenbot/keywords/KeywordButton'
+import { Keyword } from '~/components/KeywordButton'
 import { useDeck } from '~/hooks/useDeck'
 import { useLocationState } from '~/utils/state/useLocationState'
 
