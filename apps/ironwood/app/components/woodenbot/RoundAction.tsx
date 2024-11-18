@@ -93,6 +93,8 @@ export const RoundAction = () => {
 
         <NoChangeCallout />
 
+        <NoChangeCallout />
+
         {stance && (
           <Flex justify="center">
             <Heading>Now take your turn.</Heading>
