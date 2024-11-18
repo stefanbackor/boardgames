@@ -35,7 +35,7 @@ export const Battle = () => {
                 </Flex>
               </li>
               <li>
-                <Keyword.Drill />
+                <Keyword.IroncladDrill />
               </li>
               <li>
                 an adjacent <Keyword.IroncladWarband />

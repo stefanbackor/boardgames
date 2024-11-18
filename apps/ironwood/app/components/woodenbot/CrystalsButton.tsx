@@ -40,7 +40,7 @@ export const CrystalsButton = ({ label }: Props) => {
                 The rest is discarded.
               </Box>
               <Box>
-                Whenever your <Keyword.Drill /> is defeated,{' '}
+                Whenever your <Keyword.IroncladDrill /> is defeated,{' '}
                 <Keyword.Woodenbot /> steals 1 crystal from the drill. The rest
                 gets discarded.
               </Box>

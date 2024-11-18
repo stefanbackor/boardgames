@@ -76,7 +76,7 @@ export const WagerCardContent = ({
 
           <Flex align="center" justify="start" gap="3">
             <Text>
-              If your <Keyword.Ferrum /> or <Keyword.Drill /> defeated,
+              If your <Keyword.Ferrum /> or <Keyword.IroncladDrill /> defeated,
             </Text>
             <CrystalsButton label="Add stolen crystals" />
           </Flex>

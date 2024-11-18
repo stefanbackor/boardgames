@@ -37,7 +37,7 @@ export const Crystals = () => {
             <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
-                <Keyword.Drill />
+                <Keyword.IroncladDrill />
               </li>
               <li>
                 <Keyword.Ferrum />

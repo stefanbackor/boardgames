@@ -94,6 +94,7 @@ export const Keyword = {
     </KeywordInline>
   ),
   Mountain: () => <KeywordInline>Mountain</KeywordInline>,
+  IroncladDrill: () => <KeywordInline>Drill</KeywordInline>,
   Drill: () => (
     <ModalDialog
       title={<Text color="red">Drill</Text>}
@@ -159,7 +160,7 @@ export const Keyword = {
           <WarriorCount count={count} />
           &nbsp;
         </>
-      ) : null}{' '}
+      ) : null}
       Woodwalker Warband
     </KeywordInline>
   ),

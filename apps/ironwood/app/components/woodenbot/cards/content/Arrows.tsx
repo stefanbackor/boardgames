@@ -26,7 +26,7 @@ export const Arrows = () => {
                 a controlled possible <Keyword.Mountain />
               </li>
               <li>
-                <Keyword.Drill />
+                <Keyword.IroncladDrill />
               </li>
               <li>
                 <Keyword.Ferrum />
@@ -54,7 +54,7 @@ export const Arrows = () => {
             <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
             <ul>
               <li>
-                <Keyword.Drill />
+                <Keyword.IroncladDrill />
               </li>
               <li>
                 <Keyword.Ferrum />
