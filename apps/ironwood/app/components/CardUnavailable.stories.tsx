@@ -2,30 +2,21 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from '@storybook/test'
 
 import { WBStance } from '~/constants/woodenbot'
+import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { CardUnavailable } from './CardUnavailable'
 
 type Story = StoryObj<typeof CardUnavailable>
 
 const meta: Meta<typeof CardUnavailable> = {
-  title: 'Woodenbot/Cards/CardUnavailable',
+  title: 'CardUnavailable',
   component: CardUnavailable,
   parameters: {
-    routing: [{ path: '/:botId/:actionId' }],
-    routerOpts: {
-      initialEntries: [
-        {
-          pathname: '/woodenbot/1',
-          search: new URLSearchParams({
-            gameId: '123',
-            roundId: '456',
-          }).toString(),
-          state: {
-            woodenbot_action_stance: WBStance.DISRUPTIVE,
-          },
-        },
-      ],
-    },
+    ...memoryRouterParameters({
+      state: {
+        woodenbot_action_stance: WBStance.DISRUPTIVE,
+      },
+    }),
   },
 }
 

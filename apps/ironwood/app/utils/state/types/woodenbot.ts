@@ -43,5 +43,4 @@ export type LocationState = {
   woodenbot_expended_cubes_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "cubes" action.
   woodenbot_expended_eye_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "eye" action.
   woodenbot_expended_shield_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "shield" action.
-  woodenbot_expended_unavailable_done?: boolean // Flag to indicate that Woodenbot has executed unavailable card action.
 }

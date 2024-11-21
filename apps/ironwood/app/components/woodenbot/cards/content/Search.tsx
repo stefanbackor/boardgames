@@ -28,6 +28,8 @@ export const Search = () => {
 
   return (
     <>
+      {!stance && <Box>Unknown stance</Box>}
+
       {stance === WBStance.DISRUPTIVE && (
         <>
           <Box>

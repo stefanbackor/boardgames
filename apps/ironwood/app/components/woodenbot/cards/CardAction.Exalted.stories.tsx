@@ -1,30 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { WBAction, WBStance } from '~/constants/woodenbot'
+import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { CardAction } from './CardAction'
 
 type Story = StoryObj<typeof CardAction>
 
 const meta: Meta<typeof CardAction> = {
-  title: 'Woodenbot/Cards/Actions/Exalted',
+  title: 'Woodenbot/CardAction/Exalted',
   component: CardAction,
   parameters: {
-    routing: [{ path: '/:botId/:actionId' }],
-    routerOpts: {
-      initialEntries: [
-        {
-          pathname: '/woodenbot/1',
-          search: new URLSearchParams({
-            gameId: '123',
-            roundId: '456',
-          }).toString(),
-          state: {
-            woodenbot_action_stance: WBStance.EXALTED,
-          },
-        },
-      ],
-    },
+    ...memoryRouterParameters({
+      state: {
+        woodenbot_action_stance: WBStance.EXALTED,
+      },
+    }),
   },
 }
 

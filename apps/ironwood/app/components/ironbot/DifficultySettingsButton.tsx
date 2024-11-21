@@ -10,7 +10,7 @@ import {
 import { useCallback, useState } from 'react'
 
 import { ModalDialog } from '~/components/ModalDialog'
-import { IBDifficulty } from '~/constants/ironbot'
+import { Difficulty } from '~/constants/difficulty'
 import { useDifficulty } from '~/hooks/useDifficulty'
 
 export const DifficultySettingsButton = () => {
@@ -18,31 +18,31 @@ export const DifficultySettingsButton = () => {
     useDifficulty()
 
   const [valuesMain, setValuesMain] = useState<string[]>(() =>
-    Object.values(IBDifficulty)
+    Object.values(Difficulty)
       .filter(
         (value) =>
           value in
           [
-            IBDifficulty.RESOLVE_RED_ACTIONS,
-            IBDifficulty.ADD_EXTRA_GOLEM_TO_FERRUM,
-            IBDifficulty.ADD_EXTRA_SPECIAL_CARDS,
-            IBDifficulty.ADD_FOUNDATIONS,
+            Difficulty.RESOLVE_RED_ACTIONS,
+            Difficulty.ADD_EXTRA_SPECIAL_ELEMENT,
+            Difficulty.ADD_EXTRA_SPECIAL_CARDS,
+            Difficulty.FOUNDATIONS,
           ],
       )
       .map((value) => (hasDifficulty(value) ? value : '')),
   )
   const [valuesExtraFighters, setValuesExtraFighters] = useState<string>(() =>
-    hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ONE)
-      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ONE
-      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO)
-      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO
-      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE)
-      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE
-      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR)
-      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR
-      : hasDifficulty(IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL)
-      ? IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL
-      : '',
+    hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_ONE)
+      ? Difficulty.ADD_EXTRA_WARRIOR_TO_ONE
+      : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_TWO)
+        ? Difficulty.ADD_EXTRA_WARRIOR_TO_TWO
+        : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_THREE)
+          ? Difficulty.ADD_EXTRA_WARRIOR_TO_THREE
+          : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR)
+            ? Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR
+            : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_ALL)
+              ? Difficulty.ADD_EXTRA_WARRIOR_TO_ALL
+              : '',
   )
 
   const onReset = useCallback(() => {
@@ -55,7 +55,7 @@ export const DifficultySettingsButton = () => {
     const values = [...valuesMain, valuesExtraFighters].filter(Boolean)
 
     resetDifficulty()
-    values.forEach((value) => setDifficulty(value as IBDifficulty))
+    values.forEach((value) => setDifficulty(value as Difficulty))
   }, [resetDifficulty, setDifficulty, valuesExtraFighters, valuesMain])
 
   return (
@@ -93,18 +93,18 @@ export const DifficultySettingsButton = () => {
               setValuesMain(values.filter(Boolean))
             }}
           >
-            <CheckboxCards.Item value={IBDifficulty.RESOLVE_RED_ACTIONS}>
+            <CheckboxCards.Item value={Difficulty.RESOLVE_RED_ACTIONS}>
               Do not ignore, but resolve the action icons in red when instructed
               (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={IBDifficulty.ADD_EXTRA_GOLEM_TO_FERRUM}>
+            <CheckboxCards.Item value={Difficulty.ADD_EXTRA_SPECIAL_ELEMENT}>
               During setup, place a Golem into Ferrum (3&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={IBDifficulty.ADD_EXTRA_SPECIAL_CARDS}>
+            <CheckboxCards.Item value={Difficulty.ADD_EXTRA_SPECIAL_CARDS}>
               During setup, shuffle 4 special cards (instead of 2) into the
               bot’s hand. (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={IBDifficulty.ADD_FOUNDATIONS}>
+            <CheckboxCards.Item value={Difficulty.FOUNDATIONS}>
               During setup, select two random outer mountains (using the vision
               cards) and place a Foundation on each of them (3&nbsp;levels).
             </CheckboxCards.Item>
@@ -118,32 +118,24 @@ export const DifficultySettingsButton = () => {
                   defaultValue={valuesExtraFighters}
                   onValueChange={(value) => setValuesExtraFighters(value)}
                 >
-                  <RadioGroup.Item
-                    value={IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ONE}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_ONE}>
                     1 Ironclad Fighter to a random inner mountain
                     (1&nbsp;level).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={IBDifficulty.ADD_EXTRA_IRONCLAD_TO_TWO}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_TWO}>
                     1 Ironclad Fighter to two different random inner mountains
                     (2&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={IBDifficulty.ADD_EXTRA_IRONCLAD_TO_THREE}
+                    value={Difficulty.ADD_EXTRA_WARRIOR_TO_THREE}
                   >
                     1 Ironclad Fighter to three different random inner mountains
                     (3&nbsp;levels).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={IBDifficulty.ADD_EXTRA_IRONCLAD_TO_FOUR}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR}>
                     1 Ironclad Fighter to each inner mountain (4&nbsp;levels).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={IBDifficulty.ADD_EXTRA_IRONCLAD_TO_ALL}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_ALL}>
                     1 Ironclad Fighter to each inner mountain and 1 Ironclad
                     Fighter to Ferrum (5&nbsp;levels).
                   </RadioGroup.Item>

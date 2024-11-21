@@ -11,13 +11,13 @@ import { Keyword } from '../KeywordButton'
 export const RoundActionAlertDefensive = () => {
   const [crystals, setCrystals] = useLocationState('crystals')
   const [done, setDone] = useLocationState('ironbot_defensive_alert_done')
-  const { setTurnProcedure } = useTurnProcedure()
+  const { setNextTurnProcedure } = useTurnProcedure()
 
   const onExecute = useCallback(() => {
     setCrystals((crystals) => Math.max(crystals - 5, 0))
-    setTurnProcedure(IBTurnProcedure.EXHAUSTED)
+    setNextTurnProcedure(IBTurnProcedure.EXHAUSTED)
     setDone(true)
-  }, [setTurnProcedure, setDone, setCrystals])
+  }, [setNextTurnProcedure, setDone, setCrystals])
 
   return (
     <>

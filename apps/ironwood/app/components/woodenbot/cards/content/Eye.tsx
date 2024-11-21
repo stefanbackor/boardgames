@@ -2,13 +2,13 @@ import { Box } from '@radix-ui/themes'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
-import { useLocate } from '~/components/woodenbot/useLocate'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import {
   WBStance,
   WBVisionLocatePurpose,
   WWWarriorType,
 } from '~/constants/woodenbot'
+import { useLocate } from '~/hooks/woodenbot/useLocate'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useLocationState } from '~/utils/state/useLocationState'
 

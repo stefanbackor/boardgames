@@ -11,14 +11,12 @@ import { Link, Outlet } from '@remix-run/react'
 
 import { DifficultyLevelButton as WoodenbotDifficultyLevelButton } from '~/components/woodenbot/DifficultyLevelButton'
 import { useGameParams } from '~/hooks/useGameParams'
-import { useDebugMode } from '~/utils/debug/useDebug'
 import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
 export default function Layout() {
   const { botId } = useGameParams()
-  const { isDebugMode } = useDebugMode()
 
   return (
     <>
@@ -50,11 +48,6 @@ export default function Layout() {
               </Flex>
             </AlertDialog.Content>
           </AlertDialog.Root>
-          {isDebugMode ? (
-            <a href={`/game/${botId}/setup`} color="red">
-              Setup again
-            </a>
-          ) : null}
         </Heading>
 
         {botId === Bot.WOODENBOT && <WoodenbotDifficultyLevelButton />}

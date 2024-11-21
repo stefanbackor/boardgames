@@ -4,6 +4,7 @@ import {
   Heading,
   RadioCards,
   Section,
+  Strong,
   Text,
 } from '@radix-ui/themes'
 import type { MetaFunction } from '@remix-run/node'
@@ -56,8 +57,8 @@ export default function Index() {
                   Woodenbot
                 </Heading>
                 <Text color="gray">
-                  Play as an <Text weight="bold">Ironclad</Text> against
-                  tree-hugging Woodenbot.
+                  Play as an <Strong>Ironclad</Strong> against tree-hugging
+                  Woodenbot.
                 </Text>
               </Flex>
             </RadioCards.Item>
@@ -70,13 +71,18 @@ export default function Index() {
                   Ironbot
                 </Heading>
                 <Text color="gray">
-                  Play as a Woodwalker against ruthless Ironbot. Soon.
+                  Play as a <Strong>Woodwalker</Strong> against ruthless
+                  Ironbot.
                 </Text>
               </Flex>
             </RadioCards.Item>
           </RadioCards.Root>
 
-          <Button size="3" onClick={onConfirm}>
+          <Button
+            size="3"
+            onClick={onConfirm}
+            style={{ cursor: 'var(--cursor-link)' }}
+          >
             Let&apos;s go
           </Button>
         </Flex>

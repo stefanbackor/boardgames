@@ -1,11 +1,8 @@
 import { useCallback, useRef } from 'react'
 
-import { IBDifficulty } from '~/constants/ironbot'
-import { WBDifficulty, WBDifficultyLevel } from '~/constants/woodenbot'
+import { Difficulty, DifficultyLevel } from '~/constants/difficulty'
 import { BitSet } from '~/utils/BitSet'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-type Difficulty = WBDifficulty | IBDifficulty
 
 export const useDifficulty = () => {
   const [difficulty, setDifficulty] = useLocationState('difficulty')
@@ -50,12 +47,12 @@ export const useDifficulty = () => {
      */
     getDifficultyLevel: useCallback(
       () =>
-        Object.values(WBDifficulty)
+        Object.values(Difficulty)
           .filter((value) =>
             new BitSet(difficultyRef.current).test(Number(value)),
           )
           .reduce((acc, diff: Difficulty) => {
-            return acc + WBDifficultyLevel[diff]
+            return acc + DifficultyLevel[diff]
           }, 0),
       [],
     ),

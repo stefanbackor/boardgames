@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { WBStance } from '~/constants/woodenbot'
+import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { NoChangeCallout } from './NoChangeCallout'
 
@@ -10,21 +11,11 @@ const meta: Meta<typeof NoChangeCallout> = {
   title: 'Components/NoChangeCallout',
   component: NoChangeCallout,
   parameters: {
-    routing: [{ path: '/:botId/:actionId' }],
-    routerOpts: {
-      initialEntries: [
-        {
-          pathname: '/woodenbot/1',
-          search: new URLSearchParams({
-            gameId: '123',
-            roundId: '456',
-          }).toString(),
-          state: {
-            woodenbot_action_stance: WBStance.DISRUPTIVE,
-          },
-        },
-      ],
-    },
+    ...memoryRouterParameters({
+      state: {
+        woodenbot_action_stance: WBStance.DISRUPTIVE,
+      },
+    }),
   },
 }
 

@@ -52,5 +52,6 @@ export type LocationState = {
   roller?: string // `DiceRoller` JSON export as a state of Magic die rolls.
   combat_defend_card?: IWCard | null // Current combat card for defense.
   no_change_crystals_done?: boolean // Flag to indicate that no change to game state (crystal gain) was done.
+  expended_unavailable_done?: boolean // Flag to indicate that bot has executed "unavailable card action".
 } & WoodenbotLocationState &
   IronBotLocationState

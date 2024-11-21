@@ -39,7 +39,7 @@ export const GameSetup = () => {
           <li>
             <Strong>
               Shuffle your deck and place it on the corresponding draw deck area
-              of your player board . Do the same for the bot’s deck.
+              of your player board.
             </Strong>
           </li>
           <li>
@@ -56,15 +56,6 @@ export const GameSetup = () => {
               Ironclad Fighters on each of the inner mountains adjacent to
               Ferrum.
             </Strong>
-          </li>
-          <li>
-            Open the Bot Control Aid so the Ironbot Stances and Action chart is
-            visible, and place it within your reach. Place a marker on the
-            Expansive Stance; this is the Stance the bot starts the game in.
-          </li>
-          <li>
-            Place the Ironbot Turn Procedure card (with the Alert side showing),
-            and the Magic die within your reach.
           </li>
           <li>
             Place all the remaining components near the board, within your

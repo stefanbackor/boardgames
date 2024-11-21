@@ -1,13 +1,12 @@
 import { Box, Strong } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
+import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/KeywordButton'
+import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WBVisionLocatePurpose } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
-
-import { ExecuteButton } from '../ExecuteButton'
-import { Keyword } from '../KeywordButton'
-import { VisionCardBadge } from './VisionCardBadge'
 
 type Props = {
   purpose: WBVisionLocatePurpose

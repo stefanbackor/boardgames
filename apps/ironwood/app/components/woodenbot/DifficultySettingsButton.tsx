@@ -9,7 +9,7 @@ import {
 } from '@radix-ui/themes'
 import { useCallback, useState } from 'react'
 
-import { WBDifficulty } from '~/constants/woodenbot'
+import { Difficulty } from '~/constants/difficulty'
 import { useDifficulty } from '~/hooks/useDifficulty'
 
 import { ModalDialog } from '../ModalDialog'
@@ -19,31 +19,31 @@ export const DifficultySettingsButton = () => {
     useDifficulty()
 
   const [valuesMain, setValuesMain] = useState<string[]>(() =>
-    Object.values(WBDifficulty)
+    Object.values(Difficulty)
       .filter(
         (value) =>
           value in
           [
-            WBDifficulty.RESOLVE_RED_ACTIONS,
-            WBDifficulty.ADD_EXTRA_SPIRIT_CUBES,
-            WBDifficulty.ADD_EXTRA_SPECIAL_CARDS,
-            WBDifficulty.REMOVE_FOUNDATIONS,
+            Difficulty.RESOLVE_RED_ACTIONS,
+            Difficulty.ADD_EXTRA_SPECIAL_ELEMENT,
+            Difficulty.ADD_EXTRA_SPECIAL_CARDS,
+            Difficulty.FOUNDATIONS,
           ],
       )
       .map((value) => (hasDifficulty(value) ? value : '')),
   )
   const [valuesExtraFighters, setValuesExtraFighters] = useState<string>(() =>
-    hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE)
-      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE
-      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO)
-      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO
-      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE)
-      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE
-      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR)
-      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR
-      : hasDifficulty(WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL)
-      ? WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL
-      : '',
+    hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_ONE)
+      ? Difficulty.ADD_EXTRA_WARRIOR_TO_ONE
+      : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_TWO)
+        ? Difficulty.ADD_EXTRA_WARRIOR_TO_TWO
+        : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_THREE)
+          ? Difficulty.ADD_EXTRA_WARRIOR_TO_THREE
+          : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR)
+            ? Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR
+            : hasDifficulty(Difficulty.ADD_EXTRA_WARRIOR_TO_ALL)
+              ? Difficulty.ADD_EXTRA_WARRIOR_TO_ALL
+              : '',
   )
 
   const onReset = useCallback(() => {
@@ -56,7 +56,7 @@ export const DifficultySettingsButton = () => {
     const values = [...valuesMain, valuesExtraFighters].filter(Boolean)
 
     resetDifficulty()
-    values.forEach((value) => setDifficulty(value as WBDifficulty))
+    values.forEach((value) => setDifficulty(value as Difficulty))
   }, [resetDifficulty, setDifficulty, valuesExtraFighters, valuesMain])
 
   return (
@@ -94,20 +94,20 @@ export const DifficultySettingsButton = () => {
               setValuesMain(values.filter(Boolean))
             }}
           >
-            <CheckboxCards.Item value={WBDifficulty.RESOLVE_RED_ACTIONS}>
+            <CheckboxCards.Item value={Difficulty.RESOLVE_RED_ACTIONS}>
               Do not ignore, but resolve the action icons in red when instructed
               (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WBDifficulty.ADD_EXTRA_SPIRIT_CUBES}>
+            <CheckboxCards.Item value={Difficulty.ADD_EXTRA_SPECIAL_ELEMENT}>
               During setup, place 2 markers next to the Spirits of the Forest
               card (3&nbsp;levels). (Do not remove a marker in the first
               preparation phase.)
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WBDifficulty.ADD_EXTRA_SPECIAL_CARDS}>
+            <CheckboxCards.Item value={Difficulty.ADD_EXTRA_SPECIAL_CARDS}>
               During setup, shuffle 4 special cards (instead of 2) into the
               bot’s hand. (2&nbsp;levels).
             </CheckboxCards.Item>
-            <CheckboxCards.Item value={WBDifficulty.REMOVE_FOUNDATIONS}>
+            <CheckboxCards.Item value={Difficulty.FOUNDATIONS}>
               During setup, remove 2 foundations from your player mat and put
               them back in the gamebox (3&nbsp;levels).
             </CheckboxCards.Item>
@@ -121,33 +121,25 @@ export const DifficultySettingsButton = () => {
                   defaultValue={valuesExtraFighters}
                   onValueChange={(value) => setValuesExtraFighters(value)}
                 >
-                  <RadioGroup.Item
-                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ONE}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_ONE}>
                     1 Woodwalker Fighter to a random outer forest
                     (1&nbsp;level).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_TWO}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_TWO}>
                     1 Woodwalker Fighter to two different random outer forests
                     (2&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item
-                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_THREE}
+                    value={Difficulty.ADD_EXTRA_WARRIOR_TO_THREE}
                   >
                     1 Woodwalker Fighter to three different random outer forests
                     (3&nbsp;levels).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_FOUR}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_FOUR}>
                     1 Woodwalker Fighter to four different random outer forests
                     (4&nbsp;levels).
                   </RadioGroup.Item>
-                  <RadioGroup.Item
-                    value={WBDifficulty.ADD_EXTRA_WOODWALKER_TO_ALL}
-                  >
+                  <RadioGroup.Item value={Difficulty.ADD_EXTRA_WARRIOR_TO_ALL}>
                     1 Woodwalker Fighter to each outer forest (5&nbsp;levels).
                   </RadioGroup.Item>
                   <RadioGroup.Item value="">None.</RadioGroup.Item>

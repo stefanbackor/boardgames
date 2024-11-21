@@ -1,24 +1,24 @@
 import { Box, Flex, Text } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
+import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/KeywordButton'
 import { IBTurnProcedure } from '~/constants/ironbot'
 import { useTurnProcedure } from '~/hooks/ironbot/useTurnProcedure'
 import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { ExecuteButton } from '../ExecuteButton'
-import { Keyword } from '../KeywordButton'
 import { WagerAttackCardButton } from './WagerAttackCardButton'
 
 export const RoundActionAlertAggressive = () => {
   const [crystals] = useLocationState('crystals')
   const [done, setDone] = useLocationState('ironbot_aggressive_alert_done')
-  const { turnProcedure, flipTurnProcedure } = useTurnProcedure()
+  const { turnProcedure, setNextTurnProcedure } = useTurnProcedure()
 
   const onExecute = useCallback(() => {
-    flipTurnProcedure()
+    setNextTurnProcedure(IBTurnProcedure.EXHAUSTED)
     setDone(true)
-  }, [flipTurnProcedure, setDone])
+  }, [setNextTurnProcedure, setDone])
 
   return (
     <>
@@ -43,12 +43,18 @@ export const RoundActionAlertAggressive = () => {
             {crystals >= 5 ? (
               <>
                 Otherwise, it moves to <Keyword.Chase />, then{' '}
-                <Keyword.IronbotAttacks /> (if able).
+                <Keyword.IronbotAttacks
+                  purpose={WagerCardPurpose.ATTACK_AGGRESSIVE}
+                />{' '}
+                (if able).
               </>
             ) : (
               <>
                 <Keyword.Ironbot /> moves to <Keyword.Chase />, then{' '}
-                <Keyword.IronbotAttacks /> (if able).
+                <Keyword.IronbotAttacks
+                  purpose={WagerCardPurpose.ATTACK_AGGRESSIVE}
+                />{' '}
+                (if able).
               </>
             )}
 

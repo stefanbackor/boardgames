@@ -1,7 +1,6 @@
 import { useCallback, useRef } from 'react'
 
-import { IBDifficulty } from '~/constants/ironbot'
-import { WBDifficulty } from '~/constants/woodenbot'
+import { Difficulty } from '~/constants/difficulty'
 import { useDeck } from '~/hooks/useDeck'
 import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
@@ -32,10 +31,10 @@ export const usePrepareRound = () => {
         prepareRoundCards(2)
 
         if (roundId === '1') {
-          if (hasDifficulty(WBDifficulty.ADD_EXTRA_SPIRIT_CUBES)) {
+          if (hasDifficulty(Difficulty.ADD_EXTRA_SPECIAL_ELEMENT)) {
             setSpiritCubes(2)
           }
-          if (hasDifficulty(WBDifficulty.ADD_EXTRA_SPECIAL_CARDS)) {
+          if (hasDifficulty(Difficulty.ADD_EXTRA_SPECIAL_CARDS)) {
             prepareRoundCards(2)
           }
         }
@@ -46,7 +45,7 @@ export const usePrepareRound = () => {
         prepareRoundCards(2)
 
         if (roundId === '1') {
-          if (hasDifficulty(IBDifficulty.ADD_EXTRA_SPECIAL_CARDS)) {
+          if (hasDifficulty(Difficulty.ADD_EXTRA_SPECIAL_CARDS)) {
             prepareRoundCards(2)
           }
         }

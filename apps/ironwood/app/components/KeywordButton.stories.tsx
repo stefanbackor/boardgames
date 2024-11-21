@@ -7,7 +7,7 @@ import { Keyword } from './KeywordButton'
 type Story = StoryObj<typeof Keyword>
 
 const meta: Meta<typeof Keyword> = {
-  title: 'Woodenbot/Keywords',
+  title: 'Components/Keywords',
   parameters: {},
 }
 
@@ -17,6 +17,9 @@ export const Buttons: Story = {
   render: () => (
     <Flex gap="3" direction="column" justify="start" align="start">
       {Object.entries(Keyword).map(([name, Component]) => (
+        // TODO: Fix this. Create each keyword story separately
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         <Component key={name} count="1" />
       ))}
     </Flex>

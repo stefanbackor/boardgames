@@ -40,6 +40,7 @@ export const LinkNext = (props: LinkProps) => {
         'difficulty',
         'woodenbot_spirit_cubes',
         'woodenbot_vision_cards',
+        'ironbot_action_stance',
         'ironbot_1_turn_procedure',
         'ironbot_2_turn_procedure',
         'ironbot_3_turn_procedure',

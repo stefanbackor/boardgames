@@ -10,7 +10,7 @@ import { Bot, IWCard, Pile } from '../utils/state/types'
 import { useLocationState } from '../utils/state/useLocationState'
 import { useGameParams } from './useGameParams'
 
-export const PILE_PAIRS = [
+export const ACTION_PILE_PAIRS = [
   [Pile.ACTION1_SPECIAL, Pile.ACTION1_BASE],
   [Pile.ACTION2_SPECIAL, Pile.ACTION2_BASE],
   [Pile.ACTION3_SPECIAL, Pile.ACTION3_BASE],
@@ -57,14 +57,14 @@ export const useDeck = () => {
 
   const [cardsJSON, setCardsJSON] = useLocationState('cards')
 
-  const roundActionDoneRef = useRef<Array<boolean>>([])
+  const roundActionDoneRef = useRef<Array<IWCard | null>>([])
 
   const [deck, setDeck] = useState<Decker<IWCard, Pile>>(
     cardsJSON
       ? loadDeck(cardsJSON)
       : botId === Bot.WOODENBOT
-      ? createWoodenbotDeck()
-      : createIronbotDeck(),
+        ? createWoodenbotDeck()
+        : createIronbotDeck(),
   )
 
   useEffect(() => {
@@ -147,28 +147,32 @@ export const useDeck = () => {
       (actionId: string, once = true) => {
         const actionIndex = parseInt(actionId) - 1
 
-        const destPileSpecial = PILE_PAIRS[actionIndex][0]
-        const destPileBase = PILE_PAIRS[actionIndex][1]
+        const destPileSpecial = ACTION_PILE_PAIRS[actionIndex][0]
+        const destPileBase = ACTION_PILE_PAIRS[actionIndex][1]
 
         if (
           once &&
-          (roundActionDoneRef.current[actionIndex] ||
+          (roundActionDoneRef.current[actionIndex] !== undefined ||
             deck.size(destPileSpecial) ||
             deck.size(destPileBase))
         ) {
-          return
+          return roundActionDoneRef.current[actionIndex]
         }
 
-        drawFromHand(deck, destPileSpecial, destPileBase)
+        const card = drawFromHand(deck, destPileSpecial, destPileBase)
 
         deckCommit()
-        roundActionDoneRef.current.splice(actionIndex, 1, true)
+        roundActionDoneRef.current.splice(actionIndex, 1, card)
+
+        return card
       },
       [deck, deckCommit],
     ),
 
     /**
-     * Wager a card for combat from hand to a discard pile. Null if no cards left.
+     * Wager a card for combat. Top or random from hand to a discard pile.
+     * Null if no cards left.
+     * @returns card | null
      */
     wagerCard: useCallback(() => {
       const card = drawFromHand(deck, Pile.DISCARD_SPECIAL, Pile.DISCARD_BASE)

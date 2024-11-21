@@ -27,7 +27,7 @@ export const ExecuteButton = forwardRef<HTMLButtonElement, Props>(
         data-testid={testId || 'execute-button'}
       >
         {done && <CheckIcon />}
-        {done ? 'Done' : label ?? 'Execute'}
+        {done ? 'Done' : (label ?? 'Execute')}
       </Button>
     )
   },

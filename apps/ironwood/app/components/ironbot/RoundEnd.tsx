@@ -1,10 +1,9 @@
 import { Badge, Box, Heading } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
+import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/KeywordButton'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { ExecuteButton } from '../ExecuteButton'
-import { Keyword } from '../KeywordButton'
 
 export const RoundEnd = () => {
   const [crystals, setCrystals] = useLocationState('crystals')
@@ -15,7 +14,7 @@ export const RoundEnd = () => {
     'round_end_recruitment_crystals',
   )
 
-  // 3 crystals are necessary to save after recruiting is done.
+  // 3 crystals are necessary to remain after recruiting is done.
   const crystalsAvailable = Math.max(crystals - 3, 0)
   const recruitNumbers = Math.floor(
     (recruitmentCrystals || crystalsAvailable) / 2,
@@ -43,38 +42,46 @@ export const RoundEnd = () => {
       </Box>
       <Heading as="h3">Recruitment</Heading>
 
-      <Box>
-        Recruit{' '}
-        {recruitNumbers > 0 ? <Badge size="3">{recruitNumbers}</Badge> : 0}{' '}
-        <Keyword.WoodwalkerWarrior
-          hideCount={true}
-          count={recruitNumbers.toString()}
-        />{' '}
-        according to instructions bellow and click execute for crystal
-        deduction.
-      </Box>
-      <Box>
-        <ExecuteButton
-          done={!recruitNumbers || recruitmentDone}
-          onClick={onRecruitment}
-        />
-      </Box>
-
-      <Box>
-        Use the following priority list when recruiting for the Ironbot, placing
-        an Ironclad Fighter at the indicated location:
-        <ul>
-          <li>Ferrum, if there are less than 3 Fighters in Ferrum</li>
-          <li>
-            The Forge with the smallest Ironclad Warband (including Ferrum)
-          </li>
-          <li>
-            In case of a tie, use the <Keyword.MagicDie />
-          </li>
-        </ul>
-        Repeat this (evaluating where to recruit at again) until the bot stops
-        recruiting.
-      </Box>
+      {recruitNumbers === 0 ? (
+        <Box>
+          Not enough crystals. No{' '}
+          <Keyword.IroncladWarrior hideCount count="0" /> recruited.
+        </Box>
+      ) : (
+        <>
+          <Box>
+            Recruit{' '}
+            {recruitNumbers > 0 ? <Badge size="3">{recruitNumbers}</Badge> : 0}{' '}
+            <Keyword.IroncladWarrior
+              hideCount={true}
+              count={recruitNumbers.toString()}
+            />{' '}
+            according to instructions bellow and click execute for crystal
+            deduction.
+          </Box>
+          <Box>
+            <ExecuteButton
+              done={!recruitNumbers || recruitmentDone}
+              onClick={onRecruitment}
+            />
+          </Box>
+          <Box>
+            Use the following priority list when recruiting for the Ironbot,
+            placing an Ironclad Fighter at the indicated location:
+            <ul>
+              <li>Ferrum, if there are less than 3 Fighters in Ferrum</li>
+              <li>
+                The Forge with the smallest Ironclad Warband (including Ferrum)
+              </li>
+              <li>
+                In case of a tie, use the <Keyword.MagicDie />
+              </li>
+            </ul>
+            Repeat this (evaluating where to recruit at again) until the bot
+            stops recruiting.
+          </Box>
+        </>
+      )}
     </>
   )
 }

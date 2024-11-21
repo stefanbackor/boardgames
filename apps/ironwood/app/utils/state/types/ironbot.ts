@@ -7,9 +7,10 @@ export type LocationState = {
   ironbot_1_turn_procedure?: IBTurnProcedure // 1st turn "turn procedure" for Ironbot.
   ironbot_2_turn_procedure?: IBTurnProcedure // 2nd turn "turn procedure" for Ironbot.
   ironbot_3_turn_procedure?: IBTurnProcedure // 3rd turn "turn procedure" for Ironbot.
-  ironbot_action_stance?: IBStance // Current round action stance for Ironbot.
+  ironbot_action_stance: IBStance // Current round action stance for Ironbot.
 
   ironbot_attack_aggressive?: IWCard | null // Current combat card for "aggressive" stance in second step.
+  ironbot_attack_battle_card?: IWCard | null // Current combat card for "battle" card action.
   ironbot_attack_compass_card?: IWCard | null // Current combat card for "compass" card action.
   ironbot_attack_forge_card?: IWCard | null // Current combat card for "forge" card action.
   ironbot_attack_hit_card?: IWCard | null // Current combat card for "hit" card action.
@@ -22,5 +23,5 @@ export type LocationState = {
   ironbot_expended_crystals_action_done?: boolean // Flag to indicate that Ironbot has executed expended card's "crystals" action.
   ironbot_expended_card_action_done?: boolean // Flag to indicate that Ironbot has executed expended card's "card" action.
   ironbot_expended_forge_action_done?: boolean // Flag to indicate that Ironbot has executed expended card's "forge" action.
-  ironbot_expended_unavailable_done?: boolean // Flag to indicate that Ironbot has executed expended card's "unavailable" action.
+  ironbot_expended_shield_action_done?: boolean // Flag to indicate that Ironbot has executed expended card's "shield" action.
 }

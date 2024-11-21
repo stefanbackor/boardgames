@@ -1,5 +1,4 @@
-import { IBDifficulty } from '~/constants/ironbot'
-import { WBDifficulty } from '~/constants/woodenbot'
+import { Difficulty } from '~/constants/difficulty'
 
 import { BitSet } from '../BitSet'
 
@@ -8,9 +7,7 @@ import { BitSet } from '../BitSet'
  * @param diff
  * @returns
  */
-export function testingSetDifficultyValue(
-  diffs: Array<WBDifficulty> | Array<IBDifficulty>,
-) {
+export function testingSetDifficultyValue(diffs: Array<Difficulty>) {
   const bs = new BitSet()
   diffs.forEach((diff) => {
     bs.set(Number(diff))

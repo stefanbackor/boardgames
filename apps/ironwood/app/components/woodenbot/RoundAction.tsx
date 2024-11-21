@@ -1,4 +1,11 @@
-import { Box, Flex, Heading, RadioCards, Text } from '@radix-ui/themes'
+import {
+  Box,
+  Flex,
+  Heading,
+  RadioCards,
+  Separator,
+  Text,
+} from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { WBStance } from '~/constants/woodenbot'
@@ -89,16 +96,17 @@ export const RoundAction = () => {
         {stance === WBStance.DISRUPTIVE ? <RoundActionDisruptive /> : null}
         {stance === WBStance.EXALTED ? <RoundActionExalted /> : null}
 
-        {stance && <NoChangeCallout />}
-
         <NoChangeCallout />
-
-        {stance && (
-          <Flex justify="center">
-            <Heading>Now take your turn.</Heading>
-          </Flex>
-        )}
       </Flex>
+      {stance && (
+        <>
+          <Separator size="4" />
+          <Flex direction="column" justify="center" align="center" my="9">
+            <Heading>Now take your turn.</Heading>
+            And proceed to next action.
+          </Flex>
+        </>
+      )}
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { Button, Flex, Heading } from '@radix-ui/themes'
+import { Button, Flex, Heading, Separator } from '@radix-ui/themes'
 import { useEffect } from 'react'
 
 import { BotHand } from '~/components/BotHand'
@@ -20,27 +20,34 @@ export default function Page() {
     prepareRound()
   }, [prepareRound])
 
+  const Navbar = (
+    <NavBar>
+      <Button asChild>
+        <LinkNext
+          to={`/game/${botId}/round/action/1`}
+          params={{ gameId, roundId }}
+        >
+          Take 1st Action
+        </LinkNext>
+      </Button>
+    </NavBar>
+  )
+
   return (
     <>
       <BotHand />
       <Flex direction="column" gap="3">
-        <NavBar>
-          <Button asChild>
-            <LinkNext
-              to={`/game/${botId}/round/action/1`}
-              params={{ gameId, roundId }}
-            >
-              Take Action #1
-            </LinkNext>
-          </Button>
-        </NavBar>
+        {Navbar}
 
-        <Heading size="8">Round Prepare</Heading>
+        <Heading size="8">Prepare Round</Heading>
+        <Separator size="4" />
 
         <Flex direction="column" gap="3">
           {botId === Bot.IRONBOT ? <IronbotRoundPrepare /> : null}
           {botId === Bot.WOODENBOT ? <WoodenbotRoundPrepare /> : null}
         </Flex>
+
+        {Navbar}
       </Flex>
     </>
   )
