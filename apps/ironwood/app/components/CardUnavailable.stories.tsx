@@ -32,6 +32,6 @@ Default.play = async ({ canvasElement, storyGlobals: { router } }) => {
   const state = router.state.location.state
 
   expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
-  expect(state.woodenbot_expended_unavailable_done).toBe(true)
+  expect(state.expended_unavailable_done).toBe(true)
   expect(state.crystals).toBe(1)
 }
