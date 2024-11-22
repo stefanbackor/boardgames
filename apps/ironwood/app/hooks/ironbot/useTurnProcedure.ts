@@ -12,45 +12,37 @@ import { useLocationState } from '~/utils/state/useLocationState'
 export const useTurnProcedure = () => {
   const { actionId } = useGameParams()
 
-  const [turnProcedure] = useLocationState(
+  const [turnProcedure, setTurnProcedure] = useLocationState(
     actionId === '1'
       ? 'ironbot_1_turn_procedure'
       : actionId === '2'
-      ? 'ironbot_2_turn_procedure'
-      : 'ironbot_3_turn_procedure',
+        ? 'ironbot_2_turn_procedure'
+        : 'ironbot_3_turn_procedure',
   )
-  const [, setTurnProcedure] = useLocationState(
+  const [, setNextTurnProcedure] = useLocationState(
     actionId === '1'
       ? 'ironbot_2_turn_procedure'
       : actionId === '2'
-      ? 'ironbot_3_turn_procedure'
-      : 'ironbot_1_turn_procedure',
-  )
-
-  const flipTurnProcedure = useCallback(() => {
-    console.log(
-      'flipTurnProcedure',
-      turnProcedure,
-      actionId,
-      turnProcedure === IBTurnProcedure.ALERT
-        ? IBTurnProcedure.EXHAUSTED
-        : IBTurnProcedure.ALERT,
-      actionId === '1'
-        ? 'ironbot_2_turn_procedure'
-        : actionId === '2'
         ? 'ironbot_3_turn_procedure'
         : 'ironbot_1_turn_procedure',
-    )
-    setTurnProcedure(
+  )
+
+  const flipNextTurnProcedure = useCallback(() => {
+    setNextTurnProcedure(
       turnProcedure === IBTurnProcedure.ALERT
         ? IBTurnProcedure.EXHAUSTED
         : IBTurnProcedure.ALERT,
     )
-  }, [actionId, setTurnProcedure, turnProcedure])
+  }, [setNextTurnProcedure, turnProcedure])
 
   return {
+    /** Current action's turn procedure */
     turnProcedure,
+    /** Set current action's turn procedure */
     setTurnProcedure,
-    flipTurnProcedure,
+    /** Set next action's turn procedure */
+    setNextTurnProcedure,
+    /** Flip the next action's turn procedure to the opposite */
+    flipNextTurnProcedure,
   }
 }

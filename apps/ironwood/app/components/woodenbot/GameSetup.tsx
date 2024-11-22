@@ -41,7 +41,7 @@ export const GameSetup = () => {
             From your own deck, remove cards with reference numbers{' '}
             <Strong>IC13, IC17, IC27, IC33, IC36</Strong>. Then, shuffle your
             deck and place it on the corresponding draw deck area of your player
-            board . Do the same for the bot’s deck.
+            board.
           </li>
           <li>
             Shuffle the 4 vision cards showing an inner mountain to create the

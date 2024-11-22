@@ -6,6 +6,7 @@ import { ModalDialog } from '~/components/ModalDialog'
 import type { Props as WarriorCountProps } from '~/components/WarriorCount'
 import { WarriorCount } from '~/components/WarriorCount'
 import { WWWarriorType } from '~/constants/woodenbot'
+import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
 
 import { Attack as IronbotAttack } from './ironbot/keywords/content/Attack'
 import { Chase } from './ironbot/keywords/content/Chase'
@@ -13,6 +14,7 @@ import { Expand } from './ironbot/keywords/content/Expand'
 import { MovingDrill } from './ironbot/keywords/content/MovingDrill'
 import { Protect } from './ironbot/keywords/content/Protect'
 import { Recruits as IronbotRecruits } from './ironbot/keywords/content/Recruits'
+import { WarbandInFocus } from './ironbot/keywords/content/WarbandInFocus'
 // import { WagerButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { Attack as WoodenbotAttack } from './woodenbot/keywords/content/Attack'
 import { Discovers } from './woodenbot/keywords/content/Discovers'
@@ -90,14 +92,14 @@ export const Keyword = {
           &nbsp;
         </>
       )}
-      {parseInt(count) > 1 ? `Ironclad Warriors` : `Ironclad Warrior`}{' '}
+      {parseInt(count) === 1 ? `Ironclad Warrior` : `Ironclad Warriors`}{' '}
     </KeywordInline>
   ),
   Mountain: () => <KeywordInline>Mountain</KeywordInline>,
   IroncladDrill: () => <KeywordInline>Drill</KeywordInline>,
   Drill: () => (
     <ModalDialog
-      title={<Text color="red">Drill</Text>}
+      title={<Text color="red">Moving Drill</Text>}
       trigger={<KeywordButton color="red">Drill</KeywordButton>}
     >
       <MovingDrill />
@@ -127,7 +129,15 @@ export const Keyword = {
       <Expand />
     </ModalDialog>
   ),
-  IronbotAttacks: () => (
+  WarbandInFocus: () => (
+    <ModalDialog
+      title={<Text color="red">Warband in focus</Text>}
+      trigger={<KeywordButton color="red">Warband in focus</KeywordButton>}
+    >
+      <WarbandInFocus />
+    </ModalDialog>
+  ),
+  IronbotAttacks: ({ purpose }: { purpose: WagerCardPurpose }) => (
     <ModalDialog
       title={<Text color="blue">Attack</Text>}
       trigger={
@@ -136,7 +146,7 @@ export const Keyword = {
         </KeywordButton>
       }
     >
-      <IronbotAttack />
+      <IronbotAttack purpose={purpose} />
     </ModalDialog>
   ),
   IronbotRecruits: ({ count }: { count: string }) => (
@@ -167,7 +177,7 @@ export const Keyword = {
   SpiritCube: ({ count }: { count?: string }) => (
     <KeywordInline>
       {count ? <>{count}&nbsp;</> : null}
-      {count && parseInt(count) > 1 ? `Spirit Cubes` : `Spirit Cube`}
+      {count && parseInt(count) === 1 ? `Spirit Cube` : `Spirit Cubes`}
     </KeywordInline>
   ),
   WoodwalkerWarrior: ({
@@ -181,7 +191,9 @@ export const Keyword = {
           &nbsp;
         </>
       )}
-      {parseInt(count) > 1 ? `Woodwalker Warriors` : `Woodwalker Warrior`}{' '}
+      {parseInt(count) === 1
+        ? `Woodwalker Warrior`
+        : `Woodwalker Warriors`}{' '}
     </KeywordInline>
   ),
   Forrest: () => <KeywordInline>Forrest</KeywordInline>,

@@ -12,7 +12,7 @@ export const Footer = () => {
   // const { isDebugMode, toggleDebugMode } = useDebugMode()
 
   return (
-    <Flex direction="column" gap="5" py="5">
+    <Flex direction="column" gap="5" py="9">
       <Separator size="4" />
       <Text size="1" align="center">
         <Link

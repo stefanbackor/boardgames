@@ -1,6 +1,5 @@
 import {
-  ArrowDownIcon,
-  ArrowUpIcon,
+  ChevronDownIcon,
   ChevronUpIcon,
   DoubleArrowDownIcon,
   DoubleArrowUpIcon,
@@ -9,7 +8,6 @@ import {
   Badge,
   Button,
   ButtonProps,
-  ChevronDownIcon,
   Flex,
   Inset,
   Table,
@@ -39,7 +37,7 @@ const FACES = [
     hint: '(16,14,12)',
   },
   {
-    symbols: <ArrowUpIcon />,
+    symbols: <ChevronUpIcon />,
     badge: (
       <Badge size="1" highContrast color="blue">
         <ChevronUpIcon />
@@ -59,7 +57,7 @@ const FACES = [
     hint: '(2,4,6)',
   },
   {
-    symbols: <ArrowDownIcon />,
+    symbols: <ChevronDownIcon />,
     badge: (
       <Badge size="1" highContrast color="red">
         <ChevronDownIcon />

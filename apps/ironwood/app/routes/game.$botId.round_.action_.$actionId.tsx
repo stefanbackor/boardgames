@@ -49,8 +49,8 @@ export default function Page() {
         <NavBar>{NextActions}</NavBar>
         <Heading size="8">Action {actionId}/3</Heading>
 
-        {botId === Bot.IRONBOT ? <IBRoundAction /> : null}
-        {botId === Bot.WOODENBOT ? <WBRoundAction /> : null}
+        {botId === Bot.IRONBOT && <IBRoundAction />}
+        {botId === Bot.WOODENBOT && <WBRoundAction />}
 
         <Separator size="4" />
         <NavBar>{NextActions}</NavBar>

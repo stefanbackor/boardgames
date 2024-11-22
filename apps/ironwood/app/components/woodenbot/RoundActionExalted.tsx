@@ -1,7 +1,7 @@
 import { Flex, Strong } from '@radix-ui/themes'
 
+import { Expend } from '../Expend'
 import { Keyword } from '../KeywordButton'
-import { Expend } from './Expend'
 
 export const RoundActionExalted = () => {
   return (

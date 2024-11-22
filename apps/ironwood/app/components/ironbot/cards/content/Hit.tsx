@@ -22,7 +22,9 @@ export const Hit = () => {
           <Keyword.Ironbot /> moves to <Keyword.Protect />.
         </>
       )}{' '}
-      <Keyword.Ironbot /> <Keyword.IronbotAttacks /> (if able).
+      <Keyword.Ironbot />{' '}
+      <Keyword.IronbotAttacks purpose={WagerCardPurpose.ATTACK_HIT} /> (if
+      able).
       <Box mt="2">
         <WagerAttackCardButton purpose={WagerCardPurpose.ATTACK_HIT} />
       </Box>

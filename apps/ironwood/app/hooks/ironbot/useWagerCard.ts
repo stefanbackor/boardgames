@@ -7,6 +7,7 @@ import { useDeck } from '../useDeck'
 
 export enum WagerCardPurpose {
   ATTACK_AGGRESSIVE,
+  ATTACK_BATTLE,
   ATTACK_COMPASS,
   ATTACK_FORGE,
   ATTACK_HIT,
@@ -19,6 +20,7 @@ export enum WagerCardPurpose {
  */
 const PURPOSE_STORES = {
   [WagerCardPurpose.ATTACK_AGGRESSIVE]: ['ironbot_attack_aggressive'] as const,
+  [WagerCardPurpose.ATTACK_BATTLE]: ['ironbot_attack_battle_card'] as const,
   [WagerCardPurpose.ATTACK_COMPASS]: ['ironbot_attack_compass_card'] as const,
   [WagerCardPurpose.ATTACK_FORGE]: ['ironbot_attack_forge_card'] as const,
   [WagerCardPurpose.ATTACK_HIT]: ['ironbot_attack_hit_card'] as const,

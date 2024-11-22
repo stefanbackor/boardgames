@@ -1,5 +1,5 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Callout, Flex, Separator } from '@radix-ui/themes'
+import { Box, Callout, DataList, Flex, Separator } from '@radix-ui/themes'
 
 import { WagerCardValues } from '~/components/WagerCardValues'
 import { useWagerCard } from '~/hooks/ironbot/useWagerCard'
@@ -34,9 +34,37 @@ export const WagerCardContent = ({
               </Callout.Text>
             </Callout.Root>
           ) : (
-            <Box py="6">
+            <Flex direction="column" gap="3" py="6">
               Click &quot;Confirm&quot; to draw bot&apos;s top card for combat.
-            </Box>
+              <Callout.Root color="brown">
+                <Callout.Icon>
+                  <InfoCircledIcon />
+                </Callout.Icon>
+                <Callout.Text>
+                  Stance modifiers will be applied:
+                  <DataList.Root
+                    size="1"
+                    mt="2"
+                    style={{ gap: 'var(--space-2)' }}
+                  >
+                    <DataList.Item>
+                      <DataList.Label minWidth="88px">Defensive</DataList.Label>
+                      <DataList.Value>+1 Defense</DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label minWidth="88px">
+                        Aggressive
+                      </DataList.Label>
+                      <DataList.Value>+1 Dominance</DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label minWidth="88px">Expansive</DataList.Label>
+                      <DataList.Value>+1 Damage</DataList.Value>
+                    </DataList.Item>
+                  </DataList.Root>
+                </Callout.Text>
+              </Callout.Root>
+            </Flex>
           )}
         </>
       )}
@@ -64,13 +92,25 @@ export const WagerCardContent = ({
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              If the bot wins and forces you to retreat, it forces you to move
-              away from the mountain that was involved in the combat (so your
-              retreating Warband is no longer adjacent). It moves you to or
-              towards a forest with a smaller (or no) Woodwalker Warband, but it
-              never moves you towards a forest with a Totem. Use the{' '}
-              <Keyword.MagicDie size="2" />
-              if multiple forests are tied.
+              If the bot wins and forces you to retreat, it moves you to forest:
+              <ul>
+                <li>away from mountain involved</li>
+                <li>away from totem</li>
+                <li>with smallest (or no) Woodwalker Warband</li>
+                <li>
+                  <Keyword.MagicDie size="2" />
+                </li>
+              </ul>
+            </Callout.Text>
+          </Callout.Root>
+
+          <Callout.Root size="1" color="brown">
+            <Callout.Icon>
+              <InfoCircledIcon />
+            </Callout.Icon>
+            <Callout.Text>
+              If no combat unit left on Ferrum after a battle, the bot recruits
+              1 there for free.
             </Callout.Text>
           </Callout.Root>
         </Flex>

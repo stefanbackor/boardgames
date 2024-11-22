@@ -1,11 +1,10 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Button, Callout, CheckboxCards, Flex } from '@radix-ui/themes'
+import { Button, Callout, CheckboxCards, Flex, Strong } from '@radix-ui/themes'
 
+import { ModalDialog } from '~/components/ModalDialog'
+import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WW_VISION_CARDS } from '~/constants/woodenbot'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { ModalDialog } from '../ModalDialog'
-import { VisionCardBadge } from '../woodenbot/VisionCardBadge'
 
 export const MarkMountainButton = () => {
   const allMountains = WW_VISION_CARDS
@@ -16,7 +15,11 @@ export const MarkMountainButton = () => {
   return (
     <ModalDialog
       title="Mark mountain"
-      trigger={<Button size="1">Mark mountain</Button>}
+      trigger={
+        <Button size="1" color="green">
+          Mark mountain
+        </Button>
+      }
     >
       <Flex direction="column" gap="2">
         <Callout.Root>
@@ -24,8 +27,8 @@ export const MarkMountainButton = () => {
             <InfoCircledIcon />
           </Callout.Icon>
           <Callout.Text>
-            Mark the mountains for vision cards that you have played, discarded,
-            or burned.
+            Mark the mountains for vision cards that you have{' '}
+            <Strong>played, discarded, or burned</Strong>.
           </Callout.Text>
         </Callout.Root>
 

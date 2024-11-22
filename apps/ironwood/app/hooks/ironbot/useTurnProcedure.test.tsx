@@ -39,7 +39,7 @@ describe('useTurnProcedure', () => {
   it('should flip the turn procedure for 2nd action', () => {
     const { result } = render('1')
     act(() => {
-      result.current.flipTurnProcedure()
+      result.current.flipNextTurnProcedure()
     })
     expect(result.current.turnProcedure).toBe(IBTurnProcedure.ALERT)
     expect(router.state.location.state['ironbot_2_turn_procedure']).toBe(
@@ -50,7 +50,7 @@ describe('useTurnProcedure', () => {
   it('should flip the turn procedure for 3rd action', () => {
     const { result: result2 } = render('2')
     act(() => {
-      result2.current.flipTurnProcedure()
+      result2.current.flipNextTurnProcedure()
     })
     expect(result2.current.turnProcedure).toBe(IBTurnProcedure.ALERT)
     expect(router.state.location.state['ironbot_3_turn_procedure']).toBe(
@@ -61,7 +61,7 @@ describe('useTurnProcedure', () => {
   it('should flip the turn procedure for 1st action', () => {
     const { result } = render('3')
     act(() => {
-      result.current.flipTurnProcedure()
+      result.current.flipNextTurnProcedure()
     })
     expect(result.current.turnProcedure).toBe(IBTurnProcedure.ALERT)
     expect(router.state.location.state['ironbot_1_turn_procedure']).toBe(

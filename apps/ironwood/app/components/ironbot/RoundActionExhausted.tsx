@@ -1,6 +1,6 @@
 import { Box } from '@radix-ui/themes'
 
-import { Expend } from './Expend'
+import { Expend } from '../Expend'
 
 export const RoundActionExhausted = () => {
   return (

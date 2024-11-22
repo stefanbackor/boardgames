@@ -21,7 +21,7 @@ export const UnmarkedMountains = () => {
         >
           <Box>
             <Text size="2">
-              <Strong>Marked to skip: </Strong>
+              <Strong>Skip marked mountains: </Strong>
             </Text>
           </Box>
           <Box>

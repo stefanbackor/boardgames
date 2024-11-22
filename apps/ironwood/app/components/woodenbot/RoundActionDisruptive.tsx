@@ -3,9 +3,9 @@ import { Box, Flex, Strong } from '@radix-ui/themes'
 import { WBVisionLocatePurpose } from '~/constants/woodenbot'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 
+import { useLocate } from '../../hooks/woodenbot/useLocate'
+import { Expend } from '../Expend'
 import { Keyword } from '../KeywordButton'
-import { Expend } from './Expend'
-import { useLocate } from './useLocate'
 import { WagerAttackCardButton } from './WagerAttackCardButton'
 
 export const RoundActionDisruptive = () => {

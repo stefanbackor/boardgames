@@ -14,9 +14,10 @@ export const Compass = () => {
     <>
       {stance === IBStance.AGGRESSIVE && (
         <Box>
-          <Keyword.Ironbot /> <Keyword.IronbotAttacks /> if adjacent to a
-          smaller <Keyword.WoodwalkerWarband /> with or adjacent to{' '}
-          <Keyword.Totem />. Otherwise: <Keyword.Ironbot /> moves to{' '}
+          <Keyword.Ironbot />{' '}
+          <Keyword.IronbotAttacks purpose={WagerCardPurpose.ATTACK_COMPASS} />{' '}
+          if adjacent to a smaller <Keyword.WoodwalkerWarband /> with or
+          adjacent to <Keyword.Totem />. Otherwise: <Keyword.Ironbot /> moves to{' '}
           <Keyword.Chase />.
           <Box mt="2">
             <WagerAttackCardButton purpose={WagerCardPurpose.ATTACK_COMPASS} />

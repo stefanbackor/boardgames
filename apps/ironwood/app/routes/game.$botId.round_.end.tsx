@@ -1,4 +1,4 @@
-import { Button, Flex, Heading } from '@radix-ui/themes'
+import { Button, Flex, Heading, Separator } from '@radix-ui/themes'
 
 import { BotHand } from '~/components/BotHand'
 import { RoundEnd as IronbotRoundEnd } from '~/components/ironbot/RoundEnd'
@@ -34,6 +34,7 @@ export default function Page() {
         </NavBar>
 
         <Heading size="8">Round End</Heading>
+        <Separator size="4" />
 
         <Flex direction="column" gap="3">
           {botId === Bot.IRONBOT ? <IronbotRoundEnd /> : null}

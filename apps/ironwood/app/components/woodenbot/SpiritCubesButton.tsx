@@ -21,7 +21,7 @@ export const SpiritCubesButton = () => {
   return (
     <ModalDialog
       title="Spirits of the Forest"
-      trigger={<Button>Add spirit cube</Button>}
+      trigger={<Button>Spirit cubes</Button>}
       action={
         <Flex direction="row" justify="center" gap="2">
           <Button variant="soft" onClick={onRemoveClick}>

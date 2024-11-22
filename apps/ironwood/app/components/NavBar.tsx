@@ -11,7 +11,7 @@ import { SpiritCubesButton } from './woodenbot/SpiritCubesButton'
 import { WagerDefenseCardButton as WoodenbotWagerDefenseCardButton } from './woodenbot/WagerDefenseCardButton'
 
 export const NavBar = ({ children }: PropsWithChildren) => {
-  const { botId, actionId } = useGameParams()
+  const { botId } = useGameParams()
 
   return (
     <Box
@@ -24,20 +24,12 @@ export const NavBar = ({ children }: PropsWithChildren) => {
     >
       <Flex py="3" gap="6" justify="between" align="end">
         <Flex gap="1" wrap="wrap">
-          {actionId && (
-            <>
-              <MagicDie />
-              {botId === Bot.IRONBOT && <IronbotWagerDefenseCardButton />}
-              {botId === Bot.WOODENBOT && <WoodenbotWagerDefenseCardButton />}
-            </>
-          )}
+          <MagicDie />
+          {botId === Bot.IRONBOT && <IronbotWagerDefenseCardButton />}
+          {botId === Bot.WOODENBOT && <WoodenbotWagerDefenseCardButton />}
+          <CrystalsButton />
 
-          {botId === Bot.WOODENBOT ? (
-            <>
-              <CrystalsButton />
-              <SpiritCubesButton />
-            </>
-          ) : null}
+          {botId === Bot.WOODENBOT && <SpiritCubesButton />}
         </Flex>
         {children}
       </Flex>

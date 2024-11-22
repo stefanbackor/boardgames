@@ -8,30 +8,21 @@ import {
 } from '~/constants/woodenbot'
 import { loadDeck } from '~/utils/deck/loadDeck'
 import { Pile } from '~/utils/state/types'
+import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { CardAction } from './CardAction'
 
 type Story = StoryObj<typeof CardAction>
 
 const meta: Meta<typeof CardAction> = {
-  title: 'Woodenbot/Cards/Actions/Disruptive',
+  title: 'Woodenbot/CardAction/Disruptive',
   component: CardAction,
   parameters: {
-    routing: [{ path: '/:botId/:actionId' }],
-    routerOpts: {
-      initialEntries: [
-        {
-          pathname: '/woodenbot/1',
-          search: new URLSearchParams({
-            gameId: '123',
-            roundId: '456',
-          }).toString(),
-          state: {
-            woodenbot_action_stance: WBStance.DISRUPTIVE,
-          },
-        },
-      ],
-    },
+    ...memoryRouterParameters({
+      state: {
+        woodenbot_action_stance: WBStance.DISRUPTIVE,
+      },
+    }),
   },
 }
 

@@ -24,6 +24,11 @@ body[data-bot='woodenbot'] {
   background-size: 1500px auto;
 }
 
+ol,
+ul {
+  margin: 0;
+}
+
 .radix-themes {
   /* Overriding default fonts */
   --default-font-family: 'Noto Serif', serif;

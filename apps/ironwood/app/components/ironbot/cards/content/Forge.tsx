@@ -34,8 +34,9 @@ export const Forge = () => {
         <Box>
           <Keyword.Ironbot /> spends 1 <Keyword.Crystal /> to{' '}
           <Keyword.IronbotRecruits count="1" />{' '}
-          <Keyword.IroncladWarrior count="1" />, then <Keyword.IronbotAttacks />{' '}
-          (if able).
+          <Keyword.IroncladWarrior count="1" />, then{' '}
+          <Keyword.IronbotAttacks purpose={WagerCardPurpose.ATTACK_FORGE} /> (if
+          able).
           <Flex mt="2" gap="2">
             <ExecuteButton
               disabled={crystals < 1}
@@ -49,21 +50,13 @@ export const Forge = () => {
       )}
       {stance === IBStance.DEFENSIVE && (
         <Box>
-          {crystals >= 5 ? (
-            <>
-              <Keyword.Ironbot />
-              spends 5 <Keyword.Crystal /> and flips a controlled{' '}
-              <Keyword.Foundation /> to the <Keyword.Forge /> side (if able)
-              <Box mt="2">
-                <ExecuteButton done={done} onClick={onExecuteDefensive} />
-              </Box>
-            </>
-          ) : (
-            <>
-              <Keyword.Ironbot /> <Keyword.IronbotRecruits count="1" />{' '}
-              <Keyword.IroncladWarrior count="1" />.
-            </>
-          )}
+          <Keyword.Ironbot /> spends 5 <Keyword.Crystal /> and flips a
+          controlled <Keyword.Foundation /> to the <Keyword.Forge /> side (if
+          able) or <Keyword.Ironbot /> <Keyword.IronbotRecruits count="1" />{' '}
+          <Keyword.IroncladWarrior count="1" />.
+          <Box mt="2">
+            <ExecuteButton done={done} onClick={onExecuteDefensive} />
+          </Box>
         </Box>
       )}
       {stance === IBStance.EXPANSIVE && (

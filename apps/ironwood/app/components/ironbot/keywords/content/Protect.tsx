@@ -9,6 +9,21 @@ export const Protect = () => {
       <Heading size="4">Target of the movement:</Heading>
 
       <ul>
+        <li>Ferrum if 0-2 units</li>
+        <li>
+          Foundation if Woodwalkers {'>'} Ironclads
+          <ul>
+            <li>Unmarked {'>'} marked</li>
+            <li>Smallest Ironclad Warband {'>'} largest</li>
+          </ul>
+        </li>
+        <li>Unmarked inner mountain</li>
+        <li>
+          <Keyword.MagicDie /> if tied.
+        </li>
+      </ul>
+
+      <ul>
         <Flex direction="column" gap="2">
           <li>Ferrum, if there are fewer than 3 units in Ferrum.</li>
           <li>
@@ -37,8 +52,8 @@ export const Protect = () => {
         A mountain without a Foundation and the largest Ironclad Warband
         adjacent to the target. If this is Ferrum, ignore 3 Ironclad Fighters
         there (as they would be left behind to protect Ferrum) and re- evaluate
-        the source of the movement. Use the Magic die if multiple are tied. In
-        the unlikely case of no viable source, the move is forfeit.
+        the source of the movement. Use the <Keyword.MagicDie /> if multiple are
+        tied. In the unlikely case of no viable source, the move is forfeit.
       </Box>
       <Box>
         Move all of the combat units <Strong>except one</Strong> (or three in
