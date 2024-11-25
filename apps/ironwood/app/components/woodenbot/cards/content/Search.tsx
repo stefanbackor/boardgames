@@ -33,7 +33,7 @@ export const Search = () => {
       {stance === WBStance.DISRUPTIVE && (
         <>
           <Box>
-            If <Keyword.WoodwalkerWarband /> on inner <Keyword.Forrest /> is
+            If <Keyword.WoodwalkerWarband /> on inner <Keyword.Forest /> is
             adjacent to possible & uncontrolled <Keyword.Mountain />:
             <Keyword.Woodenbot /> <Keyword.Discovers /> there.
             <Flex direction="column" align="start" gap="3">

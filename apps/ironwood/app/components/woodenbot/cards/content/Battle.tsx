@@ -21,7 +21,11 @@ export const Battle = () => {
             to <Keyword.Interfere count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_BATTLE}
+            />
+            :
             <ul>
               <li>
                 a controlled <Keyword.Foundation />
@@ -55,7 +59,11 @@ export const Battle = () => {
             to <Keyword.Secure count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_BATTLE}
+            />
+            :
             <ul>
               <li>
                 an <Keyword.IroncladWarband /> adjacent to <Keyword.Totem />

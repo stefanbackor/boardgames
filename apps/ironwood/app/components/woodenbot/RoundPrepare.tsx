@@ -37,7 +37,7 @@ export const RoundPrepare = () => (
       ongoing cards you have in play.
     </Box>
 
-    <Callout.Root color="green">
+    <Callout.Root color="brown">
       <Callout.Icon>
         <InfoCircledIcon />
       </Callout.Icon>

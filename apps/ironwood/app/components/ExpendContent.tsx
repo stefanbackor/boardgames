@@ -24,11 +24,11 @@ export const ExpendContent = ({ cards }: Props) => {
       {cards.length ? (
         cards.map((card) => (
           <Box key={card[0]}>
-            <Grid columns="60px min-content auto" width="auto" gap="3">
-              <Flex width="25%">
+            <Grid columns="min-content min-content auto" width="auto" gap="3">
+              <Flex>
                 <CardBadge card={card} />
               </Flex>
-              <Flex width="5px">
+              <Flex>
                 <Separator orientation="vertical" size="4" />
               </Flex>
               <Flex direction="column">

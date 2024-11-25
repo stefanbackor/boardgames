@@ -13,8 +13,8 @@ export const RoundActionExalted = () => {
           <Keyword.Secure count="5" /> and end bot&apos;s turn.
         </li>
         <li>
-          <Strong>Otherwise</Strong> follow the actions from <Keyword.Expend />{' '}
-          card bellow:
+          <Strong>Otherwise</Strong> follow the actions from expended card
+          bellow:
           <Expend />
         </li>
       </Flex>

@@ -1,13 +1,19 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Callout, Flex, Text } from '@radix-ui/themes'
+import { Box, Callout, Flex, Heading, Separator, Text } from '@radix-ui/themes'
+import { useState } from 'react'
 
+import { FullInstructionsButton } from '~/components/ironbot/keywords/content/common/FullInstructionsButton'
 import { Keyword } from '~/components/KeywordButton'
+
+import { PossibleMountains } from '../../PossibleMountains'
 
 type Props = {
   count: string
 }
 
 export const MovementSecure = ({ count }: Props) => {
+  const [full, setFull] = useState(false)
+
   return (
     <Flex direction="column" gap="3">
       <Callout.Root>
@@ -18,47 +24,94 @@ export const MovementSecure = ({ count }: Props) => {
           Move <Keyword.WoodwalkerWarrior count={count} />
         </Callout.Text>
       </Callout.Root>
-      <Text size="4">
-        Target of the movement, if a{' '}
-        <strong>Woodwalker Warband has a Totem</strong>:
-      </Text>
-      <ul>
+
+      <Heading>Target forest:</Heading>
+
+      <ol>
         <li>
-          An outer forest adjacent to the Totem (carrying the Totem with them).
+          Totem with Woodwalker
+          <ol>
+            <li>Outer forest + Totem</li>
+            <li>Inner forest to outer with {'<'} Ironclad adjacent + Totem</li>
+          </ol>
+        </li>
+
+        <li>
+          Totem on the board
+          <ol>
+            <li>Forest with Totem with {'>'} Woodwalkers adjacent</li>
+            <li>
+              Forest adjacent to Totem with {'>'}
+              Woodwalkers adjacent
+            </li>
+          </ol>
         </li>
         <li>
-          An inner forest adjacent to an outer forest with the smallest number
-          of Ironclad Fighters adjacent (carrying the Totem with them).
+          No Totem
+          <ul>
+            <li>Inner forest to outer</li>
+            <li>
+              Adjacent to a possible mountain
+              <PossibleMountains />
+            </li>
+            <li>uncontrolled {'>'} controlled</li>
+            <li>with {'>'} Woodwalkers adjacent</li>
+          </ul>
         </li>
-      </ul>
-      <Text size="4">
-        Target of the movement, if a{' '}
-        <strong>Totem is present on the board</strong>:
-      </Text>
-      <ul>
-        <li>
-          A forest with a Totem with the largest number of Woodwalker Fighters
-          adjacent.
-        </li>
-        <li>
-          An inner forest adjacent to a Totem with the largest number of
-          Woodwalker Fighters adjacent.
-        </li>
-      </ul>
-      <Text size="4">
-        Target of the movement, if <strong>no Totem</strong> is present on the
-        board:
-      </Text>
-      <ul>
-        <li>
-          An inner forest adjacent to an outer forest and adjacent to a possible
-          (preferable uncontrolled) mountain with the largest number of
-          Woodwalker Fighters adjacent.
-        </li>
-      </ul>
+      </ol>
+
       <Box>
         If multiple forests are tied, use the <Keyword.MagicDie />.
       </Box>
+
+      <FullInstructionsButton onClick={() => setFull(!full)} full={full} />
+
+      {full && (
+        <>
+          <Separator size="4" />
+          <Text size="4">
+            Target of the movement, if a{' '}
+            <strong>Woodwalker Warband has a Totem</strong>:
+          </Text>
+          <ul>
+            <li>
+              An outer forest adjacent to the Totem (carrying the Totem with
+              them).
+            </li>
+            <li>
+              An inner forest adjacent to an outer forest with the smallest
+              number of Ironclad Fighters adjacent (carrying the Totem with
+              them).
+            </li>
+          </ul>
+          <Text size="4">
+            Target of the movement, if a{' '}
+            <strong>Totem is present on the board</strong>:
+          </Text>
+          <ul>
+            <li>
+              A forest with a Totem with the largest number of Woodwalker
+              Fighters adjacent.
+            </li>
+            <li>
+              An inner forest adjacent to a Totem with the largest number of
+              Woodwalker Fighters adjacent.
+            </li>
+          </ul>
+          <Text size="4">
+            Target of the movement, if <strong>no Totem</strong> is present on
+            the board:
+          </Text>
+          <ul>
+            <li>
+              An inner forest adjacent to an outer forest and adjacent to a
+              possible (preferable uncontrolled) mountain with the largest
+              number of Woodwalker Fighters adjacent.
+            </li>
+          </ul>
+          <Box>If multiple forests are tied, use the Magic Die.</Box>
+        </>
+      )}
     </Flex>
   )
 }

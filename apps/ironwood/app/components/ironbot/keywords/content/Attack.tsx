@@ -39,7 +39,7 @@ export const Attack = ({ purpose }: Props) => {
 
       <ul>
         <li>attacks with largest adjacent Ironclad Warband</li>
-        <li>differential 0+!</li>
+        <li>differential {'>'} 0!</li>
       </ul>
 
       <Heading>Combat Procedure</Heading>
@@ -48,10 +48,11 @@ export const Attack = ({ purpose }: Props) => {
         <li>you wager card first (or skip)</li>
         <li>
           bot reveals wagered card
-          <Box mt="2">
+          <Box>
             <WagerAttackCardButton purpose={purpose} />
           </Box>
         </li>
+        <li>calculate damage and the victory</li>
       </ol>
 
       <FullInstructionsButton full={full} onClick={() => setFull(!full)} />

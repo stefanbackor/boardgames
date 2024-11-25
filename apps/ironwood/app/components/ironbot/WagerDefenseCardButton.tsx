@@ -28,7 +28,7 @@ export const WagerDefenseCardButton = () => {
   return (
     <ModalDialog
       title="Defense combat card"
-      trigger={<Button>Wager for defense</Button>}
+      trigger={<Button>Defense</Button>}
       action={
         combatCard === undefined &&
         stance && <Button onClick={onExecuteWager}>Confirm</Button>

@@ -53,7 +53,7 @@ export const RoundAction = () => {
       <Separator size="4" />
 
       <Flex direction="column" justify="center" align="center" my="9">
-        <Heading>Take your turn first.</Heading>
+        <Heading>You take your turn first.</Heading>
         Then scroll to reveal bot&apos;s action.
       </Flex>
 
@@ -62,13 +62,14 @@ export const RoundAction = () => {
       <Separator size="4" />
 
       <Flex direction="column" justify="center" align="center" my="9">
-        <Heading>Ironbot&apos;s turn </Heading>
+        <Heading>Ironbot&apos;s turn:</Heading>
       </Flex>
 
       <>
         <Flex direction="column" gap="3">
           <Box>
-            Check and set <Keyword.Ironbot /> stance from left to right:
+            Check and set <Keyword.Ironbot /> stance from left to right (top to
+            bottom):
           </Box>
           <RadioCards.Root
             key={actionId}
@@ -95,7 +96,7 @@ export const RoundAction = () => {
 
                 <Box>
                   If <Keyword.IroncladWarband /> is with <Keyword.Totem /> on
-                  the same <Keyword.Forrest />
+                  the same <Keyword.Forest />
                 </Box>
               </Flex>
             </RadioCards.Item>

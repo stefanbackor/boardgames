@@ -34,7 +34,7 @@ export const RoundPrepare = () => (
     </Box>
     <Heading as="h3">Remove markers</Heading>
     <Box>Remove 1 marker from all ongoing cards you have in play.</Box>
-    <Callout.Root color="green">
+    <Callout.Root color="brown">
       <Callout.Icon>
         <InfoCircledIcon />
       </Callout.Icon>

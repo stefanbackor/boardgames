@@ -1,5 +1,4 @@
-import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Button, Callout, CheckboxCards, Flex, Strong } from '@radix-ui/themes'
+import { Button, CheckboxCards, Flex } from '@radix-ui/themes'
 
 import { ModalDialog } from '~/components/ModalDialog'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
@@ -22,16 +21,6 @@ export const MarkMountainButton = () => {
       }
     >
       <Flex direction="column" gap="2">
-        <Callout.Root>
-          <Callout.Icon>
-            <InfoCircledIcon />
-          </Callout.Icon>
-          <Callout.Text>
-            Mark the mountains for vision cards that you have{' '}
-            <Strong>played, discarded, or burned</Strong>.
-          </Callout.Text>
-        </Callout.Root>
-
         <CheckboxCards.Root
           onValueChange={(values) => {
             setMarkedMountains(

@@ -1,5 +1,5 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Button, Callout, Flex } from '@radix-ui/themes'
+import { Box, Button, ButtonProps, Callout, Flex } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { useLocationState } from '~/utils/state/useLocationState'
@@ -7,21 +7,27 @@ import { useLocationState } from '~/utils/state/useLocationState'
 import { Keyword } from '../KeywordButton'
 import { ModalDialog } from '../ModalDialog'
 
-export const SpiritCubesButton = () => {
-  const [, setSpiritCubes] = useLocationState('woodenbot_spirit_cubes')
+type Props = {
+  buttonProps?: ButtonProps
+}
+
+export const SpiritCubesButton = ({ buttonProps }: Props) => {
+  const [spiritCubes, setSpiritCubes] = useLocationState(
+    'woodenbot_spirit_cubes',
+  )
 
   const onAddClick = useCallback(() => {
     setSpiritCubes((cubes) => cubes + 1)
   }, [setSpiritCubes])
 
   const onRemoveClick = useCallback(() => {
-    setSpiritCubes((cubes) => (cubes > 0 ? cubes - 1 : 0))
+    setSpiritCubes((cubes) => Math.max(cubes - 1, 0))
   }, [setSpiritCubes])
 
   return (
     <ModalDialog
       title="Spirits of the Forest"
-      trigger={<Button>Spirit cubes</Button>}
+      trigger={<Button {...buttonProps}>Spirit cubes ({spiritCubes})</Button>}
       action={
         <Flex direction="row" justify="center" gap="2">
           <Button variant="soft" onClick={onRemoveClick}>
