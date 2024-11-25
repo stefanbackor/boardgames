@@ -9,9 +9,8 @@ import {
 } from '@radix-ui/themes'
 import { Link, Outlet } from '@remix-run/react'
 
-import { DifficultyLevelButton as WoodenbotDifficultyLevelButton } from '~/components/woodenbot/DifficultyLevelButton'
+import { DifficultyLevelButton } from '~/components/DifficultyLevelButton'
 import { useGameParams } from '~/hooks/useGameParams'
-import { Bot } from '~/utils/state/types'
 
 export const meta = () => []
 
@@ -50,7 +49,7 @@ export default function Layout() {
           </AlertDialog.Root>
         </Heading>
 
-        {botId === Bot.WOODENBOT && <WoodenbotDifficultyLevelButton />}
+        <DifficultyLevelButton />
       </Flex>
       <Section size="1">
         <Outlet />

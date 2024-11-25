@@ -17,9 +17,7 @@ export const RoundActionDisruptive = () => {
     <ol>
       <Flex direction="column" gap="2">
         <li>
-          <Keyword.Locate /> a <Keyword.Totem /> (if a <Keyword.Totem /> is
-          discovered, expend a card and end bot&apos;s turn)
-          {renderLocateAction()}
+          <Keyword.Locate /> a <Keyword.Totem />.{renderLocateAction()}
         </li>
 
         {!shouldDisplayDiscovery ? (
@@ -32,9 +30,11 @@ export const RoundActionDisruptive = () => {
               , <Keyword.Woodenbot /> moves{' '}
               <Keyword.WoodwalkerWarrior count="5" /> to{' '}
               <Keyword.Plunder count="5" />. Then it{' '}
-              <Keyword.WoodenbotAttacks /> <Keyword.Ferrum /> (if applicable) or
-              a controlled <Keyword.Foundation /> (if applicable). End
-              bot&apos;s turn.
+              <Keyword.WoodenbotAttacks
+                purpose={WagerCardPurpose.ATTACK_DISRUPTIVE}
+              />{' '}
+              <Keyword.Ferrum /> (if applicable) or a controlled{' '}
+              <Keyword.Foundation /> (if applicable). End bot&apos;s turn.
               <Box mt="2">
                 <WagerAttackCardButton
                   purpose={WagerCardPurpose.ATTACK_DISRUPTIVE}

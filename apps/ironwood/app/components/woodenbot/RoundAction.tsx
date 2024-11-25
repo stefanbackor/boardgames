@@ -16,6 +16,7 @@ import { Keyword } from '../KeywordButton'
 import { NoChangeCallout } from '../NoChangeCallout'
 import { RoundActionDisruptive } from './RoundActionDisruptive'
 import { RoundActionExalted } from './RoundActionExalted'
+import { TakeTurnReminder } from './TakeTurnReminder'
 
 export const RoundAction = () => {
   const { actionId } = useGameParams()
@@ -105,6 +106,8 @@ export const RoundAction = () => {
             <Heading>Now take your turn.</Heading>
             And proceed to next action.
           </Flex>
+
+          <TakeTurnReminder />
         </>
       )}
     </>

@@ -20,7 +20,11 @@ export const Arrows = () => {
             <Keyword.Plunder count="2" />.
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_ARROWS}
+            />
+            :
             <ul>
               <li>
                 a controlled possible <Keyword.Mountain />
@@ -51,7 +55,11 @@ export const Arrows = () => {
             <Keyword.Interfere count="2" />.
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_ARROWS}
+            />
+            :
             <ul>
               <li>
                 <Keyword.IroncladDrill />

@@ -2,14 +2,13 @@ import { Box, Strong } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
+import { Keyword } from '~/components/KeywordButton'
+import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WBStance } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { Keyword } from '../../../KeywordButton'
-import { VisionCardBadge } from '../../VisionCardBadge'
 
 export const Crystals = () => {
   const [stance] = useLocationState('woodenbot_action_stance')
@@ -34,7 +33,11 @@ export const Crystals = () => {
             to <Keyword.Plunder count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_CRYSTALS}
+            />
+            :
             <ul>
               <li>
                 <Keyword.IroncladDrill />
@@ -58,7 +61,11 @@ export const Crystals = () => {
             to <Keyword.Interfere count="2" />
           </Box>
           <Box>
-            <Keyword.Woodenbot /> <Keyword.WoodenbotAttacks />:
+            <Keyword.Woodenbot />{' '}
+            <Keyword.WoodenbotAttacks
+              purpose={WagerCardPurpose.ATTACK_CRYSTALS}
+            />
+            :
             <ul>
               <li>
                 a controlled <Keyword.Foundation />

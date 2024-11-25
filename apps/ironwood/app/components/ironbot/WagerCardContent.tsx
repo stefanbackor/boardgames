@@ -92,7 +92,7 @@ export const WagerCardContent = ({
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              If the bot wins and forces you to retreat, it moves you to forest:
+              If the bot wins, it forces you to move to forest:
               <ul>
                 <li>away from mountain involved</li>
                 <li>away from totem</li>

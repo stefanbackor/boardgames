@@ -6,7 +6,6 @@ import {
   Separator,
   Text,
 } from '@radix-ui/themes'
-import shuffle from 'lodash/shuffle'
 
 import { WBVisionPile } from '~/constants/woodenbot'
 import { useDeck } from '~/hooks/useDeck'
@@ -16,6 +15,7 @@ import { Pile } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { CardBadge } from '../CardBadge'
+import { PossibleMountains } from './PossibleMountains'
 import { VisionCardBadge } from './VisionCardBadge'
 
 export const WoodenbotHand = () => {
@@ -37,9 +37,7 @@ export const WoodenbotHand = () => {
         <Flex gap="1" direction="column">
           <Flex gap="1" align="center" wrap="wrap">
             <Text size="1">Possible mountains:</Text>
-            {shuffle(visionDeck.get(WBVisionPile.DRAW)).map((card) => (
-              <VisionCardBadge key={card[0]} card={card} />
-            ))}
+            <PossibleMountains />
           </Flex>
 
           {visionDeck.size(WBVisionPile.DISCOVERED) > 0 && (

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Separator, Strong } from '@radix-ui/themes'
+import { Box, Flex, Heading, Separator, Strong, Text } from '@radix-ui/themes'
 import { useState } from 'react'
 
 import { UnmarkedInnerMountains } from '~/components/ironbot/UnmarkedInnerMountains'
@@ -25,7 +25,9 @@ export const Expand = () => {
               <li>uncontrolled</li>
               <li>without Forge</li>
               <li>fewest total Woodwalker Fighters adjacent</li>
-              <li>Foundation {'>'} no Foundation</li>
+              <li>
+                with Foundation {'>'} <Text wrap="nowrap">no Foundation</Text>
+              </li>
             </ul>
           </li>
           <li>

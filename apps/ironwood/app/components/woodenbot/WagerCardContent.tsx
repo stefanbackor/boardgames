@@ -7,6 +7,7 @@ import { useWagerCard } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { CrystalsButton } from './CrystalsButton'
+import { PossibleMountains } from './PossibleMountains'
 
 type Props = Omit<ReturnType<typeof useWagerCard>, 'onExecuteWager'>
 
@@ -88,11 +89,16 @@ export const WagerCardContent = ({
               <InfoCircledIcon />
             </Callout.Icon>
             <Callout.Text>
-              If the bot wins, and forces you to retreat, it forces you to move
-              to an adjacent mountain with the fewest (including zero) Ironclad
-              combat units, preferring a mountain without a marker (i.e., not a
-              possible mountain). In case of a tie, use the{' '}
-              <Keyword.MagicDie size="2" />.
+              If the bot wins, it forces you to retreat to adjacent mountain:
+              <ul>
+                <li>with fewest (or no) Ironclads</li>
+                <li>
+                  preferring mountain other than: <PossibleMountains />
+                </li>
+                <li>
+                  <Keyword.MagicDie size="2" /> in case of a tie
+                </li>
+              </ul>
             </Callout.Text>
           </Callout.Root>
         </Flex>

@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 
 import { WWWarriorType } from '~/constants/woodenbot'
+import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { Attack } from './Attack'
@@ -21,7 +22,7 @@ const meta = {
 export default meta
 
 export const AttackStory: StoryObj<typeof Attack> = {
-  render: () => <Attack />,
+  render: () => <Attack purpose={WagerCardPurpose.ATTACK_DISRUPTIVE} />,
 }
 
 export const DiscoversStory: StoryObj<typeof Discovers> = {

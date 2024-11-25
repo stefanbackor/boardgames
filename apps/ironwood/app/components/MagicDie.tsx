@@ -4,14 +4,7 @@ import {
   DoubleArrowDownIcon,
   DoubleArrowUpIcon,
 } from '@radix-ui/react-icons'
-import {
-  Badge,
-  Button,
-  ButtonProps,
-  Flex,
-  Inset,
-  Table,
-} from '@radix-ui/themes'
+import { Badge, Button, ButtonProps } from '@radix-ui/themes'
 import sample from 'lodash/sample'
 import {
   cloneElement,
@@ -22,8 +15,6 @@ import {
 } from 'react'
 
 import { IS_STORYBOOK } from '~/constants/environment'
-
-import { ModalDialog } from './ModalDialog'
 
 const FACES = [
   {
@@ -76,6 +67,7 @@ const doRoll = () => sample(IS_STORYBOOK ? [0] : [0, 1, 2, 3])
 
 export const MagicDie = ({ triggerButtonComponent }: MagicDieProps) => {
   const [rolls, setRolls] = useState<number[]>([doRoll()])
+  const [isRolling, setIsRolling] = useState(false)
 
   const rollAndCommit = useCallback(() => {
     setRolls((rolls) => [...rolls, doRoll()])
@@ -83,91 +75,38 @@ export const MagicDie = ({ triggerButtonComponent }: MagicDieProps) => {
 
   const onAddRoll = useCallback<MouseEventHandler<HTMLButtonElement>>(
     (event) => {
-      event.preventDefault()
-      rollAndCommit()
+      setIsRolling(true)
+      const timeout = setTimeout(() => {
+        event.preventDefault()
+        rollAndCommit()
+        setIsRolling(false)
+      }, 500)
+      return () => clearTimeout(timeout)
     },
     [rollAndCommit],
   )
 
-  const onClear = useCallback<MouseEventHandler<HTMLButtonElement>>((event) => {
-    event.preventDefault()
-    setRolls([])
-  }, [])
-
   const latestRoll = FACES[rolls[rolls.length - 1]]
-  const triggerButtonLabel = (
-    <Flex justify="center" align="center" gap="1">
-      Magic Die {latestRoll?.symbols}
-    </Flex>
-  )
-  const triggerButton = triggerButtonComponent ? (
-    cloneElement<ButtonProps>(
-      triggerButtonComponent as unknown as FunctionComponentElement<ButtonProps>,
-      undefined,
-      [triggerButtonLabel],
-    )
-  ) : (
-    <Button>{triggerButtonLabel}</Button>
-  )
+  const triggerButtonLabel = <>Magic Die {latestRoll?.symbols}</>
+  const triggerButtonTitle = `${latestRoll?.text} ${latestRoll?.hint}`
 
   return (
-    <ModalDialog
-      title="Magic Die"
-      trigger={triggerButton}
-      action={
-        <Flex direction="row" justify="center" gap="2">
-          <Button variant="soft" onClick={onClear}>
-            Clear
-          </Button>
-          <Button onClick={onAddRoll}>Add Roll</Button>
-        </Flex>
-      }
-      description='Click "Roll" to get magic die&apos;s value.'
-    >
-      {rolls.length > 0 && (
-        <Inset
-          clip="padding-box"
-          side="top"
-          pb="current"
-          pt="current"
-          mt="current"
+    <>
+      {triggerButtonComponent ? (
+        cloneElement<ButtonProps>(
+          triggerButtonComponent as unknown as FunctionComponentElement<ButtonProps>,
+          { onClick: onAddRoll, loading: isRolling, title: triggerButtonTitle },
+          [triggerButtonLabel],
+        )
+      ) : (
+        <Button
+          onClick={onAddRoll}
+          loading={isRolling}
+          title={triggerButtonTitle}
         >
-          <Table.Root size="1" variant="ghost">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell align="right" width="50px">
-                  #
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell align="center" width="150px">
-                  Symbol
-                </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell width="auto">
-                  Region
-                </Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-              {rolls.map((roll, index) => {
-                const face = FACES[roll]
-                return (
-                  <Table.Row key={index}>
-                    <Table.RowHeaderCell align="right" width="50px">
-                      {index + 1}
-                    </Table.RowHeaderCell>
-                    <Table.Cell align="center" width="150px">
-                      {face.symbols}
-                    </Table.Cell>
-                    <Table.Cell width="auto">
-                      {face.text} {face.hint}
-                    </Table.Cell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table.Root>
-        </Inset>
+          {triggerButtonLabel}
+        </Button>
       )}
-    </ModalDialog>
+    </>
   )
 }
