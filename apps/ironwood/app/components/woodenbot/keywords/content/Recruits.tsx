@@ -2,6 +2,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Callout, Flex } from '@radix-ui/themes'
 
 import { Keyword } from '~/components/KeywordButton'
+import { PossibleMountains } from '~/components/woodenbot/PossibleMountains'
 
 type Props = {
   count: string
@@ -29,6 +30,7 @@ export const Recruits = ({ count }: Props) => {
         <li>
           Adjacent to a (preferably uncontrolled) possible outer mountain,
           preferring one without a Forge.
+          <PossibleMountains />
         </li>
         <li>Closest to the Drill.</li>
       </ol>

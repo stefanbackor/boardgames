@@ -11,6 +11,10 @@ import { useState } from 'react'
 
 import { FullInstructionsButton } from '~/components/ironbot/keywords/content/common/FullInstructionsButton'
 import { Keyword } from '~/components/KeywordButton'
+import { NoDoubleMovementCallout } from '~/components/NoDoubleMovementCallout'
+
+import { MovementSourceFull } from './MovementSourceFull'
+import { MovementSourceShort } from './MovementSourceShort'
 
 type Props = {
   count: string
@@ -60,6 +64,9 @@ export const MovementPlunder = ({ count }: Props) => {
         If multiple forests are tied, use the <Keyword.MagicDie />.
       </Box>
 
+      <MovementSourceShort />
+      <NoDoubleMovementCallout />
+
       <FullInstructionsButton onClick={() => setFull(!full)} full={full} />
 
       {full && (
@@ -106,6 +113,8 @@ export const MovementPlunder = ({ count }: Props) => {
             </li>
           </ul>
           <Box>If multiple forests are tied, use the Magic Die.</Box>
+
+          <MovementSourceFull />
         </>
       )}
     </Flex>
