@@ -7,6 +7,9 @@ import { Keyword } from '~/components/KeywordButton'
 import { NoDoubleMovementCallout } from '~/components/NoDoubleMovementCallout'
 import { PossibleMountains } from '~/components/woodenbot/PossibleMountains'
 
+import { MovementSourceFull } from './MovementSourceFull'
+import { MovementSourceShort } from './MovementSourceShort'
+
 type Props = {
   count: string
 }
@@ -61,6 +64,7 @@ export const MovementSecure = ({ count }: Props) => {
         If multiple forests are tied, use the <Keyword.MagicDie />.
       </Box>
 
+      <MovementSourceShort />
       <NoDoubleMovementCallout />
 
       <FullInstructionsButton onClick={() => setFull(!full)} full={full} />
@@ -109,6 +113,8 @@ export const MovementSecure = ({ count }: Props) => {
             </li>
           </ul>
           <Box>If multiple forests are tied, use the Magic Die.</Box>
+
+          <MovementSourceFull />
         </>
       )}
     </Flex>

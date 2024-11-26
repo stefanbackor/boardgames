@@ -2,10 +2,11 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Callout, Flex, Strong, Text } from '@radix-ui/themes'
 
 import { Keyword } from '~/components/KeywordButton'
+import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WWWarriorType } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 
-import { VisionCardBadge } from '../../VisionCardBadge'
+import { MovementSourceFull } from './MovementSourceFull'
 
 type Props = {
   count: string
@@ -60,6 +61,8 @@ export const MovementInterfere = ({ count, countType }: Props) => {
       <Box>
         If multiple forests are tied, use the <Keyword.MagicDie />.
       </Box>
+
+      <MovementSourceFull />
     </Flex>
   )
 }
