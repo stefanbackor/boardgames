@@ -9,8 +9,8 @@ export const RoundActionExalted = () => {
       <Flex direction="column" gap="2">
         <li>
           If <Keyword.Totem /> is with <Keyword.WoodwalkerWarband />,{' '}
-          <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="5" /> to{' '}
-          <Keyword.Secure count="5" /> and end bot&apos;s turn.
+          <Keyword.Woodenbot /> moves <Keyword.WoodwalkerWarrior count="5" />
+          to <Keyword.Secure count="5" />. <Strong>End bot&apos;s turn.</Strong>
         </li>
         <li>
           <Strong>Otherwise</Strong> follow the actions from expended card

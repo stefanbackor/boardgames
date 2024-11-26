@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@radix-ui/themes'
+import { Box, Flex, Strong, Text } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
@@ -32,7 +32,7 @@ export const RoundActionAlertAggressive = () => {
               </Text>{' '}
               and a controlled <Keyword.Foundation />, spend the Crystals to
               flip the controlled <Keyword.Foundation /> to <Keyword.Forge />.{' '}
-              End bot&apos;s turn.
+              <Strong>End bot&apos;s turn.</Strong>
               <br />
               <Box mt="2">
                 <ExecuteButton label="Bot wins the game" onClick={() => {}} />

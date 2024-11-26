@@ -10,6 +10,8 @@ import { FullInstructionsButton } from './common/FullInstructionsButton'
 
 export const MovingDrill = () => {
   const [full, setFull] = useState(false)
+
+  const [drawDone, setDrawDone] = useState(false)
   const { drawCard } = useDeck()
 
   return (
@@ -48,10 +50,7 @@ export const MovingDrill = () => {
           <DataList.Root mt="2" style={{ gap: 'var(--space-2)' }}>
             <DataList.Item>
               <DataList.Label minWidth="88px">Crystals</DataList.Label>
-              <DataList.Value>
-                {/* <CrystalsButton size="1" /> */}
-                Add crystals to Drill cargo
-              </DataList.Value>
+              <DataList.Value>Add crystals to Drill cargo</DataList.Value>
             </DataList.Item>
             <DataList.Item>
               <DataList.Label minWidth="88px">Warrior</DataList.Label>
@@ -66,7 +65,14 @@ export const MovingDrill = () => {
             <DataList.Item>
               <DataList.Label minWidth="88px">Card</DataList.Label>
               <DataList.Value>
-                <ExecuteButton label="Draw" onClick={() => drawCard()} />
+                <ExecuteButton
+                  done={drawDone}
+                  label="Draw"
+                  onClick={() => {
+                    drawCard()
+                    setDrawDone(true)
+                  }}
+                />
               </DataList.Value>
             </DataList.Item>
           </DataList.Root>

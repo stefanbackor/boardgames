@@ -4,8 +4,8 @@ import { useState } from 'react'
 
 import { FullInstructionsButton } from '~/components/ironbot/keywords/content/common/FullInstructionsButton'
 import { Keyword } from '~/components/KeywordButton'
-
-import { PossibleMountains } from '../../PossibleMountains'
+import { NoDoubleMovementCallout } from '~/components/NoDoubleMovementCallout'
+import { PossibleMountains } from '~/components/woodenbot/PossibleMountains'
 
 type Props = {
   count: string
@@ -32,18 +32,15 @@ export const MovementSecure = ({ count }: Props) => {
           Totem with Woodwalker
           <ol>
             <li>Outer forest + Totem</li>
-            <li>Inner forest to outer with {'<'} Ironclad adjacent + Totem</li>
+            <li>Inner forest to outer with least Ironclads adjacent + Totem</li>
           </ol>
         </li>
 
         <li>
           Totem on the board
           <ol>
-            <li>Forest with Totem with {'>'} Woodwalkers adjacent</li>
-            <li>
-              Forest adjacent to Totem with {'>'}
-              Woodwalkers adjacent
-            </li>
+            <li>Forest with Totem with most Woodwalkers adjacent</li>
+            <li>Forest adjacent to Totem with most Woodwalkers adjacent</li>
           </ol>
         </li>
         <li>
@@ -54,8 +51,8 @@ export const MovementSecure = ({ count }: Props) => {
               Adjacent to a possible mountain
               <PossibleMountains />
             </li>
-            <li>uncontrolled {'>'} controlled</li>
-            <li>with {'>'} Woodwalkers adjacent</li>
+            <li>prefer uncontrolled</li>
+            <li>with most Woodwalkers adjacent</li>
           </ul>
         </li>
       </ol>
@@ -63,6 +60,8 @@ export const MovementSecure = ({ count }: Props) => {
       <Box>
         If multiple forests are tied, use the <Keyword.MagicDie />.
       </Box>
+
+      <NoDoubleMovementCallout />
 
       <FullInstructionsButton onClick={() => setFull(!full)} full={full} />
 

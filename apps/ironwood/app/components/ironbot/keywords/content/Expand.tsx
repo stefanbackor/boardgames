@@ -12,7 +12,7 @@ export const Expand = () => {
 
   return (
     <Flex direction="column" gap="3">
-      <Heading size="6">Target mountain:</Heading>
+      <Heading>Target mountain:</Heading>
       <ol>
         <Flex direction="column" gap="2">
           <li>
@@ -57,7 +57,7 @@ export const Expand = () => {
         above choices.
       </Box>
 
-      <Heading size="6">Source mountain:</Heading>
+      <Heading>Source mountain:</Heading>
 
       <ul>
         <li>adjacent to the target</li>
@@ -82,7 +82,7 @@ export const Expand = () => {
         <>
           <Separator size="4" />
 
-          <Heading size="6">Target mountain:</Heading>
+          <Heading>Target mountain:</Heading>
 
           <ul>
             <li>
@@ -105,7 +105,7 @@ export const Expand = () => {
             Use the Magic die if multiple are tied in any of the above choices.
           </Box>
 
-          <Heading size="6">Source mountain:</Heading>
+          <Heading>Source mountain:</Heading>
 
           <Box>
             The mountain with the largest Ironclad Warband adjacent to the
