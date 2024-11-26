@@ -1,4 +1,4 @@
-import { Box, Strong } from '@radix-ui/themes'
+import { Box, Flex, Strong } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
@@ -30,19 +30,21 @@ export const Shield = () => {
         <Box>
           <Strong>Choose one:</Strong>
           <ul>
-            <li>
-              You burn 1 <Keyword.Card /> and <Keyword.Woodenbot /> draws 1{' '}
-              <Keyword.Card />
-              <Box my="2">
-                <ExecuteButton done={done} onClick={onExecute1} />
-              </Box>
-            </li>
-            <li>
-              <Keyword.Woodenbot /> steals 1 <Keyword.Crystal /> from you.
-              <Box my="2">
-                <ExecuteButton done={done} onClick={onExecute2} />
-              </Box>
-            </li>
+            <Flex direction="column" gap="2">
+              <li>
+                You burn 1 <Keyword.Card /> and <Keyword.Woodenbot /> draws 1{' '}
+                <Keyword.Card />
+                <Box mt="2">
+                  <ExecuteButton done={done} onClick={onExecute1} />
+                </Box>
+              </li>
+              <li>
+                <Keyword.Woodenbot /> steals 1 <Keyword.Crystal /> from you.
+                <Box mt="2">
+                  <ExecuteButton done={done} onClick={onExecute2} />
+                </Box>
+              </li>
+            </Flex>
           </ul>
         </Box>
       </>
