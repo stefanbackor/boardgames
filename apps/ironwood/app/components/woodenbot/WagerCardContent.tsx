@@ -77,9 +77,10 @@ export const WagerCardContent = ({
 
           <Flex align="center" justify="start" gap="3">
             <Text>
-              If your <Keyword.Ferrum /> or <Keyword.IroncladDrill /> defeated,
+              If your <Keyword.Ferrum /> or <Keyword.IroncladDrill /> is
+              defeated,
             </Text>
-            <CrystalsButton label="Add stolen crystals" />
+            <CrystalsButton />
           </Flex>
 
           <Separator size="4" />
@@ -96,7 +97,7 @@ export const WagerCardContent = ({
                   preferring mountain other than: <PossibleMountains />
                 </li>
                 <li>
-                  <Keyword.MagicDie size="2" /> in case of a tie
+                  in case of a tie, use <Keyword.MagicDie size="2" />
                 </li>
               </ul>
             </Callout.Text>

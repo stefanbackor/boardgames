@@ -22,7 +22,7 @@ export const Shield = () => {
     <>
       {stance === IBStance.AGGRESSIVE && (
         <Box>
-          Remove 1 <Keyword.WoodwalkerWarrior count="1" /> from the{' '}
+          Remove <Keyword.WoodwalkerWarrior count="1" /> from the{' '}
           <Keyword.WoodwalkerWarband /> with/closest to the <Keyword.Totem />.
         </Box>
       )}

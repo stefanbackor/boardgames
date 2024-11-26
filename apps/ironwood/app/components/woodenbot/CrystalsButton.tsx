@@ -43,7 +43,6 @@ export const CrystalsButton = ({ label, ...buttonProps }: Props) => {
                 <Box>
                   Whenever your <Keyword.Ferrum /> is defeated,{' '}
                   <Keyword.Woodenbot /> steals half of your crystals rounded up.
-                  The rest is discarded.
                 </Box>
                 <Box>
                   Whenever your <Keyword.IroncladDrill /> is defeated,{' '}

@@ -50,6 +50,12 @@ export const Search = () => {
                 <>
                   <ul>
                     <li>
+                      Place a <Keyword.Totem /> on a inner forest adjacent to{' '}
+                      <VisionCardBadge card={discoveryCard} /> with, or closest
+                      to the largest Woodwalker Warband. Use{' '}
+                      <Keyword.MagicDie /> if tied.
+                    </li>
+                    <li>
                       Remove marker from
                       <VisionCardBadge card={discoveryCard} />
                     </li>

@@ -1,4 +1,4 @@
-import { Box } from '@radix-ui/themes'
+import { Box, Strong } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { IBTurnProcedure } from '~/constants/ironbot'
@@ -24,8 +24,8 @@ export const RoundActionAlertDefensive = () => {
       {crystals > 4 || done ? (
         <li>
           <Keyword.Ironbot /> spends 5 <Keyword.Crystal /> to flip the
-          controlled <Keyword.Foundation /> to <Keyword.Forge />. End bot&apos;s
-          turn.
+          controlled <Keyword.Foundation /> to <Keyword.Forge />.{' '}
+          <Strong>End bot&apos;s turn.</Strong>
           <Box mt="2">
             <ExecuteButton done={done} onClick={onExecute} />
           </Box>

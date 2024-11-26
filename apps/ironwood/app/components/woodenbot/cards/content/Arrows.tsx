@@ -1,6 +1,7 @@
 import { Box } from '@radix-ui/themes'
 
 import { Keyword } from '~/components/KeywordButton'
+import { PossibleMountains } from '~/components/woodenbot/PossibleMountains'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WBStance } from '~/constants/woodenbot'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
@@ -28,6 +29,7 @@ export const Arrows = () => {
             <ul>
               <li>
                 a controlled possible <Keyword.Mountain />
+                <PossibleMountains />
               </li>
               <li>
                 <Keyword.IroncladDrill />

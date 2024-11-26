@@ -34,7 +34,8 @@ export const RoundActionDisruptive = () => {
                 purpose={WagerCardPurpose.ATTACK_DISRUPTIVE}
               />{' '}
               <Keyword.Ferrum /> (if applicable) or a controlled{' '}
-              <Keyword.Foundation /> (if applicable). End bot&apos;s turn.
+              <Keyword.Foundation /> (if applicable).{' '}
+              <Strong>End bot&apos;s turn.</Strong>
               <Box mt="2">
                 <WagerAttackCardButton
                   purpose={WagerCardPurpose.ATTACK_DISRUPTIVE}

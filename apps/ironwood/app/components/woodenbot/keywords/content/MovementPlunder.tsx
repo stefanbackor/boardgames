@@ -34,23 +34,23 @@ export const MovementPlunder = ({ count }: Props) => {
 
       <ol>
         <li>
-          Ironclad 5+ crystals
+          <Strong>Ironclad 5+ crystals</Strong>
           <ol>
-            <li>Inner to Ferrum with {'>'} Woodwalkers adjacent</li>
-            <li>Inner controlled Foundation with {'>'} Woodwalkers adjacent</li>
+            <li>Inner to Ferrum with most Woodwalkers adjacent</li>
+            <li>Inner controlled Foundation with most Woodwalkers adjacent</li>
           </ol>
         </li>
         <li>
-          Drill 2+ crystals
+          <Strong>Drill 2+ crystals</Strong>
           <ol>
-            <li>Inner to Drill with {'>'} Woodwalkers adjacent</li>
-            <li>Inner to Ferrum with {'>'} Woodwalkers adjacent</li>
+            <li>Inner to Drill with most Woodwalkers adjacent</li>
+            <li>Inner to Ferrum with most Woodwalkers adjacent</li>
           </ol>
         </li>
         <li>
-          Otherwise
+          <Strong>Otherwise</Strong>
           <ol>
-            <li>Inner to outer with {'>'} Woodwalkers in outer</li>
+            <li>Inner to outer with most Woodwalkers in outer</li>
             <li>Skip if no Woodwalkers in outer</li>
           </ol>
         </li>
