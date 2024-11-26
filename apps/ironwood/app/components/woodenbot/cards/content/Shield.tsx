@@ -33,13 +33,13 @@ export const Shield = () => {
             <li>
               You burn 1 <Keyword.Card /> and <Keyword.Woodenbot /> draws 1{' '}
               <Keyword.Card />
-              <Box mt="2">
+              <Box my="2">
                 <ExecuteButton done={done} onClick={onExecute1} />
               </Box>
             </li>
             <li>
               <Keyword.Woodenbot /> steals 1 <Keyword.Crystal /> from you.
-              <Box mt="2">
+              <Box my="2">
                 <ExecuteButton done={done} onClick={onExecute2} />
               </Box>
             </li>
