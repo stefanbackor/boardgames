@@ -16,6 +16,7 @@
     "typecheck": "tsc",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
+    "test-storybook": "test-storybook",
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
   "dependencies": {
@@ -41,6 +42,7 @@
     "@storybook/react": "^8.4.4",
     "@storybook/react-vite": "^8.4.4",
     "@storybook/test": "^8.4.4",
+    "@storybook/test-runner": "^0.20.0",
     "@testing-library/react": "^16.0.1",
     "@types/lodash": "^4.17.9",
     "@types/react": "^18.2.20",
