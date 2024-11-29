@@ -1,11 +1,10 @@
 import { Box } from '@radix-ui/themes'
 
+import { WagerAttackCardButton } from '~/components/ironbot/WagerAttackCardButton'
 import { Keyword } from '~/components/KeywordButton'
 import { IBStance } from '~/constants/ironbot'
 import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { WagerAttackCardButton } from '../../WagerAttackCardButton'
 
 export const Compass = () => {
   const [stance] = useLocationState('ironbot_action_stance')

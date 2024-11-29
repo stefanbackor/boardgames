@@ -63,7 +63,11 @@ export const ExpendContent = ({ cards }: Props) => {
                                 my="3"
                               />
                             )}
-                            <IronbotCardAction key={index} action={action} />
+                            <IronbotCardAction
+                              key={index}
+                              card={card}
+                              action={action}
+                            />
                           </Box>
                         ),
                     )}
@@ -81,7 +85,11 @@ export const ExpendContent = ({ cards }: Props) => {
                                 my="3"
                               />
                             )}
-                            <WoodenbotCardAction key={index} action={action} />
+                            <WoodenbotCardAction
+                              key={index}
+                              card={card}
+                              action={action}
+                            />
                           </Box>
                         ),
                     )}

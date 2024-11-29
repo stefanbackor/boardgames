@@ -6,18 +6,19 @@ import { Keyword } from '~/components/KeywordButton'
 import { IBTurnProcedure } from '~/constants/ironbot'
 import { useTurnProcedure } from '~/hooks/ironbot/useTurnProcedure'
 import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
+import { useActionDone } from '~/hooks/useActionDone'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { WagerAttackCardButton } from './WagerAttackCardButton'
 
 export const RoundActionAlertAggressive = () => {
   const [crystals] = useLocationState('crystals')
-  const [done, setDone] = useLocationState('ironbot_aggressive_alert_done')
+  const [done, setDone] = useActionDone('aggressive/alert')
   const { turnProcedure, setNextTurnProcedure } = useTurnProcedure()
 
   const onExecute = useCallback(() => {
     setNextTurnProcedure(IBTurnProcedure.EXHAUSTED)
-    setDone(true)
+    setDone()
   }, [setNextTurnProcedure, setDone])
 
   return (

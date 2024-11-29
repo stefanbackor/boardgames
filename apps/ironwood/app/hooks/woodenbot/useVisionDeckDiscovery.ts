@@ -1,44 +1,47 @@
 import { useCallback } from 'react'
 
-import {
-  WBVisionLocatePurpose,
-  WBVisionPile,
-  WWVisionCard,
-} from '~/constants/woodenbot'
+import { WBVisionPile, WWVisionCard } from '~/constants/woodenbot'
 import { shuffle } from '~/utils/deck/shuffle'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { useVisionDeck } from './useVisionDeck'
 
 type Props = {
-  purpose: WBVisionLocatePurpose
+  key: string
 }
 
-export const useVisionDeckDiscovery = ({ purpose }: Props) => {
-  const { deck, deckCommit } = useVisionDeck({ purpose })
+export const useVisionDeckDiscovery = ({ key }: Props) => {
+  const { deck, deckCommit } = useVisionDeck()
   const [, setCrystals] = useLocationState('crystals')
 
   // Discovery state
-  const [discoveryDone, setDiscoveryDone] = useLocationState(
-    purpose === WBVisionLocatePurpose.CARD_SEARCH
-      ? 'woodenbot_vision_discovery_search_card_done'
-      : purpose === WBVisionLocatePurpose.CARD_EYE
-        ? 'woodenbot_vision_discovery_eye_card_done'
-        : 'woodenbot_vision_discovery_done',
+  const [discoveryDoneStore, setDiscoveryDoneStore] = useLocationState(
+    'woodenbot_vision_discovery_done',
   )
-  const [discoveryCard, setDiscoveryCard] = useLocationState(
-    purpose === WBVisionLocatePurpose.CARD_SEARCH
-      ? 'woodenbot_vision_discovery_search_card_card'
-      : purpose === WBVisionLocatePurpose.CARD_EYE
-        ? 'woodenbot_vision_discovery_eye_card_card'
-        : 'woodenbot_vision_discovery_card',
+  const discoveryDone = Boolean(discoveryDoneStore?.[key])
+  const setDiscoveryDone = useCallback(
+    () => setDiscoveryDoneStore((values) => ({ ...values, [key]: true })),
+    [setDiscoveryDoneStore, key],
   )
-  const [discoveryMarked, setDiscoveryMarked] = useLocationState(
-    purpose === WBVisionLocatePurpose.CARD_SEARCH
-      ? 'woodenbot_vision_discovery_search_card_marked'
-      : purpose === WBVisionLocatePurpose.CARD_EYE
-        ? 'woodenbot_vision_discovery_eye_card_marked'
-        : 'woodenbot_vision_discovery_marked',
+
+  const [discoveryCardStore, setDiscoveryCardStore] = useLocationState(
+    'woodenbot_vision_discovery_card',
+  )
+  const discoveryCard = discoveryCardStore?.[key]
+  const setDiscoveryCard = useCallback(
+    (card: WWVisionCard) =>
+      setDiscoveryCardStore((values) => ({ ...values, [key]: card })),
+    [setDiscoveryCardStore, key],
+  )
+
+  const [discoveryMarkedStore, setDiscoveryMarkedStore] = useLocationState(
+    'woodenbot_vision_discovery_marked',
+  )
+  const discoveryMarked = discoveryMarkedStore?.[key]
+  const setDiscoveryMarked = useCallback(
+    (marked: Array<WWVisionCard>) =>
+      setDiscoveryMarkedStore((values) => ({ ...values, [key]: marked })),
+    [setDiscoveryMarkedStore, key],
   )
 
   return {
@@ -84,7 +87,7 @@ export const useVisionDeckDiscovery = ({ purpose }: Props) => {
           setCrystals((crystals) => crystals + card[1])
 
           // Set the discovery flag to true.
-          setDiscoveryDone(true)
+          setDiscoveryDone()
           setDiscoveryCard(card)
           setDiscoveryMarked(deck.get(WBVisionPile.DRAW))
         }

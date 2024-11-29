@@ -28,13 +28,13 @@ export const WoodenbotHand = () => {
   return (
     <>
       <Section size="1">
-        <Flex gap="1" wrap="wrap" align="center">
+        <Flex gap="2" direction="column">
           <Heading>Bot&apos;s Hand</Heading>
-          <Badge color="bronze">Spirit cubes: {woodenbotSpiritCubes}</Badge>
-          <Badge color="blue">Crystals: {crystals}</Badge>
-        </Flex>
 
-        <Flex gap="1" direction="column">
+          <Flex gap="1" wrap="wrap" align="center">
+            <Badge color="bronze">Spirit cubes: {woodenbotSpiritCubes}</Badge>
+            <Badge color="blue">Crystals: {crystals}</Badge>
+          </Flex>
           <Flex gap="1" align="center" wrap="wrap">
             <Text size="1">Possible mountains:</Text>
             <PossibleMountains />

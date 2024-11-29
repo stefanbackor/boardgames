@@ -4,28 +4,34 @@ import { useCallback } from 'react'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { WagerAttackCardButton } from '~/components/ironbot/WagerAttackCardButton'
 import { Keyword } from '~/components/KeywordButton'
-import { IBStance } from '~/constants/ironbot'
+import { IBAction, IBStance } from '~/constants/ironbot'
 import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
+import { IWCard } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Forge = () => {
+type Props = {
+  card: IWCard
+}
+
+export const Forge = ({ card }: Props) => {
   const [stance] = useLocationState('ironbot_action_stance')
   const [crystals, setCrystals] = useLocationState('crystals')
-  const [done, setDone] = useLocationState('ironbot_expended_forge_action_done')
+  const [done, setDone] = useCardActionDone(card, IBAction.FORGE)
 
   const onExecuteAggressive = useCallback(() => {
     setCrystals((crystals) => Math.max(crystals - 1, 0))
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   const onExecuteDefensive = useCallback(() => {
     setCrystals((crystals) => Math.max(crystals - 5, 0))
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   const onExecuteExpansive = useCallback(() => {
     setCrystals((crystals) => Math.max(crystals - 1, 0))
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   return (

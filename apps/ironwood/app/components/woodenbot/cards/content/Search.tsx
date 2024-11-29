@@ -4,21 +4,22 @@ import { useCallback, useState } from 'react'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
-import {
-  WBStance,
-  WBVisionLocatePurpose,
-  WBVisionPile,
-} from '~/constants/woodenbot'
+import { WBStance, WBVisionPile, WWCard } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Search = () => {
+type Props = {
+  card: WWCard
+  red?: boolean
+}
+
+export const Search = ({ card, red }: Props) => {
   const [stance] = useLocationState('woodenbot_action_stance')
-  const { deck } = useVisionDeck({ purpose: WBVisionLocatePurpose.CARD_SEARCH })
+  const { deck } = useVisionDeck()
   const { discoveryDone, discoveryCard, discoveryMarked, discoverVisionCard } =
     useVisionDeckDiscovery({
-      purpose: WBVisionLocatePurpose.CARD_SEARCH,
+      key: `${card[0]}/search/${red}`,
     })
 
   const [discoverCardName, setDiscoverCardName] = useState('')

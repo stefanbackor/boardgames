@@ -1,16 +1,15 @@
-import { Box, Flex } from '@radix-ui/themes'
+import { Box } from '@radix-ui/themes'
 
 import { Keyword } from '~/components/KeywordButton'
-import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WBStance } from '~/constants/woodenbot'
-import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
+import { PossibleMountains } from '../../PossibleMountains'
+
 export const Battle = () => {
   const [stance] = useLocationState('woodenbot_action_stance')
-  const { drawPile } = useVisionDeck()
 
   return (
     <>
@@ -32,11 +31,7 @@ export const Battle = () => {
               </li>
               <li>
                 a controlled possible <Keyword.Mountain />
-                <Flex gap="1">
-                  {drawPile.map((card) => (
-                    <VisionCardBadge key={card[0]} card={card} />
-                  ))}
-                </Flex>
+                <PossibleMountains />
               </li>
               <li>
                 <Keyword.IroncladDrill />
@@ -70,11 +65,7 @@ export const Battle = () => {
               </li>
               <li>
                 a controlled possible <Keyword.Mountain />
-                <Flex gap="1">
-                  {drawPile.map((card) => (
-                    <VisionCardBadge key={card[0]} card={card} />
-                  ))}
-                </Flex>
+                <PossibleMountains />
               </li>
               <li>
                 an adjacent <Keyword.IroncladWarband />

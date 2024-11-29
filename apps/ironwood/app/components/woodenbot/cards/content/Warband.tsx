@@ -1,9 +1,8 @@
 import { Box } from '@radix-ui/themes'
 
+import { Keyword } from '~/components/KeywordButton'
 import { WBStance } from '~/constants/woodenbot'
 import { useLocationState } from '~/utils/state/useLocationState'
-
-import { Keyword } from '../../../KeywordButton'
 
 export const Warband = () => {
   const [stance] = useLocationState('woodenbot_action_stance')

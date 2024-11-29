@@ -25,14 +25,20 @@ export const Recruits = ({ count }: Props) => {
         smallest number (including zero) of Woodwalker Fighters:
       </Box>
       <ol>
-        <li>Adjacent to a Totem.</li>
-        <li>Adjacent to a controlled Foundation.</li>
+        <li>
+          Adjacent to a <Keyword.Totem />.
+        </li>
+        <li>
+          Adjacent to a <Keyword.Foundation />.
+        </li>
         <li>
           Adjacent to a (preferably uncontrolled) possible outer mountain,
-          preferring one without a Forge.
+          preferring one without a <Keyword.Forge />.
           <PossibleMountains />
         </li>
-        <li>Closest to the Drill.</li>
+        <li>
+          Closest to the <Keyword.IroncladDrill />.
+        </li>
       </ol>
       <Box>
         Use the <Keyword.MagicDie /> if tied.

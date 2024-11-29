@@ -4,26 +4,22 @@ import { useCallback } from 'react'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
-import { WBVisionLocatePurpose } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { useVisionDeckDiscovery } from '~/hooks/woodenbot/useVisionDeckDiscovery'
 
+import { useVisionDeckDiscard } from './useVisionDeckDiscard'
+
 type Props = {
-  purpose: WBVisionLocatePurpose
+  key: string
 }
 
-export const useLocate = ({ purpose }: Props) => {
-  const {
-    drawPileSize,
-    drawPileTopCard,
-    drawPileRefillCards,
-    discardDone,
-    discardCard,
-    discardVisionCard,
-  } = useVisionDeck({ purpose })
-
+export const useLocate = ({ key }: Props) => {
+  const { drawPileSize, drawPileTopCard, drawPileRefillCards } = useVisionDeck()
+  const { discardDone, discardCard, discardVisionCard } = useVisionDeckDiscard({
+    key,
+  })
   const { discoveryDone, discoveryCard, discoveryMarked, discoverVisionCard } =
-    useVisionDeckDiscovery({ purpose })
+    useVisionDeckDiscovery({ key })
 
   const shouldDisplayDiscard =
     !discoveryDone && (discardDone || (!discardCard && drawPileSize > 1))

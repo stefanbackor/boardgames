@@ -2,13 +2,12 @@ import { Box } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
+import { WagerAttackCardButton } from '~/components/ironbot/WagerAttackCardButton'
 import { Keyword } from '~/components/KeywordButton'
 import { IBTurnProcedure } from '~/constants/ironbot'
 import { useTurnProcedure } from '~/hooks/ironbot/useTurnProcedure'
 import { WagerCardPurpose } from '~/hooks/ironbot/useWagerCard'
 import { useDeck } from '~/hooks/useDeck'
-
-import { WagerAttackCardButton } from '../../WagerAttackCardButton'
 
 export const Battle = () => {
   const { drawCardToTop, wagerCard } = useDeck()

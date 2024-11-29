@@ -2,21 +2,24 @@ import { Box } from '@radix-ui/themes'
 import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
-import { WBStance } from '~/constants/woodenbot'
+import { Keyword } from '~/components/KeywordButton'
+import { WBAction, WBStance, WWCard } from '~/constants/woodenbot'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../../../KeywordButton'
+type Props = {
+  card: WWCard
+  red?: boolean
+}
 
-export const Cubes = () => {
+export const Cubes = ({ card, red }: Props) => {
   const [stance] = useLocationState('woodenbot_action_stance')
   const [, setCubes] = useLocationState('woodenbot_spirit_cubes')
-  const [done, setDone] = useLocationState(
-    'woodenbot_expended_cubes_action_done',
-  )
+  const [done, setDone] = useCardActionDone(card, WBAction.CUBES, red)
 
   const onExecute = useCallback(() => {
     setCubes((cubes) => cubes + 2)
-    setDone(true)
+    setDone()
   }, [setCubes, setDone])
 
   return (
