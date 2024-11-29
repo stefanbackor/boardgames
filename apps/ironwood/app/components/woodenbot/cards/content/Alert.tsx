@@ -3,19 +3,23 @@ import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
-import { WBAction } from '~/constants/woodenbot'
+import { WBAction, WWCard } from '~/constants/woodenbot'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
 import { useDeck } from '~/hooks/useDeck'
 import { useGameParams } from '~/hooks/useGameParams'
 import { useValidateActionCallback } from '~/hooks/woodenbot/useValidateActionCallback'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Alert = () => {
+type Props = {
+  card: WWCard
+  red?: boolean
+}
+
+export const Alert = ({ card, red }: Props) => {
   const { actionId } = useGameParams()
   const { expendCard } = useDeck()
   const [, setCrystals] = useLocationState('crystals')
-  const [done, setDone] = useLocationState(
-    'woodenbot_expended_alert_action_done',
-  )
+  const [done, setDone] = useCardActionDone(card, WBAction.ALERT, red)
 
   const shouldDisplayCardAction = useValidateActionCallback()
 
@@ -32,7 +36,7 @@ export const Alert = () => {
         setCrystals((crystals) => crystals + 1)
       }
     }
-    setDone(true)
+    setDone()
   }, [actionId, expendCard, setCrystals, setDone, shouldDisplayCardAction])
 
   return (

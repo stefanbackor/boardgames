@@ -3,16 +3,17 @@ import { Box } from '@radix-ui/themes'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
-import {
-  WBStance,
-  WBVisionLocatePurpose,
-  WWWarriorType,
-} from '~/constants/woodenbot'
+import { WBStance, WWCard, WWWarriorType } from '~/constants/woodenbot'
 import { useLocate } from '~/hooks/woodenbot/useLocate'
-import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
+import { useVisionDeckDiscard } from '~/hooks/woodenbot/useVisionDeckDiscard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Eye = () => {
+type Props = {
+  card: WWCard
+  red?: boolean
+}
+
+export const Eye = ({ card, red }: Props) => {
   const [stance] = useLocationState('woodenbot_action_stance')
 
   const {
@@ -20,11 +21,9 @@ export const Eye = () => {
     discardDone,
     discardPileTopCard,
     discardPileTopCardBackToDraw: onDisruptiveExecute,
-  } = useVisionDeck({ purpose: WBVisionLocatePurpose.CARD_EYE })
+  } = useVisionDeckDiscard({ key: `${card[0]}/eye/${red}` })
 
-  const { render: renderLocate } = useLocate({
-    purpose: WBVisionLocatePurpose.CARD_EYE,
-  })
+  const { render: renderLocate } = useLocate({ key: `${card[0]}/eye` })
 
   return (
     <>

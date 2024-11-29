@@ -22,25 +22,10 @@ export type LocationState = {
   woodenbot_spirit_cube_for_attack_crystals_used?: boolean // Whether a spirit cube was used for modifiers on wagered attack card for "crystals" action.
   woodenbot_spirit_cube_for_defense_used?: boolean // Whether a spirit cube was used for modifiers on wagered defense card.
 
-  woodenbot_vision_discard_done?: boolean // Flag to indicate that Woodenbot has discarded a vision card.
-  woodenbot_vision_discard_card?: WWVisionCard // Current vision card discarded by Woodenbot.
-  woodenbot_vision_discard_eye_card_done?: boolean
-  woodenbot_vision_discard_eye_card_card?: WWVisionCard
+  woodenbot_vision_discard_done?: Record<string, boolean> // Flag to indicate that Woodenbot has discarded a vision card.
+  woodenbot_vision_discard_card?: Record<string, WWVisionCard> // Current vision card discarded by Woodenbot.
 
-  woodenbot_vision_discovery_done?: boolean // Flag to indicate that Woodenbot has discovered a vision card.
-  woodenbot_vision_discovery_card?: WWVisionCard // Current vision card discovered by Woodenbot.
-  woodenbot_vision_discovery_marked?: Array<WWVisionCard> // List of mountains/cards marked by refilling draw deck.
-  woodenbot_vision_discovery_search_card_done?: boolean // Flag to indicate that Woodenbot has discovered a vision card as "search" card action.
-  woodenbot_vision_discovery_search_card_card?: WWVisionCard // Current vision card discovered by Woodenbot as "search" card action.
-  woodenbot_vision_discovery_search_card_marked?: Array<WWVisionCard> // List of mountains/cards marked by refilling draw deck as "search" card action.
-  woodenbot_vision_discovery_eye_card_done?: boolean
-  woodenbot_vision_discovery_eye_card_card?: WWVisionCard
-  woodenbot_vision_discovery_eye_card_marked?: Array<WWVisionCard>
-
-  woodenbot_expended_alert_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "alert" action.
-  woodenbot_expended_card_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "card" action.
-  woodenbot_expended_crystals_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "crystals" action.
-  woodenbot_expended_cubes_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "cubes" action.
-  woodenbot_expended_eye_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "eye" action.
-  woodenbot_expended_shield_action_done?: boolean // Flag to indicate that Woodenbot has executed expended card's "shield" action.
+  woodenbot_vision_discovery_done?: Record<string, boolean> // Flag to indicate that Woodenbot has discovered a vision card.
+  woodenbot_vision_discovery_card?: Record<string, WWVisionCard> // Current vision card discovered by Woodenbot.
+  woodenbot_vision_discovery_marked?: Record<string, Array<WWVisionCard>> // List of mountains/cards marked by refilling draw deck.
 }

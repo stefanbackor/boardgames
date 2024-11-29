@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 
 import { IBTurnProcedure } from '~/constants/ironbot'
 import { useTurnProcedure } from '~/hooks/ironbot/useTurnProcedure'
+import { useActionDone } from '~/hooks/useActionDone'
 import { useLocationState } from '~/utils/state/useLocationState'
 
 import { ExecuteButton } from '../ExecuteButton'
@@ -12,13 +13,12 @@ import { Keyword } from '../KeywordButton'
 export const RoundActionAlertExpansive = () => {
   const [, setCrystals] = useLocationState('crystals')
   const { turnProcedure, setNextTurnProcedure } = useTurnProcedure()
-
-  const [done, setDone] = useLocationState('ironbot_expansive_alert_done')
+  const [done, setDone] = useActionDone('expansive/alert')
 
   const onExecuteAlert = useCallback(() => {
     setCrystals((crystals) => crystals + 1)
     setNextTurnProcedure(IBTurnProcedure.EXHAUSTED)
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone, setNextTurnProcedure])
 
   return (

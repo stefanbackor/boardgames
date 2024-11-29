@@ -16,7 +16,6 @@ import { MovingDrill } from './ironbot/keywords/content/MovingDrill'
 import { Protect } from './ironbot/keywords/content/Protect'
 import { Recruits as IronbotRecruits } from './ironbot/keywords/content/Recruits'
 import { WarbandInFocus } from './ironbot/keywords/content/WarbandInFocus'
-// import { WagerButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { Attack as WoodenbotAttack } from './woodenbot/keywords/content/Attack'
 import { Discovers } from './woodenbot/keywords/content/Discovers'
 import { Locate } from './woodenbot/keywords/content/Locate'
@@ -28,18 +27,6 @@ import { Recruits as WoodenbotRecruits } from './woodenbot/keywords/content/Recr
 type KeywordButtonProps = {
   dialogProps?: Dialog.RootProps
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const KeywordImg = (_props: React.ImgHTMLAttributes<HTMLImageElement>) =>
-  // <img
-  //   alt="Keyword without alt text"
-  //   {...props}
-  //   style={{
-  //     height: "var(--line-height, 1em)",
-  //     verticalAlign: "bottom",
-  //   }}
-  // />
-  null
 
 const KeywordInline = ({ children }: PropsWithChildren) => (
   <Strong>{children}</Strong>
@@ -60,18 +47,12 @@ export const Keyword = {
    * Common keywords
    */
   Card: () => <KeywordInline>Card</KeywordInline>,
-  Crystal: () => (
-    <KeywordInline>
-      Crystal
-      {/* <KeywordImg alt="Crystal" src={assetCrystal} /> */}
-    </KeywordInline>
-  ),
+  Crystal: () => <KeywordInline>Crystal</KeywordInline>,
   MagicDie: (props: ButtonProps) => (
     <MagicDie
       triggerButtonComponent={<KeywordButton color="green" {...props} />}
     />
   ),
-  // Wager: () => <WagerButton buttonProps={{ size: '3', variant: 'ghost' }} />,
 
   /**
    * Ironwood specific keywords

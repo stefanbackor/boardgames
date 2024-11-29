@@ -29,14 +29,3 @@ export enum WBVisionPile {
   DISCARD = 'discard',
   DISCOVERED = 'discovered',
 }
-
-/**
- * Locate action purpose (source). Locate can be executed as "main"
- * action of disruptive stance or as a "SEARCH" or "EYE"
- * card action.
- */
-export enum WBVisionLocatePurpose {
-  MAIN,
-  CARD_SEARCH,
-  CARD_EYE,
-}

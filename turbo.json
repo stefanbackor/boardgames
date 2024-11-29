@@ -37,6 +37,7 @@
       ]
     },
     "typecheck": {
+      "cache": false,
       "dependsOn": [
         "^typecheck"
       ]

@@ -4,6 +4,7 @@ import { expect, userEvent, within } from '@storybook/test'
 import {
   WBAction,
   WBStance,
+  WW_CARDS,
   WW_VISION_CARDS_INSIDE,
 } from '~/constants/woodenbot'
 import { loadDeck } from '~/utils/deck/loadDeck'
@@ -23,6 +24,9 @@ const meta: Meta<typeof CardAction> = {
         woodenbot_action_stance: WBStance.DISRUPTIVE,
       },
     }),
+  },
+  args: {
+    card: WW_CARDS[0],
   },
 }
 
@@ -147,6 +151,7 @@ export const SearchExecuted: Story = { ...Search }
 SearchExecuted.play = async (arg) => {
   const {
     canvasElement,
+    step,
     storyGlobals: { router },
   } = arg
   const canvas = within(canvasElement)
@@ -158,22 +163,29 @@ SearchExecuted.play = async (arg) => {
     (c) => c[0] === mountain,
   )
 
-  await userEvent.click(
-    choiceButton.find((b) => b.getAttribute('value') === mountain)!,
-  )
-  await userEvent.click(executeButton)
+  await step('Enter email and password', async () => {
+    await userEvent.click(
+      choiceButton.find((b) => b.getAttribute('value') === mountain)!,
+    )
+    await userEvent.click(executeButton)
+  })
 
   const state = router.state.location.state
+  console.log(state)
 
   expect(state.woodenbot_action_stance).toBe(WBStance.DISRUPTIVE)
-  expect(state.woodenbot_vision_discovery_search_card_done).toBe(true)
-  expect(state.woodenbot_vision_discovery_search_card_card).toBe(
+  expect(state.woodenbot_vision_discovery_done['WW01P/search/undefined']).toBe(
+    true,
+  )
+  expect(state.woodenbot_vision_discovery_card['WW01P/search/undefined']).toBe(
     mountainVisionCard,
   )
-  expect(state.woodenbot_vision_discovery_search_card_marked.length).toBe(5)
-  expect(state.woodenbot_vision_discovery_search_card_marked).not.toContain(
-    mountainVisionCard,
-  )
+  expect(
+    state.woodenbot_vision_discovery_marked['WW01P/search/undefined'].length,
+  ).toBe(5)
+  expect(
+    state.woodenbot_vision_discovery_marked['WW01P/search/undefined'],
+  ).not.toContain(mountainVisionCard)
 }
 
 export const SearchAsRed: Story = {

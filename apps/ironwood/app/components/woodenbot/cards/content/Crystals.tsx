@@ -5,23 +5,26 @@ import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
-import { WBStance } from '~/constants/woodenbot'
+import { WBAction, WBStance, WWCard } from '~/constants/woodenbot'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Crystals = () => {
+type Props = {
+  card: WWCard
+}
+
+export const Crystals = ({ card }: Props) => {
   const [stance] = useLocationState('woodenbot_action_stance')
   const [, setCrystals] = useLocationState('crystals')
-  const [done, setDone] = useLocationState(
-    'woodenbot_expended_crystals_action_done',
-  )
+  const [done, setDone] = useCardActionDone(card, WBAction.CRYSTALS)
 
   const { drawPile } = useVisionDeck()
 
   const onExecute = useCallback(() => {
     setCrystals((crystals) => crystals + 1)
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   return (

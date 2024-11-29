@@ -2,7 +2,6 @@
 
 import {
   Avatar,
-  Box,
   Card,
   Flex,
   Heading,

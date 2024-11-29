@@ -53,5 +53,7 @@ export type LocationState = {
   combat_defend_card?: IWCard | null // Current combat card for defense.
   no_change_crystals_done?: boolean // Flag to indicate that no change to game state (crystal gain) was done.
   expended_unavailable_done?: boolean // Flag to indicate that bot has executed "unavailable card action".
+
+  actions_done?: Record<string, boolean> // List of actions that were executed.
 } & WoodenbotLocationState &
   IronBotLocationState

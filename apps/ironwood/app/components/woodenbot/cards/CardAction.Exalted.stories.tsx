@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { WBAction, WBStance } from '~/constants/woodenbot'
+import { WBAction, WBStance, WW_CARDS } from '~/constants/woodenbot'
 import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { CardAction } from './CardAction'
@@ -16,6 +16,9 @@ const meta: Meta<typeof CardAction> = {
         woodenbot_action_stance: WBStance.EXALTED,
       },
     }),
+  },
+  args: {
+    card: WW_CARDS[0],
   },
 }
 

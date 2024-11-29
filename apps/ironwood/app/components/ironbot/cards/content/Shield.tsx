@@ -3,19 +3,24 @@ import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
-import { IBStance } from '~/constants/ironbot'
+import { IBAction, IBStance } from '~/constants/ironbot'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
+import { IWCard } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Shield = () => {
+type Props = {
+  card: IWCard
+  red?: boolean
+}
+
+export const Shield = ({ card, red }: Props) => {
   const [stance] = useLocationState('ironbot_action_stance')
   const [, setCrystals] = useLocationState('crystals')
-  const [done, setDone] = useLocationState(
-    'ironbot_expended_shield_action_done',
-  )
+  const [done, setDone] = useCardActionDone(card, IBAction.SHIELD, red)
 
   const onExecute = useCallback(() => {
     setCrystals((crystals) => crystals + 1)
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   return (

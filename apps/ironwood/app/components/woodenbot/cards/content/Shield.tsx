@@ -3,25 +3,30 @@ import { useCallback } from 'react'
 
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
+import { WBAction, WWCard } from '~/constants/woodenbot'
+import { useCardActionDone } from '~/hooks/useCardActionDone'
 import { useDeck } from '~/hooks/useDeck'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-export const Shield = () => {
+type Props = {
+  card: WWCard
+  red?: boolean
+}
+
+export const Shield = ({ card, red }: Props) => {
   const [, setCrystals] = useLocationState('crystals')
   const { drawCard } = useDeck()
 
-  const [done, setDone] = useLocationState(
-    'woodenbot_expended_shield_action_done',
-  )
+  const [done, setDone] = useCardActionDone(card, WBAction.SHIELD, red)
 
   const onExecute1 = useCallback(() => {
     drawCard()
-    setDone(true)
+    setDone()
   }, [drawCard, setDone])
 
   const onExecute2 = useCallback(() => {
     setCrystals((crystals) => crystals + 1)
-    setDone(true)
+    setDone()
   }, [setCrystals, setDone])
 
   return (
