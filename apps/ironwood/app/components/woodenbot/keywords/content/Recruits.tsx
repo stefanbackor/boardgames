@@ -29,7 +29,7 @@ export const Recruits = ({ count }: Props) => {
           Adjacent to a <Keyword.Totem />.
         </li>
         <li>
-          Adjacent to a <Keyword.Foundation />.
+          Adjacent to a controlled <Keyword.Foundation />.
         </li>
         <li>
           Adjacent to a (preferably uncontrolled) possible outer mountain,
