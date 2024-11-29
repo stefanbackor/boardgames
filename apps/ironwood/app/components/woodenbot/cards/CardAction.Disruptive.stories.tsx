@@ -4,6 +4,7 @@ import { expect, userEvent, within } from '@storybook/test'
 import {
   WBAction,
   WBStance,
+  WW_CARDS,
   WW_VISION_CARDS_INSIDE,
 } from '~/constants/woodenbot'
 import { loadDeck } from '~/utils/deck/loadDeck'
@@ -23,6 +24,9 @@ const meta: Meta<typeof CardAction> = {
         woodenbot_action_stance: WBStance.DISRUPTIVE,
       },
     }),
+  },
+  args: {
+    card: WW_CARDS[0],
   },
 }
 

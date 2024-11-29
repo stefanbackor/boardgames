@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { IBAction, IBStance, IBTurnProcedure } from '~/constants/ironbot'
+import {
+  IBAction,
+  IBStance,
+  IBTurnProcedure,
+  IC_CARDS,
+} from '~/constants/ironbot'
 import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'
 
 import { CardAction } from './CardAction'
@@ -17,6 +22,9 @@ const meta: Meta<typeof CardAction> = {
         ironbot_1_turn_procedure: IBTurnProcedure.ALERT,
       },
     }),
+  },
+  args: {
+    card: IC_CARDS[0],
   },
 }
 

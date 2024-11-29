@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { expect, userEvent, within } from '@storybook/test'
 
-import { WBStance, WW_CARDS_SPECIAL } from '~/constants/woodenbot'
+import { WBStance, WW_CARDS, WW_CARDS_SPECIAL } from '~/constants/woodenbot'
 import { createDeck } from '~/utils/deck/createDeck'
 import { loadDeck } from '~/utils/deck/loadDeck'
 import { Pile } from '~/utils/state/types'
@@ -20,6 +20,9 @@ const meta: Meta<typeof Alert> = {
         woodenbot_action_stance: WBStance.DISRUPTIVE,
       },
     }),
+  },
+  args: {
+    card: WW_CARDS[0],
   },
 }
 
