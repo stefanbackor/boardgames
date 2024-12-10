@@ -1,4 +1,11 @@
-import { Button, ButtonProps, Dialog, Strong, Text } from '@radix-ui/themes'
+import {
+  Button,
+  ButtonProps,
+  Dialog,
+  Flex,
+  Strong,
+  Text,
+} from '@radix-ui/themes'
 import { forwardRef, PropsWithChildren } from 'react'
 
 import { MagicDie } from '~/components/MagicDie'
@@ -35,7 +42,13 @@ const KeywordInline = ({ children }: PropsWithChildren) => (
 const KeywordButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, ...rest }, ref) => (
     <Button size="3" variant="ghost" {...rest} ref={ref}>
-      <Text weight="bold">{children}</Text>
+      <Flex
+        direction="row"
+        align="center"
+        style={{ fontWeight: 'var(--font-weight-bold)' }}
+      >
+        {children}
+      </Flex>
     </Button>
   ),
 )

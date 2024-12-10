@@ -41,7 +41,9 @@ export const MovementPlunder = ({ count }: Props) => {
           <Strong>Ironclad 5+ crystals</Strong>
           <ol>
             <li>Inner to Ferrum with most Woodwalkers adjacent</li>
-            <li>Inner controlled Foundation with most Woodwalkers adjacent</li>
+            <li>
+              Inner to controlled Foundation with most Woodwalkers adjacent
+            </li>
           </ol>
         </li>
         <li>

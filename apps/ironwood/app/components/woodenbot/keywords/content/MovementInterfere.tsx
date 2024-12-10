@@ -1,12 +1,23 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Callout, Flex, Strong, Text } from '@radix-ui/themes'
+import {
+  Box,
+  Callout,
+  Flex,
+  Heading,
+  Separator,
+  Strong,
+} from '@radix-ui/themes'
+import { useState } from 'react'
 
+import { FullInstructionsButton } from '~/components/ironbot/keywords/content/common/FullInstructionsButton'
 import { Keyword } from '~/components/KeywordButton'
+import { NoDoubleMovementCallout } from '~/components/NoDoubleMovementCallout'
 import { VisionCardBadge } from '~/components/woodenbot/VisionCardBadge'
 import { WWWarriorType } from '~/constants/woodenbot'
 import { useVisionDeck } from '~/hooks/woodenbot/useVisionDeck'
 
 import { MovementSourceFull } from './MovementSourceFull'
+import { MovementSourceShort } from './MovementSourceShort'
 
 type Props = {
   count: string
@@ -15,6 +26,7 @@ type Props = {
 
 export const MovementInterfere = ({ count, countType }: Props) => {
   const { drawPile } = useVisionDeck()
+  const [full, setFull] = useState(false)
 
   return (
     <Flex direction="column" gap="3">
@@ -31,38 +43,69 @@ export const MovementInterfere = ({ count, countType }: Props) => {
           )}
         </Callout.Text>
       </Callout.Root>
-      <Text size="4">Target of the movement:</Text>
-      <ul style={{ margin: 0 }}>
+      <Heading>Target forest:</Heading>
+      <ul>
         <li>
-          An inner forest adjacent to a <Strong>controlled Foundation</Strong>{' '}
-          with the largest number of Woodwalker Fighters adjacent.
+          Inner to <Strong>controlled Foundation</Strong> with most Woodwalkers
+          adjacent
         </li>
         <li>
-          An inner forest adjacent to <Strong>Ferrum</Strong> with the largest
-          number of Woodwalker Fighters adjacent.
+          Inner to <Strong>Ferrum</Strong> with most Woodwalkers adjacent
         </li>
         <li>
-          An inner forest adjacent to the <Strong>Drill</Strong> (if the Drill
-          has <Strong>2 or more crystals</Strong> in the cargo area) with the
-          largest number of Woodwalker Fighters adjacent.
+          Inner to <Strong>Drill</Strong> (2+ crystals) with most Woodwalkers
+          adjacent
         </li>
         <li>
-          An inner forest adjacent to a <Strong>possible Mountain</Strong>{' '}
+          Inner to a <Strong>possible Mountain</Strong>{' '}
           {drawPile.length > 0 &&
             drawPile.map((card) => (
               <>
                 <VisionCardBadge key={card[0]} card={card} />{' '}
               </>
             ))}{' '}
-          with the largest number of Woodwalker Fighters in adjacent outer
-          forests.
+          with most Woodwalkers adjacent in outer forest
         </li>
       </ul>
       <Box>
-        If multiple forests are tied, use the <Keyword.MagicDie />.
+        If tied, use the <Keyword.MagicDie />.
       </Box>
 
-      <MovementSourceFull />
+      <MovementSourceShort />
+      <NoDoubleMovementCallout />
+
+      <FullInstructionsButton full={full} onClick={() => setFull(!full)} />
+
+      {full && (
+        <>
+          <Separator size="4" />
+          <Heading size="4">Target of the movement:</Heading>
+          <ul>
+            <li>
+              An inner forest adjacent to a{' '}
+              <Strong>controlled Foundation</Strong> with the largest number of
+              Woodwalker Fighters adjacent.
+            </li>
+            <li>
+              An inner forest adjacent to <Strong>Ferrum</Strong> with the
+              largest number of Woodwalker Fighters adjacent.
+            </li>
+            <li>
+              An inner forest adjacent to the <Strong>Drill</Strong> (if the
+              Drill has <Strong>2 or more crystals</Strong> in the cargo area)
+              with the largest number of Woodwalker Fighters adjacent.
+            </li>
+            <li>
+              An inner forest adjacent to a <Strong>possible Mountain</Strong>{' '}
+              with the largest number of Woodwalker Fighters in adjacent outer
+              forests.
+            </li>
+          </ul>
+          <Box>If multiple forests are tied, use the Magic Die.</Box>
+
+          <MovementSourceFull />
+        </>
+      )}
     </Flex>
   )
 }

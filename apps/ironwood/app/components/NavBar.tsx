@@ -4,10 +4,10 @@ import { PropsWithChildren } from 'react'
 import { useGameParams } from '~/hooks/useGameParams'
 import { Bot } from '~/utils/state/types'
 
+import { CrystalsButton } from './CrystalsButton'
 import { WagerDefenseCardButton as IronbotWagerDefenseCardButton } from './ironbot/WagerDefenseCardButton'
 import { MagicDie } from './MagicDie'
-import { CrystalsButton } from './woodenbot/CrystalsButton'
-import { SpiritCubesButton } from './woodenbot/SpiritCubesButton'
+import { VisionCardPeekButton } from './woodenbot/VisionCardPeekButton'
 import { WagerDefenseCardButton as WoodenbotWagerDefenseCardButton } from './woodenbot/WagerDefenseCardButton'
 
 export const NavBar = ({ children }: PropsWithChildren) => {
@@ -28,8 +28,7 @@ export const NavBar = ({ children }: PropsWithChildren) => {
           {botId === Bot.IRONBOT && <IronbotWagerDefenseCardButton />}
           {botId === Bot.WOODENBOT && <WoodenbotWagerDefenseCardButton />}
           <CrystalsButton />
-
-          {botId === Bot.WOODENBOT && <SpiritCubesButton />}
+          {botId === Bot.WOODENBOT && <VisionCardPeekButton />}
         </Flex>
         {children}
       </Flex>
