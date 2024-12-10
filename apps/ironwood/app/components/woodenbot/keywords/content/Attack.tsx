@@ -1,9 +1,9 @@
 import { Box, Flex, Heading, Separator, Strong } from '@radix-ui/themes'
 import { useState } from 'react'
 
+import { CrystalsButton } from '~/components/CrystalsButton'
 import { FullInstructionsButton } from '~/components/ironbot/keywords/content/common/FullInstructionsButton'
 import { Keyword } from '~/components/KeywordButton'
-import { CrystalsButton } from '~/components/woodenbot/CrystalsButton'
 import { WagerAttackCardButton } from '~/components/woodenbot/WagerAttackCardButton'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'
 
@@ -16,7 +16,7 @@ export const Attack = ({ purpose }: Props) => {
 
   return (
     <Flex direction="column" gap="3">
-      <Heading>Warband in focus</Heading>
+      <Heading>Warband in focus:</Heading>
 
       <ul>
         <li>differential {'>'} 0! (Golem +1, Forge +1)</li>
@@ -26,13 +26,13 @@ export const Attack = ({ purpose }: Props) => {
         </li>
       </ul>
 
-      <Heading>Combat Procedure</Heading>
+      <Heading>Combat Procedure:</Heading>
 
       <ol>
         <li>you wager card first (or skip)</li>
         <li>
           bot reveals wagered card
-          <Box>
+          <Box my="2">
             <WagerAttackCardButton purpose={purpose} />
           </Box>
         </li>
@@ -40,7 +40,7 @@ export const Attack = ({ purpose }: Props) => {
         <li>remove Golems first</li>
         <li>
           update crystals if Drill or Ferrum is destroyed{' '}
-          <Box>
+          <Box my="2">
             <CrystalsButton size="1" />
           </Box>
         </li>

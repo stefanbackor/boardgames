@@ -1,12 +1,12 @@
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Callout, Flex, Separator, Text } from '@radix-ui/themes'
 
+import { CrystalsButton } from '~/components/CrystalsButton'
 import { Keyword } from '~/components/KeywordButton'
 import { WagerCardValues } from '~/components/WagerCardValues'
 import { useWagerCard } from '~/hooks/woodenbot/useWagerCard'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { CrystalsButton } from './CrystalsButton'
 import { PossibleMountains } from './PossibleMountains'
 
 type Props = Omit<ReturnType<typeof useWagerCard>, 'onExecuteWager'>
@@ -80,7 +80,7 @@ export const WagerCardContent = ({
               If your <Keyword.Ferrum /> or <Keyword.IroncladDrill /> is
               defeated,
             </Text>
-            <CrystalsButton />
+            <CrystalsButton size="1" />
           </Flex>
 
           <Separator size="4" />

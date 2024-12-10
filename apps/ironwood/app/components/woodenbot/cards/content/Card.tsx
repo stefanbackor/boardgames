@@ -27,8 +27,7 @@ export const Card = ({ card, red }: Props) => {
   return (
     <Box>
       Draw 1 <Keyword.Card /> for <Keyword.Woodenbot /> and put it on the top of
-      its hand.
-      <Keyword.Woodenbot /> gains 1 <Keyword.Crystal />.
+      its hand. <Keyword.Woodenbot /> gains 1 <Keyword.Crystal />.
       <Box mt="2">
         <ExecuteButton done={done} onClick={onExecute} />
       </Box>

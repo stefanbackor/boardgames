@@ -6,8 +6,8 @@ import { useGameParams } from '~/hooks/useGameParams'
 import { Bot } from '~/utils/state/types'
 import { useLocationState } from '~/utils/state/useLocationState'
 
-import { Keyword } from '../KeywordButton'
-import { ModalDialog } from '../ModalDialog'
+import { Keyword } from './KeywordButton'
+import { ModalDialog } from './ModalDialog'
 
 interface Props extends ButtonProps {
   label?: string

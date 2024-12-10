@@ -1,9 +1,9 @@
 import { Box, DataList, Flex, Heading, Strong } from '@radix-ui/themes'
 import { useState } from 'react'
 
+import { CrystalsButton } from '~/components/CrystalsButton'
 import { ExecuteButton } from '~/components/ExecuteButton'
 import { Keyword } from '~/components/KeywordButton'
-import { CrystalsButton } from '~/components/woodenbot/CrystalsButton'
 import { useDeck } from '~/hooks/useDeck'
 
 import { FullInstructionsButton } from './common/FullInstructionsButton'

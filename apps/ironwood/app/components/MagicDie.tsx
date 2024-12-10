@@ -4,7 +4,7 @@ import {
   DoubleArrowDownIcon,
   DoubleArrowUpIcon,
 } from '@radix-ui/react-icons'
-import { Badge, Button, ButtonProps } from '@radix-ui/themes'
+import { Badge, Button, ButtonProps, Flex } from '@radix-ui/themes'
 import sample from 'lodash/sample'
 import {
   cloneElement,
@@ -87,7 +87,11 @@ export const MagicDie = ({ triggerButtonComponent }: MagicDieProps) => {
   )
 
   const latestRoll = FACES[rolls[rolls.length - 1]]
-  const triggerButtonLabel = <>Magic Die {latestRoll?.symbols}</>
+  const triggerButtonLabel = (
+    <Flex direction="row" align="center">
+      Magic Die ({latestRoll?.symbols})
+    </Flex>
+  )
   const triggerButtonTitle = `${latestRoll?.text} ${latestRoll?.hint}`
 
   return (
