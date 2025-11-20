@@ -12,7 +12,7 @@ import {
 } from '@radix-ui/themes'
 import Obfuscate from 'react-obfuscate'
 
-export default function Home() {
+export default function Home(): React.JSX.Element {
   return (
     <Flex direction="column" gap="3" p="6">
       <Heading size="9" my="3">

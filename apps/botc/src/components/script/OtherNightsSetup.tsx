@@ -1,29 +1,29 @@
 import { Avatar, Flex, Heading } from '@radix-ui/themes'
+import { Moon, Sun } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { Role } from '../../data/types'
 import { NightRoleItem } from './NightRoleItem'
-import type { Translations } from '../../translations'
-import { Moon, Sun } from 'lucide-react'
 
 interface OtherNightsSetupProps {
   roles: Role[]
-  t: Translations
 }
 
-export function OtherNightsSetup({ roles, t }: OtherNightsSetupProps) {
+export function OtherNightsSetup({ roles }: OtherNightsSetupProps) {
+  const { t } = useTranslation()
   const otherNightsRoles = roles
     .filter((role) => role.otherNight > 0)
     .sort((a, b) => a.otherNight - b.otherNight)
 
   return (
-    <div style={{ pageBreakBefore: 'always', marginTop: '2rem' }}>
+    <div style={{ pageBreakBefore: 'always' }}>
       <Flex direction="column" gap="3">
-        <Flex direction="column" align="center" gap="2">
-          <Heading size="8">{t.otherNights}</Heading>
+        <Flex direction="column" align="center">
+          <Heading size="6">{t('Other Nights')}</Heading>
         </Flex>
 
-        <Flex direction="column" gap="4">
+        <Flex direction="column" gap="2">
           <NightRoleItem
-            name={t.dusk}
+            name={t('Dusk')}
             image={
               <Avatar
                 fallback={<Moon size={24} />}
@@ -45,7 +45,7 @@ export function OtherNightsSetup({ roles, t }: OtherNightsSetupProps) {
           ))}
 
           <NightRoleItem
-            name={t.dawn}
+            name={t('Dawn')}
             image={
               <Avatar
                 fallback={<Sun size={24} />}

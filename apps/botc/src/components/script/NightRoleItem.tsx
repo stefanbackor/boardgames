@@ -17,12 +17,13 @@ export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
         image
       )}
       <Flex direction="column" justify="center">
-        <Heading size="4" mt="1">
-          {name}
+        <Heading size="2">
+          <strong>{name}</strong>
         </Heading>
         {reminder && (
           <Text
             size="2"
+            style={{ lineHeight: '1.33' }}
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(reminder) }}
           />
         )}

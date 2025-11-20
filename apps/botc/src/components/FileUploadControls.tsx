@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Flex, Heading, Link, Text, TextField } from '@radix-ui/themes'
 import { Upload, Printer, Link as LinkIcon, Check, Link2 } from 'lucide-react'
-import type { Translations } from '../translations'
+import { Trans, useTranslation } from 'react-i18next'
 
 interface FileUploadControlsProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -11,7 +11,7 @@ interface FileUploadControlsProps {
   hasScript: boolean
   linkCopied: boolean
   error: string | null
-  t: Translations
+  currentScriptUrl: string
 }
 
 export function FileUploadControls({
@@ -22,9 +22,15 @@ export function FileUploadControls({
   hasScript,
   linkCopied,
   error,
-  t,
+  currentScriptUrl,
 }: FileUploadControlsProps) {
-  const [urlInput, setUrlInput] = useState('')
+  const { t } = useTranslation()
+  const [urlInput, setUrlInput] = useState(currentScriptUrl)
+
+  // Update input when currentScriptUrl changes
+  useEffect(() => {
+    setUrlInput(currentScriptUrl)
+  }, [currentScriptUrl])
 
   const handleLoadUrl = () => {
     if (urlInput.trim()) {
@@ -32,14 +38,51 @@ export function FileUploadControls({
     }
   }
 
+  const UrlButton = () => (
+    <Button onClick={handleLoadUrl}>
+      <Link2 size={16} />
+      {t('Load from URL')}
+    </Button>
+  )
+
+  const FileButton = () => (
+    <>
+      <label
+        key="file-label"
+        htmlFor="file-upload"
+        style={{
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        <Button asChild>
+          <span>
+            <Upload size={16} />
+            {t('Choose File')}
+          </span>
+        </Button>
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        accept=".json"
+        onChange={onFileUpload}
+        style={{ display: 'none' }}
+      />
+    </>
+  )
+
   return (
     <Flex direction="column" gap="5">
       <Heading size="8" mt="8" align="center">
-        <Link href="/">{t.title}</Link>
+        <Link href="/">{t('Blood on the Clocktower Script Tool')}</Link>
       </Heading>
 
       <Flex direction="column" gap="3" align="center">
-        <Text size="3">{t.uploadPrompt}</Text>
+        <Text size="3">
+          {t('Upload a script JSON file to format for printing')}
+        </Text>
         <Flex width="100%" gap="3" align="center" justify="center" wrap="wrap">
           {/* Upload script buttons */}
           <Flex
@@ -50,7 +93,7 @@ export function FileUploadControls({
             wrap="wrap"
           >
             <TextField.Root
-              placeholder={t.urlPlaceholder}
+              placeholder={t('Paste script JSON URL...')}
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
               onKeyDown={(e) => {
@@ -60,32 +103,10 @@ export function FileUploadControls({
               }}
               style={{ minWidth: '200px', maxWidth: '500px' }}
             />
-            <Button onClick={handleLoadUrl}>
-              <Link2 size={16} />
-              {t.loadFromUrl}
-            </Button>
-            {'or'}
-            <label
-              htmlFor="file-upload"
-              style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              <Button asChild>
-                <span>
-                  <Upload size={16} />
-                  {t.chooseFile}
-                </span>
-              </Button>
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              accept=".json"
-              onChange={onFileUpload}
-              style={{ display: 'none' }}
+
+            <Trans
+              i18nKey="<0></0> or <1></1>"
+              components={[<UrlButton />, <FileButton />]}
             />
           </Flex>
 
@@ -93,11 +114,11 @@ export function FileUploadControls({
           <Flex direction="row" gap="2">
             <Button onClick={onPrint} variant="soft" disabled={!hasScript}>
               <Printer size={16} />
-              {t.print}
+              {t('Print')}
             </Button>
             <Button onClick={onCopyLink} variant="soft" disabled={!hasScript}>
               {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
-              {linkCopied ? t.linkCopied : t.copyLink}
+              {linkCopied ? t('Link Copied!') : t('Copy Link')}
             </Button>
           </Flex>
         </Flex>

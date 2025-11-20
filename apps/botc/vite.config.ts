@@ -13,6 +13,9 @@ const config = defineConfig({
     }),
     react(),
   ],
+  build: {
+    sourcemap: false,
+  },
 })
 
 export default config
