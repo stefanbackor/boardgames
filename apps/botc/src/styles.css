@@ -1,0 +1,70 @@
+/* Radix UI Themes: Proper font configuration using official CSS custom properties */
+.radix-themes {
+  --heading-font-family: "Sorts Mill Goudy", serif;
+}
+
+/* Background Image - Override Radix dark theme background */
+body,
+.radix-themes {
+  background-repeat: repeat !important;
+  background-attachment: scroll !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+}
+
+/* Light theme background */
+.radix-themes.light {
+  background-image: url("https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/bg-light-rough-tile-TJBBJ7QQ.jpg") !important;
+}
+
+/* Dark theme background */
+.radix-themes.dark {
+  background-image: url("https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/splashpage_bg02-PDVWZDLK.jpg") !important;
+}
+
+/* Print Styles */
+@media print {
+
+  /* Hide background in print */
+  body {
+    background: none !important;
+    background-image: none !important;
+    margin: 0 !important;
+    zoom: 75%;
+    color: black !important;
+
+    * {
+      color: black !important;
+    }
+  }
+
+  /* Hide no-print elements */
+  .no-print,
+  .print\:hidden {
+    display: none !important;
+  }
+}
+
+/* JSON Syntax Highlighting */
+.json-key {
+  color: #4ec9b0;
+  font-weight: 500;
+}
+
+.json-string {
+  color: #ce9178;
+}
+
+.json-number {
+  color: #b5cea8;
+}
+
+.json-boolean {
+  color: #569cd6;
+  font-weight: 600;
+}
+
+.json-null {
+  color: #569cd6;
+  font-style: italic;
+}

@@ -1,0 +1,63 @@
+import { Avatar, Flex, Heading } from '@radix-ui/themes'
+import { Moon, Sun } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import type { Role } from '../../data/types'
+import { NightRoleItem } from './NightRoleItem'
+
+interface OtherNightsSetupProps {
+  roles: Role[]
+}
+
+export function OtherNightsSetup({ roles }: OtherNightsSetupProps) {
+  const { t } = useTranslation()
+  const otherNightsRoles = roles
+    .filter((role) => role.otherNight > 0)
+    .sort((a, b) => a.otherNight - b.otherNight)
+
+  return (
+    <div style={{ pageBreakBefore: 'always' }}>
+      <Flex direction="column" gap="3">
+        <Flex direction="column" align="center">
+          <Heading size="6">{t('Other Nights')}</Heading>
+        </Flex>
+
+        <Flex direction="column" gap="2">
+          <NightRoleItem
+            name={t('Dusk')}
+            image={
+              <Avatar
+                fallback={<Moon size={24} />}
+                size="4"
+                color="orange"
+                radius="full"
+              />
+            }
+            reminder=""
+          />
+
+          {otherNightsRoles.map((role) => (
+            <NightRoleItem
+              key={role.id}
+              name={role.name}
+              image={role.image}
+              reminder={role.otherNightReminder}
+            />
+          ))}
+
+          <NightRoleItem
+            name={t('Dawn')}
+            image={
+              <Avatar
+                fallback={<Sun size={24} />}
+                size="4"
+                color="orange"
+                radius="full"
+              />
+            }
+            reminder=""
+          />
+        </Flex>
+      </Flex>
+    </div>
+  )
+}
