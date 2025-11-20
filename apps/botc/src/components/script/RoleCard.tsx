@@ -7,19 +7,21 @@ interface RoleCardProps {
 
 export function RoleCard({ role }: RoleCardProps) {
   return (
-    <Flex gap="3" align="start">
+    <Flex gap="4" py="1" align="stretch" style={{ breakInside: 'avoid' }}>
       <img
         src={role.image}
         alt={role.name}
         style={{
-          width: '64px',
-          height: '64px',
+          width: '72px',
+          height: '72px',
           borderRadius: '50%',
           flexShrink: 0,
+          scale: 1.3,
+          objectFit: 'cover',
         }}
       />
-      <Flex direction="column">
-        <Flex align="center" gap="2" mt="3">
+      <Flex direction="column" justify="center" align="start">
+        <Flex align="center" gap="1">
           <Heading size="4">{role.name}</Heading>
           {role.isCustom && (
             <Badge color="gray" size="1" className="no-print">
@@ -27,7 +29,9 @@ export function RoleCard({ role }: RoleCardProps) {
             </Badge>
           )}
         </Flex>
-        <Text size="2">{role.ability}</Text>
+        <Text size="2" style={{ lineHeight: '1.33' }}>
+          {role.ability}
+        </Text>
       </Flex>
     </Flex>
   )

@@ -1,11 +1,9 @@
 import { Flex } from '@radix-ui/themes'
 import type { Role } from '../../data/types'
 import { TeamSection } from './TeamSection'
-import type { Translations } from '../../translations'
 
 interface TeamProps {
   roles: Role[]
-  t: Translations
 }
 
 const teamOrder = ['townsfolk', 'outsider', 'minion', 'demon', 'traveler']
@@ -17,7 +15,7 @@ const teamColors = {
   traveler: 'orange',
 } as const
 
-export function Team({ roles, t }: TeamProps) {
+export function Team({ roles }: TeamProps) {
   // Group roles by team
   const rolesByTeam = roles.reduce(
     (acc, role) => {
@@ -38,7 +36,6 @@ export function Team({ roles, t }: TeamProps) {
           <TeamSection
             key={team}
             team={team}
-            teamLabel={t[team as keyof typeof t] as string}
             teamColor={teamColors[team as keyof typeof teamColors]}
             roles={teamRoles}
           />

@@ -6,6 +6,7 @@ import { getRouter } from './router'
 
 import '@radix-ui/themes/styles.css'
 import './styles.css'
+import './i18n'
 
 const router = getRouter()
 

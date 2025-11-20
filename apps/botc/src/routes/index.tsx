@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { Box, Container, Flex, Text, Button } from '@radix-ui/themes'
+import { Box, Container, Flex, Text, Button, Link } from '@radix-ui/themes'
+import { Trans, useTranslation } from 'react-i18next'
 import { roles as baseRolesData } from '../data/roles'
 import type { Role } from '../data/types'
 import { roleTranslationsCs } from '../data/roles.cs.translation'
-import { translations } from '../translations'
 import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
 import { Header } from '../components/script/Header'
@@ -18,22 +18,23 @@ import { useSampleScripts } from '../hooks/useSampleScripts'
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
+  const { t, i18n } = useTranslation()
   const [scriptData, setScriptData] = useState<ScriptData | null>(null)
   const [scriptName, setScriptName] = useState<string>('')
   const [baseRoles, setBaseRoles] = useState<Role[]>([])
   const [error, setError] = useState<string | null>(null)
   const [linkCopied, setLinkCopied] = useState(false)
-  const [language, setLanguage] = useState<string>('cs')
+  const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
 
   useEffect(() => {
     // Initialize language from localStorage or browser settings (client-side only)
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('language')
       if (saved === 'en' || saved === 'cs') {
-        setLanguage(saved)
+        i18n.changeLanguage(saved)
       } else {
         const browserLang = navigator.language.split('-')[0]
-        setLanguage(browserLang === 'en' ? 'en' : 'cs')
+        i18n.changeLanguage(browserLang === 'en' ? 'en' : 'cs')
       }
     }
   }, [])
@@ -52,6 +53,7 @@ function App() {
 
     // Prioritize script_url over encoded script
     if (scriptUrlParam) {
+      setCurrentScriptUrl(scriptUrlParam)
       loadScriptFromUrl(scriptUrlParam, urlScriptName)
     } else if (encodedScript) {
       try {
@@ -113,6 +115,7 @@ function App() {
           ?.replace(/\.[^/.]+$/, '') ||
         'Script from URL'
       setScriptName(urlName)
+      setCurrentScriptUrl(url)
 
       // Update URL with script_url parameter
       const params = new URLSearchParams()
@@ -130,6 +133,8 @@ function App() {
       )
     }
   }
+
+  const language = i18n.language
 
   // Save language to localStorage when it changes
   useEffect(() => {
@@ -179,6 +184,7 @@ function App() {
         const fileName = file.name.replace(/\.[^/.]+$/, '')
         setScriptName(fileName)
         setError(null)
+        setCurrentScriptUrl('')
 
         // Update URL with encoded script data
         // Use Unicode-safe encoding by converting to UTF-8 bytes first
@@ -221,82 +227,82 @@ function App() {
   const meta = parsedScript?.meta
   const scriptRoles = parsedScript?.roles
 
-  const t =
-    translations[language as keyof typeof translations] || translations.cs
+  const sampleScripts = useSampleScripts()
 
-  const sampleScripts = useSampleScripts(t)
+  const handleLanguageChange = (newLanguage: string) => {
+    i18n.changeLanguage(newLanguage)
+  }
 
   return (
     <>
-      <AppHeader language={language} onLanguageChange={setLanguage} />
+      <AppHeader language={language} onLanguageChange={handleLanguageChange} />
       <Container size="4" p="2">
-        <div className="no-print">
-          <Box>
-            <FileUploadControls
-              onFileUpload={handleFileUpload}
-              onUrlLoad={loadScriptFromUrl}
-              onPrint={handlePrint}
-              onCopyLink={handleCopyLink}
-              hasScript={!!scriptData}
-              linkCopied={linkCopied}
-              error={error}
-              t={t}
-            />
-          </Box>
-        </div>
+        <Flex direction="column" gap="9">
+          <div className="no-print">
+            <Box>
+              <FileUploadControls
+                onFileUpload={handleFileUpload}
+                onUrlLoad={loadScriptFromUrl}
+                onPrint={handlePrint}
+                onCopyLink={handleCopyLink}
+                hasScript={!!scriptData}
+                linkCopied={linkCopied}
+                error={error}
+                currentScriptUrl={currentScriptUrl}
+              />
+            </Box>
+          </div>
 
-        {scriptData && scriptRoles && (
-          <Flex direction="column" gap="8" my="8">
+          {scriptData && scriptRoles && (
+            <Flex direction="column" gap="9">
+              <Flex direction="column" gap="2">
+                <Header name={meta?.name || scriptName} author={meta?.author} />
+                <Team roles={scriptRoles} />
+              </Flex>
+
+              <FirstNightSetup roles={scriptRoles} />
+
+              <OtherNightsSetup roles={scriptRoles} />
+            </Flex>
+          )}
+
+          {!scriptData && (
             <Flex
               direction="column"
+              align="center"
+              justify="center"
               gap="4"
-              style={{ pageBreakInside: 'avoid' }}
+              style={{ minHeight: '300px' }}
             >
-              <Header
-                name={meta?.name || scriptName}
-                author={meta?.author}
-                byText={t.by}
-              />
-              <Team roles={scriptRoles} t={t} />
+              <Text size="5" color="gray">
+                {t('Upload a script json or pick one below to get started')}
+              </Text>
+              <Flex gap="2" wrap="wrap" justify="center">
+                {sampleScripts.map((script) => (
+                  <Button
+                    key={script.key}
+                    variant="solid"
+                    size="2"
+                    onClick={() => loadScriptFromUrl(script.url, script.name)}
+                  >
+                    {script.name}
+                  </Button>
+                ))}
+              </Flex>
+
+              <Text size="2" color="gray">
+                <Trans>
+                  Or find more scripts on{' '}
+                  <Link target="_blank" href="https://www.botcscripts.com">
+                    botcscripts.com
+                  </Link>
+                </Trans>
+              </Text>
             </Flex>
+          )}
 
-            <Box asChild style={{ pageBreakInside: 'avoid' }}>
-              <FirstNightSetup roles={scriptRoles} t={t} />
-            </Box>
-
-            <Box asChild style={{ pageBreakInside: 'avoid' }}>
-              <OtherNightsSetup roles={scriptRoles} t={t} />
-            </Box>
-          </Flex>
-        )}
-
-        {!scriptData && (
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            gap="4"
-            style={{ minHeight: '300px' }}
-          >
-            <Text size="5" color="gray">
-              {t.uploadToStart}
-            </Text>
-            <Flex gap="2" wrap="wrap" justify="center">
-              {sampleScripts.map((script) => (
-                <Button
-                  key={script.key}
-                  variant="solid"
-                  size="2"
-                  onClick={() => loadScriptFromUrl(script.url, script.name)}
-                >
-                  {script.name}
-                </Button>
-              ))}
-            </Flex>
-          </Flex>
-        )}
-
-        <Footer />
+          <Footer />
+        </Flex>
       </Container>
     </>
   )

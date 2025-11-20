@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import type { Translations } from '../translations'
+import { useTranslation } from 'react-i18next'
 
 export interface SampleScript {
   key: string
@@ -24,14 +24,15 @@ const SAMPLE_SCRIPTS_DATA = {
 
 /**
  * Hook that provides sample scripts with translated names
- * @param t - Translations object for the current language
  * @returns Array of sample scripts with translated names
  */
-export function useSampleScripts(t: Translations): SampleScript[] {
+export function useSampleScripts(): SampleScript[] {
+  const { t } = useTranslation()
+
   return useMemo(() => {
     return Object.entries(SAMPLE_SCRIPTS_DATA).map(([key, script]) => ({
       key,
-      name: t.sampleScripts[key as keyof typeof t.sampleScripts] || script.name,
+      name: t(script.name),
       url: script.url,
     }))
   }, [t])
