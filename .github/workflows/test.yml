@@ -1,4 +1,4 @@
-name: 'Test'
+name: "Test"
 
 on: push
 
@@ -13,8 +13,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'yarn'
+          node-version: 22
+          cache: "yarn"
           cache-dependency-path: yarn.lock
       - name: Install dependencies
         run: yarn install --frozen-lockfile

@@ -67,9 +67,6 @@
     "vite-tsconfig-paths": "^4.2.1",
     "vitest": "^2.1.4"
   },
-  "engines": {
-    "node": ">=20.0.0"
-  },
   "lint-staged": {
     "**/*.{js,ts,jsx,tsx}": [
       "yarn lint-staged:lint",
