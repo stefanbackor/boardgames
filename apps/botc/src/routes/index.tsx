@@ -9,9 +9,10 @@ import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
 import { Header } from '../components/script/Header'
 import { Team } from '../components/script/Team'
-import { FirstNightSetup } from '../components/script/FirstNightSetup'
-import { OtherNightsSetup } from '../components/script/OtherNightsSetup'
+import { NightFirstSetup } from '../components/script/NightFirstSetup'
+import { NightOtherSetup } from '../components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
+import { LoadingIndicator } from '../components/LoadingIndicator'
 import { parseScript, type ScriptData } from '../utils/parseScript'
 import { useSampleScripts } from '../hooks/useSampleScripts'
 
@@ -25,6 +26,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [linkCopied, setLinkCopied] = useState(false)
   const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // Initialize language from localStorage or browser settings (client-side only)
@@ -92,6 +94,7 @@ function App() {
   ) => {
     try {
       setError(null)
+      setIsLoading(true)
       const response = await fetch(url)
 
       if (!response.ok) {
@@ -131,6 +134,8 @@ function App() {
       setError(
         `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -249,6 +254,7 @@ function App() {
                 linkCopied={linkCopied}
                 error={error}
                 currentScriptUrl={currentScriptUrl}
+                isLoading={isLoading}
               />
             </Box>
           </div>
@@ -259,14 +265,12 @@ function App() {
                 <Header name={meta?.name || scriptName} author={meta?.author} />
                 <Team roles={scriptRoles} />
               </Flex>
-
-              <FirstNightSetup roles={scriptRoles} />
-
-              <OtherNightsSetup roles={scriptRoles} />
+              <NightFirstSetup roles={scriptRoles} />
+              <NightOtherSetup roles={scriptRoles} />
             </Flex>
           )}
 
-          {!scriptData && (
+          {!scriptData && !isLoading && (
             <Flex
               direction="column"
               align="center"
@@ -300,6 +304,8 @@ function App() {
               </Text>
             </Flex>
           )}
+
+          {isLoading && <LoadingIndicator />}
 
           <Footer />
         </Flex>

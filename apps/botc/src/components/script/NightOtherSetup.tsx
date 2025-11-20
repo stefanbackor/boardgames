@@ -1,14 +1,14 @@
-import { Avatar, Flex, Heading } from '@radix-ui/themes'
+import { Avatar, Badge, Flex, Separator } from '@radix-ui/themes'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '../../data/types'
 import { NightRoleItem } from './NightRoleItem'
 
-interface OtherNightsSetupProps {
+interface NightOtherSetupProps {
   roles: Role[]
 }
 
-export function OtherNightsSetup({ roles }: OtherNightsSetupProps) {
+export function NightOtherSetup({ roles }: NightOtherSetupProps) {
   const { t } = useTranslation()
   const otherNightsRoles = roles
     .filter((role) => role.otherNight > 0)
@@ -17,8 +17,11 @@ export function OtherNightsSetup({ roles }: OtherNightsSetupProps) {
   return (
     <div style={{ pageBreakBefore: 'always' }}>
       <Flex direction="column" gap="3">
-        <Flex direction="column" align="center">
-          <Heading size="6">{t('Other Nights')}</Heading>
+        <Flex direction="row" gap="2" align="center">
+          <Badge size="3" color="gray">
+            {t('Other Nights')}
+          </Badge>
+          <Separator orientation="horizontal" size="4" />
         </Flex>
 
         <Flex direction="column" gap="2">
