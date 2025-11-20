@@ -9,7 +9,7 @@ interface Props {
 export function Header({ name, author }: Props) {
   if (!author) {
     return (
-      <Flex direction="row" justify="center" align="baseline" gap="2">
+      <Flex direction="row" justify="start" align="baseline" gap="2">
         <Heading size="8">{name}</Heading>
       </Flex>
     )

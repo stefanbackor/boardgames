@@ -27,8 +27,11 @@ export function TeamSection({ team, teamColor, roles }: TeamSectionProps) {
   return (
     <Flex key={team} direction="column" style={{ pageBreakInside: 'avoid' }}>
       <Flex direction="row" align="center" gap="2" style={{ minWidth: '40px' }}>
-        <Separator orientation="horizontal" size="4" />
-        <Badge color={teamColor} size="2">
+        <Badge
+          color={teamColor}
+          size="2"
+          style={{ textTransform: 'uppercase' }}
+        >
           {teamLabel}
         </Badge>
         <Separator orientation="horizontal" size="4" />

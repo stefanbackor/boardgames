@@ -13,7 +13,7 @@ export function sanitizeHtml(html: string): string {
   temp.innerHTML = html
 
   // Allowed tags
-  const allowedTags = ['br', 'i', 'b', 'strong']
+  const allowedTags = ['i', 'b', 'strong']
 
   // Tags that should be completely removed including their content
   const dangerousTags = ['script', 'style', 'iframe', 'object', 'embed']

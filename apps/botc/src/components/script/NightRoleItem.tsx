@@ -17,7 +17,7 @@ export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
         image
       )}
       <Flex direction="column" justify="center">
-        <Heading size="2">
+        <Heading size="3">
           <strong>{name}</strong>
         </Heading>
         {reminder && (
