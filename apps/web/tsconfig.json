@@ -5,8 +5,7 @@
       {
         "name": "next"
       }
-    ],
-    "types": []
+    ]
   },
   "include": [
     "next-env.d.ts",
