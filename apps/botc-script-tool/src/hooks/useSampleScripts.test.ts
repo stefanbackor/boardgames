@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { renderHook } from '@testing-library/react'
+import { renderHook } from '@testing-library/preact'
 import { useSampleScripts } from './useSampleScripts'
 import { translations } from '../translations'
 
@@ -49,9 +49,15 @@ describe('useSampleScripts', () => {
   it('should preserve URLs from data', () => {
     const { result } = renderHook(() => useSampleScripts(translations.en))
 
-    expect(result.current[0].url).toBe('https://www.botcscripts.com/api/scripts/178/json/')
-    expect(result.current[1].url).toBe('https://www.botcscripts.com/api/scripts/180/json/')
-    expect(result.current[2].url).toBe('https://www.botcscripts.com/api/scripts/181/json/')
+    expect(result.current[0].url).toBe(
+      'https://www.botcscripts.com/api/scripts/178/json/',
+    )
+    expect(result.current[1].url).toBe(
+      'https://www.botcscripts.com/api/scripts/180/json/',
+    )
+    expect(result.current[2].url).toBe(
+      'https://www.botcscripts.com/api/scripts/181/json/',
+    )
   })
 
   it('should return all scripts', () => {
@@ -64,7 +70,9 @@ describe('useSampleScripts', () => {
   })
 
   it('should memoize results', () => {
-    const { result, rerender } = renderHook(() => useSampleScripts(translations.en))
+    const { result, rerender } = renderHook(() =>
+      useSampleScripts(translations.en),
+    )
 
     const firstResult = result.current
     rerender()
@@ -74,12 +82,9 @@ describe('useSampleScripts', () => {
   })
 
   it('should update when translations change', () => {
-    const { result, rerender } = renderHook(
-      ({ t }) => useSampleScripts(t),
-      {
-        initialProps: { t: translations.en },
-      },
-    )
+    const { result, rerender } = renderHook(({ t }) => useSampleScripts(t), {
+      initialProps: { t: translations.en },
+    })
 
     expect(result.current[0].name).toBe('Trouble Brewing')
 
