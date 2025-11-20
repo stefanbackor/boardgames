@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { renderHook } from '@testing-library/preact'
+import { renderHook } from '@testing-library/react'
 import { useSampleScripts } from './useSampleScripts'
 import { translations } from '../translations'
 
@@ -63,7 +63,7 @@ describe('useSampleScripts', () => {
   it('should return all scripts', () => {
     const { result } = renderHook(() => useSampleScripts(translations.en))
 
-    const scriptKeys = result.current.map((s) => s.key)
+    const scriptKeys = result.current.map((s: { key: string }) => s.key)
     const expectedKeys = ['tb', 'snv', 'bmr']
 
     expect(scriptKeys).toEqual(expectedKeys)
@@ -82,9 +82,12 @@ describe('useSampleScripts', () => {
   })
 
   it('should update when translations change', () => {
-    const { result, rerender } = renderHook(({ t }) => useSampleScripts(t), {
-      initialProps: { t: translations.en },
-    })
+    const { result, rerender } = renderHook(
+      ({ t }: { t: typeof translations.en }) => useSampleScripts(t),
+      {
+        initialProps: { t: translations.en },
+      },
+    )
 
     expect(result.current[0].name).toBe('Trouble Brewing')
 
