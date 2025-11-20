@@ -1,13 +1,13 @@
 import { defineConfig } from 'vitest/config'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
-import preact from '@preact/preset-vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),
-    preact(),
+    react(),
   ],
   test: {
     globals: true,
