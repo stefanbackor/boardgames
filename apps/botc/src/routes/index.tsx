@@ -318,14 +318,10 @@ function App() {
 
                 <PlayerCountTable />
               </Flex>
-              <div
-                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
-              >
+              <div style={{ pageBreakBefore: 'always' }}>
                 <NightFirstSetup roles={scriptRoles} />
               </div>
-              <div
-                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
-              >
+              <div style={{ pageBreakBefore: 'always' }}>
                 <NightOtherSetup roles={scriptRoles} />
               </div>
             </Flex>
