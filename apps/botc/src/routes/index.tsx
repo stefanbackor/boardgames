@@ -2,18 +2,19 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Box, Container, Flex, Text, Button, Link } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
-import { roles as baseRolesData } from '../data/roles'
-import type { Role } from '../data/types'
+import { roles as baseRoles } from '../data/roles'
 import { roleTranslationsCs } from '../data/roles.cs.translation'
 import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
 import { Header } from '../components/script/Header'
-import { Team } from '../components/script/Team'
-import { FirstNightSetup } from '../components/script/FirstNightSetup'
-import { OtherNightsSetup } from '../components/script/OtherNightsSetup'
+import { NightFirstSetup } from '../components/script/NightFirstSetup'
+import { NightOtherSetup } from '../components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
+import { LoadingIndicator } from '../components/LoadingIndicator'
 import { parseScript, type ScriptData } from '../utils/parseScript'
 import { useSampleScripts } from '../hooks/useSampleScripts'
+import { PlayerCountTable } from '@/components/script/PlayerCountTable'
+import { TeamSection } from '@/components/script/TeamSection'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -21,10 +22,10 @@ function App() {
   const { t, i18n } = useTranslation()
   const [scriptData, setScriptData] = useState<ScriptData | null>(null)
   const [scriptName, setScriptName] = useState<string>('')
-  const [baseRoles, setBaseRoles] = useState<Role[]>([])
   const [error, setError] = useState<string | null>(null)
   const [linkCopied, setLinkCopied] = useState(false)
   const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     // Initialize language from localStorage or browser settings (client-side only)
@@ -40,9 +41,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Set base roles from imported data (English source of truth)
-    setBaseRoles(baseRolesData as Role[])
-
     // Load script from URL on mount (client-side only)
     if (typeof window === 'undefined') return
 
@@ -92,6 +90,7 @@ function App() {
   ) => {
     try {
       setError(null)
+      setIsLoading(true)
       const response = await fetch(url)
 
       if (!response.ok) {
@@ -131,6 +130,8 @@ function App() {
       setError(
         `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -249,6 +250,7 @@ function App() {
                 linkCopied={linkCopied}
                 error={error}
                 currentScriptUrl={currentScriptUrl}
+                isLoading={isLoading}
               />
             </Box>
           </div>
@@ -256,17 +258,80 @@ function App() {
           {scriptData && scriptRoles && (
             <Flex direction="column" gap="9">
               <Flex direction="column" gap="2">
-                <Header name={meta?.name || scriptName} author={meta?.author} />
-                <Team roles={scriptRoles} />
+                <Flex
+                  direction="column"
+                  gap="2"
+                  style={{ pageBreakInside: 'avoid' }}
+                >
+                  <Header
+                    name={meta?.name || scriptName}
+                    author={meta?.author}
+                  />
+                  <TeamSection
+                    team="townsfolk"
+                    teamColor="blue"
+                    roles={scriptRoles.filter(
+                      (role) => role.team === 'townsfolk',
+                    )}
+                  />
+                </Flex>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="outsider"
+                    teamColor="blue"
+                    roles={scriptRoles.filter(
+                      (role) => role.team === 'outsider',
+                    )}
+                  />
+                </div>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="minion"
+                    teamColor="red"
+                    roles={scriptRoles.filter((role) => role.team === 'minion')}
+                  />
+                </div>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="demon"
+                    teamColor="red"
+                    roles={scriptRoles.filter((role) => role.team === 'demon')}
+                  />
+                </div>
               </Flex>
+              <Flex
+                direction="column"
+                gap="5"
+                justify="between"
+                align="stretch"
+                style={{
+                  height: '100vh',
+                  pageBreakBefore: 'always',
+                  pageBreakInside: 'avoid',
+                }}
+              >
+                <TeamSection
+                  team="traveler"
+                  teamColor="orange"
+                  roles={scriptRoles.filter((role) => role.team === 'traveler')}
+                />
 
-              <FirstNightSetup roles={scriptRoles} />
-
-              <OtherNightsSetup roles={scriptRoles} />
+                <PlayerCountTable />
+              </Flex>
+              <div
+                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
+              >
+                <NightFirstSetup roles={scriptRoles} />
+              </div>
+              <div
+                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
+              >
+                <NightOtherSetup roles={scriptRoles} />
+              </div>
             </Flex>
           )}
 
-          {!scriptData && (
+          {!scriptData && !isLoading && (
             <Flex
               direction="column"
               align="center"
@@ -300,6 +365,8 @@ function App() {
               </Text>
             </Flex>
           )}
+
+          {isLoading && <LoadingIndicator />}
 
           <Footer />
         </Flex>

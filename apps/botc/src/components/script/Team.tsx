@@ -4,6 +4,7 @@ import { TeamSection } from './TeamSection'
 
 interface TeamProps {
   roles: Role[]
+  excludeTravelers?: boolean
 }
 
 const teamOrder = ['townsfolk', 'outsider', 'minion', 'demon', 'traveler']
@@ -15,7 +16,7 @@ const teamColors = {
   traveler: 'orange',
 } as const
 
-export function Team({ roles }: TeamProps) {
+export function Team({ roles, excludeTravelers = false }: TeamProps) {
   // Group roles by team
   const rolesByTeam = roles.reduce(
     (acc, role) => {
@@ -29,6 +30,8 @@ export function Team({ roles }: TeamProps) {
   return (
     <Flex direction="column">
       {teamOrder.map((team) => {
+        if (excludeTravelers && team === 'traveler') return null
+
         const teamRoles = rolesByTeam?.[team]
         if (!teamRoles || teamRoles.length === 0) return null
 

@@ -7,7 +7,7 @@ interface RoleCardProps {
 
 export function RoleCard({ role }: RoleCardProps) {
   return (
-    <Flex gap="4" py="1" align="stretch" style={{ breakInside: 'avoid' }}>
+    <Flex gap="3" my="1" align="stretch" style={{ breakInside: 'avoid' }}>
       <img
         src={role.image}
         alt={role.name}

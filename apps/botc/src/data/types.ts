@@ -49,6 +49,7 @@ export type Role = {
   setup: boolean
   ability: string
   flavor?: string
+  source?: 'cs'
 }
 
 export interface RoleTranslation {

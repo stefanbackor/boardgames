@@ -38,6 +38,13 @@ body,
     }
   }
 
+  .radix-themes,
+  .radix-themes.light,
+  .radix-themes.dark {
+    background: none !important;
+    background-image: none !important;
+  }
+
   /* Hide no-print elements */
   .no-print,
   .print\:hidden {

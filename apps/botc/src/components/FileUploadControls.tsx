@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Button, Flex, Heading, Link, Text, TextField } from '@radix-ui/themes'
-import { Upload, Printer, Link as LinkIcon, Check, Link2 } from 'lucide-react'
+import { Upload, Printer, Link as LinkIcon, Check, Link2, Loader2 } from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface FileUploadControlsProps {
@@ -12,6 +12,7 @@ interface FileUploadControlsProps {
   linkCopied: boolean
   error: string | null
   currentScriptUrl: string
+  isLoading: boolean
 }
 
 export function FileUploadControls({
@@ -23,6 +24,7 @@ export function FileUploadControls({
   linkCopied,
   error,
   currentScriptUrl,
+  isLoading,
 }: FileUploadControlsProps) {
   const { t } = useTranslation()
   const [urlInput, setUrlInput] = useState(currentScriptUrl)
@@ -39,8 +41,8 @@ export function FileUploadControls({
   }
 
   const UrlButton = () => (
-    <Button onClick={handleLoadUrl}>
-      <Link2 size={16} />
+    <Button onClick={handleLoadUrl} disabled={isLoading}>
+      {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Link2 size={16} />}
       {t('Load from URL')}
     </Button>
   )
@@ -101,6 +103,7 @@ export function FileUploadControls({
                   handleLoadUrl()
                 }
               }}
+              disabled={isLoading}
               style={{ minWidth: '200px', maxWidth: '500px' }}
             />
 
