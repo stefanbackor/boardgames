@@ -33,7 +33,7 @@ export const roles = [
     reminders: [],
     setup: false,
     ability:
-      'Každý den, když veřejně uhodneš, kteří hráči jsou Přisluhovači a Démoni, dobro vyhrává.',
+      'Each day, if you publicly guess which players are Minion(s) and which are Demon(s), good wins.',
     image:
       'https://wiki.bloodontheclocktower.com/images/8/8e/Icon_alsaahir.png',
     firstNight: 0,
@@ -797,7 +797,7 @@ export const roles = [
   },
   {
     id: 'princess',
-    name: 'Princezna',
+    name: 'Princess',
     edition: '',
     team: 'townsfolk',
     firstNightReminder: '',
@@ -806,7 +806,7 @@ export const roles = [
     reminders: ["Doesn't Kill"],
     setup: false,
     ability:
-      'Během svého prvního dne: pokud nominuješ hráče, který je popraven, Démon tu noc nezabíjí.',
+      'On your 1st day, if you nominated & executed a player, the Demon doesn’t kill tonight.',
     image:
       'https://wiki.bloodontheclocktower.com/images/3/36/Icon_princess.png',
     firstNight: 0,
@@ -849,14 +849,14 @@ export const roles = [
   },
   {
     id: 'knight',
-    name: 'Rytíř',
+    name: 'Knight',
     edition: '',
     team: 'townsfolk',
     firstNightReminder: 'Point to the 2 marked players.',
     otherNightReminder: '',
     reminders: ['Know', 'Know'],
     setup: false,
-    ability: 'Začínáš s informací o 2 hráčích, kteří nejsou Démon.',
+    ability: 'You start knowing 2 players that are not the Demon.',
     image: 'https://wiki.bloodontheclocktower.com/images/8/8e/Icon_knight.png',
     firstNight: 59,
     otherNight: 0,
@@ -939,7 +939,7 @@ export const roles = [
     reminders: [],
     setup: false,
     ability:
-      'Začínáš s informací o tom, jestli nejbližší zlý hráč k tobě sedí po nebo proti směru hodinových ručiček. V případě stejné vzdálenosti je informace libovolná. You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.',
+      'You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.',
     image:
       'https://wiki.bloodontheclocktower.com/images/1/11/Icon_shugenja.png',
     firstNight: 62,
@@ -964,7 +964,7 @@ export const roles = [
   },
   {
     id: 'banshee',
-    name: 'Smrtonoška',
+    name: 'Banshee',
     edition: '',
     team: 'townsfolk',
     firstNightReminder: '',
@@ -973,7 +973,7 @@ export const roles = [
     reminders: ['Has Ability'],
     setup: false,
     ability:
-      'Pokud tě zabije Démon, všichni se to dozvědí. Od té chvíle můžeš nominovat dvakrát i hlasovat dvakrát v každé nominaci.',
+      'If the Demon kills you, all players learn this. From now on, you may nominate twice per day and vote twice per nomination.',
     image: 'https://wiki.bloodontheclocktower.com/images/6/63/Icon_banshee.png',
     firstNight: 0,
     otherNight: 62,
@@ -1022,7 +1022,7 @@ export const roles = [
     otherNightReminder: '',
     reminders: ['Know'],
     setup: false,
-    ability: 'Začínáš s informací o 1 dobrém hráči.',
+    ability: 'You start knowing 1 good player.',
     image: 'https://wiki.bloodontheclocktower.com/images/f/fe/Icon_steward.png',
     firstNight: 58,
     otherNight: 0,
@@ -1078,7 +1078,7 @@ export const roles = [
   },
   {
     id: 'highpriestess',
-    name: 'Velekněžka',
+    name: 'High Priestess',
     edition: '',
     team: 'townsfolk',
     firstNightReminder: 'Point to a player.',
@@ -1086,7 +1086,7 @@ export const roles = [
     reminders: [],
     setup: false,
     ability:
-      'Každou noc se dozvíš, se kterým hráčem by sis měla podle vypravěče promluvit.',
+      'Each night, learn which player the Storyteller believes you should talk to most.',
     image:
       'https://wiki.bloodontheclocktower.com/images/6/63/Icon_highpriestess.png',
     firstNight: 69,
@@ -1097,17 +1097,17 @@ export const roles = [
   },
   {
     id: 'villageidiot',
-    name: 'Vesnický pobuda',
+    name: 'Village Idiot',
     edition: '',
     team: 'townsfolk',
     firstNightReminder:
       'The Village Idiot points to a player; give a thumbs up if that player is good or a thumbs down if that player is evil.',
     otherNightReminder:
       'The Village Idiot points to a player; give a thumbs up if that player is good or a thumbs down if that player is evil.',
-    reminders: ['Opilý'],
+    reminders: ['Drunk'],
     setup: true,
     ability:
-      'Každou noc vybereš 1 hráče: dozvíš se jeho příslušnost. [+0 až +2 Vesnických pobudů, přičemž jeden z těch dalších je opilý.]',
+      'Each night, choose a player: you learn their alignment. [+0 to +2 Village Idiots. 1 of the extras is drunk]',
     image:
       'https://wiki.bloodontheclocktower.com/images/d/da/Icon_villageidiot.png',
     firstNight: 63,
@@ -1349,14 +1349,14 @@ export const roles = [
   },
   {
     id: 'plaguedoctor',
-    name: 'Morový doktor',
+    name: 'Plague Doctor',
     edition: '',
     team: 'outsider',
     firstNightReminder: '',
     otherNightReminder: '',
     reminders: ['Storyteller Ability'],
     setup: false,
-    ability: 'Když zemřeš, vypravěč získává schopnost Přisluhovače.',
+    ability: 'When you die, the Storyteller gains a Minion ability.',
     image:
       'https://wiki.bloodontheclocktower.com/images/e/e2/Icon_plaguedoctor.png',
     firstNight: 0,
@@ -1396,14 +1396,14 @@ export const roles = [
   },
   {
     id: 'hermit',
-    name: 'Poustevník',
+    name: 'Hermit',
     edition: '',
     team: 'outsider',
     firstNightReminder: '',
     otherNightReminder: '',
     reminders: ['1', '2', '3'],
     setup: true,
-    ability: 'Máš schopnost všech Podivínů. [-0 nebo -1 Podivín]',
+    ability: 'You have all Outsider abilities. [-0 or -1 Outsider]',
     image: 'https://wiki.bloodontheclocktower.com/images/b/b4/Icon_hermit.png',
     firstNight: 0,
     otherNight: 0,
@@ -1517,7 +1517,7 @@ export const roles = [
   },
   {
     id: 'ogre',
-    name: 'Zlobr',
+    name: 'Ogre',
     edition: '',
     team: 'outsider',
     firstNightReminder:
@@ -1526,7 +1526,7 @@ export const roles = [
     reminders: ['Friend'],
     setup: false,
     ability:
-      'Během své první noci vybereš 1 hráče (ne sebe): získáváš jeho příslušnost (nevíš jakou), i když jsi opilý nebo otrávený.',
+      "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.",
     image: 'https://wiki.bloodontheclocktower.com/images/2/25/Icon_ogre.png',
     firstNight: 68,
     otherNight: 0,
@@ -1601,7 +1601,7 @@ export const roles = [
   },
   {
     id: 'wizard',
-    name: 'Čaroděj',
+    name: 'Wizard',
     edition: '',
     team: 'minion',
     firstNightReminder:
@@ -1611,7 +1611,7 @@ export const roles = [
     reminders: ['?', '?'],
     setup: false,
     ability:
-      'Jednou za hru si můžeš něco přát. Pokud se splní, může mít svou cenu a může zanechat stopu. Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.',
+      'Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.',
     image: 'https://wiki.bloodontheclocktower.com/images/b/b5/Icon_wizard.png',
     firstNight: 31,
     otherNight: 18,
@@ -1639,14 +1639,14 @@ export const roles = [
   },
   {
     id: 'organgrinder',
-    name: 'Cvičitel opic',
+    name: 'Organ Grinder',
     edition: '',
     team: 'minion',
     firstNightReminder:
       "Wake the Organ Grinder. If they give the 'yes' head signal, mark them Drunk. If they give the 'no' head signal, remove the Drunk reminder.",
     otherNightReminder:
       "Wake the Organ Grinder. If they give the 'yes' head signal, mark them Drunk. If they give the 'no' head signal, remove the Drunk reminder.",
-    reminders: ['About To Die', 'Opilý'],
+    reminders: ['About To Die', 'Drunk'],
     special: [
       {
         name: 'hidden',
@@ -1655,7 +1655,7 @@ export const roles = [
     ],
     setup: false,
     ability:
-      'Všichni hráči mají během hlasování zavřené oči a počet hlasů je tajný. Každou noc si vybereš, jestli chceš být až do soumraku opilý.',
+      'All players keep their eyes closed when voting and the vote tally is secret. Each night, choose if you are drunk until dusk.',
     image:
       'https://wiki.bloodontheclocktower.com/images/6/61/Icon_organgrinder.png',
     firstNight: 34,
@@ -1856,7 +1856,7 @@ export const roles = [
   },
   {
     id: 'wraith',
-    name: 'Přízrak',
+    name: 'Wraith',
     edition: '',
     team: 'minion',
     firstNightReminder:
@@ -2013,8 +2013,7 @@ export const roles = [
       "Change the Xaan's night reminder to the relevant night. If tonight is night X, add the 'X' reminder.",
     reminders: ['Night 1', 'Night 2', 'Night 3', 'X'],
     setup: true,
-    ability:
-      'V noci X jsou všichni Měšťané otráveni a otrava trvá až do soumraku. [X Podivínů]',
+    ability: 'On night X, all Townsfolk are poisoned until dusk. [X Outsiders]',
     image: 'https://wiki.bloodontheclocktower.com/images/0/0c/Icon_xaan.png',
     firstNight: 27,
     otherNight: 14,
@@ -2098,10 +2097,10 @@ export const roles = [
     firstNightReminder:
       "The Kazali points to a player and a Minion on the character sheet. They do this for as many Minions as should be in play. Change those players' tokens to the chosen Minion tokens. Wake those players, show them the 'You Are' card, the Minions they have become, and a thumbs down.",
     otherNightReminder: 'The Kazali points to a player. That player dies',
-    reminders: ['Mrtvý'],
+    reminders: ['Dead'],
     setup: true,
     ability:
-      'Každou noc* vybereš 1 hráče: ten zemře. [Vybereš si, kteří hráči jsou jací Přisluhovači. -? až +? Podivínů]',
+      'Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]',
     image: 'https://wiki.bloodontheclocktower.com/images/3/3c/Icon_kazali.png',
     firstNight: 4,
     otherNight: 53,
@@ -2207,10 +2206,10 @@ export const roles = [
     firstNightReminder: '',
     otherNightReminder:
       'The Ojo points to a character on the sheet. If it is in play, that player dies. If it is not in play, the Storyteller chooses who dies instead.',
-    reminders: ['Mrtvý'],
+    reminders: ['Dead'],
     setup: false,
     ability:
-      'Každou noc* vybereš postavu: ta zemře. Pokud není ve hře, vypravěč rozhodne o tom, kdo zemře.',
+      'Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies.',
     image: 'https://wiki.bloodontheclocktower.com/images/6/6f/Icon_ojo.png',
     firstNight: 0,
     otherNight: 48,
@@ -2219,17 +2218,17 @@ export const roles = [
   },
   {
     id: 'lordoftyphon',
-    name: 'Pán bouře',
+    name: 'Lord of Typhon',
     edition: '',
     team: 'demon',
     firstNightReminder:
       "Wake the players on either side of the Demon. Show them the 'You Are' card, the token of the Minion they now are, and a thumbs down to indicate they are evil.",
     otherNightReminder:
       'The Lord of Typhon points to a player. That player dies.',
-    reminders: ['Mrtvý'],
+    reminders: ['Dead'],
     setup: true,
     ability:
-      'Každou noc* vybereš 1 hráče: ten zemře. [Zlí hráči sedí vedle sebe a ty jsi uprostřed. +1 Přisluhovač, -? až +? Podivínů]',
+      'Each night*, choose a player: they die. [Evil characters are in a line. You are in the middle. +1 Minion. -? to +? Outsiders]',
     image:
       'https://wiki.bloodontheclocktower.com/images/c/cf/Icon_lordoftyphon.png',
     firstNight: 3,
@@ -2651,7 +2650,7 @@ export const roles = [
     reminders: [],
     setup: false,
     ability:
-      'Hráči neznají svou Postavu ani Příslušnost. Dozvídají se je když zemřou.',
+      "Players don't know their character or alignment. They learn them when they die.",
     flavor:
       'With thunder as my voice and lightning as my blade, I, the eternal guardian, feast upon the fools who dare approach the forbidden gate. Behold, my sacred goal! To purge the beetle from the belly of the rocky earth, to ensnare it in a net of stars on the hilltop where heaven meets earth.',
     image: 'https://wiki.bloodontheclocktower.com/images/6/61/Icon_tor.png',
@@ -2661,7 +2660,7 @@ export const roles = [
   },
   {
     id: 'bigwig',
-    name: 'Velké zvíře',
+    name: 'Big Wig',
     edition: '',
     team: 'loric',
     firstNightReminder: '',
@@ -2669,7 +2668,7 @@ export const roles = [
     reminders: [],
     setup: false,
     ability:
-      "Každý nominovaný si zvolí hráče: až do hlasování může mluvit pouze obhájce & je 'Posedlý' představou, že nominovaný je dobrý, jinak může zemřít.",
+      'Each nominee chooses a player: until voting, only they may speak & they are mad the nominee is good or they might die.',
     flavor:
       'Vanity asks ‘Is it popular?’ Cowardice asks ‘Is it safe?’ Conscience asks ‘Is it right?’ Who among us will ask: ‘Is it true?’',
     image: 'https://wiki.bloodontheclocktower.com/images/8/8f/Icon_big_wig.png',

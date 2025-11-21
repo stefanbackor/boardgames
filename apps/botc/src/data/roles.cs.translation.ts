@@ -1294,7 +1294,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
   shugenja: {
     name: 'Shugenja',
     ability:
-      'Začínáš s informací o tom, jestli nejbližší zlý hráč k tobě sedí po nebo proti směru hodinových ručiček. V případě stejné vzdálenosti je informace libovolná. You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.',
+      'Začínáš s informací o tom, jestli nejbližší zlý hráč k tobě sedí po nebo proti směru hodinových ručiček. V případě stejné vzdálenosti je informace libovolná.',
     firstNightReminder:
       'If the closest evil player is in a clockwise direction, point your finger horizontally in that direction. If the closest evil player is in an anti-clockwise direction, point your finger horizontally in that direction. If the two closest evil players are equidistant, point your finger horizontally in either direction.',
     flavor: 'これは夢。それも夢。すべて夢です。',
