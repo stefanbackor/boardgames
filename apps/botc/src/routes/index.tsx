@@ -321,9 +321,14 @@ function App() {
               <div style={{ pageBreakBefore: 'always' }}>
                 <NightFirstSetup roles={scriptRoles} />
               </div>
-              <div style={{ pageBreakBefore: 'always' }}>
+              <Flex
+                direction="column"
+                gap="5"
+                style={{ pageBreakBefore: 'always' }}
+              >
                 <NightOtherSetup roles={scriptRoles} />
-              </div>
+                <Footer />
+              </Flex>
             </Flex>
           )}
 
@@ -364,7 +369,7 @@ function App() {
 
           {isLoading && <LoadingIndicator />}
 
-          <Footer />
+          {!scriptData && <Footer />}
         </Flex>
       </Container>
     </>

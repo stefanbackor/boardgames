@@ -25,6 +25,12 @@ body,
 /* Print Styles */
 @media print {
 
+  /* A4 Portrait page setup with small margins */
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
   /* Hide background in print */
   body {
     background: none !important;
