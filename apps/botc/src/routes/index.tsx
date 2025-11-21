@@ -8,13 +8,14 @@ import { roleTranslationsCs } from '../data/roles.cs.translation'
 import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
 import { Header } from '../components/script/Header'
-import { Team } from '../components/script/Team'
 import { NightFirstSetup } from '../components/script/NightFirstSetup'
 import { NightOtherSetup } from '../components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
 import { LoadingIndicator } from '../components/LoadingIndicator'
 import { parseScript, type ScriptData } from '../utils/parseScript'
 import { useSampleScripts } from '../hooks/useSampleScripts'
+import { PlayerCountTable } from '@/components/script/PlayerCountTable'
+import { TeamSection } from '@/components/script/TeamSection'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -262,11 +263,76 @@ function App() {
           {scriptData && scriptRoles && (
             <Flex direction="column" gap="9">
               <Flex direction="column" gap="2">
-                <Header name={meta?.name || scriptName} author={meta?.author} />
-                <Team roles={scriptRoles} />
+                <Flex
+                  direction="column"
+                  gap="2"
+                  style={{ pageBreakInside: 'avoid' }}
+                >
+                  <Header
+                    name={meta?.name || scriptName}
+                    author={meta?.author}
+                  />
+                  <TeamSection
+                    team="townsfolk"
+                    teamColor="blue"
+                    roles={scriptRoles.filter(
+                      (role) => role.team === 'townsfolk',
+                    )}
+                  />
+                </Flex>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="outsider"
+                    teamColor="blue"
+                    roles={scriptRoles.filter(
+                      (role) => role.team === 'outsider',
+                    )}
+                  />
+                </div>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="minion"
+                    teamColor="red"
+                    roles={scriptRoles.filter((role) => role.team === 'minion')}
+                  />
+                </div>
+                <div style={{ pageBreakInside: 'avoid' }}>
+                  <TeamSection
+                    team="demon"
+                    teamColor="red"
+                    roles={scriptRoles.filter((role) => role.team === 'demon')}
+                  />
+                </div>
               </Flex>
-              <NightFirstSetup roles={scriptRoles} />
-              <NightOtherSetup roles={scriptRoles} />
+              <Flex
+                direction="column"
+                gap="5"
+                justify="between"
+                align="stretch"
+                style={{
+                  height: '100vh',
+                  pageBreakBefore: 'always',
+                  pageBreakInside: 'avoid',
+                }}
+              >
+                <TeamSection
+                  team="traveler"
+                  teamColor="orange"
+                  roles={scriptRoles.filter((role) => role.team === 'traveler')}
+                />
+
+                <PlayerCountTable />
+              </Flex>
+              <div
+                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
+              >
+                <NightFirstSetup roles={scriptRoles} />
+              </div>
+              <div
+                style={{ pageBreakBefore: 'always', pageBreakInside: 'avoid' }}
+              >
+                <NightOtherSetup roles={scriptRoles} />
+              </div>
             </Flex>
           )}
 

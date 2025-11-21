@@ -15,68 +15,66 @@ export function NightFirstSetup({ roles }: NightFirstSetupProps) {
     .sort((a, b) => a.firstNight - b.firstNight)
 
   return (
-    <div style={{ pageBreakBefore: 'always' }}>
-      <Flex direction="column" gap="3">
-        <Flex direction="row" gap="2" align="center">
-          <Badge size="3" color="gray">
-            {t('First Night')}
-          </Badge>
-          <Separator orientation="horizontal" size="4" />
-        </Flex>
-
-        <Flex direction="column" gap="2">
-          <NightRoleItem
-            name={t('Dusk')}
-            image={
-              <Avatar
-                fallback={<Moon size={24} />}
-                size="4"
-                color="orange"
-                radius="full"
-              />
-            }
-            reminder=""
-          />
-
-          <NightRoleItem
-            name={t('Minion Info')}
-            image={<Avatar fallback="M" size="4" radius="full" />}
-            reminder={t(
-              'If there are 7 or more players, wake all Minions: Show the THIS IS THE DEMON token. Point to the Demon. Show the THESE ARE YOUR MINIONS token. Point to the other Minions.',
-            )}
-          />
-
-          <NightRoleItem
-            name={t('Demon Info')}
-            image={<Avatar fallback="D" size="4" radius="full" />}
-            reminder={t(
-              'If there are 7 or more players, wake the Demon: Show the THESE ARE YOUR MINIONS token. Point to all Minions. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.',
-            )}
-          />
-
-          {firstNightRoles.map((role) => (
-            <NightRoleItem
-              key={role.id}
-              name={role.name}
-              image={role.image}
-              reminder={role.firstNightReminder}
-            />
-          ))}
-
-          <NightRoleItem
-            name={t('Dawn')}
-            image={
-              <Avatar
-                fallback={<Sun size={24} />}
-                size="4"
-                color="orange"
-                radius="full"
-              />
-            }
-            reminder=""
-          />
-        </Flex>
+    <Flex direction="column" gap="3">
+      <Flex direction="row" gap="2" align="center">
+        <Badge size="3" color="gray">
+          {t('First Night')}
+        </Badge>
+        <Separator orientation="horizontal" size="4" />
       </Flex>
-    </div>
+
+      <Flex direction="column" gap="2">
+        <NightRoleItem
+          name={t('Dusk')}
+          image={
+            <Avatar
+              fallback={<Moon size={24} />}
+              size="4"
+              color="orange"
+              radius="full"
+            />
+          }
+          reminder=""
+        />
+
+        <NightRoleItem
+          name={t('Minion Info')}
+          image={<Avatar fallback="M" size="4" radius="full" />}
+          reminder={t(
+            'If there are 7 or more players, wake all Minions: Show the THIS IS THE DEMON token. Point to the Demon. Show the THESE ARE YOUR MINIONS token. Point to the other Minions.',
+          )}
+        />
+
+        <NightRoleItem
+          name={t('Demon Info')}
+          image={<Avatar fallback="D" size="4" radius="full" />}
+          reminder={t(
+            'If there are 7 or more players, wake the Demon: Show the THESE ARE YOUR MINIONS token. Point to all Minions. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.',
+          )}
+        />
+
+        {firstNightRoles.map((role) => (
+          <NightRoleItem
+            key={role.id}
+            name={role.name}
+            image={role.image}
+            reminder={role.firstNightReminder}
+          />
+        ))}
+
+        <NightRoleItem
+          name={t('Dawn')}
+          image={
+            <Avatar
+              fallback={<Sun size={24} />}
+              size="4"
+              color="orange"
+              radius="full"
+            />
+          }
+          reminder=""
+        />
+      </Flex>
+    </Flex>
   )
 }

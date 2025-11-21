@@ -13,7 +13,7 @@ export function TeamSection({ team, teamColor, roles }: TeamSectionProps) {
   const { t } = useTranslation()
 
   const TEAM_TRANSLATION_KEYS = {
-    townsfolk: t('Townsfolks'),
+    townsfolk: t('Townsfolk'),
     outsider: t('Outsiders'),
     minion: t('Minions'),
     demon: t('Demons'),
@@ -24,7 +24,7 @@ export function TeamSection({ team, teamColor, roles }: TeamSectionProps) {
     TEAM_TRANSLATION_KEYS[team as keyof typeof TEAM_TRANSLATION_KEYS] || team
 
   return (
-    <Flex key={team} direction="column" style={{ pageBreakInside: 'avoid' }}>
+    <Flex key={team} direction="column">
       <Flex direction="row" align="center" gap="2" my="2">
         <Badge
           color={teamColor}

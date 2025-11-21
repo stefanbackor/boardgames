@@ -15,52 +15,50 @@ export function NightOtherSetup({ roles }: NightOtherSetupProps) {
     .sort((a, b) => a.otherNight - b.otherNight)
 
   return (
-    <div style={{ pageBreakBefore: 'always' }}>
-      <Flex direction="column" gap="3">
-        <Flex direction="row" gap="2" align="center">
-          <Badge size="3" color="gray">
-            {t('Other Nights')}
-          </Badge>
-          <Separator orientation="horizontal" size="4" />
-        </Flex>
-
-        <Flex direction="column" gap="2">
-          <NightRoleItem
-            name={t('Dusk')}
-            image={
-              <Avatar
-                fallback={<Moon size={24} />}
-                size="4"
-                color="orange"
-                radius="full"
-              />
-            }
-            reminder=""
-          />
-
-          {otherNightsRoles.map((role) => (
-            <NightRoleItem
-              key={role.id}
-              name={role.name}
-              image={role.image}
-              reminder={role.otherNightReminder}
-            />
-          ))}
-
-          <NightRoleItem
-            name={t('Dawn')}
-            image={
-              <Avatar
-                fallback={<Sun size={24} />}
-                size="4"
-                color="orange"
-                radius="full"
-              />
-            }
-            reminder=""
-          />
-        </Flex>
+    <Flex direction="column" gap="3">
+      <Flex direction="row" gap="2" align="center">
+        <Badge size="3" color="gray">
+          {t('Other Nights')}
+        </Badge>
+        <Separator orientation="horizontal" size="4" />
       </Flex>
-    </div>
+
+      <Flex direction="column" gap="2">
+        <NightRoleItem
+          name={t('Dusk')}
+          image={
+            <Avatar
+              fallback={<Moon size={24} />}
+              size="4"
+              color="orange"
+              radius="full"
+            />
+          }
+          reminder=""
+        />
+
+        {otherNightsRoles.map((role) => (
+          <NightRoleItem
+            key={role.id}
+            name={role.name}
+            image={role.image}
+            reminder={role.otherNightReminder}
+          />
+        ))}
+
+        <NightRoleItem
+          name={t('Dawn')}
+          image={
+            <Avatar
+              fallback={<Sun size={24} />}
+              size="4"
+              color="orange"
+              radius="full"
+            />
+          }
+          reminder=""
+        />
+      </Flex>
+    </Flex>
   )
 }
