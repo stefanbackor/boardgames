@@ -2,8 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Box, Container, Flex, Text, Button, Link } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
-import { roles as baseRolesData } from '../data/roles'
-import type { Role } from '../data/types'
+import { roles as baseRoles } from '../data/roles'
 import { roleTranslationsCs } from '../data/roles.cs.translation'
 import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
@@ -23,7 +22,6 @@ function App() {
   const { t, i18n } = useTranslation()
   const [scriptData, setScriptData] = useState<ScriptData | null>(null)
   const [scriptName, setScriptName] = useState<string>('')
-  const [baseRoles, setBaseRoles] = useState<Role[]>([])
   const [error, setError] = useState<string | null>(null)
   const [linkCopied, setLinkCopied] = useState(false)
   const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
@@ -43,9 +41,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Set base roles from imported data (English source of truth)
-    setBaseRoles(baseRolesData as Role[])
-
     // Load script from URL on mount (client-side only)
     if (typeof window === 'undefined') return
 

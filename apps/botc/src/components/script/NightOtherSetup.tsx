@@ -10,7 +10,43 @@ interface NightOtherSetupProps {
 
 export function NightOtherSetup({ roles }: NightOtherSetupProps) {
   const { t } = useTranslation()
-  const otherNightsRoles = roles
+
+  // Create special role objects for night setup phases
+  const dusk = {
+    id: 'dusk',
+    name: t('Dusk'),
+    firstNight: 1,
+    otherNight: 1,
+    image: (
+      <Avatar
+        fallback={<Moon size={24} />}
+        size="4"
+        color="orange"
+        radius="full"
+      />
+    ),
+    reminder: '',
+    otherNightReminder: '',
+  }
+
+  const dawn = {
+    id: 'dawn',
+    name: t('Dawn'),
+    firstNight: 53,
+    otherNight: 94,
+    image: (
+      <Avatar
+        fallback={<Sun size={24} />}
+        size="4"
+        color="orange"
+        radius="full"
+      />
+    ),
+    reminder: '',
+    otherNightReminder: '',
+  }
+
+  const otherNightsRoles = [dusk, dawn, ...roles]
     .filter((role) => role.otherNight > 0)
     .sort((a, b) => a.otherNight - b.otherNight)
 
@@ -24,19 +60,6 @@ export function NightOtherSetup({ roles }: NightOtherSetupProps) {
       </Flex>
 
       <Flex direction="column" gap="2">
-        <NightRoleItem
-          name={t('Dusk')}
-          image={
-            <Avatar
-              fallback={<Moon size={24} />}
-              size="4"
-              color="orange"
-              radius="full"
-            />
-          }
-          reminder=""
-        />
-
         {otherNightsRoles.map((role) => (
           <NightRoleItem
             key={role.id}
@@ -45,19 +68,6 @@ export function NightOtherSetup({ roles }: NightOtherSetupProps) {
             reminder={role.otherNightReminder}
           />
         ))}
-
-        <NightRoleItem
-          name={t('Dawn')}
-          image={
-            <Avatar
-              fallback={<Sun size={24} />}
-              size="4"
-              color="orange"
-              radius="full"
-            />
-          }
-          reminder=""
-        />
       </Flex>
     </Flex>
   )
