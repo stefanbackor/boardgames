@@ -7,18 +7,45 @@ import {
   Box,
   Tooltip,
 } from '@radix-ui/themes'
-import { Minus, ExternalLink } from 'lucide-react'
+import { ExternalLink, Replace, GripVertical, Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import type { Role } from '../../data/types'
 import { roles as baseRoles } from '../../data/roles'
 
 interface RoleCardProps {
   role: Role & { isCustom?: boolean }
   onRemove?: (roleId: string) => void
+  onSearch?: (roleId: string) => void
+  isDraggable?: boolean
 }
 
-export function RoleCard({ role, onRemove }: RoleCardProps) {
+export function RoleCard({
+  role,
+  onRemove,
+  onSearch,
+  isDraggable = false,
+}: RoleCardProps) {
   const { t } = useTranslation()
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: role.id,
+    disabled: !isDraggable,
+  })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
 
   // Get English role name from base roles
   const getEnglishRoleName = (roleId: string) => {
@@ -35,10 +62,11 @@ export function RoleCard({ role, onRemove }: RoleCardProps) {
 
   return (
     <Flex
+      ref={setNodeRef}
+      style={{ ...style, breakInside: 'avoid', position: 'relative' }}
       gap="3"
       my="1"
       align="stretch"
-      style={{ breakInside: 'avoid', position: 'relative' }}
       className="role-card"
     >
       {onRemove && (
@@ -57,8 +85,35 @@ export function RoleCard({ role, onRemove }: RoleCardProps) {
             transition: 'opacity 0.15s ease-in-out',
           }}
         >
-          <Minus size={14} />
+          <Trash size={14} />
         </IconButton>
+      )}
+      {isDraggable && (
+        <Box
+          className="role-card-drag no-print"
+          aria-label={t('Drag to reorder')}
+          style={{
+            position: 'absolute',
+            top: '4px',
+            right: onRemove ? '30px' : '4px',
+            opacity: 0,
+            transition: 'opacity 0.15s ease-in-out',
+            cursor: 'grab',
+            backgroundColor: 'var(--gray-a3)',
+            borderRadius: 'var(--radius-2)',
+            padding: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '24px',
+            height: '24px',
+            touchAction: 'none',
+          }}
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical size={14} />
+        </Box>
       )}
       {role.isCustom ? (
         <img
@@ -138,6 +193,20 @@ export function RoleCard({ role, onRemove }: RoleCardProps) {
             <Badge color="gray" size="1" className="no-print">
               {role.id}
             </Badge>
+          )}
+          {onSearch && role.isCustom && (
+            <Tooltip content={t('Replace custom character')}>
+              <IconButton
+                size="1"
+                variant="soft"
+                color="blue"
+                className="no-print"
+                aria-label={t('Replace custom character')}
+                onClick={() => onSearch(role.id)}
+              >
+                <Replace size={14} />
+              </IconButton>
+            </Tooltip>
           )}
         </Flex>
         <Text size="2" style={{ lineHeight: '1.33' }}>

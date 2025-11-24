@@ -17,6 +17,7 @@ import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { TeamSection } from '@/components/script/TeamSection'
 import type { Role } from '../data/types'
 import { useScriptModificationStore } from '../stores/scriptModificationStore'
+import { compressForUrl, decompressFromUrl } from '../utils/urlCompression'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -33,6 +34,8 @@ function App() {
   const {
     addRole,
     removeRole,
+    replaceRole,
+    reorderRoles,
     setName,
     setAuthor,
     getModifiedScript,
@@ -70,20 +73,8 @@ function App() {
       loadScriptFromUrl(scriptUrlParam)
     } else if (encodedScript) {
       try {
-        let decoded: string
-        try {
-          // Try new UTF-8 decoding first
-          const binaryString = atob(encodedScript)
-          const bytes = new Uint8Array(binaryString.length)
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i)
-          }
-          decoded = new TextDecoder().decode(bytes)
-        } catch {
-          // Fallback to simple atob for backward compatibility
-          decoded = atob(encodedScript)
-        }
-
+        // Decompress from URL (handles both compressed and legacy uncompressed formats)
+        const decoded = decompressFromUrl(encodedScript)
         const parsed = JSON.parse(decoded)
 
         if (Array.isArray(parsed)) {
@@ -104,7 +95,12 @@ function App() {
       } catch (err) {
         console.error('Failed to load script from URL:', err)
         setError('Failed to load script from URL')
+        // Clear modifications when loading fails
+        resetModifications()
       }
+    } else {
+      // No script in URL - clear any stale modifications
+      resetModifications()
     }
   }, [resetModifications])
 
@@ -123,6 +119,8 @@ function App() {
 
       if (!Array.isArray(parsed)) {
         setError('Invalid script format: expected an array')
+        // Clear modifications when loading fails
+        resetModifications()
         return
       }
 
@@ -144,13 +142,9 @@ function App() {
       setScriptName(urlName)
       setCurrentScriptUrl(url)
 
-      // Encode script to URL (source of truth for modifications)
+      // Encode script to URL with compression (source of truth for modifications)
       const content = JSON.stringify(parsed)
-      const utf8Bytes = new TextEncoder().encode(content)
-      const binaryString = Array.from(utf8Bytes, (byte) =>
-        String.fromCharCode(byte),
-      ).join('')
-      const encoded = btoa(binaryString)
+      const encoded = compressForUrl(content)
 
       const params = new URLSearchParams()
       params.set('script', encoded)
@@ -165,6 +159,8 @@ function App() {
       setError(
         `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
       )
+      // Clear modifications when loading fails
+      resetModifications()
     } finally {
       setIsLoading(false)
     }
@@ -212,13 +208,17 @@ function App() {
 
         if (!Array.isArray(parsed)) {
           setError('Invalid script format: expected an array')
+          // Clear modifications when loading fails
+          resetModifications()
           return
         }
 
         // Extract name from _meta object, or use filename as fallback
         const metaItem = parsed.find(
           (item: unknown) =>
-            typeof item === 'object' && item !== null && (item as { id?: string }).id === '_meta',
+            typeof item === 'object' &&
+            item !== null &&
+            (item as { id?: string }).id === '_meta',
         )
         const metaObj = metaItem as { name?: string } | undefined
         const fileName = file.name.replace(/\.[^/.]+$/, '')
@@ -229,13 +229,8 @@ function App() {
         setError(null)
         setCurrentScriptUrl('')
 
-        // Update URL with encoded script data
-        // Use Unicode-safe encoding by converting to UTF-8 bytes first
-        const utf8Bytes = new TextEncoder().encode(content)
-        const binaryString = Array.from(utf8Bytes, (byte) =>
-          String.fromCharCode(byte),
-        ).join('')
-        const encoded = btoa(binaryString)
+        // Update URL with compressed script data
+        const encoded = compressForUrl(content)
 
         const params = new URLSearchParams()
         params.set('script', encoded)
@@ -248,6 +243,8 @@ function App() {
         resetModifications()
       } catch (err) {
         setError('Failed to parse JSON file')
+        // Clear modifications when loading fails
+        resetModifications()
         console.error(err)
       }
     }
@@ -260,13 +257,17 @@ function App() {
 
       if (!Array.isArray(parsed)) {
         setError('Invalid script format: expected an array')
+        // Clear modifications when loading fails
+        resetModifications()
         return
       }
 
       // Extract name from _meta object
       const metaItem = parsed.find(
         (item: unknown) =>
-          typeof item === 'object' && item !== null && (item as { id?: string }).id === '_meta',
+          typeof item === 'object' &&
+          item !== null &&
+          (item as { id?: string }).id === '_meta',
       )
       const metaObj = metaItem as { name?: string } | undefined
       const name = metaObj?.name || 'Pasted Script'
@@ -276,13 +277,8 @@ function App() {
       setError(null)
       setCurrentScriptUrl('')
 
-      // Update URL with encoded script data
-      // Use Unicode-safe encoding by converting to UTF-8 bytes first
-      const utf8Bytes = new TextEncoder().encode(content)
-      const binaryString = Array.from(utf8Bytes, (byte) =>
-        String.fromCharCode(byte),
-      ).join('')
-      const encoded = btoa(binaryString)
+      // Update URL with compressed script data
+      const encoded = compressForUrl(content)
 
       const params = new URLSearchParams()
       params.set('script', encoded)
@@ -295,6 +291,8 @@ function App() {
       resetModifications()
     } catch (err) {
       setError('Failed to parse JSON')
+      // Clear modifications when loading fails
+      resetModifications()
       console.error(err)
     }
   }
@@ -329,7 +327,7 @@ function App() {
       // If yes, store just the id string for compact JSON
       // If it's a custom role not in base, store the full object
       const isBaseRole = baseRoles.some((r) => r.id === role.id)
-      
+
       if (isBaseRole) {
         // Base role - store just the id string
         addRole(role.id)
@@ -337,7 +335,7 @@ function App() {
         // Custom role - store full object with custom properties
         addRole(role)
       }
-      
+
       // Update local state with modified script
       const modified = getModifiedScript()
       if (modified) {
@@ -358,6 +356,29 @@ function App() {
       }
     },
     [removeRole, getModifiedScript],
+  )
+
+  // Handler to replace a role in the script (at same position)
+  const handleReplaceRole = useCallback(
+    (oldRoleId: string, newRole: Role) => {
+      // Check if new role exists in base roles
+      const isBaseRole = baseRoles.some((r) => r.id === newRole.id)
+
+      if (isBaseRole) {
+        // Base role - store just the id string
+        replaceRole(oldRoleId, newRole.id)
+      } else {
+        // Custom role - store full object with custom properties
+        replaceRole(oldRoleId, newRole)
+      }
+
+      // Update local state with modified script
+      const modified = getModifiedScript()
+      if (modified) {
+        setScriptData(modified as ScriptData)
+      }
+    },
+    [replaceRole, getModifiedScript],
   )
 
   // Check if script is modified
@@ -383,13 +404,9 @@ function App() {
     const { script: committed, name: committedName } = commitChanges()
     if (committed.length === 0) return
 
-    // Encode the committed script to URL (name is stored in _meta)
+    // Encode the committed script to URL with compression (name is stored in _meta)
     const content = JSON.stringify(committed)
-    const utf8Bytes = new TextEncoder().encode(content)
-    const binaryString = Array.from(utf8Bytes, (byte) =>
-      String.fromCharCode(byte),
-    ).join('')
-    const encoded = btoa(binaryString)
+    const encoded = compressForUrl(content)
 
     const params = new URLSearchParams()
     params.set('script', encoded)
@@ -414,6 +431,60 @@ function App() {
       setScriptData(originalScript as ScriptData)
     }
   }, [resetModifications, getModifiedScript])
+
+  // Handler to reorder roles within a team
+  const handleReorderRoles = useCallback(
+    (team: string, fromIndex: number, toIndex: number) => {
+      if (!scriptRoles) return
+
+      // Get all roles in the script
+      const allRoles = [...scriptRoles]
+
+      // Filter roles by team
+      const teamRoles = allRoles.filter((r) => r.team === team)
+
+      // Reorder within the team
+      const [movedRole] = teamRoles.splice(fromIndex, 1)
+      teamRoles.splice(toIndex, 0, movedRole)
+
+      // Find the original position of the first role of this team
+      const firstTeamRoleIndex = allRoles.findIndex((r) => r.team === team)
+
+      // Reconstruct the script
+      const newScript = [
+        ...allRoles.slice(0, firstTeamRoleIndex),
+        ...teamRoles,
+        ...allRoles.slice(
+          firstTeamRoleIndex + allRoles.filter((r) => r.team === team).length,
+        ),
+      ]
+
+      // Extract role IDs in the new order
+      const roleIds = newScript.map((role) => role.id)
+
+      // Add _meta at the beginning if it exists in scriptData
+      const metaItem = scriptData?.find(
+        (item) =>
+          typeof item === 'object' &&
+          item !== null &&
+          (item as { id?: string }).id === '_meta',
+      )
+
+      if (metaItem) {
+        roleIds.unshift('_meta')
+      }
+
+      // Update the store with reordered role IDs
+      reorderRoles(roleIds)
+
+      // Update local state with modified script
+      const modified = getModifiedScript()
+      if (modified) {
+        setScriptData(modified as ScriptData)
+      }
+    },
+    [scriptRoles, scriptData, reorderRoles, getModifiedScript],
+  )
 
   const sampleScripts = useSampleScripts()
 
@@ -474,6 +545,8 @@ function App() {
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
                     onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
                   />
                 </Flex>
                 <div style={{ pageBreakInside: 'avoid' }}>
@@ -487,6 +560,8 @@ function App() {
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
                     onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
                   />
                 </div>
                 <div style={{ pageBreakInside: 'avoid' }}>
@@ -498,6 +573,8 @@ function App() {
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
                     onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
                   />
                 </div>
                 <div style={{ pageBreakInside: 'avoid' }}>
@@ -509,6 +586,8 @@ function App() {
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
                     onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
                   />
                 </div>
               </Flex>
@@ -541,6 +620,8 @@ function App() {
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
                     onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
                   />
                 </div>
 

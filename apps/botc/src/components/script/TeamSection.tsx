@@ -2,9 +2,24 @@ import { useState } from 'react'
 import { Flex, Badge, Separator, Box, IconButton } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import type { Role } from '../../data/types'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
+import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
 
 interface TeamSectionProps {
   team: string
@@ -14,6 +29,8 @@ interface TeamSectionProps {
   existingRoleIds?: Set<string>
   onAddRole?: (role: Role) => void
   onRemoveRole?: (roleId: string) => void
+  onReplaceRole?: (oldRoleId: string, newRole: Role) => void
+  onReorderRoles?: (team: string, fromIndex: number, toIndex: number) => void
 }
 
 export function TeamSection({
@@ -24,9 +41,20 @@ export function TeamSection({
   existingRoleIds,
   onAddRole,
   onRemoveRole,
+  onReplaceRole,
+  onReorderRoles,
 }: TeamSectionProps) {
   const { t } = useTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [replaceRoleId, setReplaceRoleId] = useState<string | undefined>()
+  const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  )
 
   const TEAM_TRANSLATION_KEYS = {
     townsfolk: t('Townsfolk'),
@@ -40,6 +68,33 @@ export function TeamSection({
     TEAM_TRANSLATION_KEYS[team as keyof typeof TEAM_TRANSLATION_KEYS] || team
 
   const canAddRoles = allRoles && existingRoleIds && onAddRole && onRemoveRole
+
+  const handleSearch = (roleId: string) => {
+    setSearchQuery(team, roleId)
+    setReplaceRoleId(roleId)
+    setIsModalOpen(true)
+  }
+
+  const handleModalOpenChange = (open: boolean) => {
+    setIsModalOpen(open)
+    if (!open) {
+      // Clear replace mode when closing
+      setReplaceRoleId(undefined)
+    }
+  }
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) return
+
+    const oldIndex = roles.findIndex((r) => r.id === active.id)
+    const newIndex = roles.findIndex((r) => r.id === over.id)
+
+    if (oldIndex !== -1 && newIndex !== -1 && onReorderRoles) {
+      onReorderRoles(team, oldIndex, newIndex)
+    }
+  }
 
   return (
     <>
@@ -57,7 +112,10 @@ export function TeamSection({
               size="1"
               variant="soft"
               color={teamColor}
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                setReplaceRoleId(undefined)
+                setIsModalOpen(true)
+              }}
               className="no-print"
               aria-label={t('Add character')}
             >
@@ -66,28 +124,47 @@ export function TeamSection({
           )}
           <Separator orientation="horizontal" size="4" />
         </Flex>
-        <Box
-          style={{
-            columnCount: 2,
-            columnWidth: '50%',
-            columnGap: 'var(--space-3)',
-          }}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
         >
-          {roles.map((role) => (
-            <RoleCard key={role.id} role={role} onRemove={onRemoveRole} />
-          ))}
-        </Box>
+          <SortableContext
+            items={roles.map((r) => r.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <Box
+              style={{
+                columnCount: 2,
+                columnWidth: '50%',
+                columnGap: 'var(--space-3)',
+              }}
+            >
+              {roles.map((role) => (
+                <RoleCard
+                  key={role.id}
+                  role={role}
+                  onRemove={onRemoveRole}
+                  onSearch={canAddRoles ? handleSearch : undefined}
+                  isDraggable={!!onReorderRoles}
+                />
+              ))}
+            </Box>
+          </SortableContext>
+        </DndContext>
       </Flex>
 
       {canAddRoles && (
         <AddRoleModal
           open={isModalOpen}
-          onOpenChange={setIsModalOpen}
+          onOpenChange={handleModalOpenChange}
           team={team}
           allRoles={allRoles}
           existingRoleIds={existingRoleIds}
           onAddRole={onAddRole}
           onRemoveRole={onRemoveRole}
+          onReplaceRole={onReplaceRole}
+          replaceRoleId={replaceRoleId}
         />
       )}
     </>

@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { decompressFromUrl } from '../utils/urlCompression'
 
 // Script item can be a string (role id) or an object with id
 type ScriptItem = string | { id: string; [key: string]: unknown }
@@ -16,10 +17,14 @@ interface ScriptModificationState {
   removedRoles: string[]
   // Diff: overrides for _meta fields (name, author)
   metaOverrides: MetaOverrides | null
+  // Diff: reordered roles (list of role IDs in new order)
+  reorderedScript: string[] | null
 
   // Actions
   addRole: (roleItem: ScriptItem) => void
   removeRole: (roleId: string) => void
+  replaceRole: (oldRoleId: string, newRoleItem: ScriptItem) => void
+  reorderRoles: (roleIds: string[]) => void
   setName: (name: string) => void
   setAuthor: (author: string) => void
   commitChanges: () => { script: ScriptItem[]; name: string; author: string }
@@ -61,20 +66,8 @@ function getOriginalFromUrl(): {
   }
 
   try {
-    let decoded: string
-    try {
-      // Try new UTF-8 decoding first
-      const binaryString = atob(encodedScript)
-      const bytes = new Uint8Array(binaryString.length)
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i)
-      }
-      decoded = new TextDecoder().decode(bytes)
-    } catch {
-      // Fallback to simple atob for backward compatibility
-      decoded = atob(encodedScript)
-    }
-
+    // Decompress from URL (handles both compressed and legacy uncompressed formats)
+    const decoded = decompressFromUrl(encodedScript)
     const parsed = JSON.parse(decoded) as ScriptItem[]
 
     if (!Array.isArray(parsed)) {
@@ -102,6 +95,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
       addedRoles: [],
       removedRoles: [],
       metaOverrides: null,
+      reorderedScript: null,
 
       addRole: (roleItem) => {
         const { addedRoles, removedRoles } = get()
@@ -119,7 +113,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           // If it's an object with only 'id', or a string, store just the id
           // If it has custom properties, store the full object
           let itemToStore: string | { id: string; [key: string]: unknown }
-          
+
           if (typeof roleItem === 'string') {
             itemToStore = roleItem
           } else if (Object.keys(roleItem).length === 1 && roleItem.id) {
@@ -129,7 +123,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
             // Has custom properties - store the full object
             itemToStore = roleItem
           }
-          
+
           set({ addedRoles: [...addedRoles, itemToStore] })
         }
       },
@@ -150,9 +144,87 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         }
 
         // If role is in original, add to removedRoles
-        if (originalRoleIds.includes(roleId) && !removedRoles.includes(roleId)) {
+        if (
+          originalRoleIds.includes(roleId) &&
+          !removedRoles.includes(roleId)
+        ) {
           set({ removedRoles: [...removedRoles, roleId] })
         }
+      },
+
+      replaceRole: (oldRoleId, newRoleItem) => {
+        const { getModifiedScript } = get()
+        const currentScript = getModifiedScript()
+
+        if (!currentScript) return
+
+        // Get role IDs from current script
+        const roleIds = getRoleIds(currentScript)
+        
+        // Find the index of the old role
+        const oldIndex = roleIds.indexOf(oldRoleId)
+        
+        if (oldIndex === -1) return
+
+        // Create new role IDs array with replacement
+        const newRoleId = normalizeScriptItem(newRoleItem)
+        const newRoleIds = [...roleIds]
+        newRoleIds[oldIndex] = newRoleId
+
+        // Get the current state
+        const { addedRoles, removedRoles } = get()
+        const { script: originalScript } = getOriginalFromUrl()
+        const originalRoleIds = originalScript ? getRoleIds(originalScript) : []
+
+        // Handle removal of old role
+        let updatedAddedRoles = [...addedRoles]
+        let updatedRemovedRoles = [...removedRoles]
+
+        // If old role was added (not in original), remove it from addedRoles
+        if (addedRoles.some((r) => normalizeScriptItem(r) === oldRoleId)) {
+          updatedAddedRoles = updatedAddedRoles.filter(
+            (r) => normalizeScriptItem(r) !== oldRoleId,
+          )
+        } 
+        // If old role is in original, mark it as removed
+        else if (originalRoleIds.includes(oldRoleId) && !removedRoles.includes(oldRoleId)) {
+          updatedRemovedRoles = [...updatedRemovedRoles, oldRoleId]
+        }
+
+        // Handle addition of new role
+        // If new role was previously removed, un-remove it
+        if (updatedRemovedRoles.includes(newRoleId)) {
+          updatedRemovedRoles = updatedRemovedRoles.filter((id) => id !== newRoleId)
+        }
+        // If new role is not in original and not already added, add it
+        else if (
+          !originalRoleIds.includes(newRoleId) &&
+          !updatedAddedRoles.some((r) => normalizeScriptItem(r) === newRoleId)
+        ) {
+          // Prepare the item to store
+          let itemToStore: string | { id: string; [key: string]: unknown }
+          
+          if (typeof newRoleItem === 'string') {
+            itemToStore = newRoleItem
+          } else if (Object.keys(newRoleItem).length === 1 && newRoleItem.id) {
+            itemToStore = newRoleItem.id
+          } else {
+            itemToStore = newRoleItem
+          }
+          
+          updatedAddedRoles = [...updatedAddedRoles, itemToStore]
+        }
+
+        // Update state with new ordering and role changes
+        set({
+          addedRoles: updatedAddedRoles,
+          removedRoles: updatedRemovedRoles,
+          reorderedScript: newRoleIds,
+        })
+      },
+
+      reorderRoles: (roleIds) => {
+        set({ reorderedScript: roleIds })
       },
 
       setName: (name) => {
@@ -188,10 +260,44 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
       },
 
       getModifiedScript: () => {
-        const { addedRoles, removedRoles, metaOverrides } = get()
+        const { addedRoles, removedRoles, metaOverrides, reorderedScript } =
+          get()
         const { script: originalScript } = getOriginalFromUrl()
 
         if (!originalScript) return null
+
+        // If we have a reordered script, reconstruct from IDs
+        if (reorderedScript) {
+          // Create a map of all available items (original + added)
+          const itemMap = new Map<string, ScriptItem>()
+
+          // Add original items to map
+          originalScript.forEach((item) => {
+            const id = normalizeScriptItem(item)
+            itemMap.set(id, item)
+          })
+
+          // Add new roles to map
+          addedRoles.forEach((item) => {
+            const id = normalizeScriptItem(item)
+            itemMap.set(id, item)
+          })
+
+          // Reconstruct script in reordered sequence
+          const result = reorderedScript
+            .map((id) => itemMap.get(id))
+            .filter((item): item is ScriptItem => item !== undefined)
+            .map((item) => {
+              const id = normalizeScriptItem(item)
+              // Apply meta overrides to _meta object
+              if (id === '_meta' && typeof item === 'object' && metaOverrides) {
+                return { ...item, ...metaOverrides }
+              }
+              return item
+            })
+
+          return result
+        }
 
         // Apply diff to original script
         const modified = originalScript
@@ -253,16 +359,19 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           addedRoles: [],
           removedRoles: [],
           metaOverrides: null,
+          reorderedScript: null,
         })
 
         return { script: committed, name, author }
       },
 
       isModified: () => {
-        const { addedRoles, removedRoles, metaOverrides } = get()
+        const { addedRoles, removedRoles, metaOverrides, reorderedScript } =
+          get()
         return (
           addedRoles.length > 0 ||
           removedRoles.length > 0 ||
+          reorderedScript !== null ||
           (metaOverrides !== null &&
             (metaOverrides.name !== undefined ||
               metaOverrides.author !== undefined))
@@ -274,6 +383,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           addedRoles: [],
           removedRoles: [],
           metaOverrides: null,
+          reorderedScript: null,
         })
       },
     }),

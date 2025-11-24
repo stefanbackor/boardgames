@@ -14,12 +14,9 @@ export function LoadingIndicator() {
       style={{ minHeight: '300px' }}
     >
       <Flex align="center" gap="3">
-        <Loader2
-          size={24}
-          style={{ animation: 'spin 1s linear infinite' }}
-        />
+        <Loader2 size={24} style={{ animation: 'spin 1s linear infinite' }} />
         <Text size="5" color="gray">
-          {t('Loading script')}
+          {t('Loading script...')}
         </Text>
       </Flex>
       <style>

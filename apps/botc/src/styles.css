@@ -1,3 +1,12 @@
+/* Custom Fonts */
+@font-face {
+  font-family: 'LHF Unlovable';
+  src: url('/LHFUnlovable.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Radix UI Themes: Proper font configuration using official CSS custom properties */
 .radix-themes {
   --heading-font-family: "Sorts Mill Goudy", serif;
@@ -46,6 +55,29 @@ body {
 /* Role Card hover effect for remove button */
 .role-card:hover .role-card-remove {
   opacity: 1 !important;
+}
+
+.role-card:hover .role-card-search {
+  opacity: 1 !important;
+}
+
+.role-card:hover .role-card-drag {
+  opacity: 1 !important;
+}
+
+/* dnd-kit drag handle states */
+.role-card-drag {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.role-card-drag:hover {
+  background-color: var(--gray-a4) !important;
+}
+
+.role-card-drag:active {
+  cursor: grabbing !important;
+  background-color: var(--gray-a5) !important;
 }
 
 /* Role Avatar hover effect for wiki link overlay */

@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react'
-import { Button, Flex, Heading, Link, Text, TextField, Dialog, TextArea, IconButton } from '@radix-ui/themes'
-import { Upload, Printer, Link as LinkIcon, Check, Link2, Loader2, FileJson, X } from 'lucide-react'
+import {
+  Button,
+  Flex,
+  Text,
+  TextField,
+  Dialog,
+  TextArea,
+  IconButton,
+} from '@radix-ui/themes'
+import {
+  Upload,
+  Printer,
+  Link as LinkIcon,
+  Check,
+  Link2,
+  Loader2,
+  FileJson,
+  X,
+} from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface FileUploadControlsProps {
@@ -75,15 +92,15 @@ export function FileUploadControls({
         setPasteError('Please paste JSON content')
         return
       }
-      
+
       // Validate JSON
       JSON.parse(trimmed)
-      
+
       // Call the callback with the JSON content
       if (onJsonPaste) {
         onJsonPaste(trimmed)
       }
-      
+
       // Close modal (state will be cleared by useEffect)
       setPasteModalOpen(false)
     } catch (err) {
@@ -100,7 +117,7 @@ export function FileUploadControls({
   const handleJsonPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const pastedText = e.clipboardData.getData('text')
-    
+
     try {
       // Try to parse and format the pasted JSON
       const parsed = JSON.parse(pastedText.trim())
@@ -121,7 +138,7 @@ export function FileUploadControls({
         setPasteError('No content to format')
         return
       }
-      
+
       const parsed = JSON.parse(trimmed)
       const formatted = JSON.stringify(parsed, null, 2)
       setPastedJson(formatted)
@@ -137,7 +154,11 @@ export function FileUploadControls({
 
   const UrlButton = () => (
     <Button onClick={handleLoadUrl} disabled={isLoading}>
-      {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Link2 size={16} />}
+      {isLoading ? (
+        <Loader2 size={16} className="animate-spin" />
+      ) : (
+        <Link2 size={16} />
+      )}
       {t('Load from URL')}
     </Button>
   )
@@ -179,14 +200,7 @@ export function FileUploadControls({
 
   return (
     <Flex direction="column" gap="5">
-      <Heading size="8" mt="8" align="center">
-        <Link href="/">{t('Blood on the Clocktower Script Tool')}</Link>
-      </Heading>
-
       <Flex direction="column" gap="3" align="center">
-        <Text size="3">
-          {t('Upload a script JSON file to format for printing')}
-        </Text>
         <Flex width="100%" gap="3" align="center" justify="center" wrap="wrap">
           {/* Upload script buttons */}
           <Flex

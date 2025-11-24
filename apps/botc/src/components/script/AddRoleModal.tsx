@@ -12,6 +12,7 @@ import {
 import { Search, X, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '../../data/types'
+import { roles as baseRoles } from '../../data/roles'
 import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
 
 interface AddRoleModalProps {
@@ -22,6 +23,8 @@ interface AddRoleModalProps {
   existingRoleIds: Set<string>
   onAddRole: (role: Role) => void
   onRemoveRole: (roleId: string) => void
+  onReplaceRole?: (oldRoleId: string, newRole: Role) => void
+  replaceRoleId?: string
 }
 
 // Helper function to highlight search term in text
@@ -73,6 +76,8 @@ export function AddRoleModal({
   existingRoleIds,
   onAddRole,
   onRemoveRole,
+  onReplaceRole,
+  replaceRoleId,
 }: AddRoleModalProps) {
   const { t } = useTranslation()
 
@@ -82,7 +87,7 @@ export function AddRoleModal({
   )
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
-  const TEAM_TITLE_KEYS = {
+  const TEAM_ADD_TITLE_KEYS = {
     townsfolk: 'Add Townsfolk',
     outsider: 'Add Outsiders',
     minion: 'Add Minions',
@@ -90,8 +95,24 @@ export function AddRoleModal({
     traveler: 'Add Recommended Travelers',
   } as const
 
-  const teamTitle =
-    TEAM_TITLE_KEYS[team as keyof typeof TEAM_TITLE_KEYS] || team
+  const TEAM_REPLACE_TITLE_KEYS = {
+    townsfolk: 'Replace Townsfolk',
+    outsider: 'Replace Outsiders',
+    minion: 'Replace Minions',
+    demon: 'Replace Demons',
+    traveler: 'Replace Recommended Travelers',
+  } as const
+
+  const modalTitle = replaceRoleId
+    ? t(
+        TEAM_REPLACE_TITLE_KEYS[team as keyof typeof TEAM_REPLACE_TITLE_KEYS] ||
+          team,
+      )
+    : t(TEAM_ADD_TITLE_KEYS[team as keyof typeof TEAM_ADD_TITLE_KEYS] || team)
+
+  // Check if the role being replaced is a custom character
+  const isReplacingCustomRole =
+    replaceRoleId && !baseRoles.some((r) => r.id === replaceRoleId)
 
   // Filter roles by team and search query (name or id), keep in alphabetical order
   const filteredRoles = useMemo(() => {
@@ -101,17 +122,25 @@ export function AddRoleModal({
       .filter(
         (role) =>
           role.name.toLowerCase().includes(query) ||
-          role.id.toLowerCase().includes(query),
+          role.id.toLowerCase().includes(query) ||
+          query.includes(role.id.toLowerCase()),
       )
       .sort((a, b) => a.name.localeCompare(b.name))
   }, [allRoles, team, searchQuery])
 
   const handleSelectRole = (role: Role) => {
-    const isInScript = existingRoleIds.has(role.id)
-    if (isInScript) {
-      onRemoveRole(role.id)
+    if (replaceRoleId && onReplaceRole) {
+      // Replace mode: replace the old role with new one at same position
+      onReplaceRole(replaceRoleId, role)
+      onOpenChange(false)
     } else {
-      onAddRole(role)
+      // Normal mode: toggle role in script
+      const isInScript = existingRoleIds.has(role.id)
+      if (isInScript) {
+        onRemoveRole(role.id)
+      } else {
+        onAddRole(role)
+      }
     }
   }
 
@@ -133,9 +162,15 @@ export function AddRoleModal({
       >
         <Flex justify="between" align="start" mb="2">
           <div>
-            <Dialog.Title mb="1">{t(teamTitle)}</Dialog.Title>
+            <Dialog.Title mb="1">{modalTitle}</Dialog.Title>
             <Dialog.Description size="2" color="gray">
-              {t('Search for a character to add to your script')}
+              {replaceRoleId
+                ? isReplacingCustomRole
+                  ? t('Replacing custom character: {{roleId}}', {
+                      roleId: replaceRoleId,
+                    })
+                  : t('Replacing: {{roleId}}', { roleId: replaceRoleId })
+                : t('Search for a character to add to your script')}
             </Dialog.Description>
           </div>
           <Dialog.Close>

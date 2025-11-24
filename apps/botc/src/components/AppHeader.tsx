@@ -1,5 +1,6 @@
-import { Flex, Select } from '@radix-ui/themes'
+import { Flex, Select, Heading } from '@radix-ui/themes'
 import { Languages } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface AppHeaderProps {
   language: string
@@ -7,22 +8,46 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
+  const { t } = useTranslation()
+
   return (
     <Flex
-      justify="end"
-      align="center"
+      justify="between"
+      align="stretch"
       gap="3"
-      p="3"
+      py="2"
+      px="3"
       className="no-print"
       style={{
         position: 'sticky',
         top: 0,
-        backgroundColor: 'var(--color-background)',
+        backgroundImage: 'url(/bg-tile-purple-pattern.jpeg)',
+        backgroundRepeat: 'repeat',
+        backgroundSize: '100px',
         zIndex: 1000,
+        color: 'white',
       }}
     >
+      <Flex gap="4" align="baseline">
+        <Heading
+          asChild
+          size="8"
+          mt="2"
+          style={{
+            fontFamily: "'LHF Unlovable', serif",
+            fontWeight: 'normal',
+            color: 'white',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+            wordSpacing: '-10px',
+            textDecoration: 'none',
+          }}
+        >
+          <a href="/">{t('Blood on the Clocktower')}</a>
+        </Heading>
+        <Heading size="2">{t('Script Tool')}</Heading>
+      </Flex>
       <Flex gap="2" align="center">
-        <Languages size={16} />
+        <Languages size={16} color="white" />
         <Select.Root value={language} onValueChange={onLanguageChange}>
           <Select.Trigger />
           <Select.Content position="popper" sideOffset={5}>
