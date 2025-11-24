@@ -17,7 +17,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <Theme
-        accentColor="red"
+        accentColor="purple"
         appearance="light"
         panelBackground="solid"
         hasBackground={false}
