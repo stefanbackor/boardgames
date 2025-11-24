@@ -24,7 +24,6 @@ if (!rootElement.innerHTML) {
       >
         <RouterProvider router={router} />
       </Theme>
-    </StrictMode>
+    </StrictMode>,
   )
 }
-

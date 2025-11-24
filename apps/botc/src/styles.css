@@ -4,23 +4,15 @@
 }
 
 /* Background Image - Override Radix dark theme background */
-body,
-.radix-themes {
+body {
   background-repeat: repeat !important;
   background-attachment: scroll !important;
   background-color: transparent !important;
+  background-image: url("https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/bg-light-rough-tile-TJBBJ7QQ.jpg") !important;
   margin: 0 !important;
 }
 
-/* Light theme background */
-.radix-themes.light {
-  background-image: url("https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/bg-light-rough-tile-TJBBJ7QQ.jpg") !important;
-}
 
-/* Dark theme background */
-.radix-themes.dark {
-  background-image: url("https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/splashpage_bg02-PDVWZDLK.jpg") !important;
-}
 
 /* Print Styles */
 @media print {
@@ -44,18 +36,21 @@ body,
     }
   }
 
-  .radix-themes,
-  .radix-themes.light,
-  .radix-themes.dark {
-    background: none !important;
-    background-image: none !important;
-  }
-
   /* Hide no-print elements */
   .no-print,
   .print\:hidden {
     display: none !important;
   }
+}
+
+/* Role Card hover effect for remove button */
+.role-card:hover .role-card-remove {
+  opacity: 1 !important;
+}
+
+/* Role Avatar hover effect for wiki link overlay */
+.role-avatar-link:hover .role-avatar-overlay {
+  opacity: 1 !important;
 }
 
 /* JSON Syntax Highlighting */

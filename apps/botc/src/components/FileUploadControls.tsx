@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Button, Flex, Heading, Link, Text, TextField } from '@radix-ui/themes'
-import { Upload, Printer, Link as LinkIcon, Check, Link2, Loader2 } from 'lucide-react'
+import { Button, Flex, Heading, Link, Text, TextField, Dialog, TextArea, IconButton } from '@radix-ui/themes'
+import { Upload, Printer, Link as LinkIcon, Check, Link2, Loader2, FileJson, X } from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 
 interface FileUploadControlsProps {
@@ -13,6 +13,8 @@ interface FileUploadControlsProps {
   error: string | null
   currentScriptUrl: string
   isLoading: boolean
+  onJsonPaste?: (jsonContent: string) => void
+  currentScriptJson?: string
 }
 
 export function FileUploadControls({
@@ -25,19 +27,112 @@ export function FileUploadControls({
   error,
   currentScriptUrl,
   isLoading,
+  onJsonPaste,
+  currentScriptJson,
 }: FileUploadControlsProps) {
   const { t } = useTranslation()
   const [urlInput, setUrlInput] = useState(currentScriptUrl)
+  const [pasteModalOpen, setPasteModalOpen] = useState(false)
+  const [pastedJson, setPastedJson] = useState('')
+  const [pasteError, setPasteError] = useState<string | null>(null)
 
   // Update input when currentScriptUrl changes
   useEffect(() => {
     setUrlInput(currentScriptUrl)
   }, [currentScriptUrl])
 
+  // Populate modal with current script JSON when opened
+  useEffect(() => {
+    if (pasteModalOpen && currentScriptJson) {
+      try {
+        // Format the JSON with proper indentation
+        const parsed = JSON.parse(currentScriptJson)
+        const formatted = JSON.stringify(parsed, null, 2)
+        setPastedJson(formatted)
+        setPasteError(null)
+      } catch {
+        // If parsing fails, use as-is
+        setPastedJson(currentScriptJson)
+      }
+    } else if (!pasteModalOpen) {
+      // Clear when modal closes
+      setPastedJson('')
+      setPasteError(null)
+    }
+  }, [pasteModalOpen, currentScriptJson])
+
   const handleLoadUrl = () => {
     if (urlInput.trim()) {
       onUrlLoad(urlInput.trim())
     }
+  }
+
+  const handleLoadPastedJson = () => {
+    try {
+      setPasteError(null)
+      const trimmed = pastedJson.trim()
+      if (!trimmed) {
+        setPasteError('Please paste JSON content')
+        return
+      }
+      
+      // Validate JSON
+      JSON.parse(trimmed)
+      
+      // Call the callback with the JSON content
+      if (onJsonPaste) {
+        onJsonPaste(trimmed)
+      }
+      
+      // Close modal (state will be cleared by useEffect)
+      setPasteModalOpen(false)
+    } catch (err) {
+      setPasteError(err instanceof Error ? err.message : 'Invalid JSON format')
+    }
+  }
+
+  const handleJsonChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value
+    setPastedJson(value)
+    setPasteError(null)
+  }
+
+  const handleJsonPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    const pastedText = e.clipboardData.getData('text')
+    
+    try {
+      // Try to parse and format the pasted JSON
+      const parsed = JSON.parse(pastedText.trim())
+      const formatted = JSON.stringify(parsed, null, 2)
+      setPastedJson(formatted)
+      setPasteError(null)
+    } catch {
+      // If it's not valid JSON, just paste as-is
+      setPastedJson(pastedText)
+    }
+  }
+
+  const handleFormatJson = () => {
+    try {
+      setPasteError(null)
+      const trimmed = pastedJson.trim()
+      if (!trimmed) {
+        setPasteError('No content to format')
+        return
+      }
+      
+      const parsed = JSON.parse(trimmed)
+      const formatted = JSON.stringify(parsed, null, 2)
+      setPastedJson(formatted)
+    } catch (err) {
+      setPasteError(err instanceof Error ? err.message : 'Invalid JSON format')
+    }
+  }
+
+  const handleClearJson = () => {
+    setPastedJson('')
+    setPasteError(null)
   }
 
   const UrlButton = () => (
@@ -75,6 +170,13 @@ export function FileUploadControls({
     </>
   )
 
+  const PasteJsonButton = () => (
+    <Button onClick={() => setPasteModalOpen(true)}>
+      <FileJson size={16} />
+      {t('Paste JSON')}
+    </Button>
+  )
+
   return (
     <Flex direction="column" gap="5">
       <Heading size="8" mt="8" align="center">
@@ -108,8 +210,8 @@ export function FileUploadControls({
             />
 
             <Trans
-              i18nKey="<0></0> or <1></1>"
-              components={[<UrlButton />, <FileButton />]}
+              i18nKey="<0></0> or <1></1> or <2></2>"
+              components={[<UrlButton />, <FileButton />, <PasteJsonButton />]}
             />
           </Flex>
 
@@ -132,6 +234,79 @@ export function FileUploadControls({
           </Text>
         )}
       </Flex>
+
+      {/* Paste JSON Modal */}
+      <Dialog.Root open={pasteModalOpen} onOpenChange={setPasteModalOpen}>
+        <Dialog.Content
+          size="4"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 'var(--space-6)',
+            maxHeight: '90vh',
+          }}
+        >
+          <Flex justify="between" align="start" mb="3">
+            <div>
+              <Dialog.Title mb="1">{t('Paste JSON')}</Dialog.Title>
+              <Dialog.Description size="2" color="gray">
+                {t('Paste your script JSON content below')}
+              </Dialog.Description>
+            </div>
+            <Dialog.Close>
+              <IconButton
+                size="1"
+                variant="ghost"
+                color="gray"
+                aria-label={t('Close')}
+              >
+                <X size={16} />
+              </IconButton>
+            </Dialog.Close>
+          </Flex>
+
+          <Flex direction="column" gap="3" style={{ flex: 1, minHeight: 0 }}>
+            <TextArea
+              placeholder={t('Paste script JSON here...')}
+              value={pastedJson}
+              onChange={handleJsonChange}
+              onPaste={handleJsonPaste}
+              style={{
+                minHeight: '400px',
+                fontFamily: 'monospace',
+                fontSize: '14px',
+              }}
+            />
+
+            {pasteError && (
+              <Text color="red" size="2">
+                {pasteError}
+              </Text>
+            )}
+
+            <Flex justify="between" gap="2" mt="2" wrap="wrap">
+              <Flex gap="2">
+                <Button variant="soft" onClick={handleFormatJson}>
+                  {t('Format')}
+                </Button>
+                <Button variant="soft" color="red" onClick={handleClearJson}>
+                  {t('Clear')}
+                </Button>
+              </Flex>
+              <Flex gap="2">
+                <Dialog.Close>
+                  <Button variant="soft" color="gray">
+                    {t('Cancel')}
+                  </Button>
+                </Dialog.Close>
+                <Button onClick={handleLoadPastedJson}>
+                  {t('Load Script')}
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Dialog.Content>
+      </Dialog.Root>
     </Flex>
   )
 }
