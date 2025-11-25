@@ -44,7 +44,8 @@ export function RoleCard({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDragging ? 0 : 1,
+    pointerEvents: isDragging ? ('none' as const) : undefined,
   }
 
   // Get English role name from base roles

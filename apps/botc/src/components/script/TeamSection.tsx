@@ -10,11 +10,13 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
 } from '@dnd-kit/core'
 import {
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
+  rectSortingStrategy,
 } from '@dnd-kit/sortable'
 import type { Role } from '../../data/types'
 import { RoleCard } from './RoleCard'
@@ -47,6 +49,7 @@ export function TeamSection({
   const { t } = useTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [replaceRoleId, setReplaceRoleId] = useState<string | undefined>()
+  const [activeId, setActiveId] = useState<string | null>(null)
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
   const sensors = useSensors(
@@ -83,8 +86,14 @@ export function TeamSection({
     }
   }
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string)
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+
+    setActiveId(null)
 
     if (!over || active.id === over.id) return
 
@@ -95,6 +104,8 @@ export function TeamSection({
       onReorderRoles(team, oldIndex, newIndex)
     }
   }
+
+  const activeRole = activeId ? roles.find((r) => r.id === activeId) : null
 
   // Calculate number of rows needed for column-first layout with 2 columns
   const numRows = Math.ceil(roles.length / 2)
@@ -130,11 +141,12 @@ export function TeamSection({
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
           <SortableContext
             items={roles.map((r) => r.id)}
-            strategy={verticalListSortingStrategy}
+            strategy={rectSortingStrategy}
           >
             <Box
               className="role-grid"
@@ -155,6 +167,18 @@ export function TeamSection({
               ))}
             </Box>
           </SortableContext>
+          <DragOverlay>
+            {activeRole ? (
+              <Box
+                style={{
+                  cursor: 'grabbing',
+                  opacity: 0.9,
+                }}
+              >
+                <RoleCard role={activeRole} isDraggable={false} />
+              </Box>
+            ) : null}
+          </DragOverlay>
         </DndContext>
       </Flex>
 
