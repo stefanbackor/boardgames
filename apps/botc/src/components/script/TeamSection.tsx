@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Flex, Badge, Separator, Box, IconButton } from '@radix-ui/themes'
+import { Flex, Badge, Separator, IconButton, Box } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -96,6 +96,9 @@ export function TeamSection({
     }
   }
 
+  // Calculate number of rows needed for column-first layout with 2 columns
+  const numRows = Math.ceil(roles.length / 2)
+
   return (
     <>
       <Flex key={team} direction="column">
@@ -134,11 +137,12 @@ export function TeamSection({
             strategy={verticalListSortingStrategy}
           >
             <Box
-              style={{
-                columnCount: 2,
-                columnWidth: '50%',
-                columnGap: 'var(--space-3)',
-              }}
+              className="role-grid"
+              style={
+                {
+                  '--grid-rows': numRows,
+                } as React.CSSProperties
+              }
             >
               {roles.map((role) => (
                 <RoleCard

@@ -157,7 +157,9 @@ export function RoleCard({
                   width: '72px',
                   height: '72px',
                   borderRadius: '50%',
-                  scale: 1.3,
+                  scale: role.image?.includes('wiki.bloodontheclocktower.com')
+                    ? 1.3
+                    : 1,
                   objectFit: 'cover',
                   display: 'block',
                 }}

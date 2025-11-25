@@ -22,15 +22,16 @@ body {
 }
 
 
+/* A4 Portrait page setup with small margins */
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
 
 /* Print Styles */
 @media print {
 
-  /* A4 Portrait page setup with small margins */
-  @page {
-    size: A4 portrait;
-    margin: 10mm;
-  }
+
 
   /* Hide background in print */
   body {
@@ -49,6 +50,20 @@ body {
   .no-print,
   .print\:hidden {
     display: none !important;
+  }
+
+  /* Force grid layout for print - better iOS Safari support */
+  .role-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(var(--grid-rows, 10), auto) !important;
+    grid-auto-flow: column !important;
+  }
+
+  /* Ensure role cards don't break across pages */
+  .role-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
 
@@ -107,4 +122,21 @@ body {
 .json-null {
   color: #569cd6;
   font-style: italic;
+}
+
+/* Team section grid - Grid layout with column flow (top to bottom) */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(var(--grid-rows, 10), auto);
+  grid-auto-flow: column;
+}
+
+/* Single column on small screens */
+@media (max-width: 768px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-flow: row;
+  }
 }
