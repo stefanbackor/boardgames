@@ -66,7 +66,7 @@ export function RoleCard({
       style={{ ...style, breakInside: 'avoid', position: 'relative' }}
       gap="3"
       my="1"
-      align="stretch"
+      align="center"
       className="role-card"
     >
       {onRemove && (
@@ -124,7 +124,9 @@ export function RoleCard({
             height: '72px',
             borderRadius: '50%',
             flexShrink: 0,
-            scale: 1.3,
+            scale: role.image?.includes('wiki.bloodontheclocktower.com')
+              ? 1.3
+              : 1,
             objectFit: 'cover',
           }}
         />
@@ -157,9 +159,7 @@ export function RoleCard({
                   width: '72px',
                   height: '72px',
                   borderRadius: '50%',
-                  scale: role.image?.includes('wiki.bloodontheclocktower.com')
-                    ? 1.3
-                    : 1,
+                  scale: 1.3,
                   objectFit: 'cover',
                   display: 'block',
                 }}
