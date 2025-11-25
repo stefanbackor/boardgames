@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
-import { useSampleScripts } from './useSampleScripts'
+import { useBaseScripts } from './useBaseScripts'
 
 // Mock react-i18next
 vi.mock('react-i18next', () => ({
@@ -11,7 +11,7 @@ vi.mock('react-i18next', () => ({
 
 describe('useSampleScripts', () => {
   it('should return sample scripts with English translations', () => {
-    const { result } = renderHook(() => useSampleScripts())
+    const { result } = renderHook(() => useBaseScripts())
 
     expect(result.current).toHaveLength(3)
     expect(result.current[0]).toEqual({
@@ -32,7 +32,7 @@ describe('useSampleScripts', () => {
   })
 
   it('should preserve URLs from data', () => {
-    const { result } = renderHook(() => useSampleScripts())
+    const { result } = renderHook(() => useBaseScripts())
 
     expect(result.current[0].url).toBe(
       'https://www.botcscripts.com/api/scripts/178/json/',
@@ -46,7 +46,7 @@ describe('useSampleScripts', () => {
   })
 
   it('should return all scripts', () => {
-    const { result } = renderHook(() => useSampleScripts())
+    const { result } = renderHook(() => useBaseScripts())
 
     const scriptKeys = result.current.map((s: { key: string }) => s.key)
     const expectedKeys = ['tb', 'snv', 'bmr']
@@ -55,7 +55,7 @@ describe('useSampleScripts', () => {
   })
 
   it('should memoize results', () => {
-    const { result, rerender } = renderHook(() => useSampleScripts())
+    const { result, rerender } = renderHook(() => useBaseScripts())
 
     const firstResult = result.current
     rerender()

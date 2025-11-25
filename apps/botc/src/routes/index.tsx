@@ -12,12 +12,13 @@ import { NightOtherSetup } from '../components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
 import { LoadingIndicator } from '../components/LoadingIndicator'
 import { parseScript, type ScriptData } from '../utils/parseScript'
-import { useSampleScripts } from '../hooks/useSampleScripts'
+import { useBaseScripts } from '../hooks/useBaseScripts'
 import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { TeamSection } from '@/components/script/TeamSection'
 import type { Role } from '../data/types'
 import { useScriptModificationStore } from '../stores/scriptModificationStore'
 import { compressForUrl, decompressFromUrl } from '../utils/urlCompression'
+import { CarouselScript, useCarouselScripts } from '@/hooks/useCarouselScripts'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -59,10 +60,75 @@ function App() {
     }
   }, [])
 
-  useEffect(() => {
-    // Load script from URL on mount (client-side only)
-    if (typeof window === 'undefined') return
+  // Function to load script from URL
+  const loadScriptFromUrl = useCallback(
+    async (url: string) => {
+      try {
+        setError(null)
+        setIsLoading(true)
+        const response = await fetch(url)
 
+        if (!response.ok) {
+          throw new Error(`Failed to fetch script: ${response.statusText}`)
+        }
+
+        const parsed = await response.json()
+
+        if (!Array.isArray(parsed)) {
+          setError('Invalid script format: expected an array')
+          // Clear modifications when loading fails
+          resetModifications()
+          return
+        }
+
+        // Extract name and author from _meta object, or use filename from URL as fallback
+        const metaItem = parsed.find(
+          (item) =>
+            typeof item === 'object' && item !== null && item.id === '_meta',
+        )
+        const metaObj = metaItem as
+          | { name?: string; author?: string }
+          | undefined
+        const urlName =
+          metaObj?.name ||
+          url
+            .split('/')
+            .pop()
+            ?.replace(/\.[^/.]+$/, '') ||
+          'Script from URL'
+
+        setScriptData(parsed)
+        setScriptName(urlName)
+        setCurrentScriptUrl(url)
+
+        // Encode script to URL with compression (source of truth for modifications)
+        const content = JSON.stringify(parsed)
+        const encoded = compressForUrl(content)
+
+        const params = new URLSearchParams()
+        params.set('script', encoded)
+
+        const newUrl = `${window.location.pathname}?${params.toString()}`
+        window.history.pushState({}, '', newUrl)
+
+        // Reset any stale modifications
+        resetModifications()
+      } catch (err) {
+        console.error('Failed to load script from URL:', err)
+        setError(
+          `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
+        )
+        // Clear modifications when loading fails
+        resetModifications()
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [resetModifications],
+  )
+
+  // Function to load script from URL parameters
+  const loadScriptFromUrlParams = useCallback(() => {
     const params = new URLSearchParams(window.location.search)
     const encodedScript = params.get('script')
     const scriptUrlParam = params.get('script_url')
@@ -99,72 +165,33 @@ function App() {
         resetModifications()
       }
     } else {
-      // No script in URL - clear any stale modifications
-      resetModifications()
-    }
-  }, [resetModifications])
-
-  // Function to load script from URL
-  const loadScriptFromUrl = async (url: string) => {
-    try {
+      // No script in URL - clear script data and modifications
+      setScriptData(null)
+      setScriptName('')
+      setCurrentScriptUrl('')
       setError(null)
-      setIsLoading(true)
-      const response = await fetch(url)
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch script: ${response.statusText}`)
-      }
-
-      const parsed = await response.json()
-
-      if (!Array.isArray(parsed)) {
-        setError('Invalid script format: expected an array')
-        // Clear modifications when loading fails
-        resetModifications()
-        return
-      }
-
-      // Extract name and author from _meta object, or use filename from URL as fallback
-      const metaItem = parsed.find(
-        (item) =>
-          typeof item === 'object' && item !== null && item.id === '_meta',
-      )
-      const metaObj = metaItem as { name?: string; author?: string } | undefined
-      const urlName =
-        metaObj?.name ||
-        url
-          .split('/')
-          .pop()
-          ?.replace(/\.[^/.]+$/, '') ||
-        'Script from URL'
-
-      setScriptData(parsed)
-      setScriptName(urlName)
-      setCurrentScriptUrl(url)
-
-      // Encode script to URL with compression (source of truth for modifications)
-      const content = JSON.stringify(parsed)
-      const encoded = compressForUrl(content)
-
-      const params = new URLSearchParams()
-      params.set('script', encoded)
-
-      const newUrl = `${window.location.pathname}?${params.toString()}`
-      window.history.pushState({}, '', newUrl)
-
-      // Reset any stale modifications
       resetModifications()
-    } catch (err) {
-      console.error('Failed to load script from URL:', err)
-      setError(
-        `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
-      )
-      // Clear modifications when loading fails
-      resetModifications()
-    } finally {
-      setIsLoading(false)
     }
-  }
+  }, [loadScriptFromUrl, resetModifications])
+
+  useEffect(() => {
+    // Load script from URL on mount (client-side only)
+    if (typeof window === 'undefined') return
+
+    loadScriptFromUrlParams()
+  }, [loadScriptFromUrlParams])
+
+  useEffect(() => {
+    // Listen for browser back/forward navigation
+    if (typeof window === 'undefined') return
+
+    const handlePopState = () => {
+      loadScriptFromUrlParams()
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [loadScriptFromUrlParams])
 
   const language = i18n.language
 
@@ -486,7 +513,8 @@ function App() {
     [scriptRoles, scriptData, reorderRoles, getModifiedScript],
   )
 
-  const sampleScripts = useSampleScripts()
+  const sampleScripts = useBaseScripts()
+  const carouselScripts = useCarouselScripts()
 
   const handleLanguageChange = (newLanguage: string) => {
     i18n.changeLanguage(newLanguage)
@@ -646,12 +674,13 @@ function App() {
               direction="column"
               align="center"
               justify="center"
-              gap="4"
+              gap="2"
               style={{ minHeight: '300px' }}
             >
-              <Text size="5" color="gray">
+              <Text size="5" color="gray" align="center">
                 {t('Upload a script json or pick one below to get started')}
               </Text>
+
               <Flex gap="2" wrap="wrap" justify="center">
                 {sampleScripts.map((script) => (
                   <Button
@@ -664,10 +693,22 @@ function App() {
                   </Button>
                 ))}
               </Flex>
+              <Flex gap="2" wrap="wrap" justify="center">
+                {carouselScripts.map((script: CarouselScript) => (
+                  <Button
+                    key={script.key}
+                    variant="soft"
+                    size="1"
+                    onClick={() => loadScriptFromUrl(script.url)}
+                  >
+                    {script.name}
+                  </Button>
+                ))}
+              </Flex>
 
               <Text size="2" color="gray">
                 <Trans>
-                  Or find more scripts on{' '}
+                  Find more scripts on{' '}
                   <Link target="_blank" href="https://www.botcscripts.com">
                     botcscripts.com
                   </Link>

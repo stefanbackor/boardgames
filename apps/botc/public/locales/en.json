@@ -17,10 +17,12 @@
   "Replacing custom character: {{roleId}}": "Replacing custom character: {{roleId}}",
   "All characters already added": "All characters already added",
   "Bad Moon Rising": "Bad Moon Rising",
+  "Base scripts": "Base scripts",
   "Blood on the Clocktower Script Tool": "Blood on the Clocktower Script Tool",
   "BotC": "BotC",
   "by": "by",
   "Cancel": "Cancel",
+  "Experimental Carousel scripts": "Experimental Carousel scripts",
   "Choose File": "Choose File",
   "Clear": "Clear",
   "Click to edit": "Click to edit",
@@ -44,7 +46,7 @@
   "No characters found": "No characters found",
   "Open {{roleName}} official wiki": "Open {{roleName}} official wiki",
   "Minions": "Minions",
-  "Or find more scripts on <2>botcscripts.com</2>": "Or find more scripts on <2>botcscripts.com</2>",
+  "Find more scripts on <2>botcscripts.com</2>": "Find more scripts on <2>botcscripts.com</2>",
   "Other Nights": "Other Nights",
   "Outsiders": "Outsiders",
   "Paste script JSON URL...": "Paste script JSON URL...",
@@ -60,5 +62,5 @@
   "Townsfolk": "Townsfolk",
   "Trouble Brewing": "Trouble Brewing",
   "Upload a script JSON file to format for printing": "Upload a script JSON file to format for printing",
-  "Upload a script json or pick one below to get started": "Upload a script json or pick one below to get started"
+  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started"
 }

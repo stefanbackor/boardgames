@@ -11,7 +11,7 @@ export interface SampleScript {
  * Hook that provides sample scripts with translated names
  * @returns Array of sample scripts with translated names
  */
-export function useSampleScripts(): SampleScript[] {
+export function useBaseScripts(): SampleScript[] {
   const { t } = useTranslation()
 
   const SAMPLE_SCRIPTS_DATA = {
@@ -32,8 +32,8 @@ export function useSampleScripts(): SampleScript[] {
   return useMemo(() => {
     return Object.entries(SAMPLE_SCRIPTS_DATA).map(([key, script]) => ({
       key,
-      name: t(script.name),
+      name: script.name,
       url: script.url,
     }))
-  }, [t])
+  }, [])
 }
