@@ -30,19 +30,22 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
     >
       <Flex gap="4" align="baseline">
         <Heading
-          asChild
           size="8"
           mt="2"
           style={{
             fontFamily: "'LHF Unlovable', serif",
             fontWeight: 'normal',
             color: 'white',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
             wordSpacing: '-10px',
             textDecoration: 'none',
           }}
         >
-          <a href="/">{t('Blood on the Clocktower')}</a>
+          <a href="/" className="hidden md:block">
+            {t('Blood on the Clocktower')}
+          </a>
+          <a href="/" className="block md:hidden">
+            {t('BotC')}
+          </a>
         </Heading>
         <Heading size="2">{t('Script Tool')}</Heading>
       </Flex>
