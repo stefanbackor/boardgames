@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { decompressFromUrl } from '../src/utils/urlCompression'
+import { decompressFromUrl } from '../utils/urlCompression'
 
 // Crawler user agents that request link previews
 const CRAWLER_USER_AGENTS = [

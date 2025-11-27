@@ -11,7 +11,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import handler from './og'
-import { decompressFromUrl } from '../src/utils/urlCompression'
+import { decompressFromUrl, compressForUrl } from '../utils/urlCompression'
 
 // Helper to create mock request
 function createMockRequest(
@@ -44,7 +44,7 @@ describe('OG API Handler', () => {
     // Create a valid sample script and encode it
     let SAMPLE_SCRIPT_PARAM: string
 
-    beforeEach(async () => {
+    beforeEach(() => {
       const sampleScript = [
         {
           id: '_meta',
@@ -75,7 +75,6 @@ describe('OG API Handler', () => {
         { id: 'imp', team: 'demon' },
       ]
 
-      const { compressForUrl } = await import('../src/utils/urlCompression')
       SAMPLE_SCRIPT_PARAM = compressForUrl(JSON.stringify(sampleScript))
     })
 
@@ -197,7 +196,6 @@ describe('OG API Handler', () => {
         { id: 'imp', team: 'demon' },
       ]
 
-      const { compressForUrl } = await import('../src/utils/urlCompression')
       const encoded = compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
@@ -257,7 +255,6 @@ describe('OG API Handler', () => {
         { id: 'role10', team: 'traveler' },
       ]
 
-      const { compressForUrl } = await import('../src/utils/urlCompression')
       const encoded = compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
@@ -282,7 +279,6 @@ describe('OG API Handler', () => {
         { id: 'role3', team: 'demon' },
       ]
 
-      const { compressForUrl } = await import('../src/utils/urlCompression')
       const encoded = compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
@@ -313,7 +309,6 @@ describe('OG API Handler', () => {
         { id: 'role1', team: 'townsfolk' },
       ]
 
-      const { compressForUrl } = await import('../src/utils/urlCompression')
       const encoded = compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
