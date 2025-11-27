@@ -5099,6 +5099,11 @@
   resolved "https://registry.npmjs.org/@vercel/error-utils/-/error-utils-2.0.3.tgz"
   integrity sha512-CqC01WZxbLUxoiVdh9B/poPbNpY9U+tO1N9oWHwTl5YAZxcqXmmWJ8KNMFItJCUUWdY3J3xv8LvAuQv2KZ5YdQ==
 
+"@vercel/ncc@^0.38.3":
+  version "0.38.4"
+  resolved "https://registry.npmjs.org/@vercel/ncc/-/ncc-0.38.4.tgz"
+  integrity sha512-8LwjnlP39s08C08J5NstzriPvW1SP8Zfpp1BvC2sI35kPeZnHfxVkCwu4/+Wodgnd60UtT1n8K8zw+Mp7J9JmQ==
+
 "@vercel/nft@0.27.3":
   version "0.27.3"
   resolved "https://registry.npmjs.org/@vercel/nft/-/nft-0.27.3.tgz"
@@ -15089,29 +15094,6 @@ tslib@^2.0.0, tslib@^2.0.1, tslib@^2.1.0, tslib@^2.4.0, tslib@^2.6.2:
   version "2.7.0"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.7.0.tgz"
   integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
-
-tsup@^8.5.1:
-  version "8.5.1"
-  resolved "https://registry.npmjs.org/tsup/-/tsup-8.5.1.tgz"
-  integrity sha512-xtgkqwdhpKWr3tKPmCkvYmS9xnQK3m3XgxZHwSUjvfTjp7YfXe5tT3GgWi0F2N+ZSMsOeWeZFh7ZZFg5iPhing==
-  dependencies:
-    bundle-require "^5.1.0"
-    cac "^6.7.14"
-    chokidar "^4.0.3"
-    consola "^3.4.0"
-    debug "^4.4.0"
-    esbuild "^0.27.0"
-    fix-dts-default-cjs-exports "^1.0.0"
-    joycon "^3.1.1"
-    picocolors "^1.1.1"
-    postcss-load-config "^6.0.1"
-    resolve-from "^5.0.0"
-    rollup "^4.34.8"
-    source-map "^0.7.6"
-    sucrase "^3.35.0"
-    tinyexec "^0.3.2"
-    tinyglobby "^0.2.11"
-    tree-kill "^1.2.2"
 
 tsutils@^3.21.0:
   version "3.21.0"
