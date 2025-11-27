@@ -353,5 +353,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
   return res.status(200).send(html)
 }
-
-
