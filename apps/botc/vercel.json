@@ -10,6 +10,17 @@
         {
           "type": "header",
           "key": "user-agent",
+          "value": "facebookexternalhit"
+        }
+      ],
+      "destination": "/api/og"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
           "value": "(?i).*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Slackbot|Discordbot|SkypeUriPreview|pinterest|iMessagebot|Applebot|redditbot|Embedly|vkShare).*"
         }
       ],
