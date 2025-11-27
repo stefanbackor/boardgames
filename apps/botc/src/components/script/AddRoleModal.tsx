@@ -27,6 +27,14 @@ interface AddRoleModalProps {
   replaceRoleId?: string
 }
 
+// Normalize role image URL for modal previews via wsrv.nl proxy
+function getModalRoleImageUrl(url: string) {
+  if (!url) return url
+  if (url.startsWith('//wsrv.nl/')) return url
+  const encoded = encodeURIComponent(url)
+  return `//wsrv.nl/?url=${encoded}&h=150`
+}
+
 // Helper function to highlight search term in text
 function HighlightedText({
   text,
@@ -93,6 +101,7 @@ export function AddRoleModal({
     minion: 'Add Minions',
     demon: 'Add Demons',
     traveler: 'Add Recommended Travelers',
+    loric: 'Add Loric',
   } as const
 
   const TEAM_REPLACE_TITLE_KEYS = {
@@ -101,6 +110,7 @@ export function AddRoleModal({
     minion: 'Replace Minions',
     demon: 'Replace Demons',
     traveler: 'Replace Recommended Travelers',
+    loric: 'Replace Loric',
   } as const
 
   const modalTitle = replaceRoleId
@@ -262,7 +272,7 @@ export function AddRoleModal({
                           <Flex align="center" gap="1">
                             {role.image && (
                               <img
-                                src={role.image}
+                                src={getModalRoleImageUrl(role.image)}
                                 alt={role.name}
                                 style={{
                                   width: '24px',

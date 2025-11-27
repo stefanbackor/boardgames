@@ -2670,10 +2670,81 @@ export const roles = [
     ability:
       'Each nominee chooses a player: until voting, only they may speak & they are mad the nominee is good or they might die.',
     flavor:
-      'Vanity asks ‘Is it popular?’ Cowardice asks ‘Is it safe?’ Conscience asks ‘Is it right?’ Who among us will ask: ‘Is it true?’',
+      "Vanity asks 'Is it popular?' Cowardice asks 'Is it safe?' Conscience asks 'Is it right?' Who among us will ask: 'Is it true?'",
     image: 'https://wiki.bloodontheclocktower.com/images/8/8f/Icon_big_wig.png',
     firstNight: 0,
-    otherNight: 50,
+    otherNight: 0,
     source: 'cs',
+  },
+  {
+    id: 'bootlegger',
+    name: 'Bootlegger',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability: 'This script has homebrew characters or rules.',
+    flavor:
+      "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
+    image:
+      'https://wiki.bloodontheclocktower.com/images/0/08/Icon_bootlegger.png',
+  },
+  {
+    id: 'gardener',
+    name: 'Gardener',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability: "The Storyteller assigns 1 or more players' characters.",
+    flavor:
+      "Oh now, this won't do. We've got the monkshood mixed in with the wolfsbane and the hemlock is smothering the hellebore! Oh dear me, we'd better start over. Fetch my shears.",
+    image:
+      'https://wiki.bloodontheclocktower.com/images/5/5c/Icon_gardener.png',
+  },
+  {
+    id: 'stormcatcher',
+    name: 'Storm Catcher',
+    edition: '',
+    team: 'loric',
+    firstNight: 14,
+    firstNightReminder:
+      'At the start of the night, announce which character is stormcaught. If that character is in play, mark that player as STORMCAUGHT.  Wake each evil player and show them the character token, then the marked player. If not in play, wake each evil player, show them the THESE CHARACTERS ARE NOT IN PLAY token and the relevant character token.',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability:
+      'Name a good character. If in play, they can only die by execution, but evil players learn which player it is.',
+    flavor:
+      "At dawn, the temple's long shadow creeps to the fountain. At dusk, the obelisk blocks the red glare, cooling warm water under the archway. All lines converge here. A storm is coming, and this, this pebbled and lush and holy place between the apple trees, is the eye.",
+    image:
+      'https://wiki.bloodontheclocktower.com/images/0/08/Icon_stormcatcher.png',
+  },
+  {
+    id: 'zenomancer',
+    name: 'Zenomancer',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability:
+      'One or more players each have a goal. When achieved, that player learns a piece of true info.',
+    flavor:
+      'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+    image:
+      'https://wiki.bloodontheclocktower.com/images/4/44/Icon_zenomancer.png',
   },
 ] satisfies Role[]

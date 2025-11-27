@@ -75,7 +75,7 @@ export function Header({
       <Tooltip content={onNameChange ? t('Click to edit') : undefined}>
         <Heading
           ref={headingRef}
-          size="8"
+          size="7"
           contentEditable={!!onNameChange}
           suppressContentEditableWarning
           onBlur={handleNameBlur}

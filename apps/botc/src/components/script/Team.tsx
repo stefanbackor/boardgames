@@ -7,13 +7,22 @@ interface TeamProps {
   excludeTravelers?: boolean
 }
 
-const teamOrder = ['townsfolk', 'outsider', 'minion', 'demon', 'traveler']
+const teamOrder = [
+  'townsfolk',
+  'outsider',
+  'minion',
+  'demon',
+  'traveler',
+  'loric',
+] as const
+
 const teamColors = {
   townsfolk: 'blue',
   outsider: 'blue',
   minion: 'red',
   demon: 'red',
   traveler: 'orange',
+  loric: 'green',
 } as const
 
 export function Team({ roles, excludeTravelers = false }: TeamProps) {

@@ -1,4 +1,4 @@
-import { Table } from '@radix-ui/themes'
+import { Table, Text } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
 
 export function PlayerCountTable() {
@@ -11,51 +11,64 @@ export function PlayerCountTable() {
   const demons = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
   return (
-    <Table.Root>
+    <Table.Root
+      size="1"
+      style={{ fontFamily: 'var(--heading-font-family)', fontSize: '10px' }}
+    >
       <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeaderCell>{t('Players')}</Table.ColumnHeaderCell>
+        <Table.Row align="baseline">
+          <Table.ColumnHeaderCell justify="end">
+            <Text size="6">{t('Players')}</Text>
+          </Table.ColumnHeaderCell>
           {playerCounts.map((count) => (
             <Table.ColumnHeaderCell key={count} align="center">
-              {count}
+              <Text size="6">{count}</Text>
             </Table.ColumnHeaderCell>
           ))}
         </Table.Row>
       </Table.Header>
 
       <Table.Body>
-        <Table.Row>
-          <Table.RowHeaderCell>{t('Townsfolk')}</Table.RowHeaderCell>
+        <Table.Row align="baseline">
+          <Table.RowHeaderCell align="right">
+            <Text size="6">{t('Townsfolk')}</Text>
+          </Table.RowHeaderCell>
           {townsfolk.map((count, index) => (
             <Table.Cell key={index} align="center">
-              {count}
+              <Text size="6"> {count}</Text>
             </Table.Cell>
           ))}
         </Table.Row>
 
-        <Table.Row>
-          <Table.RowHeaderCell>{t('Outsiders')}</Table.RowHeaderCell>
+        <Table.Row align="baseline">
+          <Table.RowHeaderCell align="right">
+            <Text size="6">{t('Outsiders')}</Text>
+          </Table.RowHeaderCell>
           {outsiders.map((count, index) => (
             <Table.Cell key={index} align="center">
-              {count}
+              <Text size="6">{count}</Text>
             </Table.Cell>
           ))}
         </Table.Row>
 
-        <Table.Row>
-          <Table.RowHeaderCell>{t('Minions')}</Table.RowHeaderCell>
+        <Table.Row align="baseline">
+          <Table.RowHeaderCell align="right">
+            <Text size="6">{t('Minions')}</Text>
+          </Table.RowHeaderCell>
           {minions.map((count, index) => (
             <Table.Cell key={index} align="center">
-              {count}
+              <Text size="6">{count}</Text>
             </Table.Cell>
           ))}
         </Table.Row>
 
-        <Table.Row>
-          <Table.RowHeaderCell>{t('Demons')}</Table.RowHeaderCell>
+        <Table.Row align="baseline">
+          <Table.RowHeaderCell align="right">
+            <Text size="6">{t('Demons')}</Text>
+          </Table.RowHeaderCell>
           {demons.map((count, index) => (
             <Table.Cell key={index} align="center">
-              {count}
+              <Text size="6">{count}</Text>
             </Table.Cell>
           ))}
         </Table.Row>

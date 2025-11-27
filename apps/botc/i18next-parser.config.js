@@ -1,6 +1,6 @@
 export default {
   locales: ['en', 'cs'],
-  output: 'public/locales/$LOCALE.json',
+  output: 'public/locales/$LOCALE/$NAMESPACE.json',
   input: ['src/**/*.{ts,tsx}'],
   defaultNamespace: 'translation',
   keySeparator: false,

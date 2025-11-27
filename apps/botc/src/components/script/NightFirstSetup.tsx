@@ -10,6 +10,7 @@ interface NightFirstSetupProps {
 
 export function NightFirstSetup({ roles }: NightFirstSetupProps) {
   const { t } = useTranslation()
+  const { t: tContent } = useTranslation('content')
 
   // Create special role objects for night setup phases
   const dusk = {
@@ -47,7 +48,7 @@ export function NightFirstSetup({ roles }: NightFirstSetupProps) {
     name: t('Minion Info'),
     firstNight: 15,
     image: <Avatar fallback="M" size="4" radius="full" />,
-    reminder: t(
+    reminder: tContent(
       'If there are 7 or more players, wake all Minions: Show the THIS IS THE DEMON token. Point to the Demon. Show the THESE ARE YOUR MINIONS token. Point to the other Minions.',
     ),
   }
@@ -57,7 +58,7 @@ export function NightFirstSetup({ roles }: NightFirstSetupProps) {
     name: t('Demon Info'),
     firstNight: 19,
     image: <Avatar fallback="D" size="4" radius="full" />,
-    reminder: t(
+    reminder: tContent(
       'If there are 7 or more players, wake the Demon: Show the THESE ARE YOUR MINIONS token. Point to all Minions. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.',
     ),
   }

@@ -2,12 +2,12 @@ import {
   Flex,
   Heading,
   Text,
-  Badge,
   IconButton,
   Box,
   Tooltip,
+  Button,
 } from '@radix-ui/themes'
-import { ExternalLink, Replace, GripVertical, Trash } from 'lucide-react'
+import { ExternalLink, GripVertical, Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -19,6 +19,14 @@ interface RoleCardProps {
   onRemove?: (roleId: string) => void
   onSearch?: (roleId: string) => void
   isDraggable?: boolean
+}
+
+// Normalize role image URL for role cards via wsrv.nl proxy
+function getRoleCardImageUrl(url?: string) {
+  if (!url) return url
+  if (url.startsWith('//wsrv.nl/')) return url
+  const encoded = encodeURIComponent(url)
+  return `//wsrv.nl/?url=${encoded}&h=150`
 }
 
 export function RoleCard({
@@ -61,14 +69,30 @@ export function RoleCard({
     return `https://wiki.bloodontheclocktower.com/${encodeURIComponent(formattedName)}`
   }
 
+  const roleImage = (
+    <img
+      src={getRoleCardImageUrl(role.image)}
+      alt={role.name}
+      style={{
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        flexShrink: 0,
+        scale: role.image?.includes('wiki.bloodontheclocktower.com') ? 1.3 : 1,
+        objectFit: 'cover',
+        display: 'block',
+      }}
+    />
+  )
+
   return (
     <Flex
       ref={setNodeRef}
-      style={{ ...style, breakInside: 'avoid', position: 'relative' }}
+      style={{ ...style, position: 'relative' }}
       gap="3"
       my="1"
       align="center"
-      className="role-card"
+      className="role-card break-inside-avoid print:break-inside-avoid-page"
     >
       {onRemove && (
         <IconButton
@@ -116,55 +140,30 @@ export function RoleCard({
           <GripVertical size={14} />
         </Box>
       )}
-      {role.isCustom ? (
-        <img
-          src={role.image}
-          alt={role.name}
-          style={{
-            width: '72px',
-            height: '72px',
-            borderRadius: '50%',
-            flexShrink: 0,
-            scale: role.image?.includes('wiki.bloodontheclocktower.com')
-              ? 1.3
-              : 1,
-            objectFit: 'cover',
-          }}
-        />
-      ) : (
-        <Tooltip
-          content={t('Open {{roleName}} official wiki', {
-            roleName: role.name,
-          })}
-        >
-          <Box
-            asChild
-            style={{
-              position: 'relative',
-              width: '72px',
-              height: '72px',
-              flexShrink: 0,
-            }}
-            className="role-avatar-link"
+      <Box
+        style={{
+          position: 'relative',
+          flexShrink: 0,
+        }}
+        width={{ initial: '48px', md: '64px' }}
+        height={{ initial: '48px', md: '64px' }}
+      >
+        {role.isCustom ? (
+          roleImage
+        ) : (
+          <Tooltip
+            content={t('Open {{roleName}} official wiki', {
+              roleName: role.name,
+            })}
           >
             <a
               href={getWikiUrl(role.id)}
               target="_blank"
               rel="noopener noreferrer"
               style={{ display: 'block' }}
+              className="role-avatar-link"
             >
-              <img
-                src={role.image}
-                alt={role.name}
-                style={{
-                  width: '72px',
-                  height: '72px',
-                  borderRadius: '50%',
-                  scale: 1.3,
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
+              {roleImage}
               <Box
                 className="role-avatar-overlay"
                 style={{
@@ -186,29 +185,29 @@ export function RoleCard({
                 <ExternalLink size={24} color="white" />
               </Box>
             </a>
-          </Box>
-        </Tooltip>
-      )}
-      <Flex direction="column" justify="center" align="start">
+          </Tooltip>
+        )}
+      </Box>
+      <Flex
+        direction="column"
+        justify="center"
+        align="start"
+        className="break-inside-avoid"
+      >
         <Flex align="center" gap="1">
           <Heading size="4">{role.name}</Heading>
-          {role.isCustom && (
-            <Badge color="gray" size="1" className="no-print">
-              {role.id}
-            </Badge>
-          )}
           {onSearch && role.isCustom && (
             <Tooltip content={t('Replace custom character')}>
-              <IconButton
+              <Button
+                color="gray"
                 size="1"
-                variant="soft"
-                color="blue"
+                variant="ghost"
                 className="no-print"
                 aria-label={t('Replace custom character')}
                 onClick={() => onSearch(role.id)}
               >
-                <Replace size={14} />
-              </IconButton>
+                {t('Custom')}
+              </Button>
             </Tooltip>
           )}
         </Flex>

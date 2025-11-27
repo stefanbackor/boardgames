@@ -1,6 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { Box, Container, Flex, Text, Button, Link } from '@radix-ui/themes'
+import {
+  Box,
+  Container,
+  Flex,
+  Text,
+  Button,
+  Link,
+  Tooltip,
+} from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
 import { roles as baseRoles } from '../data/roles'
 import { roleTranslationsCs } from '../data/roles.cs.translation'
@@ -30,6 +38,7 @@ function App() {
   const [linkCopied, setLinkCopied] = useState(false)
   const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
 
   // Script modification store (diff-based, URL is source of truth)
   const {
@@ -526,7 +535,7 @@ function App() {
   return (
     <>
       <AppHeader language={language} onLanguageChange={handleLanguageChange} />
-      <Container size="4" p="2">
+      <Container size="4" p="4">
         <Flex direction="column" gap="9">
           <div className="no-print">
             <Box>
@@ -622,7 +631,7 @@ function App() {
               <Flex
                 direction="column"
                 gap="5"
-                justify="between"
+                justify="start"
                 align="stretch"
                 style={{
                   height: '100vh',
@@ -641,9 +650,32 @@ function App() {
                   <TeamSection
                     team="traveler"
                     teamColor="orange"
+                    columnsCount={1}
                     roles={scriptRoles.filter(
                       (role) => role.team === 'traveler',
                     )}
+                    allRoles={roles}
+                    existingRoleIds={existingRoleIds}
+                    onAddRole={handleAddRole}
+                    onRemoveRole={handleRemoveRole}
+                    onReplaceRole={handleReplaceRole}
+                    onReorderRoles={handleReorderRoles}
+                  />
+                </div>
+
+                <div
+                  className={
+                    scriptRoles.filter((role) => role.team === 'loric')
+                      .length === 0
+                      ? 'print:hidden'
+                      : ''
+                  }
+                >
+                  <TeamSection
+                    team="loric"
+                    teamColor="green"
+                    columnsCount={1}
+                    roles={scriptRoles.filter((role) => role.team === 'loric')}
                     allRoles={roles}
                     existingRoleIds={existingRoleIds}
                     onAddRole={handleAddRole}
@@ -687,24 +719,38 @@ function App() {
                     key={script.key}
                     variant="solid"
                     size="2"
-                    onClick={() => loadScriptFromUrl(script.url)}
+                    onClick={() => handleJsonPaste(JSON.stringify(script.json))}
                   >
                     {script.name}
                   </Button>
                 ))}
               </Flex>
-              <Flex gap="2" wrap="wrap" justify="center">
-                {carouselScripts.map((script: CarouselScript) => (
+              {carouselScripts.length > 0 && (
+                <Flex direction="column" gap="2" align="center">
                   <Button
-                    key={script.key}
-                    variant="soft"
+                    variant="outline"
                     size="1"
-                    onClick={() => loadScriptFromUrl(script.url)}
+                    onClick={() => setShowExperimentalScripts((prev) => !prev)}
                   >
-                    {script.name}
+                    {t('Experimental Carousel scripts')}
                   </Button>
-                ))}
-              </Flex>
+                  {showExperimentalScripts && (
+                    <Flex gap="2" wrap="wrap" justify="center">
+                      {carouselScripts.map((script: CarouselScript) => (
+                        <Tooltip key={script.key} content={script.flavor}>
+                          <Button
+                            variant="soft"
+                            size="1"
+                            onClick={() => loadScriptFromUrl(script.url)}
+                          >
+                            {script.name}
+                          </Button>
+                        </Tooltip>
+                      ))}
+                    </Flex>
+                  )}
+                </Flex>
+              )}
 
               <Text size="2" color="gray">
                 <Trans>

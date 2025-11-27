@@ -33,12 +33,12 @@ body {
 /* Print Styles */
 @media print {
 
-  /* Hide background in print */
+
+
   body {
     background: none !important;
     background-image: none !important;
     margin: 0 !important;
-    zoom: 75%;
     color: black !important;
 
     * {
@@ -52,18 +52,16 @@ body {
     display: none !important;
   }
 
-  /* Force grid layout for print - better iOS Safari support */
+  /* Ensure team sections also use column layout when printing */
   .role-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    grid-template-rows: repeat(var(--grid-rows, 10), auto) !important;
-    grid-auto-flow: column !important;
+    column-count: var(--columns-count, 2);
+    column-gap: 0.75rem;
   }
 
-  /* Ensure role cards don't break across pages */
-  .role-card {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+  .role-grid>* {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
 
@@ -124,19 +122,31 @@ body {
   font-style: italic;
 }
 
-/* Team section grid - Grid layout with column flow (top to bottom) */
+/* Team section layout - use CSS columns instead of grid */
 .role-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(var(--grid-rows, 10), auto);
-  grid-auto-flow: column;
+  column-count: var(--columns-count, 2);
+  column-gap: 0.75rem;
 }
 
-/* Single column on small screens */
+.role-grid>* {
+  /* Prevent cards/items from breaking across columns/pages (incl. Safari) */
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Extra wrapper specifically around each RoleCard for Safari column bugs */
+.role-grid-item {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Single column on small screens for the default two-column layout */
 @media (width < theme(--breakpoint-md)) {
   .role-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    grid-auto-flow: row;
+    column-count: 1;
   }
 }

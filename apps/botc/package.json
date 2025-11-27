@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 5175",
+    "dev": "vite dev --host --port 5175",
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest run",

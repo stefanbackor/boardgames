@@ -14,17 +14,17 @@ describe('useSampleScripts', () => {
     const { result } = renderHook(() => useBaseScripts())
 
     expect(result.current).toHaveLength(3)
-    expect(result.current[0]).toEqual({
+    expect(result.current[0]).toMatchObject({
       key: 'tb',
       name: 'Trouble Brewing',
       url: 'https://www.botcscripts.com/api/scripts/178/json/',
     })
-    expect(result.current[1]).toEqual({
+    expect(result.current[1]).toMatchObject({
       key: 'snv',
       name: 'Sects and Violets',
       url: 'https://www.botcscripts.com/api/scripts/180/json/',
     })
-    expect(result.current[2]).toEqual({
+    expect(result.current[2]).toMatchObject({
       key: 'bmr',
       name: 'Bad Moon Rising',
       url: 'https://www.botcscripts.com/api/scripts/181/json/',

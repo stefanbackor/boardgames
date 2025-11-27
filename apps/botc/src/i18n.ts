@@ -10,11 +10,12 @@ i18n
   .init({
     fallbackLng: 'en',
     defaultNS: 'translation',
+    ns: ['translation', 'content'],
     interpolation: {
       escapeValue: false,
     },
     backend: {
-      loadPath: '/locales/{{lng}}.json',
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
   })
 

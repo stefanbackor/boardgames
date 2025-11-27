@@ -25,8 +25,14 @@ import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
 
 interface TeamSectionProps {
   team: string
-  teamColor: 'blue' | 'red' | 'orange'
+  teamColor: 'blue' | 'red' | 'orange' | 'green'
   roles: Role[]
+  /**
+   * Number of columns for the role grid.
+   * - Defaults to 2 (original two-column layout)
+   * - Set to 1 for a single-column layout
+   */
+  columnsCount?: number
   allRoles?: Role[]
   existingRoleIds?: Set<string>
   onAddRole?: (role: Role) => void
@@ -39,6 +45,7 @@ export function TeamSection({
   team,
   teamColor,
   roles,
+  columnsCount = 2,
   allRoles,
   existingRoleIds,
   onAddRole,
@@ -65,6 +72,7 @@ export function TeamSection({
     minion: t('Minions'),
     demon: t('Demons'),
     traveler: t('Recommended Travelers'),
+    loric: t('Loric'),
   } as const
 
   const teamLabel =
@@ -107,13 +115,13 @@ export function TeamSection({
 
   const activeRole = activeId ? roles.find((r) => r.id === activeId) : null
 
-  // Calculate number of rows needed for column-first layout with 2 columns
-  const numRows = Math.ceil(roles.length / 2)
+  // Clamp the column count to at least 1 and expose via CSS variable.
+  const gridColumnsCount = Math.max(1, columnsCount)
 
   return (
     <>
       <Flex key={team} direction="column">
-        <Flex direction="row" align="center" gap="2" my="2">
+        <Flex direction="row" align="center" gap="2" my="1">
           <Badge
             color={teamColor}
             size="2"
@@ -149,21 +157,22 @@ export function TeamSection({
             strategy={rectSortingStrategy}
           >
             <Box
-              className="role-grid"
+              className="role-grid role-grid-double"
               style={
                 {
-                  '--grid-rows': numRows,
+                  '--columns-count': gridColumnsCount,
                 } as React.CSSProperties
               }
             >
               {roles.map((role) => (
-                <RoleCard
-                  key={role.id}
-                  role={role}
-                  onRemove={onRemoveRole}
-                  onSearch={canAddRoles ? handleSearch : undefined}
-                  isDraggable={!!onReorderRoles}
-                />
+                <Box key={role.id} className="role-grid-item">
+                  <RoleCard
+                    role={role}
+                    onRemove={onRemoveRole}
+                    onSearch={canAddRoles ? handleSearch : undefined}
+                    isDraggable={!!onReorderRoles}
+                  />
+                </Box>
               ))}
             </Box>
           </SortableContext>
