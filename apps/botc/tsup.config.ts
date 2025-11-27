@@ -7,10 +7,10 @@ export default defineConfig({
   // Output to api/ directory (will replace source files)
   outDir: 'api',
 
-  // Format as CommonJS for Vercel serverless functions
-  format: ['cjs'],
+  // Format as ES Module (matches package.json "type": "module")
+  format: ['esm'],
 
-  // Generate .js files
+  // Generate .js files  
   outExtension: () => ({ js: '.js' }),
 
   // Don't generate declaration files
