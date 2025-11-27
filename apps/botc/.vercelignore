@@ -1,0 +1,22 @@
+# Don't deploy TypeScript source files for API functions
+# The bundled .js files will be used instead
+api/**/*.ts
+!api/**/*.d.ts
+
+# Don't deploy source directory to serverless functions
+# (it will be bundled into the API functions)
+src/
+
+# Don't deploy test files
+**/*.test.ts
+**/*.test.tsx
+
+# Don't deploy config files
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+tsup.config.ts
+
+# Don't deploy dev dependencies
+node_modules/
+
