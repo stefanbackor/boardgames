@@ -11,7 +11,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import handler from './og'
-import { decompressFromUrl, compressForUrl } from '../utils/urlCompression'
+import { decompressFromUrl, compressForUrl } from '../src/utils/urlCompression'
 
 // Helper to create mock request
 function createMockRequest(
