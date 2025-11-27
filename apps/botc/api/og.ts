@@ -235,15 +235,23 @@ function generateOGHTML(
 </html>`
 }
 
-function generateDefaultOGHTML(url: string, origin: string): string {
+function generateDefaultOGHTML(
+  url: string,
+  origin: string,
+  errorMessage?: string,
+): string {
   const title = 'Blood on the Clocktower Script Tool'
   const description =
     'Create and share custom Blood on the Clocktower scripts with night order sheets and role information'
   const imageUrl = `${origin}/android-chrome-512x512.png`
 
+  const errorComment = errorMessage
+    ? `\n  <!-- Error: ${escapeHtml(errorMessage)} -->`
+    : ''
+
   return `<!DOCTYPE html>
 <html>
-<head>
+<head>${errorComment}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escapeHtml(title)}</title>
@@ -263,7 +271,7 @@ function generateDefaultOGHTML(url: string, origin: string): string {
   <meta name="twitter:description" content="${escapeHtml(description)}" />
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}" />
   
-  <!-- Redirect to actual page -->
+  <!-- Failure detected, redirect to actual page -->
   <meta http-equiv="refresh" content="0;url=${escapeHtml(url)}" />
 </head>
 <body>
@@ -307,10 +315,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
       return res.status(200).send(html)
     }
+
+    // Script parameter exists but failed to parse
+    const html = generateDefaultOGHTML(
+      fullUrl,
+      origin,
+      'Failed to parse script parameter',
+    )
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
+    return res.status(200).send(html)
   }
 
-  // For crawlers without a valid script, serve default OG tags
-  const html = generateDefaultOGHTML(fullUrl, origin)
+  // For crawlers without a script parameter, serve default OG tags
+  const html = generateDefaultOGHTML(
+    fullUrl,
+    origin,
+    'No script parameter provided',
+  )
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
   return res.status(200).send(html)
