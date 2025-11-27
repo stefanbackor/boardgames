@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { decompressFromUrl } from 'src/utils/urlCompression'
+import pako from 'pako'
 
 // Crawler user agents that request link previews
 const CRAWLER_USER_AGENTS = [
@@ -40,6 +40,33 @@ interface ScriptMeta {
   traveler: number
   loric: number
   totalRoles: number
+}
+
+// Local copy of the URL decompression logic, adapted for the Node runtime.
+// This avoids importing TS/DOM utilities from the frontend bundle,
+// which Vercel does not compile as part of the Serverless Function.
+function decompressFromUrl(encoded: string): string {
+  try {
+    // Decode from base64 into raw bytes
+    const bytes = new Uint8Array(Buffer.from(encoded, 'base64'))
+
+    // Try to decompress with gzip (new format)
+    try {
+      const decompressed = pako.ungzip(bytes)
+      return new TextDecoder().decode(decompressed)
+    } catch {
+      // If decompression fails, assume it's legacy uncompressed format
+      // Try UTF-8 decoding first
+      try {
+        return new TextDecoder().decode(bytes)
+      } catch {
+        // Fallback to simple base64 decode for backward compatibility
+        return Buffer.from(encoded, 'base64').toString('utf-8')
+      }
+    }
+  } catch {
+    throw new Error('Failed to decompress data from URL')
+  }
 }
 
 function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
