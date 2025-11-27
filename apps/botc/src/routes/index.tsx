@@ -56,18 +56,8 @@ function App() {
     reset: resetModifications,
   } = useScriptModificationStore()
 
-  useEffect(() => {
-    // Initialize language from localStorage or browser settings (client-side only)
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('language')
-      if (saved === 'en' || saved === 'cs') {
-        i18n.changeLanguage(saved)
-      } else {
-        const browserLang = navigator.language.split('-')[0]
-        i18n.changeLanguage(browserLang === 'en' ? 'en' : 'cs')
-      }
-    }
-  }, [])
+  // Language is automatically detected and initialized by i18next
+  // Slovak (sk) is automatically normalized to Czech (cs) by custom detectors
 
   // Function to load script from URL
   const loadScriptFromUrl = useCallback(
@@ -204,14 +194,9 @@ function App() {
 
   const language = i18n.language
 
-  // Save language to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem('language', language)
-  }, [language])
-
   // Apply language translations to roles
   const roles = baseRoles.map((role) => {
-    // Apply Czech translations when language is Czech
+    // Apply Czech translations when language is Czech (Slovak is normalized to Czech)
     if (language === 'cs' && roleTranslationsCs[role.id]) {
       const translation = roleTranslationsCs[role.id]
       return {
