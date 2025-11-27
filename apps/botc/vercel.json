@@ -5,7 +5,7 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [
         {
           "type": "header",
@@ -14,10 +14,6 @@
         }
       ],
       "destination": "/api/og"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
