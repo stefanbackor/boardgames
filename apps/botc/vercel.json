@@ -10,35 +10,16 @@
         {
           "type": "header",
           "key": "user-agent",
-          "value": "facebookexternalhit"
-        }
-      ],
-      "destination": "/api/og"
-    },
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
           "value": "(?i).*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Slackbot|Discordbot|SkypeUriPreview|pinterest|iMessagebot|Applebot|redditbot|Embedly|vkShare).*"
         }
       ],
       "destination": "/api/og"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
     {
       "source": "/api/og",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=2592000, s-maxage=2592000, immutable"
-        },
         {
           "key": "X-Config-Test",
           "value": "botc-vercel-json"
