@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-const { decompressFromUrl } = require('../src/utils/urlCompression')
 
 // Crawler user agents that request link previews
 const CRAWLER_USER_AGENTS = [
@@ -42,7 +41,10 @@ interface ScriptMeta {
   totalRoles: number
 }
 
-function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
+function parseScriptFromUrl(
+  encodedScript: string,
+  decompressFromUrl: (encoded: string) => string,
+): ScriptMeta | null {
   try {
     const decoded = decompressFromUrl(encodedScript)
     const parsed = JSON.parse(decoded)
@@ -275,7 +277,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // If there's a script parameter, try to parse it
   if (scriptParam) {
-    const scriptMeta = parseScriptFromUrl(scriptParam)
+    const { decompressFromUrl } = await import('../src/utils/urlCompression')
+    const scriptMeta = parseScriptFromUrl(scriptParam, decompressFromUrl)
 
     if (scriptMeta) {
       const html = generateOGHTML(scriptMeta, fullUrl, origin)
