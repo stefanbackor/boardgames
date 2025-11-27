@@ -5,7 +5,7 @@ export default defineConfig({
   entry: ['src/api/og.ts'],
 
   // Output to api/ directory (built files separate from source)
-  outDir: 'api',
+  outDir: 'dist/api',
 
   // Format as ES Module (matches package.json "type": "module")
   format: ['esm'],
