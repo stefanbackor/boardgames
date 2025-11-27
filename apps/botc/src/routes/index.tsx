@@ -25,20 +25,35 @@ import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { TeamSection } from '@/components/script/TeamSection'
 import type { Role } from '../data/types'
 import { useScriptModificationStore } from '../stores/scriptModificationStore'
-import { compressForUrl, decompressFromUrl } from '../utils/urlCompression'
+import { compressForUrl } from '../utils/urlCompression'
 import { CarouselScript, useCarouselScripts } from '@/hooks/useCarouselScripts'
+import { useMetaTags } from '@/hooks/useMetaTags'
+import { useLanguage } from '@/hooks/useLanguage'
+import { useScript } from '@/hooks/useScript'
+import { Team, TEAM_CONFIG } from '@/constants'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
-  const { t, i18n } = useTranslation()
-  const [scriptData, setScriptData] = useState<ScriptData | null>(null)
-  const [scriptName, setScriptName] = useState<string>('')
-  const [error, setError] = useState<string | null>(null)
+  const { t } = useTranslation()
+  const { language, changeLanguage } = useLanguage()
   const [linkCopied, setLinkCopied] = useState(false)
-  const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
-  const [isLoading, setIsLoading] = useState(false)
   const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
+
+  // Script loading and management
+  const {
+    scriptData,
+    scriptName,
+    error,
+    isLoading,
+    currentScriptUrl,
+    loadFromUrl,
+    loadFromFile,
+    loadFromJson,
+    setScriptData,
+    setScriptName,
+    setCurrentScriptUrl,
+  } = useScript()
 
   // Script modification store (diff-based, URL is source of truth)
   const {
@@ -58,141 +73,6 @@ function App() {
 
   // Language is automatically detected and initialized by i18next
   // Slovak (sk) is automatically normalized to Czech (cs) by custom detectors
-
-  // Function to load script from URL
-  const loadScriptFromUrl = useCallback(
-    async (url: string) => {
-      try {
-        setError(null)
-        setIsLoading(true)
-        const response = await fetch(url)
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch script: ${response.statusText}`)
-        }
-
-        const parsed = await response.json()
-
-        if (!Array.isArray(parsed)) {
-          setError('Invalid script format: expected an array')
-          // Clear modifications when loading fails
-          resetModifications()
-          return
-        }
-
-        // Extract name and author from _meta object, or use filename from URL as fallback
-        const metaItem = parsed.find(
-          (item) =>
-            typeof item === 'object' && item !== null && item.id === '_meta',
-        )
-        const metaObj = metaItem as
-          | { name?: string; author?: string }
-          | undefined
-        const urlName =
-          metaObj?.name ||
-          url
-            .split('/')
-            .pop()
-            ?.replace(/\.[^/.]+$/, '') ||
-          'Script from URL'
-
-        setScriptData(parsed)
-        setScriptName(urlName)
-        setCurrentScriptUrl(url)
-
-        // Encode script to URL with compression (source of truth for modifications)
-        const content = JSON.stringify(parsed)
-        const encoded = compressForUrl(content)
-
-        const params = new URLSearchParams()
-        params.set('script', encoded)
-
-        const newUrl = `${window.location.pathname}?${params.toString()}`
-        window.history.pushState({}, '', newUrl)
-
-        // Reset any stale modifications
-        resetModifications()
-      } catch (err) {
-        console.error('Failed to load script from URL:', err)
-        setError(
-          `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
-        )
-        // Clear modifications when loading fails
-        resetModifications()
-      } finally {
-        setIsLoading(false)
-      }
-    },
-    [resetModifications],
-  )
-
-  // Function to load script from URL parameters
-  const loadScriptFromUrlParams = useCallback(() => {
-    const params = new URLSearchParams(window.location.search)
-    const encodedScript = params.get('script')
-    const scriptUrlParam = params.get('script_url')
-
-    // Prioritize script_url over encoded script
-    if (scriptUrlParam) {
-      setCurrentScriptUrl(scriptUrlParam)
-      loadScriptFromUrl(scriptUrlParam)
-    } else if (encodedScript) {
-      try {
-        // Decompress from URL (handles both compressed and legacy uncompressed formats)
-        const decoded = decompressFromUrl(encodedScript)
-        const parsed = JSON.parse(decoded)
-
-        if (Array.isArray(parsed)) {
-          // Extract name from _meta object in the script
-          const metaItem = parsed.find(
-            (item) =>
-              typeof item === 'object' && item !== null && item.id === '_meta',
-          )
-          const metaObj = metaItem as { name?: string } | undefined
-          const name = metaObj?.name || 'Shared Script'
-
-          setScriptData(parsed)
-          setScriptName(name)
-          // Reset any stale modifications from previous session
-          resetModifications()
-          setError(null)
-        }
-      } catch (err) {
-        console.error('Failed to load script from URL:', err)
-        setError('Failed to load script from URL')
-        // Clear modifications when loading fails
-        resetModifications()
-      }
-    } else {
-      // No script in URL - clear script data and modifications
-      setScriptData(null)
-      setScriptName('')
-      setCurrentScriptUrl('')
-      setError(null)
-      resetModifications()
-    }
-  }, [loadScriptFromUrl, resetModifications])
-
-  useEffect(() => {
-    // Load script from URL on mount (client-side only)
-    if (typeof window === 'undefined') return
-
-    loadScriptFromUrlParams()
-  }, [loadScriptFromUrlParams])
-
-  useEffect(() => {
-    // Listen for browser back/forward navigation
-    if (typeof window === 'undefined') return
-
-    const handlePopState = () => {
-      loadScriptFromUrlParams()
-    }
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [loadScriptFromUrlParams])
-
-  const language = i18n.language
 
   // Apply language translations to roles
   const roles = baseRoles.map((role) => {
@@ -220,102 +100,11 @@ function App() {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      try {
-        const content = e.target?.result as string
-        const parsed = JSON.parse(content)
-
-        if (!Array.isArray(parsed)) {
-          setError('Invalid script format: expected an array')
-          // Clear modifications when loading fails
-          resetModifications()
-          return
-        }
-
-        // Extract name from _meta object, or use filename as fallback
-        const metaItem = parsed.find(
-          (item: unknown) =>
-            typeof item === 'object' &&
-            item !== null &&
-            (item as { id?: string }).id === '_meta',
-        )
-        const metaObj = metaItem as { name?: string } | undefined
-        const fileName = file.name.replace(/\.[^/.]+$/, '')
-        const name = metaObj?.name || fileName
-
-        setScriptData(parsed)
-        setScriptName(name)
-        setError(null)
-        setCurrentScriptUrl('')
-
-        // Update URL with compressed script data
-        const encoded = compressForUrl(content)
-
-        const params = new URLSearchParams()
-        params.set('script', encoded)
-
-        // Update URL without reloading the page
-        const newUrl = `${window.location.pathname}?${params.toString()}`
-        window.history.pushState({}, '', newUrl)
-
-        // Reset any stale modifications
-        resetModifications()
-      } catch (err) {
-        setError('Failed to parse JSON file')
-        // Clear modifications when loading fails
-        resetModifications()
-        console.error(err)
-      }
-    }
-    reader.readAsText(file)
+    loadFromFile(file, resetModifications)
   }
 
   const handleJsonPaste = (content: string) => {
-    try {
-      const parsed = JSON.parse(content)
-
-      if (!Array.isArray(parsed)) {
-        setError('Invalid script format: expected an array')
-        // Clear modifications when loading fails
-        resetModifications()
-        return
-      }
-
-      // Extract name from _meta object
-      const metaItem = parsed.find(
-        (item: unknown) =>
-          typeof item === 'object' &&
-          item !== null &&
-          (item as { id?: string }).id === '_meta',
-      )
-      const metaObj = metaItem as { name?: string } | undefined
-      const name = metaObj?.name || 'Pasted Script'
-
-      setScriptData(parsed)
-      setScriptName(name)
-      setError(null)
-      setCurrentScriptUrl('')
-
-      // Update URL with compressed script data
-      const encoded = compressForUrl(content)
-
-      const params = new URLSearchParams()
-      params.set('script', encoded)
-
-      // Update URL without reloading the page
-      const newUrl = `${window.location.pathname}?${params.toString()}`
-      window.history.pushState({}, '', newUrl)
-
-      // Reset any stale modifications
-      resetModifications()
-    } catch (err) {
-      setError('Failed to parse JSON')
-      // Clear modifications when loading fails
-      resetModifications()
-      console.error(err)
-    }
+    loadFromJson(content, resetModifications)
   }
 
   const handlePrint = () => {
@@ -510,23 +299,66 @@ function App() {
   const sampleScripts = useBaseScripts()
   const carouselScripts = useCarouselScripts()
 
-  const handleLanguageChange = (newLanguage: string) => {
-    i18n.changeLanguage(newLanguage)
-  }
-
   // Get current script JSON for the paste modal
   const currentScriptJson = scriptData ? JSON.stringify(scriptData) : undefined
 
+  // Generate dynamic meta tags for social media sharing
+  const metaDescription = useMemo(() => {
+    if (!scriptData || !scriptRoles) {
+      return 'Create and share custom Blood on the Clocktower scripts with night order sheets and role information'
+    }
+
+    // Extract author if available
+    const metaItem = scriptData.find(
+      (item) =>
+        typeof item === 'object' && item !== null && item.id === '_meta',
+    )
+    const metaObj = metaItem as { author?: string } | undefined
+    const author = metaObj?.author
+
+    // Count roles by team
+    const townsfolk = scriptRoles.filter(
+      (r) => r.team === Team.Townsfolk,
+    ).length
+    const outsider = scriptRoles.filter((r) => r.team === Team.Outsider).length
+    const minion = scriptRoles.filter((r) => r.team === Team.Minion).length
+    const demon = scriptRoles.filter((r) => r.team === Team.Demon).length
+    const traveler = scriptRoles.filter((r) => r.team === Team.Traveler).length
+
+    const parts = [
+      `${townsfolk} Townsfolk`,
+      `${outsider} Outsider${outsider !== 1 ? 's' : ''}`,
+      `${minion} Minion${minion !== 1 ? 's' : ''}`,
+      `${demon} Demon${demon !== 1 ? 's' : ''}`,
+    ]
+    if (traveler > 0) {
+      parts.push(`${traveler} Traveler${traveler !== 1 ? 's' : ''}`)
+    }
+
+    const rolesSummary = parts.join(', ')
+    const authorPart = author ? ` by ${author}` : ''
+
+    return `A Blood on the Clocktower script${authorPart} with ${rolesSummary}. View night order and role details.`
+  }, [scriptData, scriptRoles])
+
+  useMetaTags({
+    title: scriptName
+      ? `${scriptName} - BotC Script Tool`
+      : 'Blood on the Clocktower Script Tool',
+    description: metaDescription,
+    url: window.location.href,
+  })
+
   return (
     <>
-      <AppHeader language={language} onLanguageChange={handleLanguageChange} />
+      <AppHeader language={language} onLanguageChange={changeLanguage} />
       <Container size="4" p="4">
         <Flex direction="column" gap="9">
           <div className="no-print">
             <Box>
               <FileUploadControls
                 onFileUpload={handleFileUpload}
-                onUrlLoad={loadScriptFromUrl}
+                onUrlLoad={(url) => loadFromUrl(url, resetModifications)}
                 onPrint={handlePrint}
                 onCopyLink={handleCopyLink}
                 hasScript={!!scriptData}
@@ -557,11 +389,14 @@ function App() {
                     onNameChange={setName}
                     onAuthorChange={setAuthor}
                   />
+                  {/* Render first team (townsfolk) without wrapper for proper page break handling */}
                   <TeamSection
-                    team="townsfolk"
-                    teamColor="blue"
+                    key={Team.Townsfolk}
+                    team={Team.Townsfolk}
+                    teamColor={TEAM_CONFIG[Team.Townsfolk].color}
+                    columnsCount={TEAM_CONFIG[Team.Townsfolk].columns}
                     roles={scriptRoles.filter(
-                      (role) => role.team === 'townsfolk',
+                      (role) => role.team === Team.Townsfolk,
                     )}
                     allRoles={roles}
                     existingRoleIds={existingRoleIds}
@@ -571,48 +406,32 @@ function App() {
                     onReorderRoles={handleReorderRoles}
                   />
                 </Flex>
-                <div style={{ pageBreakInside: 'avoid' }}>
-                  <TeamSection
-                    team="outsider"
-                    teamColor="blue"
-                    roles={scriptRoles.filter(
-                      (role) => role.team === 'outsider',
-                    )}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                  />
-                </div>
-                <div style={{ pageBreakInside: 'avoid' }}>
-                  <TeamSection
-                    team="minion"
-                    teamColor="red"
-                    roles={scriptRoles.filter((role) => role.team === 'minion')}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                  />
-                </div>
-                <div style={{ pageBreakInside: 'avoid' }}>
-                  <TeamSection
-                    team="demon"
-                    teamColor="red"
-                    roles={scriptRoles.filter((role) => role.team === 'demon')}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                  />
-                </div>
+                {/* Render main teams (outsider, minion, demon) */}
+                {[Team.Outsider, Team.Minion, Team.Demon].map((team) => {
+                  const teamRoles = scriptRoles.filter(
+                    (role) => role.team === team,
+                  )
+                  const config = TEAM_CONFIG[team]
+
+                  return (
+                    <div key={team} style={{ pageBreakInside: 'avoid' }}>
+                      <TeamSection
+                        team={team}
+                        teamColor={config.color}
+                        columnsCount={config.columns}
+                        roles={teamRoles}
+                        allRoles={roles}
+                        existingRoleIds={existingRoleIds}
+                        onAddRole={handleAddRole}
+                        onRemoveRole={handleRemoveRole}
+                        onReplaceRole={handleReplaceRole}
+                        onReorderRoles={handleReorderRoles}
+                      />
+                    </div>
+                  )
+                })}
               </Flex>
+              {/* Render special teams (traveler, loric) with page break */}
               <Flex
                 direction="column"
                 gap="5"
@@ -624,51 +443,35 @@ function App() {
                   pageBreakInside: 'avoid',
                 }}
               >
-                <div
-                  className={
-                    scriptRoles.filter((role) => role.team === 'traveler')
-                      .length === 0
-                      ? 'print:hidden'
-                      : ''
-                  }
-                >
-                  <TeamSection
-                    team="traveler"
-                    teamColor="orange"
-                    columnsCount={1}
-                    roles={scriptRoles.filter(
-                      (role) => role.team === 'traveler',
-                    )}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                  />
-                </div>
+                {[Team.Traveler, Team.Loric].map((team) => {
+                  const teamRoles = scriptRoles.filter(
+                    (role) => role.team === team,
+                  )
+                  const config = TEAM_CONFIG[team]
+                  const isEmpty = teamRoles.length === 0
 
-                <div
-                  className={
-                    scriptRoles.filter((role) => role.team === 'loric')
-                      .length === 0
-                      ? 'print:hidden'
-                      : ''
-                  }
-                >
-                  <TeamSection
-                    team="loric"
-                    teamColor="green"
-                    columnsCount={1}
-                    roles={scriptRoles.filter((role) => role.team === 'loric')}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                  />
-                </div>
+                  return (
+                    <div
+                      key={team}
+                      className={
+                        isEmpty && config.hideIfEmpty ? 'print:hidden' : ''
+                      }
+                    >
+                      <TeamSection
+                        team={team}
+                        teamColor={config.color}
+                        columnsCount={config.columns}
+                        roles={teamRoles}
+                        allRoles={roles}
+                        existingRoleIds={existingRoleIds}
+                        onAddRole={handleAddRole}
+                        onRemoveRole={handleRemoveRole}
+                        onReplaceRole={handleReplaceRole}
+                        onReorderRoles={handleReorderRoles}
+                      />
+                    </div>
+                  )
+                })}
 
                 <PlayerCountTable />
               </Flex>
@@ -726,7 +529,9 @@ function App() {
                           <Button
                             variant="soft"
                             size="1"
-                            onClick={() => loadScriptFromUrl(script.url)}
+                            onClick={() =>
+                              loadFromUrl(script.url, resetModifications)
+                            }
                           >
                             {script.name}
                           </Button>

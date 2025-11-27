@@ -1,20 +1,12 @@
 import { Flex } from '@radix-ui/themes'
 import type { Role } from '../../data/types'
 import { TeamSection } from './TeamSection'
+import { TEAMS } from '@/constants'
 
 interface TeamProps {
   roles: Role[]
   excludeTravelers?: boolean
 }
-
-const teamOrder = [
-  'townsfolk',
-  'outsider',
-  'minion',
-  'demon',
-  'traveler',
-  'loric',
-] as const
 
 const teamColors = {
   townsfolk: 'blue',
@@ -38,7 +30,7 @@ export function Team({ roles, excludeTravelers = false }: TeamProps) {
 
   return (
     <Flex direction="column">
-      {teamOrder.map((team) => {
+      {TEAMS.map((team) => {
         if (excludeTravelers && team === 'traveler') return null
 
         const teamRoles = rolesByTeam?.[team]

@@ -1,40 +1,14 @@
-import type { Role } from '../data/types'
+import type {
+  Role,
+  ScriptMeta,
+  ScriptRole,
+  ScriptData,
+  ParsedRole,
+  ParseScriptResult,
+} from '../types'
 
-export type ScriptMeta = {
-  id: '_meta'
-  name: string
-  author: string
-  firstNight?: Array<string>
-  otherNight?: Array<string>
-}
-
-export type ScriptRole = {
-  id: string
-  // Optional fields from full role objects in script
-  name?: string
-  image?: string
-  team?: Role['team']
-  edition?: Role['edition']
-  ability?: string
-  flavor?: string
-  firstNight?: number
-  otherNight?: number
-  firstNightReminder?: string
-  otherNightReminder?: string
-  reminders?: string[]
-  remindersGlobal?: string[]
-  setup?: boolean
-  special?: Role['special']
-}
-
-export type ScriptData = Array<ScriptMeta | ScriptRole | string>
-
-export type ParsedRole = Role & { isCustom: boolean }
-
-export interface ParseScriptResult {
-  meta?: ScriptMeta
-  roles: ParsedRole[]
-}
+// Re-export types for backward compatibility
+export type { ScriptMeta, ScriptRole, ScriptData, ParsedRole, ParseScriptResult }
 
 /**
  * Parses script data and returns a list of valid roles with their metadata.

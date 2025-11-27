@@ -1,14 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { decompressFromUrl } from '../utils/urlCompression'
-
-// Script item can be a string (role id) or an object with id
-type ScriptItem = string | { id: string; [key: string]: unknown }
-
-interface MetaOverrides {
-  name?: string
-  author?: string
-}
+import type { ScriptItem, MetaOverrides } from '@/types'
 
 interface ScriptModificationState {
   // Diff: roles added (not in original) - can be string (just id) or full object (custom data)

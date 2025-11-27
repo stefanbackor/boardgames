@@ -11,28 +11,22 @@ import {
 } from '@radix-ui/themes'
 import { Search, X, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { Role } from '../../data/types'
+import type { Role } from '@/types'
+import { Team } from '@/constants'
 import { roles as baseRoles } from '../../data/roles'
 import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
+import { getProxiedImageUrl } from '../../utils/imageUrl'
 
 interface AddRoleModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  team: string
+  team: Team
   allRoles: Role[]
   existingRoleIds: Set<string>
   onAddRole: (role: Role) => void
   onRemoveRole: (roleId: string) => void
   onReplaceRole?: (oldRoleId: string, newRole: Role) => void
   replaceRoleId?: string
-}
-
-// Normalize role image URL for modal previews via wsrv.nl proxy
-function getModalRoleImageUrl(url: string) {
-  if (!url) return url
-  if (url.startsWith('//wsrv.nl/')) return url
-  const encoded = encodeURIComponent(url)
-  return `//wsrv.nl/?url=${encoded}&h=150`
 }
 
 // Helper function to highlight search term in text
@@ -95,30 +89,34 @@ export function AddRoleModal({
   )
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
-  const TEAM_ADD_TITLE_KEYS = {
-    townsfolk: 'Add Townsfolk',
-    outsider: 'Add Outsiders',
-    minion: 'Add Minions',
-    demon: 'Add Demons',
-    traveler: 'Add Recommended Travelers',
-    loric: 'Add Loric',
-  } as const
-
-  const TEAM_REPLACE_TITLE_KEYS = {
-    townsfolk: 'Replace Townsfolk',
-    outsider: 'Replace Outsiders',
-    minion: 'Replace Minions',
-    demon: 'Replace Demons',
-    traveler: 'Replace Recommended Travelers',
-    loric: 'Replace Loric',
-  } as const
-
+  // Use inline string literals for i18next-parser extraction
   const modalTitle = replaceRoleId
-    ? t(
-        TEAM_REPLACE_TITLE_KEYS[team as keyof typeof TEAM_REPLACE_TITLE_KEYS] ||
-          team,
-      )
-    : t(TEAM_ADD_TITLE_KEYS[team as keyof typeof TEAM_ADD_TITLE_KEYS] || team)
+    ? team === Team.Townsfolk
+      ? t('Replace Townsfolk')
+      : team === Team.Outsider
+        ? t('Replace Outsiders')
+        : team === Team.Minion
+          ? t('Replace Minions')
+          : team === Team.Demon
+            ? t('Replace Demons')
+            : team === Team.Traveler
+              ? t('Replace Recommended Travelers')
+              : team === Team.Loric
+                ? t('Replace Loric')
+                : team
+    : team === Team.Townsfolk
+      ? t('Add Townsfolk')
+      : team === Team.Outsider
+        ? t('Add Outsiders')
+        : team === Team.Minion
+          ? t('Add Minions')
+          : team === Team.Demon
+            ? t('Add Demons')
+            : team === Team.Traveler
+              ? t('Add Recommended Travelers')
+              : team === Team.Loric
+                ? t('Add Loric')
+                : team
 
   // Check if the role being replaced is a custom character
   const isReplacingCustomRole =
@@ -272,7 +270,7 @@ export function AddRoleModal({
                           <Flex align="center" gap="1">
                             {role.image && (
                               <img
-                                src={getModalRoleImageUrl(role.image)}
+                                src={getProxiedImageUrl(role.image, 24)}
                                 alt={role.name}
                                 style={{
                                   width: '24px',

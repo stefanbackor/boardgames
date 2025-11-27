@@ -13,20 +13,13 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Role } from '../../data/types'
 import { roles as baseRoles } from '../../data/roles'
+import { getProxiedImageUrl } from '../../utils/imageUrl'
 
 interface RoleCardProps {
   role: Role & { isCustom?: boolean }
   onRemove?: (roleId: string) => void
   onSearch?: (roleId: string) => void
   isDraggable?: boolean
-}
-
-// Normalize role image URL for role cards via wsrv.nl proxy
-function getRoleCardImageUrl(url?: string) {
-  if (!url) return url
-  if (url.startsWith('//wsrv.nl/')) return url
-  const encoded = encodeURIComponent(url)
-  return `//wsrv.nl/?url=${encoded}&h=150`
 }
 
 export function RoleCard({
@@ -71,7 +64,7 @@ export function RoleCard({
 
   const roleImage = (
     <img
-      src={getRoleCardImageUrl(role.image)}
+      src={getProxiedImageUrl(role.image)}
       alt={role.name}
       style={{
         width: '100%',

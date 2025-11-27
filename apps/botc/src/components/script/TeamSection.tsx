@@ -18,14 +18,15 @@ import {
   sortableKeyboardCoordinates,
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
-import type { Role } from '../../data/types'
+import type { Role } from '@/types'
+import { Team, type TeamColor } from '@/constants'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
 
 interface TeamSectionProps {
-  team: string
-  teamColor: 'blue' | 'red' | 'orange' | 'green'
+  team: Team
+  teamColor: TeamColor
   roles: Role[]
   /**
    * Number of columns for the role grid.
@@ -66,17 +67,21 @@ export function TeamSection({
     }),
   )
 
-  const TEAM_TRANSLATION_KEYS = {
-    townsfolk: t('Townsfolk'),
-    outsider: t('Outsiders'),
-    minion: t('Minions'),
-    demon: t('Demons'),
-    traveler: t('Recommended Travelers'),
-    loric: t('Loric'),
-  } as const
-
+  // Use inline string literals for i18next-parser extraction
   const teamLabel =
-    TEAM_TRANSLATION_KEYS[team as keyof typeof TEAM_TRANSLATION_KEYS] || team
+    team === Team.Townsfolk
+      ? t('Townsfolk')
+      : team === Team.Outsider
+        ? t('Outsiders')
+        : team === Team.Minion
+          ? t('Minions')
+          : team === Team.Demon
+            ? t('Demons')
+            : team === Team.Traveler
+              ? t('Recommended Travelers')
+              : team === Team.Loric
+                ? t('Loric')
+                : team
 
   const canAddRoles = allRoles && existingRoleIds && onAddRole && onRemoveRole
 

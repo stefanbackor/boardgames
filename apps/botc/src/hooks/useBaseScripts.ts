@@ -1,13 +1,9 @@
-import { ScriptData } from '@/utils/parseScript'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { SampleScript } from '@/types'
 
-export interface SampleScript {
-  key: string
-  name: string
-  url: string
-  json: ScriptData
-}
+// Re-export for backward compatibility
+export type { SampleScript }
 
 /**
  * Hook that provides sample scripts with translated names

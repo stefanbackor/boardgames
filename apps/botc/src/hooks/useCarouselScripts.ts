@@ -1,12 +1,9 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { CarouselScript } from '@/types'
 
-export interface CarouselScript {
-  key: string
-  name: string
-  url: string
-  flavor: string
-}
+// Re-export for backward compatibility
+export type { CarouselScript }
 
 /**
  * Hook that provides carousel scripts with translated names
