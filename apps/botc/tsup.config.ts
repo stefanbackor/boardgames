@@ -16,11 +16,16 @@ export default defineConfig({
   // Don't generate declaration files
   dts: false,
 
-  // Don't split code
+  // Explicitly enable bundling (bundles all imports into single file)
+  bundle: true,
+
+  // Don't split code into chunks - keep everything in one file
   splitting: false,
 
-  // Bundle all dependencies except @vercel/node
+  // Bundle ALL dependencies into the output file (except external ones)
   noExternal: [/.*/],
+
+  // Keep @vercel/node external (provided by Vercel runtime)
   external: ['@vercel/node'],
 
   // Target Node.js 24 (Vercel runtime)
@@ -35,6 +40,9 @@ export default defineConfig({
   // Generate sourcemaps for debugging
   sourcemap: false,
 
-  // Preserve original file structure
+  // Tree-shake unused code for smaller bundle
   treeshake: true,
+
+  // Disable platform-specific handling that might cause splitting
+  platform: 'node',
 })
