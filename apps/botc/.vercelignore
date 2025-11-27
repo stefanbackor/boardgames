@@ -12,11 +12,3 @@ docs/
 examples/
 *.md
 !README.md
-
-# Don't deploy config files that aren't needed at runtime
-tsconfig.json
-vite.config.ts
-vitest.config.ts
-postcss.config.js
-i18next-parser.config.js
-
