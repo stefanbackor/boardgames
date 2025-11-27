@@ -111,16 +111,6 @@ function App() {
     window.print()
   }
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href)
-      setLinkCopied(true)
-      setTimeout(() => setLinkCopied(false), 2000)
-    } catch (err) {
-      console.error('Failed to copy link:', err)
-    }
-  }
-
   const parsedScript = scriptData ? parseScript(scriptData, roles) : null
   const meta = parsedScript?.meta
   const scriptRoles = parsedScript?.roles
@@ -348,6 +338,36 @@ function App() {
     description: metaDescription,
     url: window.location.href,
   })
+
+  const handleCopyLink = async () => {
+    try {
+      const url = new URL(window.location.href)
+      const params = url.searchParams
+
+      const hasScript = params.has('script')
+      const shareUrl = hasScript
+        ? `${url.origin}/api/share?${params.toString()}`
+        : url.href
+
+      if (navigator.share) {
+        await navigator.share({
+          url: shareUrl,
+          title: scriptName
+            ? `${scriptName} - BotC Script Tool`
+            : 'Blood on the Clocktower Script Tool',
+          text: metaDescription,
+        })
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl)
+        setLinkCopied(true)
+        setTimeout(() => setLinkCopied(false), 2000)
+      } else {
+        window.open(shareUrl, '_blank')
+      }
+    } catch (err) {
+      console.error('Failed to share link:', err)
+    }
+  }
 
   return (
     <>

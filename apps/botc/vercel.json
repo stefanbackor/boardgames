@@ -2,29 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "yarn build",
   "outputDirectory": "dist",
-  "framework": null,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|WhatsApp|TelegramBot|Slackbot|Discordbot|SkypeUriPreview|pinterest|iMessagebot|Applebot|redditbot|Embedly|vkShare).*"
-        }
-      ],
-      "destination": "/api/og"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/og",
-      "headers": [
-        {
-          "key": "X-Config-Test",
-          "value": "botc-vercel-json"
-        }
-      ]
-    }
-  ]
+  "framework": null
 }

@@ -237,7 +237,7 @@ export function FileUploadControls({
             </Button>
             <Button onClick={onCopyLink} variant="soft" disabled={!hasScript}>
               {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
-              {linkCopied ? t('Link Copied!') : t('Copy Link')}
+              {linkCopied ? t('Link Copied!') : t('Share')}
             </Button>
           </Flex>
         </Flex>
