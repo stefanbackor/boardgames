@@ -19,7 +19,6 @@ export function compressForUrl(data: string): string {
     
     return btoa(binaryString)
   } catch (error) {
-    console.error('Compression failed:', error)
     throw new Error('Failed to compress data for URL')
   }
 }
@@ -52,7 +51,6 @@ export function decompressFromUrl(encoded: string): string {
       }
     }
   } catch (error) {
-    console.error('Decompression failed:', error)
     throw new Error('Failed to decompress data from URL')
   }
 }

@@ -343,7 +343,7 @@ describe('OG API Handler', () => {
   describe('URL Construction', () => {
     it('should construct correct URLs with https for production', async () => {
       const req = createMockRequest(
-        { script: 'test' },
+        {}, // No script parameter needed for URL construction test
         'Twitterbot',
         'botc.app',
       )
@@ -357,7 +357,7 @@ describe('OG API Handler', () => {
 
     it('should construct correct URLs with http for localhost', async () => {
       const req = createMockRequest(
-        { script: 'test' },
+        {}, // No script parameter needed for URL construction test
         'Twitterbot',
         'localhost:3000',
       )

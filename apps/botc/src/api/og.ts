@@ -118,7 +118,6 @@ function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
       totalRoles: roles.length,
     }
   } catch (error) {
-    console.error('Failed to parse script:', error)
     return null
   }
 }
