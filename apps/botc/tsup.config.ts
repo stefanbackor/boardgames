@@ -33,7 +33,7 @@ export default defineConfig({
   minify: false,
 
   // Generate sourcemaps for debugging
-  sourcemap: true,
+  sourcemap: false,
 
   // Preserve original file structure
   treeshake: true,
