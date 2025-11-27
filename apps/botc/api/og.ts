@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import pako from 'pako'
+import { decompressFromUrl } from '../src/utils/urlCompression'
 
 // Crawler user agents that request link previews
 const CRAWLER_USER_AGENTS = [
@@ -40,37 +40,6 @@ interface ScriptMeta {
   traveler: number
   loric: number
   totalRoles: number
-}
-
-/**
- * Decompresses and decodes a URL-encoded string
- * Handles both compressed (gzip) and uncompressed (legacy) formats
- */
-function decompressFromUrl(encoded: string): string {
-  try {
-    // Decode from base64
-    const binaryString = atob(encoded)
-    const bytes = new Uint8Array(binaryString.length)
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i)
-    }
-
-    // Try to decompress with gzip (new format)
-    try {
-      const decompressed = pako.ungzip(bytes)
-      return new TextDecoder().decode(decompressed)
-    } catch {
-      // If decompression fails, assume it's legacy uncompressed format
-      try {
-        return new TextDecoder().decode(bytes)
-      } catch {
-        return atob(encoded)
-      }
-    }
-  } catch (error) {
-    console.error('Decompression failed:', error)
-    throw new Error('Failed to decompress data from URL')
-  }
 }
 
 function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
