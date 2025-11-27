@@ -1,22 +1,22 @@
-# Don't deploy TypeScript source files for API functions
-# The bundled .js files will be used instead
-api/**/*.ts
-!api/**/*.d.ts
-
-# Don't deploy source directory to serverless functions
-# (it will be bundled into the API functions)
-src/
+# Vercel ignore patterns for deployment
+# Note: These files are excluded from the FINAL deployment,
+# but they ARE available during the build process.
 
 # Don't deploy test files
 **/*.test.ts
 **/*.test.tsx
+fixtures/
 
-# Don't deploy config files
+# Don't deploy documentation
+docs/
+examples/
+*.md
+!README.md
+
+# Don't deploy config files that aren't needed at runtime
 tsconfig.json
 vite.config.ts
 vitest.config.ts
-tsup.config.ts
-
-# Don't deploy dev dependencies
-node_modules/
+postcss.config.js
+i18next-parser.config.js
 
