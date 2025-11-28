@@ -83,7 +83,6 @@ export function RoleCard({
       ref={setNodeRef}
       style={{ ...style, position: 'relative' }}
       gap="3"
-      my="1"
       align="center"
       className="role-card break-inside-avoid print:break-inside-avoid-page"
     >
@@ -140,6 +139,7 @@ export function RoleCard({
         }}
         width={{ initial: '48px', md: '64px' }}
         height={{ initial: '48px', md: '64px' }}
+        className="role-card-image"
       >
         {role.isCustom ? (
           roleImage
@@ -181,33 +181,40 @@ export function RoleCard({
           </Tooltip>
         )}
       </Box>
-      <Flex
-        direction="column"
-        justify="center"
-        align="start"
-        className="break-inside-avoid"
-      >
-        <Flex align="center" gap="1">
-          <Heading size="4">{role.name}</Heading>
-          {onSearch && role.isCustom && (
-            <Tooltip content={t('Replace custom character')}>
-              <Button
-                color="gray"
-                size="1"
-                variant="ghost"
-                className="no-print"
-                aria-label={t('Replace custom character')}
-                onClick={() => onSearch(role.id)}
-              >
-                {t('Custom')}
-              </Button>
-            </Tooltip>
-          )}
-        </Flex>
-        <Text size="2" style={{ lineHeight: '1.33' }}>
+      <Box className="role-card-text" my="2" style={{ lineHeight: '1' }}>
+        <Heading
+          size="4"
+          mr="2"
+          style={{
+            display: 'inline',
+            lineHeight: 'inherit',
+          }}
+        >
+          {role.name}
+        </Heading>
+        {onSearch && role.isCustom && (
+          <Tooltip className="no-print" content={t('Replace custom character')}>
+            <Button
+              color="gray"
+              size="1"
+              variant="ghost"
+              className="role-card-search no-print"
+              aria-label={t('Replace custom character')}
+              onClick={() => onSearch(role.id)}
+            >
+              {t('Custom')}
+            </Button>
+          </Tooltip>
+        )}
+        <br className="role-card-ability-break" />
+        <Text
+          className="role-card-ability"
+          size="2"
+          style={{ lineHeight: 'inherit' }}
+        >
           {role.ability}
         </Text>
-      </Flex>
+      </Box>
     </Flex>
   )
 }

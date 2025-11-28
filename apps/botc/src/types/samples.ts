@@ -5,8 +5,6 @@ import type { ScriptData } from './script'
  */
 export interface SampleScript {
   key: string
-  name: string
-  url: string
   json: ScriptData
 }
 
@@ -19,4 +17,3 @@ export interface CarouselScript {
   url: string
   flavor: string
 }
-

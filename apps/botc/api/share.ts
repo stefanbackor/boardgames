@@ -42,6 +42,17 @@ interface ScriptMeta {
   totalRoles: number
 }
 
+const STYLE = `
+<style>
+  body {
+    background-color: #F7F0E2;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 12px;
+    color: #000;
+  }
+</style>
+`
+
 // Local copy of the URL decompression logic, adapted for the Node runtime.
 // This avoids importing TS/DOM utilities from the frontend bundle,
 // which Vercel does not compile as part of the Serverless Function.
@@ -221,6 +232,8 @@ function generateOGHTML(
   
   <!-- Redirect to actual page -->
   <meta http-equiv="refresh" content="0;url=${escapeHtml(url)}" />
+
+  ${STYLE}
 </head>
 <body>
   <h1>${escapeHtml(name)}</h1>
@@ -270,6 +283,8 @@ function generateDefaultOGHTML(
   
   <!-- Redirect to actual page -->
   <meta http-equiv="refresh" content="0;url=${escapeHtml(url)}" />
+
+  ${STYLE}
 </head>
 <body>
   <h1>${escapeHtml(title)}</h1>

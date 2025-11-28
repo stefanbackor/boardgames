@@ -88,7 +88,7 @@ export function NightFirstSetup({ roles }: NightFirstSetupProps) {
         <Badge size="3" color="gray">
           {t('First Night')}
         </Badge>
-        <Separator orientation="horizontal" size="4" />
+        <Separator decorative orientation="horizontal" size="4" />
       </Flex>
 
       <Flex direction="column" gap="2">

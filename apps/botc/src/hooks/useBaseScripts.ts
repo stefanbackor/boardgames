@@ -16,8 +16,6 @@ export function useBaseScripts(): SampleScript[] {
     const SAMPLE_SCRIPTS_DATA = [
       {
         key: 'tb',
-        name: t('Trouble Brewing'),
-        url: 'https://www.botcscripts.com/api/scripts/178/json/',
         json: [
           {
             id: '_meta',
@@ -94,8 +92,6 @@ export function useBaseScripts(): SampleScript[] {
       },
       {
         key: 'snv',
-        name: t('Sects and Violets'),
-        url: 'https://www.botcscripts.com/api/scripts/180/json/',
         json: [
           {
             id: '_meta',
@@ -181,8 +177,6 @@ export function useBaseScripts(): SampleScript[] {
       },
       {
         key: 'bmr',
-        name: t('Bad Moon Rising'),
-        url: 'https://www.botcscripts.com/api/scripts/181/json/',
         json: [
           {
             id: '_meta',
@@ -270,8 +264,6 @@ export function useBaseScripts(): SampleScript[] {
 
     return SAMPLE_SCRIPTS_DATA.map((script) => ({
       key: script.key,
-      name: script.name,
-      url: script.url,
       json: script.json,
     }))
   }, [t])

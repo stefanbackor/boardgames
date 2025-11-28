@@ -8,7 +8,24 @@ import type {
 } from '../types'
 
 // Re-export types for backward compatibility
-export type { ScriptMeta, ScriptRole, ScriptData, ParsedRole, ParseScriptResult }
+export type {
+  ScriptMeta,
+  ScriptRole,
+  ScriptData,
+  ParsedRole,
+  ParseScriptResult,
+}
+
+/**
+ * Parses script data and returns the metadata.
+ * @param scriptData - The raw script data array containing metadata and role references
+ * @returns The script metadata
+ */
+export const getScriptMeta = (scriptData: ScriptData) => {
+  return scriptData.find(
+    (item) => typeof item === 'object' && item !== null && item.id === '_meta',
+  ) as ScriptMeta | undefined
+}
 
 /**
  * Parses script data and returns a list of valid roles with their metadata.
@@ -22,9 +39,7 @@ export function parseScript(
   baseRoles: Role[],
 ): ParseScriptResult {
   // Extract metadata
-  const meta = scriptData.find(
-    (item) => typeof item !== 'string' && item.id === '_meta',
-  ) as ScriptMeta | undefined
+  const meta = getScriptMeta(scriptData)
 
   // Parse roles
   const roles = scriptData
@@ -35,7 +50,8 @@ export function parseScript(
     .map((item) => {
       // Handle string notation (just role ID)
       const roleId = typeof item === 'string' ? item : item.id
-      const scriptRole = typeof item === 'string' ? { id: item } : (item as ScriptRole)
+      const scriptRole =
+        typeof item === 'string' ? { id: item } : (item as ScriptRole)
 
       // First, try to find the role in base roles
       const baseRole = baseRoles.find((role) => role.id === roleId)

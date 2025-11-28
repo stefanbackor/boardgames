@@ -126,7 +126,13 @@ export function TeamSection({
   return (
     <>
       <Flex key={team} direction="column">
-        <Flex direction="row" align="center" gap="2" my="1">
+        <Flex
+          direction="row"
+          align="center"
+          gap="2"
+          my="2"
+          className="team-header"
+        >
           <Badge
             color={teamColor}
             size="2"
@@ -137,7 +143,7 @@ export function TeamSection({
           {canAddRoles && (
             <IconButton
               size="1"
-              variant="soft"
+              variant="ghost"
               color={teamColor}
               onClick={() => {
                 setReplaceRoleId(undefined)
@@ -149,7 +155,7 @@ export function TeamSection({
               <Plus size={14} />
             </IconButton>
           )}
-          <Separator orientation="horizontal" size="4" />
+          <Separator decorative orientation="horizontal" size="4" />
         </Flex>
         <DndContext
           sensors={sensors}

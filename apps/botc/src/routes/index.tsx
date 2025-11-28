@@ -19,7 +19,11 @@ import { NightFirstSetup } from '../components/script/NightFirstSetup'
 import { NightOtherSetup } from '../components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
 import { LoadingIndicator } from '../components/LoadingIndicator'
-import { parseScript, type ScriptData } from '../utils/parseScript'
+import {
+  getScriptMeta,
+  parseScript,
+  type ScriptData,
+} from '../utils/parseScript'
 import { useBaseScripts } from '../hooks/useBaseScripts'
 import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { TeamSection } from '@/components/script/TeamSection'
@@ -395,15 +399,11 @@ function App() {
 
           {scriptData && scriptRoles && (
             <Flex direction="column" gap="9">
-              <Flex direction="column" gap="2">
-                <Flex
-                  direction="column"
-                  gap="2"
-                  style={{ pageBreakInside: 'avoid' }}
-                >
+              <Flex direction="column">
+                <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
                   <Header
                     name={getName() || meta?.name || scriptName}
-                    author={getAuthor() ?? meta?.author ?? ''}
+                    author={getAuthor() || meta?.author || ''}
                     isModified={scriptIsModified}
                     onCommit={handleCommitChanges}
                     onRevert={handleRevertChanges}
@@ -530,7 +530,7 @@ function App() {
                     size="2"
                     onClick={() => handleJsonPaste(JSON.stringify(script.json))}
                   >
-                    {script.name}
+                    {getScriptMeta(script.json)?.name || script.key}
                   </Button>
                 ))}
               </Flex>
