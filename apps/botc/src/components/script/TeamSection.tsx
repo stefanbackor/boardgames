@@ -61,7 +61,11 @@ export function TeamSection({
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),

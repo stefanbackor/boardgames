@@ -264,6 +264,7 @@ function App() {
         ),
       ]
 
+      // Update the store with reordered role IDs (for commit functionality)
       // Extract role IDs in the new order
       const roleIds = newScript.map((role) => role.id)
 
@@ -279,16 +280,30 @@ function App() {
         roleIds.unshift('_meta')
       }
 
-      // Update the store with reordered role IDs
       reorderRoles(roleIds)
 
-      // Update local state with modified script
-      const modified = getModifiedScript()
-      if (modified) {
-        setScriptData(modified as ScriptData)
+      // Update local state directly with the new order
+      // Build new script data with reordered roles
+      const newScriptData: ScriptData = []
+      if (metaItem) {
+        newScriptData.push(metaItem)
       }
+      
+      // Add roles in new order
+      newScript.forEach((role) => {
+        // Find the original item in scriptData
+        const originalItem = scriptData?.find(item => {
+          const id = typeof item === 'string' ? item : item.id
+          return id === role.id
+        })
+        if (originalItem) {
+          newScriptData.push(originalItem)
+        }
+      })
+
+      setScriptData(newScriptData as ScriptData)
     },
-    [scriptRoles, scriptData, reorderRoles, getModifiedScript],
+    [scriptRoles, scriptData, reorderRoles, setScriptData],
   )
 
   const sampleScripts = useBaseScripts()
