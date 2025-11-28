@@ -44,7 +44,7 @@ describe('OG API Handler', () => {
     // Create a valid sample script and encode it
     let SAMPLE_SCRIPT_PARAM: string
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const sampleScript = [
         {
           id: '_meta',
@@ -75,12 +75,12 @@ describe('OG API Handler', () => {
         { id: 'imp', team: 'demon' },
       ]
 
-      SAMPLE_SCRIPT_PARAM = compressForUrl(JSON.stringify(sampleScript))
+      SAMPLE_SCRIPT_PARAM = await compressForUrl(JSON.stringify(sampleScript))
     })
 
-    it('should decode the sample script parameter correctly', () => {
+    it('should decode the sample script parameter correctly', async () => {
       // Decompress the parameter
-      const decompressed = decompressFromUrl(SAMPLE_SCRIPT_PARAM)
+      const decompressed = await decompressFromUrl(SAMPLE_SCRIPT_PARAM)
       const parsed = JSON.parse(decompressed)
 
       // Should be a valid array
@@ -196,7 +196,7 @@ describe('OG API Handler', () => {
         { id: 'imp', team: 'demon' },
       ]
 
-      const encoded = compressForUrl(JSON.stringify(script))
+      const encoded = await compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
       const res = createMockResponse()
@@ -259,7 +259,7 @@ describe('OG API Handler', () => {
         { id: 'role10', team: 'traveler' },
       ]
 
-      const encoded = compressForUrl(JSON.stringify(script))
+      const encoded = await compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
       const res = createMockResponse()
@@ -283,7 +283,7 @@ describe('OG API Handler', () => {
         { id: 'role3', team: 'demon' },
       ]
 
-      const encoded = compressForUrl(JSON.stringify(script))
+      const encoded = await compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
       const res = createMockResponse()
@@ -313,7 +313,7 @@ describe('OG API Handler', () => {
         { id: 'role1', team: 'townsfolk' },
       ]
 
-      const encoded = compressForUrl(JSON.stringify(script))
+      const encoded = await compressForUrl(JSON.stringify(script))
 
       const req = createMockRequest({ script: encoded }, 'Twitterbot')
       const res = createMockResponse()

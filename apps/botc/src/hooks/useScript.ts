@@ -7,20 +7,23 @@ import { compressForUrl, decompressFromUrl } from '../utils/urlCompression'
  */
 function extractMeta(parsed: unknown[]) {
   const metaItem = parsed.find(
-    (item) => typeof item === 'object' && item !== null && (item as { id?: string }).id === '_meta',
+    (item) =>
+      typeof item === 'object' &&
+      item !== null &&
+      (item as { id?: string }).id === '_meta',
   )
   return metaItem as { name?: string; author?: string } | undefined
 }
 
 /**
  * Custom hook to manage script loading, parsing, and URL synchronization
- * 
+ *
  * Features:
  * - Load scripts from URL, file upload, or JSON paste
  * - Automatically sync script to URL parameters
  * - Handle browser navigation (back/forward)
  * - Unified error handling
- * 
+ *
  * @returns Script state and loading functions
  */
 export function useScript() {
@@ -34,12 +37,12 @@ export function useScript() {
    * Parses and sets script data, updating URL
    */
   const parseAndSetScript = useCallback(
-    (
+    async (
       parsed: unknown[],
       fallbackName: string,
       sourceUrl?: string,
-      resetModifications?: () => void
-    ): boolean => {
+      resetModifications?: () => void,
+    ): Promise<boolean> => {
       if (!Array.isArray(parsed)) {
         setError('Invalid script format: expected an array')
         if (resetModifications) resetModifications()
@@ -53,9 +56,9 @@ export function useScript() {
       setScriptName(name)
       setError(null)
 
-      // Update URL with compressed script data
+      // Update URL with compressed script data (lazy-loaded pako)
       const content = JSON.stringify(parsed)
-      const encoded = compressForUrl(content)
+      const encoded = await compressForUrl(content)
 
       const params = new URLSearchParams()
       params.set('script', encoded)
@@ -71,7 +74,7 @@ export function useScript() {
 
       return true
     },
-    []
+    [],
   )
 
   /**
@@ -93,21 +96,24 @@ export function useScript() {
         // Extract name from meta or use filename from URL
         const urlName =
           extractMeta(parsed)?.name ||
-          url.split('/').pop()?.replace(/\.[^/.]+$/, '') ||
+          url
+            .split('/')
+            .pop()
+            ?.replace(/\.[^/.]+$/, '') ||
           'Script from URL'
 
         parseAndSetScript(parsed, urlName, url, resetModifications)
       } catch (err) {
         console.error('Failed to load script from URL:', err)
         setError(
-          `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`
+          `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
         )
         if (resetModifications) resetModifications()
       } finally {
         setIsLoading(false)
       }
     },
-    [parseAndSetScript]
+    [parseAndSetScript],
   )
 
   /**
@@ -132,7 +138,7 @@ export function useScript() {
       }
       reader.readAsText(file)
     },
-    [parseAndSetScript]
+    [parseAndSetScript],
   )
 
   /**
@@ -151,14 +157,14 @@ export function useScript() {
         console.error(err)
       }
     },
-    [parseAndSetScript]
+    [parseAndSetScript],
   )
 
   /**
    * Loads script from URL parameters (on mount or navigation)
    */
   const loadFromUrlParams = useCallback(
-    (resetModifications?: () => void) => {
+    async (resetModifications?: () => void) => {
       const params = new URLSearchParams(window.location.search)
       const encodedScript = params.get('script')
       const scriptUrlParam = params.get('script_url')
@@ -166,11 +172,12 @@ export function useScript() {
       // Prioritize script_url over encoded script
       if (scriptUrlParam) {
         setCurrentScriptUrl(scriptUrlParam)
-        loadFromUrl(scriptUrlParam, resetModifications)
+        await loadFromUrl(scriptUrlParam, resetModifications)
       } else if (encodedScript) {
         try {
           // Decompress from URL (handles both compressed and legacy uncompressed formats)
-          const decoded = decompressFromUrl(encodedScript)
+          // pako is lazy-loaded here
+          const decoded = await decompressFromUrl(encodedScript)
           const parsed = JSON.parse(decoded)
 
           if (Array.isArray(parsed)) {
@@ -194,7 +201,7 @@ export function useScript() {
         if (resetModifications) resetModifications()
       }
     },
-    [loadFromUrl]
+    [loadFromUrl],
   )
 
   /**
@@ -245,4 +252,3 @@ export function useScript() {
     setCurrentScriptUrl,
   }
 }
-

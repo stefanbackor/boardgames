@@ -200,13 +200,14 @@ function App() {
   }, [scriptIsModified])
 
   // Handler to commit changes to URL
-  const handleCommitChanges = useCallback(() => {
+  const handleCommitChanges = useCallback(async () => {
     const { script: committed, name: committedName } = commitChanges()
     if (committed.length === 0) return
 
     // Encode the committed script to URL with compression (name is stored in _meta)
+    // pako is lazy-loaded here for compression
     const content = JSON.stringify(committed)
-    const encoded = compressForUrl(content)
+    const encoded = await compressForUrl(content)
 
     const params = new URLSearchParams()
     params.set('script', encoded)

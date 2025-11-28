@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { decompressFromUrl } from '../utils/urlCompression'
+import { decompressFromUrlSync } from '../utils/urlCompression'
 import type { ScriptItem, MetaOverrides } from '@/types'
 
 interface ScriptModificationState {
@@ -41,7 +41,16 @@ function getRoleIds(script: ScriptItem[]): string[] {
   return script.map(normalizeScriptItem).filter((id) => id !== '_meta')
 }
 
-// Helper to parse script from URL
+// Cache for original script to avoid re-parsing URL on every access
+let cachedOriginalScript: {
+  url: string
+  script: ScriptItem[] | null
+  name: string
+  author: string
+} | null = null
+
+// Helper to parse script from URL (sync version for store actions)
+// Note: For compressed URLs, the script is pre-loaded by useScript hook
 function getOriginalFromUrl(): {
   script: ScriptItem[] | null
   name: string
@@ -51,19 +60,50 @@ function getOriginalFromUrl(): {
     return { script: null, name: '', author: '' }
   }
 
-  const params = new URLSearchParams(window.location.search)
+  const currentUrl = window.location.search
+
+  // Return cached result if URL hasn't changed
+  if (cachedOriginalScript && cachedOriginalScript.url === currentUrl) {
+    return {
+      script: cachedOriginalScript.script,
+      name: cachedOriginalScript.name,
+      author: cachedOriginalScript.author,
+    }
+  }
+
+  const params = new URLSearchParams(currentUrl)
   const encodedScript = params.get('script')
 
   if (!encodedScript) {
+    cachedOriginalScript = {
+      url: currentUrl,
+      script: null,
+      name: '',
+      author: '',
+    }
     return { script: null, name: '', author: '' }
   }
 
   try {
-    // Decompress from URL (handles both compressed and legacy uncompressed formats)
-    const decoded = decompressFromUrl(encodedScript)
+    // Use sync decompression (works for legacy uncompressed URLs)
+    // For new compressed URLs, useScript pre-loads and the URL is already updated
+    const decoded = decompressFromUrlSync(encodedScript)
+
+    if (decoded === null) {
+      // Compressed data that needs async loading - return null for now
+      // The useScript hook will handle async loading
+      return { script: null, name: '', author: '' }
+    }
+
     const parsed = JSON.parse(decoded) as ScriptItem[]
 
     if (!Array.isArray(parsed)) {
+      cachedOriginalScript = {
+        url: currentUrl,
+        script: null,
+        name: '',
+        author: '',
+      }
       return { script: null, name: '', author: '' }
     }
 
@@ -76,8 +116,15 @@ function getOriginalFromUrl(): {
     const name = metaObj?.name || ''
     const author = metaObj?.author || ''
 
+    cachedOriginalScript = { url: currentUrl, script: parsed, name, author }
     return { script: parsed, name, author }
   } catch {
+    cachedOriginalScript = {
+      url: currentUrl,
+      script: null,
+      name: '',
+      author: '',
+    }
     return { script: null, name: '', author: '' }
   }
 }
@@ -153,10 +200,10 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
 
         // Get role IDs from current script
         const roleIds = getRoleIds(currentScript)
-        
+
         // Find the index of the old role
         const oldIndex = roleIds.indexOf(oldRoleId)
-        
+
         if (oldIndex === -1) return
 
         // Create new role IDs array with replacement
@@ -178,16 +225,21 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           updatedAddedRoles = updatedAddedRoles.filter(
             (r) => normalizeScriptItem(r) !== oldRoleId,
           )
-        } 
+        }
         // If old role is in original, mark it as removed
-        else if (originalRoleIds.includes(oldRoleId) && !removedRoles.includes(oldRoleId)) {
+        else if (
+          originalRoleIds.includes(oldRoleId) &&
+          !removedRoles.includes(oldRoleId)
+        ) {
           updatedRemovedRoles = [...updatedRemovedRoles, oldRoleId]
         }
 
         // Handle addition of new role
         // If new role was previously removed, un-remove it
         if (updatedRemovedRoles.includes(newRoleId)) {
-          updatedRemovedRoles = updatedRemovedRoles.filter((id) => id !== newRoleId)
+          updatedRemovedRoles = updatedRemovedRoles.filter(
+            (id) => id !== newRoleId,
+          )
         }
         // If new role is not in original and not already added, add it
         else if (
@@ -196,7 +248,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         ) {
           // Prepare the item to store
           let itemToStore: string | { id: string; [key: string]: unknown }
-          
+
           if (typeof newRoleItem === 'string') {
             itemToStore = newRoleItem
           } else if (Object.keys(newRoleItem).length === 1 && newRoleItem.id) {
@@ -204,7 +256,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           } else {
             itemToStore = newRoleItem
           }
-          
+
           updatedAddedRoles = [...updatedAddedRoles, itemToStore]
         }
 

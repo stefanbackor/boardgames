@@ -13,6 +13,5 @@ export function getProxiedImageUrl(
   if (!url) return url
   if (url.startsWith('//wsrv.nl/')) return url
   const encoded = encodeURIComponent(url)
-  return `//wsrv.nl/?url=${encoded}&h=${height}`
+  return `//wsrv.nl/?url=${encoded}&h=${height}&output=webp`
 }
-
