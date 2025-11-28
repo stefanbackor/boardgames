@@ -1,16 +1,14 @@
 /**
- * Tests for the OG (Open Graph) API endpoint
+ * Tests for the Share (Open Graph) API endpoint
  *
  * This endpoint generates Open Graph meta tags for social media link previews
- * when scripts are shared. It detects crawlers and serves them HTML with
- * appropriate meta tags, while redirecting regular browsers to the SPA.
- *
- * Sample URL parameter for testing (from real-world usage):
- * H4sIAAAAAAAAA12RwWoEIQyGX2XwvE%2FQ45beey%2FlZDTdCaOJxDhlKPvu66FgtuDl%2BxPz%2F8aP30ApvISvggbhEhgKDnw7UE9hXF6Bl%2FcM5yhBt010FK%2FIy7Urt3C%2F%2FF3PtCooAU8pZol7gR11ajcFTkVs8%2BK3qHVGw5y9jKWCbZOL8D6pc0K1f9OhrE8jQI2aTW7jIc%2FOkicpHMg7YvUtBU5xmLT7FIox94bOAYjNZxaOG%2BU0pRVU3JaqUBt79qFbG4dcT8KDcoN0SATzZvV0EEEz2o8U%2FwlUarh%2FPgDP0gK95QEAAA%3D%3D
+ * when scripts are shared via the /api/share route. It detects crawlers and
+ * serves them HTML with appropriate meta tags, while redirecting regular
+ * browsers to the SPA.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import handler from './og'
+import handler from './share'
 import { decompressFromUrl, compressForUrl } from '../src/utils/urlCompression'
 
 // Helper to create mock request
@@ -39,7 +37,7 @@ function createMockResponse() {
   return res as VercelResponse
 }
 
-describe('OG API Handler', () => {
+describe('Share API Handler', () => {
   describe('Sample Script Parameter', () => {
     // Create a valid sample script and encode it
     let SAMPLE_SCRIPT_PARAM: string
@@ -224,7 +222,7 @@ describe('OG API Handler', () => {
 
       expect(html).toContain('Blood on the Clocktower Script Tool')
       expect(html).toContain(
-        '<!-- Error: Failed to parse script parameter - isCrawler: true - userAgent: Twitterbot -->',
+        '<!-- Error: Failed to parse script parameter -->',
       )
     })
 
@@ -237,9 +235,7 @@ describe('OG API Handler', () => {
       const html = (res.send as any).mock.calls[0][0]
 
       expect(html).toContain('Blood on the Clocktower Script Tool')
-      expect(html).toContain(
-        '<!-- Error: No script parameter provided - isCrawler: true - userAgent: Twitterbot -->',
-      )
+      expect(html).toContain('<!-- Error: No script parameter provided -->')
     })
   })
 
@@ -374,3 +370,5 @@ describe('OG API Handler', () => {
     })
   })
 })
+
+

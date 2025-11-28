@@ -164,7 +164,6 @@ function generateOGHTML(
   scriptMeta: ScriptMeta,
   url: string,
   origin: string,
-  message: string,
 ): string {
   const {
     name,
@@ -201,7 +200,6 @@ function generateOGHTML(
   return `<!DOCTYPE html>
 <html>
 <head>
-  ${message ? `<!-- ${escapeHtml(message)} -->` : ''}
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escapeHtml(title)}</title>
@@ -270,7 +268,7 @@ function generateDefaultOGHTML(
   <meta name="twitter:description" content="${escapeHtml(description)}" />
   <meta name="twitter:image" content="${escapeHtml(imageUrl)}" />
   
-  <!-- Failure detected, redirect to actual page -->
+  <!-- Redirect to actual page -->
   <meta http-equiv="refresh" content="0;url=${escapeHtml(url)}" />
 </head>
 <body>
@@ -296,10 +294,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Reconstruct the full URL as the user would see it
   const fullUrl = scriptParam
-    ? `${origin}/?script=${encodeURIComponent(scriptParam)}&crawler=${isCrawler(
-        userAgent,
-      )}`
-    : `${origin}/?crawler=${isCrawler(userAgent)}`
+    ? `${origin}/?script=${encodeURIComponent(scriptParam)}`
+    : origin
 
   // Only intercept crawler requests
   if (!isCrawler(userAgent)) {
@@ -312,15 +308,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const scriptMeta = parseScriptFromUrl(scriptParam)
 
     if (scriptMeta) {
-      const html = generateOGHTML(
-        scriptMeta,
-        fullUrl,
-        origin,
-        'Script parameter provided - isCrawler: ' +
-          isCrawler(userAgent) +
-          ' - userAgent: ' +
-          userAgent,
-      )
+      const html = generateOGHTML(scriptMeta, fullUrl, origin)
       res.setHeader('Content-Type', 'text/html; charset=utf-8')
       res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
       return res.status(200).send(html)
@@ -330,10 +318,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const html = generateDefaultOGHTML(
       fullUrl,
       origin,
-      'Failed to parse script parameter - isCrawler: ' +
-        isCrawler(userAgent) +
-        ' - userAgent: ' +
-        userAgent,
+      'Failed to parse script parameter',
     )
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
     res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
@@ -344,10 +329,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const html = generateDefaultOGHTML(
     fullUrl,
     origin,
-    'No script parameter provided - isCrawler: ' +
-      isCrawler(userAgent) +
-      ' - userAgent: ' +
-      userAgent,
+    'No script parameter provided',
   )
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.setHeader('Cache-Control', 'public, max-age=2592000, immutable') // Cache for 30 days
