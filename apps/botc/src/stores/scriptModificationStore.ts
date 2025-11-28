@@ -24,6 +24,7 @@ interface ScriptModificationState {
   getModifiedScript: () => ScriptItem[] | null
   getName: () => string
   getAuthor: () => string
+  getMetaOverrides: () => MetaOverrides | null
   isModified: () => boolean
   reset: () => void
 }
@@ -373,6 +374,11 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         const { metaOverrides } = get()
         const { author: originalAuthor } = getOriginalFromUrl()
         return metaOverrides?.author ?? originalAuthor
+      },
+
+      getMetaOverrides: () => {
+        const { metaOverrides } = get()
+        return metaOverrides
       },
 
       commitChanges: () => {

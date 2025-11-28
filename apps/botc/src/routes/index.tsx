@@ -67,10 +67,9 @@ function App() {
     reorderRoles,
     setName,
     setAuthor,
-    getModifiedScript,
     getName,
     getAuthor,
-    commitChanges,
+    getMetaOverrides,
     isModified,
     reset: resetModifications,
   } = useScriptModificationStore()
@@ -127,62 +126,63 @@ function App() {
   // Handler to add a new role to the script
   const handleAddRole = useCallback(
     (role: Role) => {
+      if (!scriptData) return
+
       // When adding a role from the modal, check if it exists in base roles
       // If yes, store just the id string for compact JSON
       // If it's a custom role not in base, store the full object
       const isBaseRole = baseRoles.some((r) => r.id === role.id)
 
-      if (isBaseRole) {
-        // Base role - store just the id string
-        addRole(role.id)
-      } else {
-        // Custom role - store full object with custom properties
-        addRole(role)
-      }
+      const roleItem = isBaseRole ? role.id : role
 
-      // Update local state with modified script
-      const modified = getModifiedScript()
-      if (modified) {
-        setScriptData(modified as ScriptData)
-      }
+      // Update store for tracking changes
+      addRole(roleItem)
+
+      // Update local state directly - append the new role at the end
+      const newScriptData = [...scriptData, roleItem]
+      setScriptData(newScriptData as ScriptData)
     },
-    [addRole, getModifiedScript],
+    [scriptData, addRole, setScriptData],
   )
 
   // Handler to remove a role from the script
   const handleRemoveRole = useCallback(
     (roleId: string) => {
+      if (!scriptData) return
+
+      // Update store for tracking changes
       removeRole(roleId)
-      // Update local state with modified script
-      const modified = getModifiedScript()
-      if (modified) {
-        setScriptData(modified as ScriptData)
-      }
+
+      // Update local state directly - filter out the removed role
+      const newScriptData = scriptData.filter((item) => {
+        const id = typeof item === 'string' ? item : item.id
+        return id !== roleId
+      })
+      setScriptData(newScriptData as ScriptData)
     },
-    [removeRole, getModifiedScript],
+    [scriptData, removeRole, setScriptData],
   )
 
   // Handler to replace a role in the script (at same position)
   const handleReplaceRole = useCallback(
     (oldRoleId: string, newRole: Role) => {
+      if (!scriptData) return
+
       // Check if new role exists in base roles
       const isBaseRole = baseRoles.some((r) => r.id === newRole.id)
+      const newRoleItem = isBaseRole ? newRole.id : newRole
 
-      if (isBaseRole) {
-        // Base role - store just the id string
-        replaceRole(oldRoleId, newRole.id)
-      } else {
-        // Custom role - store full object with custom properties
-        replaceRole(oldRoleId, newRole)
-      }
+      // Update store for tracking changes
+      replaceRole(oldRoleId, newRoleItem)
 
-      // Update local state with modified script
-      const modified = getModifiedScript()
-      if (modified) {
-        setScriptData(modified as ScriptData)
-      }
+      // Update local state directly - replace the role at the same position
+      const newScriptData = scriptData.map((item) => {
+        const id = typeof item === 'string' ? item : item.id
+        return id === oldRoleId ? newRoleItem : item
+      })
+      setScriptData(newScriptData as ScriptData)
     },
-    [replaceRole, getModifiedScript],
+    [scriptData, replaceRole, setScriptData],
   )
 
   // Check if script is modified
@@ -205,7 +205,44 @@ function App() {
 
   // Handler to commit changes to URL
   const handleCommitChanges = useCallback(async () => {
-    const { script: committed, name: committedName } = commitChanges()
+    if (!scriptData) return
+
+    // Get current name/author from scriptData's _meta
+    const currentMeta = scriptData.find(
+      (item) =>
+        typeof item === 'object' &&
+        item !== null &&
+        (item as { id?: string }).id === '_meta',
+    ) as { name?: string; author?: string } | undefined
+
+    // Check if user explicitly overrode name/author
+    const metaOverrides = getMetaOverrides()
+
+    // Use overridden values if they exist, otherwise use current values from scriptData
+    const name =
+      metaOverrides?.name !== undefined
+        ? metaOverrides.name
+        : currentMeta?.name || ''
+    const author =
+      metaOverrides?.author !== undefined
+        ? metaOverrides.author
+        : currentMeta?.author || ''
+
+    // Build committed script: update _meta with name and author, preserve all other role data
+    let hasMetaEntry = false
+    const committed = scriptData.map((item) => {
+      const id = typeof item === 'string' ? item : item.id
+      if (id === '_meta' && typeof item === 'object') {
+        hasMetaEntry = true
+        return { ...item, name, author }
+      }
+      return item
+    })
+
+    if (!hasMetaEntry) {
+      committed.unshift({ id: '_meta', name, author })
+    }
+
     if (committed.length === 0) return
 
     // Encode the committed script to URL with compression (name is stored in _meta)
@@ -223,19 +260,28 @@ function App() {
     // Clear the script URL since we're now using encoded script
     setCurrentScriptUrl('')
 
-    // Update local state to match committed name
-    setScriptName(committedName)
-  }, [commitChanges])
+    // Update local state to match committed script
+    setScriptData(committed as ScriptData)
+    setScriptName(name)
+
+    // Reset modification tracking in the store
+    resetModifications()
+  }, [
+    scriptData,
+    getMetaOverrides,
+    setScriptData,
+    setScriptName,
+    setCurrentScriptUrl,
+    resetModifications,
+  ])
 
   // Handler to revert changes
   const handleRevertChanges = useCallback(() => {
+    // Reset modification tracking
     resetModifications()
-    // Reload original script from URL
-    const originalScript = getModifiedScript()
-    if (originalScript) {
-      setScriptData(originalScript as ScriptData)
-    }
-  }, [resetModifications, getModifiedScript])
+    // Reload the page to get original script from URL
+    window.location.reload()
+  }, [resetModifications])
 
   // Handler to reorder roles within a team
   const handleReorderRoles = useCallback(
@@ -245,8 +291,9 @@ function App() {
       // Get all roles in the script
       const allRoles = [...scriptRoles]
 
-      // Filter roles by team
+      // Split roles into team roles and other roles
       const teamRoles = allRoles.filter((r) => r.team === team)
+      const otherRoles = allRoles.filter((r) => r.team !== team)
 
       // Reorder within the team
       const [movedRole] = teamRoles.splice(fromIndex, 1)
@@ -255,13 +302,11 @@ function App() {
       // Find the original position of the first role of this team
       const firstTeamRoleIndex = allRoles.findIndex((r) => r.team === team)
 
-      // Reconstruct the script
+      // Reconstruct the script by inserting reordered team at the correct position
       const newScript = [
-        ...allRoles.slice(0, firstTeamRoleIndex),
+        ...otherRoles.slice(0, firstTeamRoleIndex),
         ...teamRoles,
-        ...allRoles.slice(
-          firstTeamRoleIndex + allRoles.filter((r) => r.team === team).length,
-        ),
+        ...otherRoles.slice(firstTeamRoleIndex),
       ]
 
       // Update the store with reordered role IDs (for commit functionality)
@@ -288,11 +333,11 @@ function App() {
       if (metaItem) {
         newScriptData.push(metaItem)
       }
-      
+
       // Add roles in new order
       newScript.forEach((role) => {
         // Find the original item in scriptData
-        const originalItem = scriptData?.find(item => {
+        const originalItem = scriptData?.find((item) => {
           const id = typeof item === 'string' ? item : item.id
           return id === role.id
         })
