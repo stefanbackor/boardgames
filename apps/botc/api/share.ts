@@ -195,7 +195,7 @@ function generateOGHTML(
   const description = `A Blood on the Clocktower script${authorPart} with ${rolesSummary}. View night order and role details.`
   const title = `${name} - BotC Script Tool`
 
-  const imageUrl = `${origin}/android-chrome-512x512.png`
+  const imageUrl = `${origin}/api/og_image?name=${encodeURIComponent(name)}`
 
   return `<!DOCTYPE html>
 <html>
@@ -240,7 +240,7 @@ function generateDefaultOGHTML(
   const title = 'Blood on the Clocktower Script Tool'
   const description =
     'Create and share custom Blood on the Clocktower scripts with night order sheets and role information'
-  const imageUrl = `${origin}/android-chrome-512x512.png`
+  const imageUrl = `${origin}/api/og_image?name=${encodeURIComponent(title)}`
 
   const errorComment = errorMessage
     ? `\n  <!-- Error: ${escapeHtml(errorMessage)} -->`
