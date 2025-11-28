@@ -1,6 +1,7 @@
 import { Avatar, Flex, Heading, Text } from '@radix-ui/themes'
 import { sanitizeHtml } from '../../utils/sanitizeHtml'
 import { ImageIcon } from 'lucide-react'
+import { getProxiedImageUrl } from '@/utils/imageUrl'
 
 interface NightRoleItemProps {
   name: string
@@ -12,7 +13,12 @@ export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
   return (
     <Flex gap="3" justify="start">
       {typeof image === 'string' ? (
-        <Avatar size="4" radius="full" src={image} fallback={<ImageIcon />} />
+        <Avatar
+          size="4"
+          radius="full"
+          src={getProxiedImageUrl(image)}
+          fallback={<ImageIcon />}
+        />
       ) : (
         image
       )}
