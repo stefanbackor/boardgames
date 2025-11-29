@@ -11,6 +11,7 @@ export enum Team {
   Minion = 'minion',
   Demon = 'demon',
   Traveler = 'traveler',
+  Fabled = 'fabled',
   Loric = 'loric',
 }
 
@@ -23,13 +24,14 @@ export const TEAMS = [
   Team.Minion,
   Team.Demon,
   Team.Traveler,
+  Team.Fabled,
   Team.Loric,
 ] as const
 
 /**
  * Team color mapping for UI components
  */
-export type TeamColor = 'blue' | 'red' | 'orange' | 'green'
+export type TeamColor = 'blue' | 'red' | 'orange' | 'grass' | 'amber'
 
 /**
  * Configuration for each team
@@ -63,8 +65,14 @@ export const TEAM_CONFIG: Record<Team, TeamConfig> = {
     pageBreakBefore: true,
     hideIfEmpty: true,
   },
+  [Team.Fabled]: {
+    color: 'amber',
+    columns: 1,
+    pageBreakBefore: true,
+    hideIfEmpty: true,
+  },
   [Team.Loric]: {
-    color: 'green',
+    color: 'grass',
     columns: 1,
     pageBreakBefore: true,
     hideIfEmpty: true,

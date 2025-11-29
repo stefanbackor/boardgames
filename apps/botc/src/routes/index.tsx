@@ -12,6 +12,7 @@ import {
 import { Trans, useTranslation } from 'react-i18next'
 import { roles as baseRoles } from '../data/roles'
 import { roleTranslationsCs } from '../data/roles.cs.translation'
+import { jinxes } from '../data/jinxes'
 import { AppHeader } from '../components/AppHeader'
 import { FileUploadControls } from '../components/FileUploadControls'
 import { Header } from '../components/script/Header'
@@ -116,7 +117,57 @@ function App() {
 
   const parsedScript = scriptData ? parseScript(scriptData, roles) : null
   const meta = parsedScript?.meta
-  const scriptRoles = parsedScript?.roles
+  let scriptRoles = parsedScript?.roles
+
+  // Auto-add bootlegger if there are custom roles, and djinn if there are jinxed roles
+  // Auto-remove djinn if there are no active jinx pairs
+  scriptRoles = useMemo(() => {
+    if (!scriptRoles) return scriptRoles
+
+    let modifiedRoles = [...scriptRoles]
+    const roleIds = new Set(modifiedRoles.map((r) => r.id))
+
+    // Check if there are custom roles (excluding already existing bootlegger/djinn)
+    const hasCustomRoles = modifiedRoles.some(
+      (r) => r.isCustom && r.id !== 'bootlegger' && r.id !== 'djinn',
+    )
+
+    // Check if there are any active jinx pairs (both roles of a jinx present in script)
+    let hasActiveJinxes = false
+    for (const jinxEntry of jinxes) {
+      if (roleIds.has(jinxEntry.id)) {
+        for (const hatred of jinxEntry.hatred) {
+          if (roleIds.has(hatred.id)) {
+            hasActiveJinxes = true
+            break
+          }
+        }
+        if (hasActiveJinxes) break
+      }
+    }
+
+    // Auto-add/remove bootlegger based on custom roles
+    if (hasCustomRoles && !roleIds.has('bootlegger')) {
+      const bootlegger = roles.find((r) => r.id === 'bootlegger')
+      if (bootlegger) {
+        modifiedRoles.push({ ...bootlegger, isCustom: false })
+      }
+    } else if (!hasCustomRoles && roleIds.has('bootlegger')) {
+      modifiedRoles = modifiedRoles.filter((r) => r.id !== 'bootlegger')
+    }
+
+    // Auto-add/remove djinn based on active jinxes
+    if (hasActiveJinxes && !roleIds.has('djinn')) {
+      const djinn = roles.find((r) => r.id === 'djinn')
+      if (djinn) {
+        modifiedRoles.push({ ...djinn, isCustom: false })
+      }
+    } else if (!hasActiveJinxes && roleIds.has('djinn')) {
+      modifiedRoles = modifiedRoles.filter((r) => r.id !== 'djinn')
+    }
+
+    return modifiedRoles
+  }, [scriptRoles, roles])
 
   // Track existing role IDs for filtering in add modal
   const existingRoleIds = useMemo(() => {
@@ -485,6 +536,7 @@ function App() {
                     onRemoveRole={handleRemoveRole}
                     onReplaceRole={handleReplaceRole}
                     onReorderRoles={handleReorderRoles}
+                    scriptRoles={scriptRoles}
                   />
                 </Flex>
                 {/* Render main teams (outsider, minion, demon) */}
@@ -507,12 +559,13 @@ function App() {
                         onRemoveRole={handleRemoveRole}
                         onReplaceRole={handleReplaceRole}
                         onReorderRoles={handleReorderRoles}
+                        scriptRoles={scriptRoles}
                       />
                     </div>
                   )
                 })}
               </Flex>
-              {/* Render special teams (traveler, loric) with page break */}
+              {/* Render special teams (traveler, fabled, loric) with page break */}
               <Flex
                 direction="column"
                 gap="5"
@@ -524,7 +577,7 @@ function App() {
                   pageBreakInside: 'avoid',
                 }}
               >
-                {[Team.Traveler, Team.Loric].map((team) => {
+                {[Team.Traveler, Team.Fabled, Team.Loric].map((team) => {
                   const teamRoles = scriptRoles.filter(
                     (role) => role.team === team,
                   )
@@ -549,6 +602,7 @@ function App() {
                         onRemoveRole={handleRemoveRole}
                         onReplaceRole={handleReplaceRole}
                         onReorderRoles={handleReorderRoles}
+                        scriptRoles={scriptRoles}
                       />
                     </div>
                   )

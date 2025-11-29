@@ -8,7 +8,7 @@ import { Team } from '../constants/teams'
  */
 export type Role = {
   id: string
-  image?: string
+  image: string
   name: string
   edition: 'tb' | 'snv' | 'bmr' | ''
   team: Team | `${Team}`

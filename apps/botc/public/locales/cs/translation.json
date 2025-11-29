@@ -38,6 +38,7 @@
   "Done": "Hotovo",
   "Drag to reorder": "Přetáhněte pro změnu pořadí",
   "Dusk": "Soumrak",
+  "Fabled": "Báje",
   "First Night": "První noc",
   "Link Copied!": "Odkaz zkopírován!",
   "Share": "Sdílet",
@@ -74,5 +75,7 @@
   "Load Script": "Načíst skript",
   "Please paste JSON content": "Vložte prosím JSON obsah",
   "Invalid JSON format": "Neplatný formát JSON",
-  "No content to format": "Žádný obsah pro formátování"
+  "Jinxes": "Jinxy",
+  "No content to format": "Žádný obsah pro formátování",
+  "Replace custom character": "Nahradit vlastní postavu"
 }

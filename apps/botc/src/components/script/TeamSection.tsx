@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Flex, Badge, Separator, IconButton, Box } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -23,6 +23,7 @@ import { Team, type TeamColor } from '@/constants'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
+import { jinxes } from '../../data/jinxes'
 
 interface TeamSectionProps {
   team: Team
@@ -40,6 +41,7 @@ interface TeamSectionProps {
   onRemoveRole?: (roleId: string) => void
   onReplaceRole?: (oldRoleId: string, newRole: Role) => void
   onReorderRoles?: (team: string, fromIndex: number, toIndex: number) => void
+  scriptRoles?: Role[]
 }
 
 export function TeamSection({
@@ -53,6 +55,7 @@ export function TeamSection({
   onRemoveRole,
   onReplaceRole,
   onReorderRoles,
+  scriptRoles,
 }: TeamSectionProps) {
   const { t } = useTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -83,9 +86,11 @@ export function TeamSection({
             ? t('Demons')
             : team === Team.Traveler
               ? t('Recommended Travelers')
-              : team === Team.Loric
-                ? t('Loric')
-                : team
+              : team === Team.Fabled
+                ? t('Fabled')
+                : team === Team.Loric
+                  ? t('Loric')
+                  : team
 
   const canAddRoles = allRoles && existingRoleIds && onAddRole && onRemoveRole
 
@@ -126,6 +131,80 @@ export function TeamSection({
 
   // Clamp the column count to at least 1 and expose via CSS variable.
   const gridColumnsCount = Math.max(1, columnsCount)
+
+  // Compute jinxes for djinn role if scriptRoles is provided
+  const djinnJinxes = useMemo(() => {
+    if (!scriptRoles) return []
+
+    const scriptRoleIds = new Set(scriptRoles.map((r) => r.id))
+    const applicableJinxes: Array<{
+      id: string
+      name: string
+      reason: string
+      role1Image: string
+      role2Image: string
+    }> = []
+
+    // Find all jinxes where both the role and the jinxed role are in the script
+    for (const jinxEntry of jinxes) {
+      if (scriptRoleIds.has(jinxEntry.id)) {
+        // This role is in the script, check its jinxes
+        for (const hatred of jinxEntry.hatred) {
+          if (scriptRoleIds.has(hatred.id)) {
+            // The jinxed role is also in the script
+            const role1 = scriptRoles.find((r) => r.id === jinxEntry.id)
+            const role2 = scriptRoles.find((r) => r.id === hatred.id)
+            if (role1 && role2) {
+              applicableJinxes.push({
+                id: `${jinxEntry.id}-${hatred.id}`,
+                name: `${role1.name} & ${role2.name}`,
+                reason: hatred.reason,
+                role1Image: role1.image,
+                role2Image: role2.image,
+              })
+            }
+          }
+        }
+      }
+    }
+
+    return applicableJinxes
+  }, [scriptRoles])
+
+  // Compute "hated by" information for each role
+  const hatedByMap = useMemo(() => {
+    if (!scriptRoles) return new Map()
+
+    const map = new Map<
+      string,
+      Array<{ id: string; name: string; image: string }>
+    >()
+    const scriptRoleIds = new Set(scriptRoles.map((r) => r.id))
+
+    // For each jinx entry, if both roles are in the script, add the "hater" to the "hated" role's list
+    for (const jinxEntry of jinxes) {
+      if (scriptRoleIds.has(jinxEntry.id)) {
+        const haterRole = scriptRoles.find((r) => r.id === jinxEntry.id)
+        if (!haterRole) continue
+
+        for (const hatred of jinxEntry.hatred) {
+          if (scriptRoleIds.has(hatred.id)) {
+            // hatred.id is hated by jinxEntry.id
+            if (!map.has(hatred.id)) {
+              map.set(hatred.id, [])
+            }
+            map.get(hatred.id)!.push({
+              id: haterRole.id,
+              name: haterRole.name,
+              image: haterRole.image,
+            })
+          }
+        }
+      }
+    }
+
+    return map
+  }, [scriptRoles])
 
   return (
     <>
@@ -186,6 +265,8 @@ export function TeamSection({
                     onRemove={onRemoveRole}
                     onSearch={canAddRoles ? handleSearch : undefined}
                     isDraggable={!!onReorderRoles}
+                    jinxes={role.id === 'djinn' ? djinnJinxes : undefined}
+                    hatedBy={hatedByMap.get(role.id)}
                   />
                 </Box>
               ))}

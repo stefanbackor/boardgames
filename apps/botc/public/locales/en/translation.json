@@ -38,6 +38,7 @@
   "Done": "Done",
   "Drag to reorder": "Drag to reorder",
   "Dusk": "Dusk",
+  "Fabled": "Fabled",
   "First Night": "First Night",
   "Link Copied!": "Link Copied!",
   "Share": "Share",
@@ -74,5 +75,7 @@
   "Load Script": "Load Script",
   "Please paste JSON content": "Please paste JSON content",
   "Invalid JSON format": "Invalid JSON format",
-  "No content to format": "No content to format"
+  "Jinxes": "Jinxes",
+  "No content to format": "No content to format",
+  "Replace custom character": "Replace custom character"
 }

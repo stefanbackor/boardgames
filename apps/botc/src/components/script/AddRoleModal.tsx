@@ -122,17 +122,23 @@ export function AddRoleModal({
   const isReplacingCustomRole =
     replaceRoleId && !baseRoles.some((r) => r.id === replaceRoleId)
 
-  // Filter roles by team and search query (name or id), keep in alphabetical order
+  // Filter roles by search query (name or id), keep in alphabetical order
+  // When searching, search across all teams; when empty, show only current team
   const filteredRoles = useMemo(() => {
     const query = searchQuery.toLowerCase()
     return allRoles
-      .filter((role) => role.team === team)
-      .filter(
-        (role) =>
+      .filter((role) => {
+        // If no search query, only show roles from current team
+        if (!query) {
+          return role.team === team
+        }
+        // If searching, search across all teams
+        return (
           role.name.toLowerCase().includes(query) ||
           role.id.toLowerCase().includes(query) ||
-          query.includes(role.id.toLowerCase()),
-      )
+          query.includes(role.id.toLowerCase())
+        )
+      })
       .sort((a, b) => a.name.localeCompare(b.name))
   }, [allRoles, team, searchQuery])
 
@@ -270,7 +276,7 @@ export function AddRoleModal({
                           <Flex align="center" gap="1">
                             {role.image && (
                               <img
-                                src={getProxiedImageUrl(role.image, 24)}
+                                src={getProxiedImageUrl(role.image)}
                                 alt={role.name}
                                 style={{
                                   width: '24px',

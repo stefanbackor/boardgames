@@ -20,6 +20,14 @@ interface RoleCardProps {
   onRemove?: (roleId: string) => void
   onSearch?: (roleId: string) => void
   isDraggable?: boolean
+  jinxes?: Array<{
+    id: string
+    name: string
+    reason: string
+    role1Image: string
+    role2Image: string
+  }>
+  hatedBy?: Array<{ id: string; name: string; image: string }>
 }
 
 export function RoleCard({
@@ -27,6 +35,8 @@ export function RoleCard({
   onRemove,
   onSearch,
   isDraggable = false,
+  jinxes,
+  hatedBy,
 }: RoleCardProps) {
   const { t } = useTranslation()
 
@@ -184,14 +194,50 @@ export function RoleCard({
       <Box className="role-card-text" my="2" style={{ lineHeight: '1' }}>
         <Heading
           size="4"
-          mr="2"
           style={{
-            display: 'inline',
             lineHeight: 'inherit',
+            display: 'inline',
           }}
         >
           {role.name}
         </Heading>
+        {hatedBy && hatedBy.length > 0 && (
+          <>
+            {hatedBy.map((hater) => (
+              <Tooltip key={hater.id} content={`Jinxed with ${hater.name}`}>
+                <Box
+                  display="inline-block"
+                  ml="1"
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '1px solid var(--gray-a6)',
+                    verticalAlign: 'bottom',
+                  }}
+                >
+                  <img
+                    src={getProxiedImageUrl(hater.image)}
+                    alt={hater.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      verticalAlign: 'baseline',
+                      scale: hater.image?.includes(
+                        'wiki.bloodontheclocktower.com',
+                      )
+                        ? 1.3
+                        : 1,
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            ))}
+          </>
+        )}
+
         {onSearch && role.isCustom && (
           <Tooltip className="no-print" content={t('Replace custom character')}>
             <Button
@@ -206,10 +252,16 @@ export function RoleCard({
             </Button>
           </Tooltip>
         )}
-        {role.edition && role.edition.trim() !== '' && (
-          <Text color="gray" size="1" className="role-card-edition no-print">
-            {t(role.edition, { ns: 'content' })}
-          </Text>
+        {!role.isCustom && role.edition && role.edition.trim() !== '' && (
+          <Box
+            display="inline-block"
+            ml="1"
+            className="role-card-edition no-print"
+          >
+            <Text size="1" color="gray">
+              {t(role.edition, { ns: 'content' })}
+            </Text>
+          </Box>
         )}
         <br className="role-card-ability-break" />
         <Text
@@ -219,6 +271,77 @@ export function RoleCard({
         >
           {role.ability}
         </Text>
+        {jinxes && jinxes.length > 0 && (
+          <Box
+            mt="2"
+            style={{ borderTop: '1px solid var(--gray-a5)', paddingTop: '8px' }}
+          >
+            {jinxes.map((jinx, index) => (
+              <Flex key={index} align="center" gap="2" mb="1">
+                <Box
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '1px solid var(--gray-a6)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={getProxiedImageUrl(jinx.role1Image)}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      scale: jinx.role1Image?.includes(
+                        'wiki.bloodontheclocktower.com',
+                      )
+                        ? 1.3
+                        : 1,
+                    }}
+                  />
+                </Box>
+                <Box
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '1px solid var(--gray-a6)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <img
+                    src={getProxiedImageUrl(jinx.role2Image)}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      scale: jinx.role2Image?.includes(
+                        'wiki.bloodontheclocktower.com',
+                      )
+                        ? 1.3
+                        : 1,
+                    }}
+                  />
+                </Box>
+                <Box>
+                  <Text
+                    size="2"
+                    weight="bold"
+                    style={{ lineHeight: 'inherit' }}
+                  >
+                    {jinx.name}
+                  </Text>{' '}
+                  <Text size="1">{jinx.reason}</Text>
+                </Box>
+              </Flex>
+            ))}
+          </Box>
+        )}
       </Box>
     </Flex>
   )
