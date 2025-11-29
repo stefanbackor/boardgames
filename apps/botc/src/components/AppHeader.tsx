@@ -57,6 +57,8 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
             <Select.Group>
               <Select.Item value="cs">Čeština</Select.Item>
               <Select.Item value="en">English</Select.Item>
+              <Select.Item value="hu">Magyar</Select.Item>
+              <Select.Item value="pl">Polski</Select.Item>
             </Select.Group>
           </Select.Content>
         </Select.Root>

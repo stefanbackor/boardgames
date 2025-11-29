@@ -11,7 +11,10 @@ import {
 } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
 import { roles as baseRoles } from '@/data/roles'
+import { roleTranslationsEn } from '@/data/roles.en.translation'
 import { roleTranslationsCs } from '@/data/roles.cs.translation'
+import { roleTranslationsHu } from '@/data/roles.hu.translation'
+import { roleTranslationsPl } from '@/data/roles.pl.translation'
 import { jinxes } from '@/data/jinxes'
 import { jinxesCs } from '@/data/jinxes.cs.translations'
 import { AppHeader } from '@/components/AppHeader'
@@ -83,25 +86,39 @@ function App() {
 
   // Apply language translations to roles
   const roles = baseRoles.map((role) => {
-    // Apply Czech translations when language is Czech (Slovak is normalized to Czech)
-    if (language === 'cs' && roleTranslationsCs[role.id]) {
-      const translation = roleTranslationsCs[role.id]
-      return {
-        ...role,
-        ...(translation.name && { name: translation.name }),
-        ...(translation.ability && { ability: translation.ability }),
-        ...(translation.reminders && { reminders: translation.reminders }),
-        ...(translation.firstNightReminder && {
-          firstNightReminder: translation.firstNightReminder,
-        }),
-        ...(translation.otherNightReminder && {
-          otherNightReminder: translation.otherNightReminder,
-        }),
-        ...(translation.flavor && { flavor: translation.flavor }),
-      }
+    let translationsMap:
+      | typeof roleTranslationsEn
+      | typeof roleTranslationsCs
+      | typeof roleTranslationsHu
+      | typeof roleTranslationsPl
+      | undefined
+
+    if (language === 'cs') {
+      translationsMap = roleTranslationsCs
+    } else if (language === 'hu') {
+      translationsMap = roleTranslationsHu
+    } else if (language === 'pl') {
+      translationsMap = roleTranslationsPl
+    } else {
+      translationsMap = roleTranslationsEn
     }
-    // Return base English role when language is English
-    return role
+
+    const translation = translationsMap[role.id]
+    if (!translation) return role
+
+    return {
+      ...role,
+      ...(translation.name && { name: translation.name }),
+      ...(translation.ability && { ability: translation.ability }),
+      ...(translation.reminders && { reminders: translation.reminders }),
+      ...(translation.firstNightReminder && {
+        firstNightReminder: translation.firstNightReminder,
+      }),
+      ...(translation.otherNightReminder && {
+        otherNightReminder: translation.otherNightReminder,
+      }),
+      ...(translation.flavor && { flavor: translation.flavor }),
+    }
   })
 
   // Choose language-appropriate jinx data
