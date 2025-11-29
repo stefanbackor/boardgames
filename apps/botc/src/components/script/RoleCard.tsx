@@ -206,6 +206,11 @@ export function RoleCard({
             </Button>
           </Tooltip>
         )}
+        {role.edition && role.edition.trim() !== '' && (
+          <Text color="gray" size="1" className="role-card-edition no-print">
+            {t(role.edition, { ns: 'content' })}
+          </Text>
+        )}
         <br className="role-card-ability-break" />
         <Text
           className="role-card-ability"

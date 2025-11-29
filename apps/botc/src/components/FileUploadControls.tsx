@@ -49,7 +49,7 @@ export function FileUploadControls({
         'Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL',
       )}
     >
-      <Button onClick={() => setUrlModalOpen(true)}>
+      <Button onClick={() => setUrlModalOpen(true)} variant={hasScript ? 'soft' : 'solid'}>
         <Link2 size={16} />
         {t('Load from URL')}
       </Button>
@@ -68,7 +68,7 @@ export function FileUploadControls({
         }}
       >
         <Tooltip content={t('Upload a script JSON file')}>
-          <Button asChild>
+          <Button asChild variant={hasScript ? 'soft' : 'solid'}>
             <span>
               <Upload size={16} />
               {t('Choose JSON File')}
@@ -88,7 +88,7 @@ export function FileUploadControls({
 
   const PasteJsonButton = () => (
     <Tooltip content={t('Paste JSON from your clipboard')}>
-      <Button onClick={() => setPasteModalOpen(true)}>
+      <Button onClick={() => setPasteModalOpen(true)} variant={hasScript ? 'soft' : 'solid'}>
         <FileJson size={16} />
         {t('Paste JSON')}
       </Button>
@@ -121,11 +121,11 @@ export function FileUploadControls({
 
             {/* Script actions buttons */}
             <Flex direction="row" gap="2">
-              <Button onClick={onPrint} variant="soft" disabled={!hasScript}>
+              <Button onClick={onPrint} variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
                 <Printer size={16} />
                 {t('Print')}
               </Button>
-              <Button onClick={onCopyLink} variant="soft" disabled={!hasScript}>
+              <Button onClick={onCopyLink} variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
                 {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
                 {linkCopied ? t('Link Copied!') : t('Share')}
               </Button>
