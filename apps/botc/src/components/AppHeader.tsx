@@ -21,7 +21,7 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
       style={{
         position: 'sticky',
         top: 0,
-        backgroundImage: 'url(/bg-tile-purple-pattern.jpeg)',
+        backgroundImage: 'url(/bg-tile-purple-pattern.webp)',
         backgroundRepeat: 'repeat',
         backgroundSize: '100px',
         zIndex: 1000,
