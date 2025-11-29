@@ -143,16 +143,8 @@ body {
   }
 }
 
-/* Role Card hover effect for remove button */
-.role-card:hover .role-card-remove {
-  opacity: 1 !important;
-}
-
-.role-card:hover .role-card-search {
-  opacity: 1 !important;
-}
-
-.role-card:hover .role-card-drag {
+/* Role Card hover effect for controls container */
+.role-card:hover .role-card-controls {
   opacity: 1 !important;
 }
 

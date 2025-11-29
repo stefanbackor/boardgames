@@ -1,7 +1,7 @@
 import { Flex, Avatar, Separator, Badge } from '@radix-ui/themes'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { Role } from '../../data/types'
+import type { Role } from '@/types'
 import { NightRoleItem } from './NightRoleItem'
 
 interface NightFirstSetupProps {

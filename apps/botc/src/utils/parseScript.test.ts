@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { parseScript } from './parseScript'
-import { roles as baseRolesData } from '../data/roles'
-import type { Role } from '../data/types'
+import { roles as baseRolesData } from '@/data/roles'
+import type { Role } from '@/types'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -192,7 +192,7 @@ describe('parseScript', () => {
             expect(role.name).toBeDefined()
             expect(typeof role.name).toBe('string')
             expect(role.team).toBeDefined()
-            expect(['townsfolk', 'outsider', 'minion', 'demon', 'traveler', 'loric']).toContain(
+            expect(['townsfolk', 'outsider', 'minion', 'demon', 'traveler', 'fabled', 'loric']).toContain(
               role.team,
             )
 

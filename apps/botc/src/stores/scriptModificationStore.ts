@@ -1,7 +1,17 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { decompressFromUrlSync } from '../utils/urlCompression'
 import type { ScriptItem, MetaOverrides } from '@/types'
+import {
+  normalizeScriptItem,
+  getRoleIds,
+  getOriginalFromUrl,
+} from './scriptModificationHelpers'
+
+// Re-export helper functions for external use
+export {
+  setOriginalScriptCache,
+  clearOriginalScriptCache,
+} from './scriptModificationHelpers'
 
 interface ScriptModificationState {
   // Diff: roles added (not in original) - can be string (just id) or full object (custom data)
@@ -27,107 +37,6 @@ interface ScriptModificationState {
   getMetaOverrides: () => MetaOverrides | null
   isModified: () => boolean
   reset: () => void
-}
-
-// Helper to normalize script items for comparison
-function normalizeScriptItem(item: ScriptItem): string {
-  if (typeof item === 'string') {
-    return item
-  }
-  return item.id
-}
-
-// Helper to get role IDs from script (excluding _meta)
-function getRoleIds(script: ScriptItem[]): string[] {
-  return script.map(normalizeScriptItem).filter((id) => id !== '_meta')
-}
-
-// Cache for original script to avoid re-parsing URL on every access
-let cachedOriginalScript: {
-  url: string
-  script: ScriptItem[] | null
-  name: string
-  author: string
-} | null = null
-
-// Helper to parse script from URL (sync version for store actions)
-// Note: For compressed URLs, the script is pre-loaded by useScript hook
-function getOriginalFromUrl(): {
-  script: ScriptItem[] | null
-  name: string
-  author: string
-} {
-  if (typeof window === 'undefined') {
-    return { script: null, name: '', author: '' }
-  }
-
-  const currentUrl = window.location.search
-
-  // Return cached result if URL hasn't changed
-  if (cachedOriginalScript && cachedOriginalScript.url === currentUrl) {
-    return {
-      script: cachedOriginalScript.script,
-      name: cachedOriginalScript.name,
-      author: cachedOriginalScript.author,
-    }
-  }
-
-  const params = new URLSearchParams(currentUrl)
-  const encodedScript = params.get('script')
-
-  if (!encodedScript) {
-    cachedOriginalScript = {
-      url: currentUrl,
-      script: null,
-      name: '',
-      author: '',
-    }
-    return { script: null, name: '', author: '' }
-  }
-
-  try {
-    // Use sync decompression (works for legacy uncompressed URLs)
-    // For new compressed URLs, useScript pre-loads and the URL is already updated
-    const decoded = decompressFromUrlSync(encodedScript)
-
-    if (decoded === null) {
-      // Compressed data that needs async loading - return null for now
-      // The useScript hook will handle async loading
-      return { script: null, name: '', author: '' }
-    }
-
-    const parsed = JSON.parse(decoded) as ScriptItem[]
-
-    if (!Array.isArray(parsed)) {
-      cachedOriginalScript = {
-        url: currentUrl,
-        script: null,
-        name: '',
-        author: '',
-      }
-      return { script: null, name: '', author: '' }
-    }
-
-    // Extract name and author from _meta object
-    const metaItem = parsed.find(
-      (item) =>
-        typeof item === 'object' && item !== null && item.id === '_meta',
-    )
-    const metaObj = metaItem as { name?: string; author?: string } | undefined
-    const name = metaObj?.name || ''
-    const author = metaObj?.author || ''
-
-    cachedOriginalScript = { url: currentUrl, script: parsed, name, author }
-    return { script: parsed, name, author }
-  } catch {
-    cachedOriginalScript = {
-      url: currentUrl,
-      script: null,
-      name: '',
-      author: '',
-    }
-    return { script: null, name: '', author: '' }
-  }
 }
 
 export const useScriptModificationStore = create<ScriptModificationState>()(
@@ -173,6 +82,8 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         const { addedRoles, removedRoles } = get()
         const { script: originalScript } = getOriginalFromUrl()
         const originalRoleIds = originalScript ? getRoleIds(originalScript) : []
+        console.log('originalRoleIds', originalRoleIds)
+        console.log('originalScript', originalScript)
 
         // If role was added (not in original), just un-add it
         if (addedRoles.some((r) => normalizeScriptItem(r) === roleId)) {
@@ -189,6 +100,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
           originalRoleIds.includes(roleId) &&
           !removedRoles.includes(roleId)
         ) {
+          console.log('adding to removedRoles', roleId)
           set({ removedRoles: [...removedRoles, roleId] })
         }
       },

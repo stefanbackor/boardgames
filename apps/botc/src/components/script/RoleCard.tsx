@@ -1,19 +1,11 @@
-import {
-  Flex,
-  Heading,
-  Text,
-  IconButton,
-  Box,
-  Tooltip,
-  Button,
-} from '@radix-ui/themes'
-import { ExternalLink, GripVertical, Trash } from 'lucide-react'
+import { Flex, Heading, Text, IconButton, Box, Tooltip } from '@radix-ui/themes'
+import { ExternalLink, GripVertical, ReplaceIcon, Trash } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Role } from '../../data/types'
-import { roles as baseRoles } from '../../data/roles'
-import { getProxiedImageUrl } from '../../utils/imageUrl'
+import type { Role } from '@/types'
+import { roles as baseRoles } from '@/data/roles'
+import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
 
 interface RoleCardProps {
   role: Role & { isCustom?: boolean }
@@ -81,7 +73,7 @@ export function RoleCard({
         height: '100%',
         borderRadius: '50%',
         flexShrink: 0,
-        scale: role.image?.includes('wiki.bloodontheclocktower.com') ? 1.3 : 1,
+        scale: getImageScale(role.image),
         objectFit: 'cover',
         display: 'block',
       }}
@@ -96,14 +88,10 @@ export function RoleCard({
       align="center"
       className="role-card break-inside-avoid print:break-inside-avoid-page"
     >
-      {onRemove && (
-        <IconButton
-          size="1"
-          variant="soft"
-          color="red"
-          className="role-card-remove no-print"
-          aria-label={t('Remove character')}
-          onClick={() => onRemove(role.id)}
+      {(onRemove || onSearch || isDraggable) && (
+        <Flex
+          gap="1"
+          className="role-card-controls no-print"
           style={{
             position: 'absolute',
             top: '4px',
@@ -112,35 +100,57 @@ export function RoleCard({
             transition: 'opacity 0.15s ease-in-out',
           }}
         >
-          <Trash size={14} />
-        </IconButton>
-      )}
-      {isDraggable && (
-        <Box
-          className="role-card-drag no-print"
-          aria-label={t('Drag to reorder')}
-          style={{
-            position: 'absolute',
-            top: '4px',
-            right: onRemove ? '30px' : '4px',
-            opacity: 0,
-            transition: 'opacity 0.15s ease-in-out',
-            cursor: 'grab',
-            backgroundColor: 'var(--gray-a3)',
-            borderRadius: 'var(--radius-2)',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '24px',
-            height: '24px',
-            touchAction: 'none',
-          }}
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical size={14} />
-        </Box>
+          {isDraggable && (
+            <Tooltip content={t('Drag to reorder')}>
+              <Box
+                className="role-card-drag"
+                aria-label={t('Drag to reorder')}
+                style={{
+                  cursor: 'grab',
+                  backgroundColor: 'var(--gray-a3)',
+                  borderRadius: 'var(--radius-2)',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '24px',
+                  height: '24px',
+                  touchAction: 'none',
+                }}
+                {...attributes}
+                {...listeners}
+              >
+                <GripVertical size={14} />
+              </Box>
+            </Tooltip>
+          )}
+          {onSearch && (
+            <Tooltip content={t('Replace character')}>
+              <IconButton
+                size="1"
+                variant="soft"
+                color="gray"
+                className="role-card-search"
+                aria-label={t('Replace character')}
+                onClick={() => onSearch(role.id)}
+              >
+                <ReplaceIcon size={14} />
+              </IconButton>
+            </Tooltip>
+          )}
+          {onRemove && (
+            <IconButton
+              size="1"
+              variant="soft"
+              color="red"
+              className="role-card-remove"
+              aria-label={t('Remove character')}
+              onClick={() => onRemove(role.id)}
+            >
+              <Trash size={14} />
+            </IconButton>
+          )}
+        </Flex>
       )}
       <Box
         style={{
@@ -225,11 +235,7 @@ export function RoleCard({
                       height: '100%',
                       objectFit: 'cover',
                       verticalAlign: 'baseline',
-                      scale: hater.image?.includes(
-                        'wiki.bloodontheclocktower.com',
-                      )
-                        ? 1.3
-                        : 1,
+                      scale: getImageScale(hater.image),
                     }}
                   />
                 </Box>
@@ -238,29 +244,25 @@ export function RoleCard({
           </>
         )}
 
-        {onSearch && role.isCustom && (
-          <Tooltip className="no-print" content={t('Replace custom character')}>
-            <Button
-              color="gray"
-              size="1"
-              variant="ghost"
-              className="role-card-search no-print"
-              aria-label={t('Replace custom character')}
-              onClick={() => onSearch(role.id)}
-            >
-              {t('Custom')}
-            </Button>
-          </Tooltip>
-        )}
         {!role.isCustom && role.edition && role.edition.trim() !== '' && (
           <Box
             display="inline-block"
             ml="1"
             className="role-card-edition no-print"
           >
-            <Text size="1" color="gray">
-              {t(role.edition, { ns: 'content' })}
-            </Text>
+            <Tooltip
+              content={t('Character edition: {{edition}}', {
+                edition: t(role.edition, { ns: 'content' }),
+              })}
+            >
+              <Text
+                size="1"
+                color="gray"
+                style={{ textTransform: 'uppercase' }}
+              >
+                {role.edition}
+              </Text>
+            </Tooltip>
           </Box>
         )}
         <br className="role-card-ability-break" />
@@ -295,11 +297,7 @@ export function RoleCard({
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      scale: jinx.role1Image?.includes(
-                        'wiki.bloodontheclocktower.com',
-                      )
-                        ? 1.3
-                        : 1,
+                      scale: getImageScale(jinx.role1Image),
                     }}
                   />
                 </Box>
@@ -320,11 +318,7 @@ export function RoleCard({
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      scale: jinx.role2Image?.includes(
-                        'wiki.bloodontheclocktower.com',
-                      )
-                        ? 1.3
-                        : 1,
+                      scale: getImageScale(jinx.role2Image),
                     }}
                   />
                 </Box>

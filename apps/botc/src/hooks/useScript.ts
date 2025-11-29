@@ -1,19 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import type { ScriptData } from '@/types'
-import { compressForUrl, decompressFromUrl } from '../utils/urlCompression'
-
-/**
- * Extracts metadata from script data
- */
-function extractMeta(parsed: unknown[]) {
-  const metaItem = parsed.find(
-    (item) =>
-      typeof item === 'object' &&
-      item !== null &&
-      (item as { id?: string }).id === '_meta',
-  )
-  return metaItem as { name?: string; author?: string } | undefined
-}
+import { compressForUrl, decompressFromUrl } from '@/utils/urlCompression'
+import { extractMeta } from '@/utils/parseScript'
+import {
+  setOriginalScriptCache,
+  clearOriginalScriptCache,
+} from '@/stores/scriptModificationStore'
 
 /**
  * Custom hook to manage script loading, parsing, and URL synchronization
@@ -45,6 +37,7 @@ export function useScript() {
     ): Promise<boolean> => {
       if (!Array.isArray(parsed)) {
         setError('Invalid script format: expected an array')
+        clearOriginalScriptCache()
         if (resetModifications) resetModifications()
         return false
       }
@@ -56,15 +49,18 @@ export function useScript() {
       setScriptName(name)
       setError(null)
 
-      // Update URL with compressed script data (lazy-loaded pako)
+      // Update URL with compressed script data
       const content = JSON.stringify(parsed)
-      const encoded = await compressForUrl(content)
+      const encoded = compressForUrl(content)
 
       const params = new URLSearchParams()
       params.set('script', encoded)
 
       const newUrl = `${window.location.pathname}?${params.toString()}`
       window.history.pushState({}, '', newUrl)
+
+      // Populate cache so store can access original script synchronously
+      setOriginalScriptCache(parsed as ScriptData)
 
       // Update source URL if provided, otherwise clear it
       setCurrentScriptUrl(sourceUrl || '')
@@ -103,7 +99,7 @@ export function useScript() {
         // This handles both official BOTC tool URLs and any other tool using the same format
         if (scriptParam) {
           // Decode the script parameter from URL
-          const decoded = await decompressFromUrl(scriptParam)
+          const decoded = decompressFromUrl(scriptParam)
           const parsed = JSON.parse(decoded)
 
           if (!Array.isArray(parsed)) {
@@ -138,6 +134,7 @@ export function useScript() {
         setError(
           `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
         )
+        clearOriginalScriptCache()
         if (resetModifications) resetModifications()
       } finally {
         setIsLoading(false)
@@ -206,20 +203,22 @@ export function useScript() {
       } else if (encodedScript) {
         try {
           // Decompress from URL (handles both compressed and legacy uncompressed formats)
-          // pako is lazy-loaded here
-          const decoded = await decompressFromUrl(encodedScript)
+          const decoded = decompressFromUrl(encodedScript)
           const parsed = JSON.parse(decoded)
 
           if (Array.isArray(parsed)) {
             const name = extractMeta(parsed)?.name || 'Shared Script'
             setScriptData(parsed as ScriptData)
             setScriptName(name)
+            // Populate cache so store can access original script synchronously
+            setOriginalScriptCache(parsed as ScriptData)
             if (resetModifications) resetModifications()
             setError(null)
           }
         } catch (err) {
           console.error('Failed to load script from URL:', err)
           setError('Failed to load script from URL')
+          clearOriginalScriptCache()
           if (resetModifications) resetModifications()
         }
       } else {
@@ -228,6 +227,7 @@ export function useScript() {
         setScriptName('')
         setCurrentScriptUrl('')
         setError(null)
+        clearOriginalScriptCache()
         if (resetModifications) resetModifications()
       }
     },
@@ -242,6 +242,7 @@ export function useScript() {
     setScriptName('')
     setCurrentScriptUrl('')
     setError(null)
+    clearOriginalScriptCache()
     if (resetModifications) resetModifications()
   }, [])
 

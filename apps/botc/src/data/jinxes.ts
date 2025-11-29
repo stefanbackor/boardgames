@@ -1,4 +1,6 @@
-export const jinxes = [
+import { Jinx } from '@/types/jinx'
+
+export const jinxes: Array<Jinx> = [
   {
     id: 'chambermaid',
     hatred: [

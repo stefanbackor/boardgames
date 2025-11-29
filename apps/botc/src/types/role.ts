@@ -1,4 +1,6 @@
-import { Team } from '../constants/teams'
+import { Team } from '@/constants/teams'
+
+export type RoleName = string
 
 /**
  * Base role type representing a character in Blood on the Clocktower
@@ -7,7 +9,7 @@ import { Team } from '../constants/teams'
  * for compatibility with existing JSON data files
  */
 export type Role = {
-  id: string
+  id: RoleName
   image: string
   name: string
   edition: 'tb' | 'snv' | 'bmr' | ''

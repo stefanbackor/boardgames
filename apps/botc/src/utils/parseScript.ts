@@ -5,7 +5,7 @@ import type {
   ScriptData,
   ParsedRole,
   ParseScriptResult,
-} from '../types'
+} from '@/types'
 
 // Re-export types for backward compatibility
 export type {
@@ -14,6 +14,21 @@ export type {
   ScriptData,
   ParsedRole,
   ParseScriptResult,
+}
+
+/**
+ * Extracts metadata from unknown script data (for use before full parsing)
+ * @param parsed - The raw parsed data array
+ * @returns The script metadata with name and author fields
+ */
+export function extractMeta(parsed: unknown[]) {
+  const metaItem = parsed.find(
+    (item) =>
+      typeof item === 'object' &&
+      item !== null &&
+      (item as { id?: string }).id === '_meta',
+  )
+  return metaItem as { name?: string; author?: string } | undefined
 }
 
 /**

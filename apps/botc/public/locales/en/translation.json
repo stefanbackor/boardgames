@@ -77,5 +77,6 @@
   "Invalid JSON format": "Invalid JSON format",
   "Jinxes": "Jinxes",
   "No content to format": "No content to format",
-  "Replace custom character": "Replace custom character"
+  "Replace character": "Replace character",
+  "Character edition: {{edition}}": "Character edition: {{edition}}"
 }

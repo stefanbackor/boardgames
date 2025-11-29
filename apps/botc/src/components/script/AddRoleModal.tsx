@@ -12,10 +12,10 @@ import {
 import { Search, X, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
-import { Team } from '@/constants'
-import { roles as baseRoles } from '../../data/roles'
-import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
-import { getProxiedImageUrl } from '../../utils/imageUrl'
+import { Team, TEAM_LABELS } from '@/constants'
+import { roles as baseRoles } from '@/data/roles'
+import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
+import { getProxiedImageUrl } from '@/utils/imageUrl'
 
 interface AddRoleModalProps {
   open: boolean
@@ -89,34 +89,11 @@ export function AddRoleModal({
   )
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
-  // Use inline string literals for i18next-parser extraction
+  // Use team labels map for cleaner code
+  const teamLabels = TEAM_LABELS[team]
   const modalTitle = replaceRoleId
-    ? team === Team.Townsfolk
-      ? t('Replace Townsfolk')
-      : team === Team.Outsider
-        ? t('Replace Outsiders')
-        : team === Team.Minion
-          ? t('Replace Minions')
-          : team === Team.Demon
-            ? t('Replace Demons')
-            : team === Team.Traveler
-              ? t('Replace Recommended Travelers')
-              : team === Team.Loric
-                ? t('Replace Loric')
-                : team
-    : team === Team.Townsfolk
-      ? t('Add Townsfolk')
-      : team === Team.Outsider
-        ? t('Add Outsiders')
-        : team === Team.Minion
-          ? t('Add Minions')
-          : team === Team.Demon
-            ? t('Add Demons')
-            : team === Team.Traveler
-              ? t('Add Recommended Travelers')
-              : team === Team.Loric
-                ? t('Add Loric')
-                : team
+    ? t(teamLabels.replaceLabel)
+    : t(teamLabels.addLabel)
 
   // Check if the role being replaced is a custom character
   const isReplacingCustomRole =
@@ -274,6 +251,17 @@ export function AddRoleModal({
                           delayDuration={300}
                         >
                           <Flex align="center" gap="1">
+                            <Text
+                              size="1"
+                              color="gray"
+                              style={{
+                                textTransform: 'uppercase',
+                                minWidth: '28px',
+                                textAlign: 'end',
+                              }}
+                            >
+                              {role.edition || ''}
+                            </Text>
                             {role.image && (
                               <img
                                 src={getProxiedImageUrl(role.image)}

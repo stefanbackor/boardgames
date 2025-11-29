@@ -24,10 +24,6 @@ export function Footer() {
           and characters are the property of Steven Medway and The Pandemonium
           Institute.
         </Text>
-        <Text size="1" color="gray">
-          Blood on the Clocktower is a trademark of Steven Medway and The
-          Pandemonium Institute.
-        </Text>
       </Flex>
     </Box>
   )

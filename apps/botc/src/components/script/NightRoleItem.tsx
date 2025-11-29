@@ -1,5 +1,5 @@
 import { Avatar, Flex, Heading, Text } from '@radix-ui/themes'
-import { sanitizeHtml } from '../../utils/sanitizeHtml'
+import { sanitizeHtml } from '@/utils/sanitizeHtml'
 import { ImageIcon } from 'lucide-react'
 import { getProxiedImageUrl } from '@/utils/imageUrl'
 

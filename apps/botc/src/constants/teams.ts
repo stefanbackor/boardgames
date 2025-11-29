@@ -78,3 +78,48 @@ export const TEAM_CONFIG: Record<Team, TeamConfig> = {
     hideIfEmpty: true,
   },
 }
+
+/**
+ * Team labels for UI components
+ * These are translation keys that should be used with i18next t() function
+ */
+export const TEAM_LABELS: Record<
+  Team,
+  { label: string; addLabel: string; replaceLabel: string }
+> = {
+  [Team.Townsfolk]: {
+    label: 'Townsfolk',
+    addLabel: 'Add Townsfolk',
+    replaceLabel: 'Replace Townsfolk',
+  },
+  [Team.Outsider]: {
+    label: 'Outsiders',
+    addLabel: 'Add Outsiders',
+    replaceLabel: 'Replace Outsiders',
+  },
+  [Team.Minion]: {
+    label: 'Minions',
+    addLabel: 'Add Minions',
+    replaceLabel: 'Replace Minions',
+  },
+  [Team.Demon]: {
+    label: 'Demons',
+    addLabel: 'Add Demons',
+    replaceLabel: 'Replace Demons',
+  },
+  [Team.Traveler]: {
+    label: 'Recommended Travelers',
+    addLabel: 'Add Recommended Travelers',
+    replaceLabel: 'Replace Recommended Travelers',
+  },
+  [Team.Fabled]: {
+    label: 'Fabled',
+    addLabel: 'Add Fabled',
+    replaceLabel: 'Replace Fabled',
+  },
+  [Team.Loric]: {
+    label: 'Loric',
+    addLabel: 'Add Loric',
+    replaceLabel: 'Replace Loric',
+  },
+}

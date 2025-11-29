@@ -79,19 +79,19 @@ describe('urlCompression', () => {
     expect(decompressed).toBe(testData)
   })
 
-  it('should return null from sync function for compressed data', async () => {
+  it('should decompress compressed data with sync function', () => {
     const testData = JSON.stringify({ name: 'Test' })
     
     // Compress the data
-    const compressed = await compressForUrl(testData)
+    const compressed = compressForUrl(testData)
     
-    // Sync version should return null for compressed data
+    // Sync version now works for compressed data too
     const syncResult = decompressFromUrlSync(compressed)
-    expect(syncResult).toBeNull()
+    expect(syncResult).toBe(testData)
     
-    // Async version should work
-    const asyncResult = await decompressFromUrl(compressed)
-    expect(asyncResult).toBe(testData)
+    // Regular decompression should also work
+    const regularResult = decompressFromUrl(compressed)
+    expect(regularResult).toBe(testData)
   })
 })
 

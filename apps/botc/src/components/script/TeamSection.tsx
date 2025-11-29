@@ -19,11 +19,12 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
 import type { Role } from '@/types'
-import { Team, type TeamColor } from '@/constants'
+import { Team, TEAM_LABELS, type TeamColor } from '@/constants'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
-import { useAddRoleModalStore } from '../../stores/addRoleModalStore'
-import { jinxes } from '../../data/jinxes'
+import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
+import { jinxes as baseJinxes } from '@/data/jinxes'
+import type { Jinx } from '@/types/jinx'
 
 interface TeamSectionProps {
   team: Team
@@ -42,6 +43,11 @@ interface TeamSectionProps {
   onReplaceRole?: (oldRoleId: string, newRole: Role) => void
   onReorderRoles?: (team: string, fromIndex: number, toIndex: number) => void
   scriptRoles?: Role[]
+  /**
+   * Optional jinx data, already localized for the current language.
+   * Falls back to base English jinxes when not provided.
+   */
+  jinxes?: Jinx[]
 }
 
 export function TeamSection({
@@ -56,6 +62,7 @@ export function TeamSection({
   onReplaceRole,
   onReorderRoles,
   scriptRoles,
+  jinxes: jinxesOverride,
 }: TeamSectionProps) {
   const { t } = useTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -74,23 +81,8 @@ export function TeamSection({
     }),
   )
 
-  // Use inline string literals for i18next-parser extraction
-  const teamLabel =
-    team === Team.Townsfolk
-      ? t('Townsfolk')
-      : team === Team.Outsider
-        ? t('Outsiders')
-        : team === Team.Minion
-          ? t('Minions')
-          : team === Team.Demon
-            ? t('Demons')
-            : team === Team.Traveler
-              ? t('Recommended Travelers')
-              : team === Team.Fabled
-                ? t('Fabled')
-                : team === Team.Loric
-                  ? t('Loric')
-                  : team
+  // Use team labels map for cleaner code
+  const teamLabel = t(TEAM_LABELS[team].label)
 
   const canAddRoles = allRoles && existingRoleIds && onAddRole && onRemoveRole
 
@@ -132,6 +124,9 @@ export function TeamSection({
   // Clamp the column count to at least 1 and expose via CSS variable.
   const gridColumnsCount = Math.max(1, columnsCount)
 
+  // Use language-appropriate jinx data if provided
+  const jinxes = jinxesOverride ?? baseJinxes
+
   // Compute jinxes for djinn role if scriptRoles is provided
   const djinnJinxes = useMemo(() => {
     if (!scriptRoles) return []
@@ -169,7 +164,7 @@ export function TeamSection({
     }
 
     return applicableJinxes
-  }, [scriptRoles])
+  }, [scriptRoles, jinxes])
 
   // Compute "hated by" information for each role
   const hatedByMap = useMemo(() => {
@@ -204,7 +199,7 @@ export function TeamSection({
     }
 
     return map
-  }, [scriptRoles])
+  }, [scriptRoles, jinxes])
 
   return (
     <>

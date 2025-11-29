@@ -77,5 +77,6 @@
   "Invalid JSON format": "Neplatný formát JSON",
   "Jinxes": "Jinxy",
   "No content to format": "Žádný obsah pro formátování",
-  "Replace custom character": "Nahradit vlastní postavu"
+  "Replace character": "Nahradit postavu",
+  "Character edition: {{edition}}": "Edice postavy: {{edition}}"
 }

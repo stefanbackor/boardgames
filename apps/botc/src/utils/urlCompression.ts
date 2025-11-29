@@ -1,13 +1,5 @@
-// Lazy-loaded pako module for compression (~221 KB)
-import type * as PakoTypes from 'pako'
-let pakoModule: typeof PakoTypes | null = null
-
-async function getPako(): Promise<typeof PakoTypes> {
-  if (!pakoModule) {
-    pakoModule = await import('pako')
-  }
-  return pakoModule
-}
+// Direct import of pako module for compression
+import * as pako from 'pako'
 
 /**
  * Checks if data looks like gzip compressed (starts with gzip magic bytes)
@@ -19,11 +11,9 @@ function looksLikeGzip(bytes: Uint8Array): boolean {
 /**
  * Compresses and encodes a string for URL usage
  * Uses gzip compression + base64 encoding
- * NOTE: This is async because pako is lazy-loaded (~221KB savings on initial load)
  */
-export async function compressForUrl(data: string): Promise<string> {
+export function compressForUrl(data: string): string {
   try {
-    const pako = await getPako()
     // Convert string to UTF-8 bytes
     const utf8Bytes = new TextEncoder().encode(data)
 
@@ -42,11 +32,10 @@ export async function compressForUrl(data: string): Promise<string> {
 }
 
 /**
- * Decompresses and decodes a URL-encoded string (async version)
+ * Decompresses and decodes a URL-encoded string
  * Handles both compressed (new format) and uncompressed (legacy format)
- * Use this when you can await the result.
  */
-export async function decompressFromUrl(encoded: string): Promise<string> {
+export function decompressFromUrl(encoded: string): string {
   try {
     // Decode from base64
     const binaryString = atob(encoded)
@@ -57,8 +46,7 @@ export async function decompressFromUrl(encoded: string): Promise<string> {
 
     // Check if it looks like gzip data
     if (looksLikeGzip(bytes)) {
-      // Load pako and decompress
-      const pako = await getPako()
+      // Decompress with pako
       const decompressed = pako.ungzip(bytes)
       return new TextDecoder().decode(decompressed)
     }
@@ -76,34 +64,12 @@ export async function decompressFromUrl(encoded: string): Promise<string> {
 }
 
 /**
- * Synchronous decompression for legacy (uncompressed) data only.
- * Returns null if data appears to be compressed (needs async decompression).
- * Use this for places that need synchronous access and can handle legacy-only.
+ * Synchronous decompression - now same as decompressFromUrl
+ * Kept for backward compatibility
+ * @deprecated Use decompressFromUrl instead
  */
-export function decompressFromUrlSync(encoded: string): string | null {
-  try {
-    // Decode from base64
-    const binaryString = atob(encoded)
-    const bytes = new Uint8Array(binaryString.length)
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i)
-    }
-
-    // If it looks like gzip, return null (needs async)
-    if (looksLikeGzip(bytes)) {
-      return null
-    }
-
-    // Not gzip - try UTF-8 decoding (legacy format)
-    try {
-      return new TextDecoder().decode(bytes)
-    } catch {
-      // Fallback to simple atob
-      return atob(encoded)
-    }
-  } catch {
-    return null
-  }
+export function decompressFromUrlSync(encoded: string): string {
+  return decompressFromUrl(encoded)
 }
 
 /**
