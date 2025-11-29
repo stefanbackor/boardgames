@@ -12,4 +12,5 @@ count.txt
 .vinxi
 todos.json
 .vercel
-# api/**/*.js
+test-results
+playwright-report

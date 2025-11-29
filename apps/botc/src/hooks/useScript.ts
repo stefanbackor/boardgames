@@ -79,30 +79,60 @@ export function useScript() {
 
   /**
    * Loads a script from a URL
+   * Supports both:
+   * 1. Direct JSON URLs (e.g., https://example.com/script.json)
+   * 2. Script tool URLs with encoded script parameter (e.g., https://script.bloodontheclocktower.com/?script=...)
    */
   const loadFromUrl = useCallback(
     async (url: string, resetModifications?: () => void) => {
       try {
         setError(null)
         setIsLoading(true)
-        const response = await fetch(url)
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch script: ${response.statusText}`)
+        // Check if this is a URL with an encoded script parameter
+        let parsedUrl: URL
+        try {
+          parsedUrl = new URL(url)
+        } catch {
+          throw new Error('Invalid URL format')
         }
 
-        const parsed = await response.json()
+        const scriptParam = parsedUrl.searchParams.get('script')
 
-        // Extract name from meta or use filename from URL
-        const urlName =
-          extractMeta(parsed)?.name ||
-          url
-            .split('/')
-            .pop()
-            ?.replace(/\.[^/.]+$/, '') ||
-          'Script from URL'
+        // If there's a script parameter, try to decode it instead of fetching
+        // This handles both official BOTC tool URLs and any other tool using the same format
+        if (scriptParam) {
+          // Decode the script parameter from URL
+          const decoded = await decompressFromUrl(scriptParam)
+          const parsed = JSON.parse(decoded)
 
-        parseAndSetScript(parsed, urlName, url, resetModifications)
+          if (!Array.isArray(parsed)) {
+            throw new Error('Invalid script format: expected an array')
+          }
+
+          const name = extractMeta(parsed)?.name || 'Script from URL'
+          await parseAndSetScript(parsed, name, url, resetModifications)
+        } else {
+          // No script parameter - fetch from direct JSON URL
+          const response = await fetch(url)
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch script: ${response.statusText}`)
+          }
+
+          const parsed = await response.json()
+
+          // Extract name from meta or use filename from URL
+          const urlName =
+            extractMeta(parsed)?.name ||
+            url
+              .split('/')
+              .pop()
+              ?.replace(/\.[^/.]+$/, '') ||
+            'Script from URL'
+
+          await parseAndSetScript(parsed, urlName, url, resetModifications)
+        }
       } catch (err) {
         console.error('Failed to load script from URL:', err)
         setError(
