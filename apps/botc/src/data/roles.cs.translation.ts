@@ -724,45 +724,45 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Black is White. Right is Wrong. Left is Right. Up is Long. Down is Sight. Short is Blind. Follow me. Answers find.',
   },
   barista: {
-    name: 'Barista',
+    name: 'Kavárník',
     ability:
-      'Each night, until dusk, 1) a player becomes sober, healthy and gets true info, or 2) their ability works twice. They learn which.',
+      'Každou noc až do soumraku buď 1) je jeden hráč střízlivý, zdravý a dostává pravdivé informace, nebo 2) jeho schopnost funguje dvakrát. Dozví se, která možnost platí.',
     reminders: ['Sober & Healthy', 'Ability twice'],
     firstNightReminder:
-      'Choose a player, wake them and tell them which Barista power is affecting them. Treat them accordingly (sober/healthy/true info or activate their ability twice).',
+      'Vyberte hráče, probuďte ho a řekněte mu, jaký účinek Kavárníka ho ovlivňuje. Podle toho s ním naložte (střízlivý/zdravý/pravdivé informace nebo jeho schopnost funguje dvakrát).',
     otherNightReminder:
-      'Choose a player, wake them and tell them which Barista power is affecting them. Treat them accordingly (sober/healthy/true info or activate their ability twice).',
+      'Vyberte hráče, probuďte ho a řekněte mu, jaký účinek Kavárníka ho ovlivňuje. Podle toho s ním naložte (střízlivý/zdravý/pravdivé informace nebo jeho schopnost funguje dvakrát).',
     flavor:
       'A cup of coffee with no cream, Monsieur? I’m terribly sorry, but we’re fresh out of cream — how about with no milk?',
   },
   harlot: {
-    name: 'Harlot',
+    name: 'Nevěstka',
     ability:
-      'Each night*, choose a living player: if they agree, you learn their character, but you both might die.',
+      'Každou noc* vybereš 1 živého hráče: pokud souhlasí, dozvíš se jeho postavu, ale můžete oba zemřít.',
     reminders: ['Mrtvý'],
     otherNightReminder:
-      "The Harlot points at any player. Then, put the Harlot to sleep. Wake the chosen player, show them the 'This character selected you' token, then the Harlot token. That player either nods their head yes or shakes their head no. If they nodded their head yes, wake the Harlot and show them the chosen player's character token. Then, you may decide that both players die.",
+      'Nevěstka ukáže na libovolného hráče. Poté Nevěstku uspěte. Probuďte vybraného hráče, ukažte mu žeton TATO POSTAVA TĚ VYBRALA a poté žeton Nevěstky. Hráč buď přikývne (ano), nebo zavrtí hlavou (ne). Pokud přikývl, probuďte Nevěstku a ukažte jí žeton postavy vybraného hráče. Poté se můžete rozhodnout, že oba hráči zemřou.',
     flavor:
       "Enchanté, Sailor. You look like you need someone to really listen to your troubles. I'm a good listener. Very, very good.",
   },
   butcher: {
-    name: 'Butcher',
-    ability: 'Each day, after the 1st execution, you may nominate again.',
+    name: 'Řezník',
+    ability: 'Každý den po první popravě můžeš znovu někoho nominovat.',
     flavor: 'It tastes like chicken. More please.',
   },
   bonecollector: {
-    name: 'Bone Collector',
+    name: 'Sběratel kostí',
     ability:
-      'Once per game, at night, choose a dead player: they regain their ability until dusk.',
+      'Jednou za hru, v noci*, vybereš 1 mrtvého hráče: až do soumraku má zpět svou schopnost.',
     reminders: ['Bez schopnosti', 'Má schopnost'],
     otherNightReminder:
-      "The Bone Collector either shakes their head no or points at any dead player. If they pointed at any dead player, put the Bone Collector's 'Has Ability' reminder by the chosen player's character token. (They may need to be woken tonight to use it.)",
+      'Sběratel kostí buď zavrtí hlavou (ne), nebo ukáže na jakéhokoli mrtvého hráče. Pokud ukázal na mrtvého hráče, položte jeho žeton MÁ SCHOPNOST k žetonu postavy vybraného hráče. (Možná ho budete muset tuto noc probudit, aby ji použil.)',
     flavor:
       'I collect many things. Hair. Teeth. Clothes. Fragments of poems. The dreams of lost lovers. My secret arts are not for you to know but my fee is a mere pittance. Bring me the blood of a noblewoman who died of heartbreak under a full moon, and you shall have your answers.',
   },
   deviant: {
     name: 'Deviant',
-    ability: 'If you were funny today, you cannot die by exile.',
+    ability: 'Pokud jsi dnes byl vtipný, nemůžeš zemřít vyhoštěním.',
     flavor: "Twas the lady's quip, forsooth.",
   },
   noble: {
@@ -770,7 +770,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability: 'Začínáš s informací o 3 hráčích, z kterých přesně 1 je zlý.',
     reminders: ['Seen'],
     firstNightReminder:
-      'Point to 3 players including one evil player, in no particular order.',
+      'Ukažte na 3 hráče v libovolném pořadí, z nichž přesně 1 je zlý.',
     flavor:
       'Sarcasm is indeed the lowest form of wit. But speaking in response to your criticism, Sir, it is, nevertheless, a form of wit.',
   },
@@ -780,9 +780,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Začínáš s informací o 1 zlém hráči. Pokud tento hráč zemře, dozvíš se dalšího zlého hráče. [1 Měšťan je zlý]',
     reminders: ['Known'],
     firstNightReminder:
-      "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
+      'Ukažte na 1 zlého hráče. Probuďte Měšťana, který je zlý, a ukažte mu žeton JSI a poté signál palec dolů (zlo).',
     otherNightReminder:
-      'If the known evil player has died, point to another evil player. ',
+      'Pokud známý zlý hráč zemřel, ukažte na dalšího zlého hráče.',
     flavor:
       'Alone, I walk these streets, paved with the sick stench of corruption. Its thickness worms its way into my nostrils, unbidden, burning with revulsion. And anticipation. The illness of this wretched place grows each night. And I... I am the cure.',
   },
@@ -791,7 +791,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Začínáš s informací o 1 Měšťanovi, který je ve hře. Pokud jsi posedlá, že jsi tato postava, získáš jeho schopnost, když umře.',
     reminders: ['Mad', 'Has ability'],
-    firstNightReminder: 'Show the Pixie 1 in-play Townsfolk character token.',
+    firstNightReminder: 'Ukažte Víle žeton 1 Měšťana, který je ve hře.',
     flavor:
       'Round and round the garden, go. Little girls run to and fro. Little boys climb up the tree. Which of these should Pixie be? Ladies smile and go to town. Lords with axe chop forest down. What’s yours is mine. What’s mine, divine. Silly little Pixie, me.',
   },
@@ -800,9 +800,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Každou noc se dozvíš, která strana má podle vypravěče navrch. Dobro, zlo, nebo nikdo.',
     firstNightReminder:
-      'Show the General thumbs up for good winning, thumbs down for evil winning or thumb to the side for neither.',
+      'Ukažte Generálovi palec nahoru, pokud vítězí dobro, palec dolů, pokud vítězí zlo, nebo palec do strany, pokud nemá navrch nikdo.',
     otherNightReminder:
-      'Show the General thumbs up for good winning, thumbs down for evil winning or thumb to the side for neither.',
+      'Ukažte Generálovi palec nahoru, pokud vítězí dobro, palec dolů, pokud vítězí zlo, nebo palec do strany, pokud nemá navrch nikdo.',
     flavor: 'I don’t have time for quotes.',
   },
   preacher: {
@@ -811,9 +811,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc vybereš 1 hráče. Pokud to je Přisluhovač, dozví se to. Všichni takto vybraní Přisluhovači ztrácejí svou schopnost.',
     reminders: ['At a sermon'],
     firstNightReminder:
-      "The Preacher chooses a player. If a Minion is chosen, wake the Minion and show the 'This character selected you' card and then the Preacher token.",
+      'Kazatel vybere hráče. Pokud vybral Přisluhovače, probuďte Přisluhovače a ukažte mu žeton TATO POSTAVA TĚ VYBRALA a poté žeton Kazatele.',
     otherNightReminder:
-      "The Preacher chooses a player. If a Minion is chosen, wake the Minion and show the 'This character selected you' card and then the Preacher token.",
+      'Kazatel vybere hráče. Pokud vybral Přisluhovače, probuďte Přisluhovače a ukažte mu žeton TATO POSTAVA TĚ VYBRALA a poté žeton Kazatele.',
     flavor: 'It is better to be rich and healthy than poor and sick.',
   },
   villageidiot: {
@@ -822,9 +822,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc vybereš 1 hráče: dozvíš se jeho příslušnost. [+0 až +2 Vesnických pobudů, přičemž jeden z těch dalších je opilý.]',
     reminders: ['Opilý'],
     firstNightReminder:
-      'The Village Idiot points to a player; give a thumbs up if that player is good or a thumbs down if that player is evil.',
+      'Vesnický pobuda ukáže na hráče; ukažte palec nahoru, pokud je tento hráč dobrý, nebo palec dolů, pokud je zlý.',
     otherNightReminder:
-      'The Village Idiot points to a player; give a thumbs up if that player is good or a thumbs down if that player is evil.',
+      'Vesnický pobuda ukáže na hráče; ukažte palec nahoru, pokud je tento hráč dobrý, nebo palec dolů, pokud je zlý.',
     flavor:
       'Roses are blue, and violets are red, Please reverse what I just said.',
   },
@@ -833,9 +833,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Pokud je mrtvých více než živých, každou noc se dozvíš jednu živou postavu. Démon ví, kdo jsi.',
     firstNightReminder:
-      "Wake the Demon, show them the 'This character selected you' card, show the King token and point to the King player.",
+      'Probuďte Démona, ukažte mu žeton TATO POSTAVA TĚ VYBRALA, poté žeton Krále a ukažte na hráče Krále.',
     otherNightReminder:
-      'If there are more dead than living, show the King a character token of a living player.',
+      'Pokud je mrtvých více než živých, ukažte Králi žeton postavy některého živého hráče.',
     flavor:
       'Betwixt the unknown strains of mortal strife / And morbid night, sweet with mystery and woe / Lies unfettered joys of fate’s long and colored life / Who’s garden blooms with each painted Face to Show.',
   },
@@ -851,9 +851,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Seen traveler',
     ],
     firstNightReminder:
-      "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
+      'Vyberte typ postavy. Ukažte na hráče, jehož postava je tohoto typu. Položte Balonářův žeton VIDĚN na žeton této postavy.',
     otherNightReminder:
-      "Choose a character type that does not yet have a Seen reminder next to a character of that type. Point to a player whose character is of that type, if there are any. Place the Balloonist's Seen reminder next to that character.",
+      'Vyberte typ postavy, u kterého ještě není žádný žeton VIDĚN vedle postavy tohoto typu. Ukažte na hráče, jehož postava je tohoto typu (pokud nějaký je). Položte Balonářův žeton VIDĚN na žeton této postavy.',
     flavor:
       "More heat! Higher! Higher! Più alto! Ahhh... it is so beautiful from up here, don't you agree? Can you see the children fishing by the river, under the willow? Can you see the glint of the sun on the circus tent-poles? What's this? An old man, alone, passed out in the vineyard? Less heat! Lower! Lower! Vai più in basso!",
   },
@@ -862,9 +862,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Každou noc získáváš příslušnost svého živého souseda. Pokud se do tvé sekty přidají všichni dobří hráči, tvůj tým vyhrává.',
     firstNightReminder:
-      'If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.',
+      'Pokud se Vůdci sekty změnila příslušnost, ukažte mu podle toho signál palec nahoru (dobro) nebo palec dolů (zlo).',
     otherNightReminder:
-      'If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.',
+      'Pokud se Vůdci sekty změnila příslušnost, ukažte mu podle toho signál palec nahoru (dobro) nebo palec dolů (zlo).',
     flavor: 'Thinking themselves wise, they became fools.',
   },
   lycanthrope: {
@@ -873,7 +873,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 1 živého hráče: pokud je na straně dobra, zemře, ale Démon tu noc nezabíjí. Jeden dobrý hráč se jeví jako zlý.',
     reminders: ['Mrtvý'],
     otherNightReminder:
-      'The Lycanthrope points to a living player: if good, they die and no one else can die tonight.',
+      'Vlkodlak ukáže na živého hráče: pokud je dobrý, zemře a této noci už nikdo další zemřít nemůže.',
     flavor: 'Beneath the thin veneer of civilisation lies a howling madness.',
   },
   amnesiac: {
@@ -882,9 +882,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Nevíš, jakou máš schopnost. Každý den ji zkusíš u vypravěče v soukromí uhodnout. Dozvíš se, jak přesný je tvůj odhad.',
     reminders: ['?'],
     firstNightReminder:
-      "Decide the Amnesiac's entire ability. If the Amnesiac's ability causes them to wake tonight: Wake the Amnesiac and run their ability.",
+      'Rozhodněte o celé schopnosti Amnesiaka. Pokud jeho schopnost způsobí, že se má tuto noc probudit, probuďte ho a proveďte jeho schopnost.',
     otherNightReminder:
-      "If the Amnesiac's ability causes them to wake tonight: Wake the Amnesiac and run their ability.",
+      'Pokud schopnost Amnesiaka způsobí, že se má tuto noc probudit, probuďte ho a proveďte jeho schopnost.',
     flavor: 'Wait. What. Who? Oh, ok. Wait. What?',
   },
   nightwatchman: {
@@ -892,21 +892,21 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability: 'Jednou za hru vybereš hráče: dozví se, kdo jsi.',
     reminders: ['Bez schopnosti'],
     firstNightReminder:
-      "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
+      'Noční hlídka může ukázat na hráče. Probuďte tohoto hráče, ukažte mu žeton TATO POSTAVA TĚ VYBRALA a poté žeton Noční hlídky, pak ukažte na hráče Noční hlídky.',
     otherNightReminder:
-      "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
+      'Noční hlídka může ukázat na hráče. Probuďte tohoto hráče, ukažte mu žeton TATO POSTAVA TĚ VYBRALA a poté žeton Noční hlídky, pak ukažte na hráče Noční hlídky.',
     flavor:
       'The night is cold and lonely, but I have the moon, the stars, the crisp wind and the soft thud of leather boots on cobbled stone for company. Yonder, candlelight flickers behind a murky window...',
   },
   engineer: {
-    name: 'Engineer',
+    name: 'Inženýr',
     ability:
       'Jednou za hru během noci můžeš vybrat, kteří Přisluhovači, nebo Démon bude ve hře.',
     reminders: ['Bez schopnosti'],
     firstNightReminder:
-      "The Engineer shows a 'no' head signal, or points to a Demon or points to the relevant number of Minions. If the Engineer chose characters, replace the Demon or Minions with the choices, then wake the relevant players and show them the You are card and the relevant character tokens.",
+      'Inženýr buď zavrtí hlavou (ne), nebo ukáže na Démona, nebo ukáže na odpovídající počet Přisluhovačů. Pokud si Inženýr vybral postavy, nahraďte Démona nebo Přisluhovače zvolenými postavami, poté probuďte příslušné hráče a ukažte jim žeton JSI a jejich nové žetony postav.',
     otherNightReminder:
-      "The Engineer shows a 'no' head signal, or points to a Demon or points to the relevant number of Minions. If the Engineer chose characters, replace the Demon or Minions with the choices, then wake the relevant players and show them the 'You are' card and the relevant character tokens.",
+      'Inženýr buď zavrtí hlavou (ne), nebo ukáže na Démona, nebo ukáže na odpovídající počet Přisluhovačů. Pokud si Inženýr vybral postavy, nahraďte Démona nebo Přisluhovače zvolenými postavami, poté probuďte příslušné hráče a ukažte jim žeton JSI a jejich nové žetony postav.',
     flavor:
       'If it bends, great. If it breaks, well, it probably needed fixing anyway.',
   },
@@ -924,9 +924,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Jednou za hru v noci vybereš živého hráče: pokud je to Kráska, stane se Měšťanem, který není ve hře. [+ Kráska]',
     reminders: ['Bez schopnosti'],
     firstNightReminder:
-      "The Huntsman shakes their head 'no' or points to a player. If they point to the Damsel, wake that player, show the 'You are' card and a not-in-play character token.",
+      'Lovec buď zavrtí hlavou (ne), nebo ukáže na hráče. Pokud ukáže na Krásku, probuďte ji, ukažte jí žeton JSI a žeton Měšťana, který není ve hře.',
     otherNightReminder:
-      "The Huntsman shakes their head 'no' or points to a player. If they point to the Damsel, wake that player, show the 'You are' card and a not-in-play character token.",
+      'Lovec buď zavrtí hlavou (ne), nebo ukáže na hráče. Pokud ukáže na Krásku, probuďte ji, ukažte jí žeton JSI a žeton Měšťana, který není ve hře.',
     flavor:
       'My cabin is warm and sturdy. My axe by the door, my boots drying by the fire, and elk stew a-simmering… Hark! A scream echoes through the valley! The rain and the mud and the cold, cold wind mask the scent of the wolves, but I know the path and my pace is steady. I am coming.',
   },
@@ -934,7 +934,8 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     name: 'Alchymista',
     ability:
       'Máš schopnost Přisluhovače, při použití shopnosti Vypravěč může vyzvat ke změně volby.',
-    firstNightReminder: 'Show the Alchemist a not-in-play Minion token',
+    firstNightReminder:
+      'Ukažte Alchymistovi žeton Přisluhovače, který není ve hře.',
     flavor:
       'Visit the interior of the Earth. By rectification thou shalt find the hidden stone. Above the gold, lieth the red. Kether in Malkuth.',
   },
@@ -942,7 +943,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     name: 'Farmář',
     ability: 'Pokud v noci zemřeš, živý dobrý hráč se stane Farmářem.',
     otherNightReminder:
-      "If a Farmer died tonight, choose another good player and make them the Farmer. Wake this player, show them the 'You are' card and the Farmer character token.",
+      'Pokud dnes v noci zemřel Farmář, vyberte jiného dobrého hráče a udělejte z něj Farmáře. Probuďte tohoto hráče, ukažte mu žeton JSI a žeton postavy Farmáře.',
     flavor:
       'Even the high and mighty need food on the table. Without us, the city starves.',
   },
@@ -958,7 +959,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Pokud Démon zabije Krále, dozvíš se, který hráč je Démon. [+ Král]',
     otherNightReminder:
-      'If the King was killed by the Demon, wake the Choirboy and point to the Demon player.',
+      'Pokud Krále zabil Démon, probuďte Zpěváčka a ukažte na hráče Démona.',
     flavor:
       'I saw it, I did. I was in the pews, tidying the hymn books, when a dreadful tune started from the pipe organ. The organist had a long cloak, and long fingers on the keys. And a hat that looked… just like… yours.',
   },
@@ -967,9 +968,10 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Přisluhovači a Démoni se navzájem neznají. Pokud zemřeš, tu noc se o sobě dozvědí.',
     reminders: ['Evil wakes'],
-    firstNightReminder: 'Do not inform the Demon/Minions who each other are',
+    firstNightReminder:
+      'Nesdělujte Démonovi ani Přisluhovačům, kdo jsou ostatní z nich.',
     otherNightReminder:
-      'If the Poppy Grower has died, show the Minions/Demon who each other are.',
+      'Pokud Maková panenka zemřela, ukažte Přisluhovačům a Démonovi, kdo jsou navzájem.',
     flavor:
       'In the hidden groves of the deep forest, the black poppy dwells. To see its revelry is to be enchanted. To smell its thick aroma is to be lost forever, a slave to the gods of light and dark.',
   },
@@ -986,7 +988,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Během své první noci vybereš 1 hráče (ne sebe): získáváš jeho příslušnost (nevíš jakou), i když jsi opilý nebo otrávený.',
     reminders: ['Friend'],
     firstNightReminder:
-      'The Ogre points to a player (not themselves) and becomes their alignment.',
+      'Zlobr ukáže na hráče (ne na sebe) a získá jeho příslušnost.',
     flavor: '<grunt><grin></grunt>',
   },
   cannibal: {
@@ -1001,7 +1003,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Přisluhovači začínají s informací o 3 postavách, které nejsou ve hře.',
     firstNightReminder:
-      'After Minion info wake each Minion and show them three not-in-play character tokens. These may be the same or different to each other and the ones shown to the Demon.',
+      'Po informacích pro Přisluhovače probuďte každého Přisluhovače a ukažte mu tři žetony postav, které nejsou ve hře. Tyto postavy mohou být stejné nebo jiné než ty, které jste ukázali Démonovi i ostatním Přisluhovačům.',
     flavor: 'It was John.',
   },
   acrobat: {
@@ -1010,7 +1012,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 1 hráče: pokud tuto noc je nebo se stane opilým nebo otráveným, zemřeš.',
     reminders: ['Mrtvý'],
     otherNightReminder:
-      'If a good living neighbour is drunk or poisoned, the Acrobat player dies.',
+      'Pokud je dobrý živý soused opilý nebo otrávený, hráč Akrobata zemře.',
     flavor: 'Welcome, one and all, to the greatest show on earth.',
   },
   puzzlemaster: {
@@ -1034,9 +1036,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Všichni Přisluhovači vědí, že jsi ve hře. Pokud tě jednou za hru Přisluhovač veřejně uhodne, tvůj tým prohrává.',
     reminders: ['Guess used'],
     firstNightReminder:
-      "Wake all the Minions, show them the 'This character selected you' card and the Damsel token.",
+      'Probuďte všechny Přisluhovače, ukažte jim žeton TATO POSTAVA TĚ VYBRALA a poté žeton Krásky.',
     otherNightReminder:
-      "If selected by the Huntsman, wake the Damsel, show 'You are' card and a not-in-play Townsfolk token.",
+      'Pokud ji vybral Lovec, probuďte Krásku, ukažte jí žeton JSI a žeton Měšťana, který není ve hře.',
     flavor: "Don't touch the hair, honey.",
   },
   golem: {
@@ -1049,7 +1051,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
   politician: {
     name: 'Politician',
     ability:
-      'If you were the player most responsible for your team losing, you change alignment & win, even if dead.',
+      'Pokud jsi byl hráčem, který byl nejvíc zodpovědný za prohru svého týmu, změníš příslušnost a vyhráváš, i když jsi mrtvý.',
     flavor:
       "I'm glad you asked that question. Truly, I am. But I think the REAL question here is...",
   },
@@ -1059,19 +1061,19 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Svou první noc nahlédneš do grimoáru a vybereš 1 hráče: je otrávený. Jeden dobrý hráč ví, že Vdova je ve hře.',
     reminders: ['Poisoned'],
     firstNightReminder:
-      "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the 'These characters are in play' card, then the Widow character token.",
+      'Ukažte Vdově grimoár na tak dlouho, jak potřebuje. Vdova ukáže na hráče, který je otrávený. Probuďte jednoho dobrého hráče. Ukažte mu žeton TYTO POSTAVY JSOU VE HŘE a poté žeton postavy Vdovy.',
     flavor:
       'More wine? Château d’Ergot ’07 is a very special vintage. My yes, very special indeed.',
   },
   fearmonger: {
-    name: 'Fearmonger',
+    name: 'Strachotvůrce',
     ability:
-      'Each night, choose a player. If you nominate & execute them, their team loses. All players know if you choose a new player.',
+      'Každou noc vybereš 1 hráče. Pokud ho nominuješ a je popraven, jeho tým prohrává. Všichni hráči vědí, když si vybereš nového hráče.',
     reminders: ['Fear'],
     firstNightReminder:
-      'The Fearmonger points to a player. Place the Fear token next to that player and announce that a new player has been selected with the Fearmonger ability.',
+      'Strachotvůrce ukáže na hráče. Položte žeton STRACH k tomuto hráči a oznamte, že schopností Strachotvůrce byl vybrán nový hráč.',
     otherNightReminder:
-      'The Fearmonger points to a player. If different from the previous night, place the Fear token next to that player and announce that a new player has been selected with the Fearmonger ability.',
+      'Strachotvůrce ukáže na hráče. Pokud je jiný než minulou noc, položte žeton STRACH k tomuto hráči a oznamte, že schopností Strachotvůrce byl vybrán nový hráč.',
     flavor:
       'Beware of gazing long into the Abyss, lest the Abyss also gaze into you.',
   },
@@ -1094,9 +1096,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Začínáš s informací o tajném slově. První dobrý hráč, který toto slovo vysloví, se v noci stane zlým.',
     reminders: ['Turns evil', 'Bez schopnosti'],
-    firstNightReminder: 'Show the Mezepheles their secret word.',
+    firstNightReminder: 'Ukažte Mezefelovi jeho tajné slovo.',
     otherNightReminder:
-      "Wake the 1st good player that said the Mezepheles' secret word and show them the 'You are' card and the thumbs down evil signal.",
+      'Probuďte prvního dobrého hráče, který vyslovil Mezefelovo tajné slovo, a ukažte mu žeton JSI a poté signál palec dolů (zlo).',
     flavor:
       'That which issues from the heart alone, will bend the hearts of others to your own.',
   },
@@ -1105,32 +1107,32 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Myslíš si, že jsi na straně dobra, ale nejsi. Démon ví, kdo jsi. [Sousedíš s Démonem]',
     firstNightReminder:
-      'Select one of the good players next to the Demon and place the Is the Marionette reminder token. Wake the Demon and show them the Marionette.',
+      'Vyberte jednoho z dobrých hráčů sousedících s Démonem a položte k němu žeton JE MARIONETA. Probuďte Démona a ukažte mu Marionetu.',
     flavor: "Words, words. They're all we have to go on.",
   },
   summoner: {
-    name: 'Summoner',
+    name: 'Vyvolávač',
     ability:
-      'You get 3 bluffs. On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]',
+      'Dostaneš 3 blafy. Třetí noc vybereš hráče: stane se zlým Démonem dle tvé volby. [Žádný Démon]',
     reminders: ['Night 1', 'Night 2', 'Night 3'],
     firstNightReminder:
-      "Show the 'These characters are not in play' card. Show 3 character tokens of good characters not in play.",
+      'Ukažte žeton TYTO POSTAVY NEJSOU VE HŘE. Ukažte 3 žetony dobrých postav, které nejsou ve hře.',
     otherNightReminder:
-      'If it is the 3rd night, wake the Summoner. They point to a player and a Demon on the character sheet. That player becomes that Demon.',
+      'Je‑li třetí noc, probuďte Vyvolávače. Ukáže na hráče a na Démona na přehledu postav. Tento hráč se stane tímto Démonem.',
     flavor:
       'Hail the guardians of the north; by my intellect, thou art cut. Hail the guardians of the east; by my will, thou art dominated. Hail the guardians of the south; by that which lies beyond, the mystery is revealed. Hail the guardians of the west; a shield in the darkness',
   },
   boomdandy: {
     name: 'Boomdandy',
     ability:
-      'If you are executed, all but 3 players die. 1 minute later, the player with the most players pointing at them dies.',
+      'Pokud jsi popraven, všichni kromě 3 hráčů zemřou. O minutu později zemře hráč, na kterého ukazuje nejvíce ostatních.',
     flavor: 'Tick... Tick... Tick... TOCK.',
   },
   vizier: {
-    name: 'Vizier',
+    name: 'Vizír',
     ability:
-      'All players know you are the Vizier. You cannot die during the day. If good voted, you may choose to execute immediately.',
-    firstNightReminder: 'Announce the Vizier player.',
+      'Všichni hráči vědí, že jsi Vizír. Nemůžeš zemřít ve dne. Pokud hlasovali dobří hráči, můžeš se rozhodnout někoho okamžitě popravit.',
+    firstNightReminder: 'Oznamte, který hráč je Vizír.',
     flavor:
       'An excellent decision, as always, sire. Such a petty crime as bumping into the Bishop indeed deserves your ‘justice’ and ‘mercy’. Take a stroll in the gardens. Visit the gallery and peruse the sculptures of Von Strauf. Relax, sire. Leave everything… to me.',
   },
@@ -1140,18 +1142,18 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Všichni hráči mají během hlasování zavřené oči a počet hlasů je tajný. Každou noc si vybereš, jestli chceš být až do soumraku opilý.',
     reminders: ['About To Die', 'Opilý'],
     firstNightReminder:
-      "Wake the Organ Grinder. If they give the 'yes' head signal, mark them Drunk. If they give the 'no' head signal, remove the Drunk reminder.",
+      'Probuďte Cvičitele opic. Pokud kývne hlavou (ano), označte ho žetonem OPILÝ. Pokud zavrtí hlavou (ne), tento žeton OPILÝ odstraňte.',
     otherNightReminder:
-      "Wake the Organ Grinder. If they give the 'yes' head signal, mark them Drunk. If they give the 'no' head signal, remove the Drunk reminder.",
+      'Probuďte Cvičitele opic. Pokud kývne hlavou (ano), označte ho žetonem OPILÝ. Pokud zavrtí hlavou (ne), tento žeton OPILÝ odstraňte.',
     flavor:
       'Round and round the handles go. The more you dance the less you know.',
   },
   boffin: {
     name: 'Boffin',
     ability:
-      "The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.",
+      'Démon (i když je opilý nebo otrávený) má schopnost dobré postavy, která není ve hře. Vy oba víte, o kterou jde.',
     firstNightReminder:
-      'Wake the Boffin and show them the token of the good ability the Demon has. Put the Boffin back to sleep. Wake the Demon, show the Boffin token, then show the token of the good ability the Demon has.',
+      'Probuďte Boffina a ukažte mu žeton dobré postavy, jejíž schopnost má Démon. Boffina uspěte. Probuďte Démona, ukažte mu žeton Boffina a poté žeton dobré postavy, jejíž schopnost má.',
     flavor:
       'Stellar hydrogen, vast, inert; carbon, oxygen, neon gases, all ruined. Molecular chaos, entropy, yields new cosmic phenomena, rebirth from atomic chaos, dense matter collapsing. All in a teeny little bottle.',
   },
@@ -1160,20 +1162,20 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Začínáš s informací o tajném rčení. Za každé jeho veřejné vyslovení, které ve dne učiníš, může zemřít jeden hráč.',
     reminders: ['Mrtvý', 'Mrtvý', 'Mrtvý'],
-    firstNightReminder: 'Show the Yaggababble their secret phrase.',
+    firstNightReminder: 'Ukažte Blabla Jaze její tajnou frázi.',
     otherNightReminder:
-      'Choose a number of players up to the total number of times the Yaggababble publicly said their secret phrase today, those players die.',
+      'Vyberte počet hráčů až do počtu, kolikrát dnes Blabla Jaga veřejně pronesla svou tajnou frázi; tito hráči zemřou.',
     flavor:
       'Murders inside the Rue Morgue? Фальшивые новости! Hounds on the Baskerville moor? Фальшивые новости! Death while sailing the Nile? Фальшивые новости!',
   },
   lilmonsta: {
     name: "Lil' Monsta",
     ability:
-      'Each night, Minions choose who babysits Lil\' Monsta\'s token & "is the Demon". A player dies each night*. [+1 Minion]',
+      "Každou noc si Přisluhovači zvolí, kdo bude hlídat žeton Lil' Monsta a „bude Démonem“. Každou noc* zemře 1 hráč. [+1 Přisluhovač]",
     firstNightReminder:
-      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
+      "Probuďte všechny Přisluhovače najednou a nechte je hlasovat ukazováním na toho, kdo má hlídat Lil' Monsta.",
     otherNightReminder:
-      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta. Choose a player, that player dies.",
+      "Probuďte všechny Přisluhovače najednou a nechte je hlasovat ukazováním na toho, kdo má hlídat Lil' Monsta. Poté vyberte hráče, který zemře.",
     flavor: 'Step 1: Be cute. Step 2: World domination. Step 3: Bweakfast.',
   },
   kazali: {
@@ -1182,8 +1184,8 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 1 hráče: ten zemře. [Vybereš si, kteří hráči jsou jací Přisluhovači. -? až +? Podivínů]',
     reminders: ['Mrtvý'],
     firstNightReminder:
-      "The Kazali points to a player and a Minion on the character sheet. They do this for as many Minions as should be in play. Change those players' tokens to the chosen Minion tokens. Wake those players, show them the 'You Are' card, the Minions they have become, and a thumbs down.",
-    otherNightReminder: 'The Kazali points to a player. That player dies',
+      'Kazali ukáže na hráče a na Přisluhovače na přehledu postav. Udělá to tolikrát, kolik má být ve hře Přisluhovačů. Změňte žetony těchto hráčů na zvolené žetony Přisluhovačů. Probuďte tyto hráče, ukažte jim žeton JSI, jejich nové žetony Přisluhovačů a palec dolů.',
+    otherNightReminder: 'Kazali ukáže na hráče. Tento hráč zemře.',
     flavor:
       'Gon(z)a7les6. Take cau8tun. The mech4an4ion is iNvert10d. E99ors insy6tum. Reco{7}fig.',
   },
@@ -1193,8 +1195,8 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 1 hráče: ten zemře. Začínáš výběrem 1 živého hráče: je otrávený a ty zemřeš, jen pokud zemře tento hráč.',
     reminders: ['Mrtvý', 'Poisoned'],
     firstNightReminder:
-      'The Lleech points to a player. Place the Poisoned reminder token.',
-    otherNightReminder: 'The Lleech points to a player. That player dies.',
+      'Pijavice ukáže na hráče. Položte k němu žeton OTRÁVENÝ.',
+    otherNightReminder: 'Pijavice ukáže na hráče. Tento hráč zemře.',
     flavor:
       'Tasty, tasty, tasty, tasty, tasty, tasty, tasty, tasty brai- I mean pie! Yes. Tasty pie. That’s what I meant to say.',
   },
@@ -1204,7 +1206,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš postavu: ta zemře. Pokud není ve hře, vypravěč rozhodne o tom, kdo zemře.',
     reminders: ['Mrtvý'],
     otherNightReminder:
-      'The Ojo points to a character on the sheet. If it is in play, that player dies. If it is not in play, the Storyteller chooses who dies instead.',
+      'Ojo ukáže na postavu na přehledu. Pokud je ve hře, hráč s touto postavou zemře. Pokud není ve hře, vypravěč zvolí, kdo zemře místo ní.',
     flavor: 'Like a bonfire on a moonless night… I see you, mortal.',
   },
   alhadikhia: {
@@ -1213,7 +1215,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 3 hráče (všichni se dozví které): každý se v tichosti rozhodne, jestli chce žít nebo zemřít, ale pokud si všichni vyberou život, všichni zemřou.',
     reminders: ['1', '2', '3', 'Chose death', 'Chose life'],
     otherNightReminder:
-      'The Al-Hadikhia chooses 3 players. Announce the first player, wake them to nod yes to live or shake head no to die, kill or resurrect accordingly, then put to sleep and announce the next player. If all 3 are alive after this, all 3 die.',
+      'Al‑Hadichia vybere 3 hráče. Oznámte prvního, probuďte ho a nechte ho kývnout hlavou (ano) pro život nebo zavrtět hlavou (ne) pro smrt; podle toho ho zabijte nebo oživte, pak ho uspěte a oznamte dalšího hráče. Pokud jsou po tomto všichni 3 naživu, všichni 3 zemřou.',
     flavor: 'Alsukut min dhahab.',
   },
   legion: {
@@ -1221,7 +1223,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Každou noc* může zemřít 1 hráč. Pokud pro popravu hlasují jen zlí hráči, poprava nebude úspěšná. Jevíš se také jako Přisluhovač. [Většina hráčů jsou Legie.]',
     reminders: ['Mrtvý', 'About to die'],
-    otherNightReminder: 'Choose a player, that player dies.',
+    otherNightReminder: 'Vyberte hráče, tento hráč zemře.',
     flavor:
       'We are the chill wind on a winter’s day. We are the shadow in the moonless night. We are the poison in your tea and the whisper in your ear. We are everywhere.',
   },
@@ -1231,16 +1233,15 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Každou noc* vybereš 1 hráče: ten zemře. [Zlí hráči sedí vedle sebe a ty jsi uprostřed. +1 Přisluhovač, -? až +? Podivínů]',
     reminders: ['Mrtvý'],
     firstNightReminder:
-      "Wake the players on either side of the Demon. Show them the 'You Are' card, the token of the Minion they now are, and a thumbs down to indicate they are evil.",
-    otherNightReminder:
-      'The Lord of Typhon points to a player. That player dies.',
+      'Probuďte hráče sedící po obou stranách Démona. Ukažte jim žeton JSI, žeton Přisluhovače, kterým se stali, a palec dolů, aby bylo jasné, že jsou zlí.',
+    otherNightReminder: 'Pán bouře ukáže na hráče. Tento hráč zemře.',
     flavor:
       'In the shadowed and forgotten corners of the cosmos, where the stars whisper secrets to the void, lies a truth so profound that the merest glimpse of it unravels the sanity of mortal minds.',
   },
   leviathan: {
     name: 'Leviathan',
     ability:
-      'If more than 1 good player is executed, you win. All players know you are in play. After day 5, evil wins.',
+      'Pokud jsou popraveni více než jeden dobrý hráč, vyhráváš. Všichni hráči vědí, že je ve hře Leviathan. Po 5. dni vyhrává zlo.',
     reminders: [
       'Day 1',
       'Day 2',
@@ -1250,28 +1251,28 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Good player executed',
     ],
     firstNightReminder:
-      "Place the Leviathan 'Day 1' marker. Announce 'The Leviathan is in play; this is Day 1.'",
-    otherNightReminder: 'Change the Leviathan Day reminder for the next day.',
+      'Položte žeton Leviathana „Den 1“. Oznámte: „Leviathan je ve hře, je Den 1.“',
+    otherNightReminder: 'Posuňte žeton dne Leviathana na další den.',
     flavor:
       'To the last, I grapple with thee. From Hell’s heart, I stab at thee. For hate’s sake, I spit my last breath at thee.',
   },
   riot: {
     name: 'Riot',
     ability:
-      'Nominees die, but may nominate again immediately (on day 3, they must). After day 3, evil wins. [All Minions are Riot]',
+      'Nominovaní hráči zemřou, ale mohou okamžitě znovu nominovat (třetí den musí). Po 3. dni vyhrává zlo. [Všichni Přisluhovači jsou Riot]',
     flavor: 'Larga vida a la revolución! Mi revolucion!',
   },
   gangster: {
     name: 'Gangster',
     ability:
-      'Once per day, you may choose to kill an alive neighbour, if your other alive neighbour agrees.',
+      'Jednou za den můžeš zabít živého souseda, pokud s tím tvůj druhý živý soused souhlasí.',
     flavor:
       'I like your shoes. It would be such a shame if you had a little accident, and they got ruined. Now that you mention it, I like your cufflinks too.',
   },
   gnome: {
     name: 'Gnome',
     ability:
-      'All players start knowing a player of your alignment. You may choose to kill anyone who nominates them.',
+      'Všichni hráči na začátku vědí o jednom hráči tvé příslušnosti. Můžeš se rozhodnout zabít kohokoli, kdo ho nominuje.',
     reminders: ['Amigo'],
     flavor:
       "Four the score or seven beers, no shows are goes for me and my. A prank to crack the cranks and planks o' the floor foundation length, so incontravertabubbilly mini. The large essays down streams of joyce, no greater than is scene, not inherdt, Ha-urrumph.o.",
@@ -1280,7 +1281,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     name: 'Steward',
     ability: 'Začínáš s informací o 1 dobrém hráči.',
     reminders: ['Know'],
-    firstNightReminder: 'Point to the marked player.',
+    firstNightReminder: 'Ukažte na označeného hráče.',
     flavor:
       'How DARE you accuse Her Ladyship of wrongdoing? I’ve known her my entire life! All nine years!',
   },
@@ -1288,7 +1289,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     name: 'Rytíř',
     ability: 'Začínáš s informací o 2 hráčích, kteří nejsou Démon.',
     reminders: ['Know', 'Know'],
-    firstNightReminder: 'Point to the 2 marked players.',
+    firstNightReminder: 'Ukažte na 2 označené hráče.',
     flavor: 'When a man lies, he murders some part of the world.',
   },
   shugenja: {
@@ -1296,15 +1297,15 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'Začínáš s informací o tom, jestli nejbližší zlý hráč k tobě sedí po nebo proti směru hodinových ručiček. V případě stejné vzdálenosti je informace libovolná.',
     firstNightReminder:
-      'If the closest evil player is in a clockwise direction, point your finger horizontally in that direction. If the closest evil player is in an anti-clockwise direction, point your finger horizontally in that direction. If the two closest evil players are equidistant, point your finger horizontally in either direction.',
+      'Pokud nejbližší zlý hráč sedí ve směru hodinových ručiček, ukážte vodorovně prstem tím směrem. Pokud nejbližší zlý hráč sedí proti směru hodinových ručiček, ukážte vodorovně prstem tím směrem. Pokud jsou dva nejbližší zlí hráči stejně daleko, ukážte vodorovně prstem libovolným směrem.',
     flavor: 'これは夢。それも夢。すべて夢です。',
   },
   highpriestess: {
     name: 'Velekněžka',
     ability:
       'Každou noc se dozvíš, se kterým hráčem by sis měla podle vypravěče promluvit.',
-    firstNightReminder: 'Point to a player.',
-    otherNightReminder: 'Point to a player.',
+    firstNightReminder: 'Ukažte na hráče.',
+    otherNightReminder: 'Ukažte na hráče.',
     flavor:
       'There is life behind the personality that uses personalities as masks. There are times when life puts off the mask and deep answers to deep.',
   },
@@ -1320,7 +1321,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Během svého prvního dne: pokud nominuješ hráče, který je popraven, Démon tu noc nezabíjí.',
     reminders: ["Doesn't Kill"],
     otherNightReminder:
-      "If it was the Princess' first day today, and they nominated and executed a player, the Demon doesn't kill.",
+      'Pokud byl dnes první den Princezny a nominovala a popravila hráče, Démon tuto noc nezabíjí.',
   },
   banshee: {
     name: 'Smrtonoška',
@@ -1328,7 +1329,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Pokud tě zabije Démon, všichni se to dozvědí. Od té chvíle můžeš nominovat dvakrát i hlasovat dvakrát v každé nominaci.',
     reminders: ['Has Ability'],
     otherNightReminder:
-      'If the Banshee was killed by the Demon, announce that the Banshee has died.',
+      'Pokud Smrtonoška zemřela rukou Démona, oznamte, že Smrtonoška zemřela.',
     flavor:
       'Gorm do shúile, dearg do ghruaig, ní bheidh sé i bhfad, is a mbeidh tú san uaigh.',
   },
@@ -1344,43 +1345,43 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     flavor: 'Pleauze shtay shtill. Thinks nid tiime for hillink. Myrhh-myrhh.',
   },
   hatter: {
-    name: 'Hatter',
+    name: 'Kloboučník',
     ability:
-      'If you died today or tonight, the Minion & Demon players may choose new Minion & Demon characters to be.',
+      'Pokud jsi dnes ve dne nebo v noci zemřel, mohou si hráči Přisluhovačů a Démona zvolit nové postavy Přisluhovačů a Démona, kterými budou.',
     reminders: ['Tea Party Tonight'],
     otherNightReminder:
-      'Wake the Minions and Demon. Each player either shakes their head no or points to another character of the same type as their current character. If a second player would end up with the same character as another player, shake your head no and gesture for them to choose again. Change each player to the character they chose.',
+      'Probuďte Přisluhovače a Démona. Každý z nich buď zavrtí hlavou (ne), nebo ukáže na jinou postavu stejného typu, jako je ta jejich současná. Pokud by druhý hráč skončil se stejnou postavou jako někdo jiný, zavrťte hlavou a gestem ho vyzvěte, aby si vybral znovu. Změňte každému hráči postavu na tu, kterou si zvolil.',
     flavor:
       'One Hat. Too Hat. Three Hat. Tea Hat. Fore Hat. Thrive Hat. Six Hat. Sticks Hat.',
   },
   zealot: {
-    name: 'Zealot',
+    name: 'Fanatik',
     ability:
-      'If there are 5 or more players alive, you must vote for every nomination.',
+      'Pokud je naživu 5 nebo více hráčů, musíš hlasovat při každé nominaci.',
     flavor:
       'I enjoy talking to you. Your mind appeals to me. It resembles my own mind except that you happen to be insane.',
   },
   harpy: {
-    name: 'Harpy',
+    name: 'Harpyje',
     ability:
-      'Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die.',
+      'Každou noc vybereš 2 hráče: zítra je první z nich „posedlý“ představou, že ten druhý je zlý, nebo může jeden či oba zemřít.',
     reminders: ['Mad', '2nd'],
     firstNightReminder:
-      "The Harpy points to two players. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
+      'Harpyje ukáže na dva hráče. Probuďte prvního hráče, na kterého ukázala, ukažte mu žeton TATO POSTAVA TĚ VYBRALA, poté žeton Harpyje a nakonec ukažte na druhého hráče, na kterého Harpyje ukázala.',
     otherNightReminder:
-      "The Harpy points to two players. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
+      'Harpyje ukáže na dva hráče. Probuďte prvního hráče, na kterého ukázala, ukažte mu žeton TATO POSTAVA TĚ VYBRALA, poté žeton Harpyje a nakonec ukažte na druhého hráče, na kterého Harpyje ukázala.',
     flavor:
       'So fair a day I never did see, nor so fowl a presence hanging over me.',
   },
   wizard: {
     name: 'Čaroděj',
     ability:
-      'Jednou za hru si můžeš něco přát. Pokud se splní, může mít svou cenu a může zanechat stopu. Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.',
+      'Jednou za hru si můžeš něco přát. Pokud se splní, může mít svou cenu a může zanechat stopu.',
     reminders: ['?', '?'],
     firstNightReminder:
-      "If the Wizard's wish requires actions at night, run these.",
+      'Pokud si Čaroděj přeje něco, co vyžaduje akci v noci, proveďte tyto akce.',
     otherNightReminder:
-      "If the Wizard's wish requires actions at night, run these.",
+      'Pokud si Čaroděj přeje něco, co vyžaduje akci v noci, proveďte tyto akce.',
     flavor:
       'Every man and every woman is a star. Love is the law, love under will.',
   },
@@ -1390,34 +1391,34 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'V noci X jsou všichni Měšťané otráveni a otrava trvá až do soumraku. [X Podivínů]',
     reminders: ['Night 1', 'Night 2', 'Night 3', 'X'],
     firstNightReminder:
-      "Add the Xaan's 'Night 1' reminder to the Grimoire. If X is 1, add the 'X' reminder.",
+      'Přidejte do grimoáru Xaanův žeton „Noc 1“. Pokud je X rovno 1, přidejte také žeton „X“.',
     otherNightReminder:
-      "Change the Xaan's night reminder to the relevant night. If tonight is night X, add the 'X' reminder.",
+      'Změňte Xaanův žeton noci na odpovídající noc. Pokud je dnešní noc nocí X, přidejte žeton „X“.',
     flavor: 'Down they fall. One by one. By two, by three, by five.',
   },
   wraith: {
     name: 'Přízrak',
     ability:
-      'You may choose to open your eyes at night. You wake when other evil players do.',
+      'Můžeš se rozhodnout v noci otevřít oči. Probouzíš se vždy, když se probouzejí ostatní zlí hráči.',
     firstNightReminder:
-      'Wake the Wraith tonight whenever other evil players wake.',
+      'Budete‑li tuto noc probouzet zlé hráče, probouzejte zároveň i Přízrak.',
     otherNightReminder:
-      'Wake the Wraith tonight whenever other evil players wake.',
+      'Budete‑li tuto noc probouzet zlé hráče, probouzejte zároveň i Přízrak.',
   },
   cacklejack: {
     name: 'Cacklejack',
     ability:
-      'Each day, choose a player: a different player changes character tonight.',
+      'Každý den vybereš 1 hráče: dnes v noci se jinému hráči změní postava.',
     reminders: ['Not Me'],
     otherNightReminder:
-      "Replace the character token of any player (besides the player the Cacklejack chose today) with a different character token. Wake that player and show them the 'You are' card and their new character token.",
+      'Nahraďte žeton postavy libovolného hráče (kromě toho, kterého si dnes vybral Cacklejack) jiným žetonem postavy. Probuďte tohoto hráče a ukažte mu žeton JSI a jeho nový žeton postavy.',
   },
   tor: {
     name: 'Tor',
     ability:
       'Hráči neznají svou Postavu ani Příslušnost. Dozvídají se je když zemřou.',
     otherNightReminder:
-      'If a player dies at night, wake them, show them the YOU ARE info token, their character token, the YOU ARE info token, and either a thumbs up or a thumbs down',
+      'Pokud hráč zemře v noci, probuďte ho, ukažte mu žeton JSI, jeho žeton postavy, znovu žeton JSI a nakonec palec nahoru nebo palec dolů.',
     flavor:
       'With thunder as my voice and lightning as my blade, I, the eternal guardian, feast upon the fools who dare approach the forbidden gate. Behold, my sacred goal! To purge the beetle from the belly of the rocky earth, to ensnare it in a net of stars on the hilltop where heaven meets earth.',
   },
