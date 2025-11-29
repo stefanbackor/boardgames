@@ -1,0 +1,81 @@
+---
+description: Rules specific to the Blood on the Clocktower (BOTC) application
+globs: ["apps/botc/**/*.ts", "apps/botc/**/*.tsx"]
+---
+
+# Blood on the Clocktower App Rules
+
+## Tech Stack
+- Vite for build tooling
+- React with TanStack Router for routing
+- Radix UI and Tailwind for UI primitives and styling
+- Zustand for state management
+- i18next for internationalization
+- Playwright for E2E tests
+- Vitest for unit tests
+
+## Domain Types
+- **Role**: Core game character with team, night order, abilities, and reminders
+- **Script**: Collection of roles that make up a game scenario
+- **Jinx**: Special rule interaction between two roles
+- **Team**: Character alignment (Townsfolk, Outsider, Minion, Demon, Traveler, Fabled, Loric)
+
+## File Organization
+- `/src/types/` - Core type definitions (Role, Script, Jinx, etc.)
+- `/src/data/` - Static game data (roles.ts, jinxes.ts) and translations
+- `/src/stores/` - Zustand state stores with persist middleware
+- `/src/components/` - React components (prefer `/script/` subdirectory for script-related)
+- `/src/utils/` - Pure utility functions
+- `/src/hooks/` - Custom React hooks
+- `/src/constants/` - Constants like Team enum and configuration
+
+## State Management with Zustand
+- Use `create()` from zustand for stores
+- Apply `persist()` middleware with `createJSONStorage()` for persistence
+- Store files should export both the hook and helper functions
+- Keep stores focused on a single domain (e.g., scriptModificationStore)
+- Name stores with `use*Store` pattern (e.g., `useScriptModificationStore`)
+
+## Internationalization
+- Use i18next with the `useTranslation()` hook
+- Translation files are in `/public/locales/{lang}/`
+- Role translations are in `/src/data/roles.{lang}.translation.ts`
+- Jinx translations are in `/src/data/jinxes.{lang}.translations.ts`
+- Always provide translation keys, not hardcoded strings
+
+## Components
+- Use `.tsx` extension for React components
+- Prefer composition over prop drilling
+- Keep components under 300 lines (extract subcomponents)
+- Use descriptive prop interfaces with JSDoc
+- Import paths use `@/` alias for src directory
+
+## Testing
+- E2E tests go in `/tests/e2e/` with `.spec.ts` extension
+- Unit tests are colocated with source files (`.test.ts`)
+- Use Playwright for E2E (see `/tests/e2e/README.md`)
+- Mock external dependencies in unit tests
+
+## Data Files
+- `roles.ts` - All role data as typed objects
+- `jinxes.ts` - Role interaction rules
+- Keep data immutable - export as `const` arrays/objects
+- JSON files in `/fixtures/scripts/` are for test data
+
+## Utilities
+- Pure functions only in `/src/utils/`
+- Test all utility functions
+- Export named functions (no default exports)
+- Common utilities: parseScript, imageUrl, urlCompression, sanitizeHtml
+
+## URL Handling
+- Scripts can be compressed in URL for sharing
+- Use `urlCompression.ts` utilities for encoding/decoding
+- Extract metadata with `parseScript.extractMeta()`
+
+## Best Practices
+- Always handle custom roles (isCustom flag on ParsedRole)
+- Respect team ordering: Townsfolk, Outsider, Minion, Demon, Traveler, Fabled, Loric
+- Use Team enum from `@/constants/teams` (not string literals)
+- Sanitize HTML content with `sanitizeHtml` utility
+- Image URLs use the `imageUrl` utility with official CDN

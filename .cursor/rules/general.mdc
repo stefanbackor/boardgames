@@ -1,0 +1,57 @@
+---
+description: General project-wide rules for the boardgames monorepo
+globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+---
+
+# Boardgames Monorepo - General Rules
+
+## Project Structure
+- This is a TypeScript monorepo managed with Turbo
+- Apps are in `apps/` directory
+- Shared packages are in `packages/` directory
+- Use yarn workspaces for dependency management
+
+## Code Style
+- Follow the Prettier configuration:
+  - No semicolons
+  - Single quotes for strings
+  - 2-space indentation
+  - Trailing commas everywhere
+  - `quoteProps: "consistent"`
+- Always run `yarn lint` before committing
+
+## TypeScript
+- Use strict TypeScript settings
+- Prefer explicit types for function parameters and return values
+- Use interfaces for object shapes, types for unions/intersections
+- Avoid `any` type - use `unknown` if type is truly unknown
+
+## React Components
+- Use functional components with hooks (no class components)
+- Keep components focused and single-purpose
+- Extract complex logic into custom hooks
+- Prefer named exports over default exports for better refactoring
+
+## Testing
+- Colocate tests with source files using `.test.ts` or `.test.tsx` extension
+- Write meaningful test descriptions
+- Test behavior, not implementation details
+- Use descriptive variable names in tests
+
+## File Naming
+- Use camelCase for file names (except components which use PascalCase)
+- Use kebab-case for directories
+- Component files should match the component name
+
+## Documentation
+- Add JSDoc comments for exported functions and types
+- Include description, parameters, and return values
+- Use inline comments sparingly - code should be self-documenting
+
+## Internationalization (i18n)
+- **CRITICAL**: Always use string literals for translation keys, never interpolate variables
+  - ✅ Good: `t('teams.townsfolk')`
+  - ❌ Bad: `t(keyVar)` or `t(\`teams.\${teamName}\`)`
+  - This enables static analysis and prevents runtime errors
+- Use translation keys consistently across the project
+- Never hardcode user-facing strings

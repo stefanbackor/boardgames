@@ -8,10 +8,9 @@ export function Footer() {
       <Flex direction="column" p="3">
         <Text size="1" color="gray">
           <Trans
-            i18nKey="<0>Blood on the Clocktower</0> script translation tool by <1>Stefan Backor</1> - <2>https://github.com/stefanbackor/boardgames</2>"
+            i18nKey="<0>Blood on the Clocktower</0> script translation tool. Contributions are welcome - <1>https://github.com/stefanbackor/boardgames</1>"
             components={[
               <Link href="https://bloodontheclocktower.com/" target="_blank" />,
-              <Link href="https://boardgames.backor.sk/" target="_blank" />,
               <Link
                 href="https://github.com/stefanbackor/boardgames"
                 target="_blank"

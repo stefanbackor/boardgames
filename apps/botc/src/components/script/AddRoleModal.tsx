@@ -12,7 +12,8 @@ import {
 import { Search, X, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
-import { Team, TEAM_LABELS } from '@/constants'
+import { Team } from '@/constants'
+import { useTeamLabels } from '@/hooks/useTeamLabels'
 import { roles as baseRoles } from '@/data/roles'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
 import { getProxiedImageUrl } from '@/utils/imageUrl'
@@ -82,6 +83,7 @@ export function AddRoleModal({
   replaceRoleId,
 }: AddRoleModalProps) {
   const { t } = useTranslation()
+  const teamLabelsMap = useTeamLabels()
 
   // Use Zustand store for persistent search query per team
   const searchQuery = useAddRoleModalStore((state) =>
@@ -89,11 +91,11 @@ export function AddRoleModal({
   )
   const setSearchQuery = useAddRoleModalStore((state) => state.setSearchQuery)
 
-  // Use team labels map for cleaner code
-  const teamLabels = TEAM_LABELS[team]
+  // Use team labels hook for translated labels
+  const teamLabels = teamLabelsMap[team]
   const modalTitle = replaceRoleId
-    ? t(teamLabels.replaceLabel)
-    : t(teamLabels.addLabel)
+    ? teamLabels.replaceLabel
+    : teamLabels.addLabel
 
   // Check if the role being replaced is a custom character
   const isReplacingCustomRole =

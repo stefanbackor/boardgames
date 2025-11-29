@@ -1,0 +1,79 @@
+---
+description: Rules specific to the Ironwood board game application
+globs: ["apps/ironwood/**/*.ts", "apps/ironwood/**/*.tsx"]
+---
+
+# Ironwood App Rules
+
+## Tech Stack
+- Remix (React Router v7) for full-stack framework
+- Radix UI Themes for component library
+- Storybook for component development and documentation
+- Vite for build tooling
+
+## UI Framework
+- Use Radix UI components: `Box`, `Container`, `Theme`, etc.
+- Apply custom theme: accentColor="green", appearance="dark", grayColor="sage"
+- Custom overrides in `overrides.css`
+- Google Fonts for typography
+
+## Component Organization
+- Components are organized by domain in `/app/components/`
+- Bot-specific components in subdirectories: `/ironbot/` and `/woodenbot/`
+- Card components follow pattern: `CardAction.{Type}.{State}.tsx`
+- Keyword components in dedicated `/keywords/content/` directories
+- All presentational components should have `.stories.tsx` files
+
+## Storybook
+- Create stories for all reusable components
+- Use `.stories.tsx` extension
+- Stories help document component API and visual states
+- Test different props and states in stories
+
+## Component Patterns
+- Use Radix UI primitives for dialogs, buttons, alerts
+- Modal components: `ModalAlert.tsx`, `ModalDialog.tsx`
+- Navigation: `NavBar.tsx`, `Footer.tsx`
+- Callout components for user feedback
+- Badge components for status indicators
+
+## File Naming
+- Component files: PascalCase (e.g., `CardAction.tsx`)
+- State variants: dot notation (e.g., `CardAction.Aggressive.Alert.tsx`)
+- Hooks: camelCase with `use` prefix (e.g., `useGameParams.ts`)
+- Constants: SCREAMING_SNAKE_CASE in `/app/constants/`
+
+## Hooks Organization
+- Custom hooks in `/app/hooks/`
+- Common hooks: `useGameParams` for URL parameters
+- Keep hooks focused and reusable
+
+## Constants & Environment
+- Environment flags in `/app/constants/environment.ts`
+- Use `IS_PRODUCTION`, `IS_STORYBOOK` for conditional logic
+- Organize constants by domain
+
+## Utilities
+- Utility functions in `/app/utils/`
+- Keep utilities pure and well-tested
+- Extract complex logic from components
+
+## Styling
+- Use Radix UI theme tokens for colors and spacing
+- Custom CSS in `overrides.css` for theme adjustments
+- Use inline styles sparingly (prefer theme tokens)
+- Data attributes for conditional styling (e.g., `data-bot`)
+
+## Routes
+- Routes in `/app/routes/`
+- Use Remix file-based routing conventions
+- Export `loader`, `action`, and component from route files
+- Use `useGameParams` for accessing route parameters
+
+## Best Practices
+- Separate bot logic into dedicated subdirectories
+- Keep components small and focused (under 200 lines)
+- Use Storybook for developing components in isolation
+- Leverage Radix UI accessibility features
+- Use `PropsWithChildren` for layout components
+- Conditional rendering based on environment (production vs development)

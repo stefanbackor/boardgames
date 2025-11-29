@@ -19,7 +19,8 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable'
 import type { Role } from '@/types'
-import { Team, TEAM_LABELS, type TeamColor } from '@/constants'
+import { Team, type TeamColor } from '@/constants'
+import { useTeamLabels } from '@/hooks/useTeamLabels'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
@@ -65,6 +66,7 @@ export function TeamSection({
   jinxes: jinxesOverride,
 }: TeamSectionProps) {
   const { t } = useTranslation()
+  const teamLabels = useTeamLabels()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [replaceRoleId, setReplaceRoleId] = useState<string | undefined>()
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -81,8 +83,8 @@ export function TeamSection({
     }),
   )
 
-  // Use team labels map for cleaner code
-  const teamLabel = t(TEAM_LABELS[team].label)
+  // Use team labels hook for translated labels
+  const teamLabel = teamLabels[team].label
 
   const canAddRoles = allRoles && existingRoleIds && onAddRole && onRemoveRole
 

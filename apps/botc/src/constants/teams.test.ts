@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { Team, TEAMS, TEAM_CONFIG, TEAM_LABELS } from './teams'
+import { Team, TEAMS, TEAM_CONFIG } from './teams'
 
 describe('teams constants', () => {
   describe('Team enum', () => {
@@ -76,70 +76,12 @@ describe('teams constants', () => {
     })
   })
 
-  describe('TEAM_LABELS', () => {
-    it('should have labels for all teams', () => {
-      for (const team of TEAMS) {
-        expect(TEAM_LABELS[team]).toBeDefined()
-        expect(TEAM_LABELS[team].label).toBeDefined()
-        expect(TEAM_LABELS[team].addLabel).toBeDefined()
-        expect(TEAM_LABELS[team].replaceLabel).toBeDefined()
-      }
-    })
-
-    it('should have correct label structure for Townsfolk', () => {
-      expect(TEAM_LABELS[Team.Townsfolk]).toEqual({
-        label: 'Townsfolk',
-        addLabel: 'Add Townsfolk',
-        replaceLabel: 'Replace Townsfolk',
-      })
-    })
-
-    it('should have pluralized labels for Outsider', () => {
-      expect(TEAM_LABELS[Team.Outsider].label).toBe('Outsiders')
-      expect(TEAM_LABELS[Team.Outsider].addLabel).toContain('Outsiders')
-    })
-
-    it('should have pluralized labels for Minion', () => {
-      expect(TEAM_LABELS[Team.Minion].label).toBe('Minions')
-      expect(TEAM_LABELS[Team.Minion].addLabel).toContain('Minions')
-    })
-
-    it('should have pluralized labels for Demon', () => {
-      expect(TEAM_LABELS[Team.Demon].label).toBe('Demons')
-      expect(TEAM_LABELS[Team.Demon].addLabel).toContain('Demons')
-    })
-
-    it('should have descriptive label for Traveler', () => {
-      expect(TEAM_LABELS[Team.Traveler].label).toBe('Recommended Travelers')
-    })
-
-    it('should have label prefixes match actions', () => {
-      for (const team of TEAMS) {
-        const labels = TEAM_LABELS[team]
-        expect(labels.addLabel).toMatch(/^Add /)
-        expect(labels.replaceLabel).toMatch(/^Replace /)
-      }
-    })
-
-    it('should have all labels as non-empty strings', () => {
-      for (const team of TEAMS) {
-        const labels = TEAM_LABELS[team]
-        expect(labels.label.length).toBeGreaterThan(0)
-        expect(labels.addLabel.length).toBeGreaterThan(0)
-        expect(labels.replaceLabel.length).toBeGreaterThan(0)
-      }
-    })
-  })
-
   describe('consistency checks', () => {
     it('should have matching keys across all constants', () => {
       const teamKeys = Object.values(Team)
       const configKeys = Object.keys(TEAM_CONFIG)
-      const labelKeys = Object.keys(TEAM_LABELS)
 
       expect(configKeys.sort()).toEqual(teamKeys.sort())
-      expect(labelKeys.sort()).toEqual(teamKeys.sort())
     })
   })
 })
-

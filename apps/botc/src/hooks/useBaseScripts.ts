@@ -88,6 +88,21 @@ export function useBaseScripts(): SampleScript[] {
           {
             id: 'imp',
           },
+          {
+            id: 'scapegoat',
+          },
+          {
+            id: 'gunslinger',
+          },
+          {
+            id: 'beggar',
+          },
+          {
+            id: 'bureaucrat',
+          },
+          {
+            id: 'thief',
+          },
         ],
       },
       {
@@ -173,6 +188,21 @@ export function useBaseScripts(): SampleScript[] {
           {
             id: 'vortox',
           },
+          {
+            id: 'butcher',
+          },
+          {
+            id: 'bonecollector',
+          },
+          {
+            id: 'harlot',
+          },
+          {
+            id: 'barista',
+          },
+          {
+            id: 'deviant',
+          },
         ],
       },
       {
@@ -257,6 +287,21 @@ export function useBaseScripts(): SampleScript[] {
           },
           {
             id: 'po',
+          },
+          {
+            id: 'apprentice',
+          },
+          {
+            id: 'matron',
+          },
+          {
+            id: 'voudon',
+          },
+          {
+            id: 'judge',
+          },
+          {
+            id: 'bishop',
           },
         ],
       },
