@@ -14,7 +14,7 @@ export default defineConfig({
     // Sort keys alphabetically
     sort: true,
     // Use key as default value for English, empty string for other locales
-    defaultValue: (locale, namespace, key) => {
+    defaultValue: (locale, _namespace, key) => {
       return locale === 'en' ? key : ''
     },
   },
