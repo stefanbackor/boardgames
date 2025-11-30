@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { ScriptData } from '@/types'
 import { compressForUrl, decompressFromUrl } from '@/utils/urlCompression'
 import { extractMeta } from '@/utils/parseScript'
@@ -19,6 +20,7 @@ import {
  * @returns Script state and loading functions
  */
 export function useScript() {
+  const { t } = useTranslation()
   const [scriptData, setScriptData] = useState<ScriptData | null>(null)
   const [scriptName, setScriptName] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -36,7 +38,7 @@ export function useScript() {
       resetModifications?: () => void,
     ): Promise<boolean> => {
       if (!Array.isArray(parsed)) {
-        setError('Invalid script format: expected an array')
+        setError(t('Invalid script format: expected an array'))
         clearOriginalScriptCache()
         if (resetModifications) resetModifications()
         return false
@@ -70,7 +72,7 @@ export function useScript() {
 
       return true
     },
-    [],
+    [t],
   )
 
   /**
@@ -90,7 +92,7 @@ export function useScript() {
         try {
           parsedUrl = new URL(url)
         } catch {
-          throw new Error('Invalid URL format')
+          throw new Error(t('Invalid URL format'))
         }
 
         const scriptParam = parsedUrl.searchParams.get('script')
@@ -103,17 +105,21 @@ export function useScript() {
           const parsed = JSON.parse(decoded)
 
           if (!Array.isArray(parsed)) {
-            throw new Error('Invalid script format: expected an array')
+            throw new Error(t('Invalid script format: expected an array'))
           }
 
-          const name = extractMeta(parsed)?.name || 'Script from URL'
+          const name = extractMeta(parsed)?.name || t('Script from URL')
           await parseAndSetScript(parsed, name, url, resetModifications)
         } else {
           // No script parameter - fetch from direct JSON URL
           const response = await fetch(url)
 
           if (!response.ok) {
-            throw new Error(`Failed to fetch script: ${response.statusText}`)
+            throw new Error(
+              t('Failed to fetch script: {{statusText}}', {
+                statusText: response.statusText,
+              }),
+            )
           }
 
           const parsed = await response.json()
@@ -125,14 +131,16 @@ export function useScript() {
               .split('/')
               .pop()
               ?.replace(/\.[^/.]+$/, '') ||
-            'Script from URL'
+            t('Script from URL')
 
           await parseAndSetScript(parsed, urlName, url, resetModifications)
         }
       } catch (err) {
         console.error('Failed to load script from URL:', err)
         setError(
-          `Failed to load script from URL: ${err instanceof Error ? err.message : 'Unknown error'}`,
+          t('Failed to load script from URL: {{error}}', {
+            error: err instanceof Error ? err.message : t('Unknown error'),
+          }),
         )
         clearOriginalScriptCache()
         if (resetModifications) resetModifications()
@@ -140,7 +148,7 @@ export function useScript() {
         setIsLoading(false)
       }
     },
-    [parseAndSetScript],
+    [parseAndSetScript, t],
   )
 
   /**
@@ -157,10 +165,9 @@ export function useScript() {
           const name = extractMeta(parsed)?.name || fileName
 
           parseAndSetScript(parsed, name, undefined, resetModifications)
-        } catch (err) {
-          setError('Failed to parse JSON file')
+        } catch {
+          setError(t('Failed to parse JSON file'))
           if (resetModifications) resetModifications()
-          console.error(err)
         }
       }
       reader.readAsText(file)
@@ -175,16 +182,16 @@ export function useScript() {
     (jsonContent: string, resetModifications?: () => void) => {
       try {
         const parsed = JSON.parse(jsonContent)
-        const name = extractMeta(parsed)?.name || 'Pasted Script'
+        const name = extractMeta(parsed)?.name || t('Pasted Script')
 
         parseAndSetScript(parsed, name, undefined, resetModifications)
       } catch (err) {
-        setError('Failed to parse JSON')
+        setError(t('Failed to parse JSON'))
         if (resetModifications) resetModifications()
         console.error(err)
       }
     },
-    [parseAndSetScript],
+    [parseAndSetScript, t],
   )
 
   /**
@@ -207,7 +214,7 @@ export function useScript() {
           const parsed = JSON.parse(decoded)
 
           if (Array.isArray(parsed)) {
-            const name = extractMeta(parsed)?.name || 'Shared Script'
+            const name = extractMeta(parsed)?.name || t('Shared Script')
             setScriptData(parsed as ScriptData)
             setScriptName(name)
             // Populate cache so store can access original script synchronously
@@ -217,7 +224,7 @@ export function useScript() {
           }
         } catch (err) {
           console.error('Failed to load script from URL:', err)
-          setError('Failed to load script from URL')
+          setError(t('Failed to load script from URL'))
           clearOriginalScriptCache()
           if (resetModifications) resetModifications()
         }
@@ -231,7 +238,7 @@ export function useScript() {
         if (resetModifications) resetModifications()
       }
     },
-    [loadFromUrl],
+    [loadFromUrl, t],
   )
 
   /**

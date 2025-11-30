@@ -46,7 +46,7 @@ export function LoadFromUrlModal({
       setUrlError(null)
       const trimmed = urlInput.trim()
       if (!trimmed) {
-        setUrlError('Please enter a URL')
+        setUrlError(t('Please enter a URL'))
         return
       }
 
@@ -54,7 +54,7 @@ export function LoadFromUrlModal({
       try {
         new URL(trimmed)
       } catch {
-        setUrlError('Invalid URL format')
+        setUrlError(t('Invalid URL format'))
         return
       }
 
@@ -64,7 +64,7 @@ export function LoadFromUrlModal({
       // Close modal (state will be cleared by useEffect)
       onOpenChange(false)
     } catch (err) {
-      setUrlError(err instanceof Error ? err.message : 'Invalid URL')
+      setUrlError(err instanceof Error ? err.message : t('Invalid URL'))
     }
   }
 

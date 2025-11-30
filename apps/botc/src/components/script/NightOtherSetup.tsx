@@ -1,4 +1,4 @@
-import { Avatar, Badge, Flex, Separator } from '@radix-ui/themes'
+import { Avatar, Badge, Flex, Heading, Separator } from '@radix-ui/themes'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
@@ -6,15 +6,16 @@ import { NightRoleItem } from './NightRoleItem'
 
 interface NightOtherSetupProps {
   roles: Role[]
+  scriptName?: string
 }
 
-export function NightOtherSetup({ roles }: NightOtherSetupProps) {
-  const { t } = useTranslation()
+export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
+  const { t: tContent } = useTranslation('content')
 
   // Create special role objects for night setup phases
   const dusk = {
     id: 'dusk',
-    name: t('Dusk'),
+    name: tContent('Dusk'),
     firstNight: 1,
     otherNight: 1,
     image: (
@@ -31,7 +32,7 @@ export function NightOtherSetup({ roles }: NightOtherSetupProps) {
 
   const dawn = {
     id: 'dawn',
-    name: t('Dawn'),
+    name: tContent('Dawn'),
     firstNight: 53,
     otherNight: 94,
     image: (
@@ -51,24 +52,44 @@ export function NightOtherSetup({ roles }: NightOtherSetupProps) {
     .sort((a, b) => a.otherNight - b.otherNight)
 
   return (
-    <Flex direction="column" gap="3">
-      <Flex direction="row" gap="2" align="center">
-        <Badge size="3" color="gray">
-          {t('Other Nights')}
-        </Badge>
-        <Separator orientation="horizontal" size="4" />
+    <Flex
+      className="night-page"
+      direction="row"
+      align="stretch"
+      gap="4"
+      style={{ pageBreakInside: 'avoid' }}
+    >
+      <Flex direction="column" gap="3" style={{ flex: 1 }}>
+        <Flex direction="row" gap="2" align="center">
+          <Badge size="3" color="gray">
+            {tContent('Other Nights')}
+          </Badge>
+          <Separator orientation="horizontal" size="4" />
+        </Flex>
+
+        <Flex direction="column" gap="2">
+          {otherNightsRoles.map((role) => (
+            <NightRoleItem
+              key={role.id}
+              name={role.name}
+              image={role.image}
+              reminder={role.otherNightReminder}
+            />
+          ))}
+        </Flex>
       </Flex>
 
-      <Flex direction="column" gap="2">
-        {otherNightsRoles.map((role) => (
-          <NightRoleItem
-            key={role.id}
-            name={role.name}
-            image={role.image}
-            reminder={role.otherNightReminder}
-          />
-        ))}
-      </Flex>
+      {scriptName && (
+        <Flex className="night-script-label">
+          <Heading
+            size="7"
+            weight="regular"
+            className="night-script-label-text"
+          >
+            {scriptName}
+          </Heading>
+        </Flex>
+      )}
     </Flex>
   )
 }

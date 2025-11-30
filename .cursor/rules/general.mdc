@@ -53,5 +53,6 @@ globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
   - ✅ Good: `t('teams.townsfolk')`
   - ❌ Bad: `t(keyVar)` or `t(\`teams.\${teamName}\`)`
   - This enables static analysis and prevents runtime errors
+- Run extraction script if available to verify namespace consistency
 - Use translation keys consistently across the project
 - Never hardcode user-facing strings

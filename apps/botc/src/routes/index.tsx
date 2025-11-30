@@ -142,6 +142,8 @@ function App() {
   const meta = parsedScript?.meta
   let scriptRoles = parsedScript?.roles
 
+  const displayScriptName = getName() || meta?.name || scriptName
+
   // Auto-add bootlegger if there are custom roles, and djinn if there are jinxed roles
   // Auto-remove djinn if there are no active jinx pairs
   scriptRoles = useMemo(() => {
@@ -491,7 +493,7 @@ function App() {
               <Flex direction="column">
                 <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
                   <Header
-                    name={getName() || meta?.name || scriptName}
+                    name={displayScriptName}
                     author={getAuthor() || meta?.author || ''}
                     isModified={scriptIsModified}
                     onCommit={handleCommitChanges}
@@ -592,14 +594,20 @@ function App() {
                 <PlayerCountTable />
               </Flex>
               <div style={{ pageBreakBefore: 'always' }}>
-                <NightFirstSetup roles={scriptRoles} />
+                <NightFirstSetup
+                  roles={scriptRoles}
+                  scriptName={displayScriptName}
+                />
               </div>
               <Flex
                 direction="column"
                 gap="5"
                 style={{ pageBreakBefore: 'always' }}
               >
-                <NightOtherSetup roles={scriptRoles} />
+                <NightOtherSetup
+                  roles={scriptRoles}
+                  scriptName={displayScriptName}
+                />
                 <Footer />
               </Flex>
             </Flex>
