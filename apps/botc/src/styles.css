@@ -52,6 +52,14 @@ body {
     display: none !important;
   }
 
+  /* Hide print sections when not selected */
+  .print-hide-roles,
+  .print-hide-tables,
+  .print-hide-first-night,
+  .print-hide-other-nights {
+    display: none !important;
+  }
+
   /* Remove container width constraints for full-width layout */
   .rt-Container {
     max-width: 100% !important;

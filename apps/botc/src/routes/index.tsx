@@ -24,6 +24,7 @@ import { NightFirstSetup } from '@/components/script/NightFirstSetup'
 import { NightOtherSetup } from '@/components/script/NightOtherSetup'
 import { Footer } from '@/components/Footer'
 import { LoadingIndicator } from '@/components/LoadingIndicator'
+import type { PrintSections } from '@/components/PrintDropdown'
 import {
   getScriptMeta,
   parseScript,
@@ -49,6 +50,12 @@ function App() {
   const { language, changeLanguage } = useLanguage()
   const [linkCopied, setLinkCopied] = useState(false)
   const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
+  const [printSections, setPrintSections] = useState<PrintSections>({
+    roles: true,
+    tables: true,
+    firstNight: true,
+    otherNights: true,
+  })
 
   // Script loading and management
   const {
@@ -134,8 +141,12 @@ function App() {
     loadFromJson(content, resetModifications)
   }
 
-  const handlePrint = () => {
-    window.print()
+  const handlePrint = (sections: PrintSections) => {
+    setPrintSections(sections)
+    // Use setTimeout to ensure state is updated before print dialog opens
+    setTimeout(() => {
+      window.print()
+    }, 0)
   }
 
   const parsedScript = scriptData ? parseScript(scriptData, roles) : null
@@ -490,7 +501,7 @@ function App() {
 
           {scriptData && scriptRoles && (
             <Flex direction="column" gap="9">
-              <Flex direction="column">
+              <Flex direction="column" className={!printSections.roles ? 'print-hide-roles' : ''}>
                 <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
                   <Header
                     name={displayScriptName}
@@ -553,9 +564,10 @@ function App() {
                 gap="5"
                 justify="start"
                 align="stretch"
+                className={!printSections.tables ? 'print-hide-tables' : ''}
                 style={{
                   height: '100vh',
-                  pageBreakBefore: 'always',
+                  pageBreakBefore: printSections.roles ? 'always' : 'auto',
                   pageBreakInside: 'avoid',
                 }}
               >
@@ -593,7 +605,12 @@ function App() {
 
                 <PlayerCountTable />
               </Flex>
-              <div style={{ pageBreakBefore: 'always' }}>
+              <div
+                className={!printSections.firstNight ? 'print-hide-first-night' : ''}
+                style={{
+                  pageBreakBefore: (printSections.roles || printSections.tables) ? 'always' : 'auto'
+                }}
+              >
                 <NightFirstSetup
                   roles={scriptRoles}
                   scriptName={displayScriptName}
@@ -602,7 +619,10 @@ function App() {
               <Flex
                 direction="column"
                 gap="5"
-                style={{ pageBreakBefore: 'always' }}
+                className={!printSections.otherNights ? 'print-hide-other-nights' : ''}
+                style={{
+                  pageBreakBefore: (printSections.roles || printSections.tables || printSections.firstNight) ? 'always' : 'auto'
+                }}
               >
                 <NightOtherSetup
                   roles={scriptRoles}

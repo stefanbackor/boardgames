@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Button, Flex, Text, Tooltip } from '@radix-ui/themes'
 import {
   Upload,
-  Printer,
   Link as LinkIcon,
   Check,
   Link2,
@@ -11,11 +10,12 @@ import {
 import { useTranslation } from 'react-i18next'
 import { LoadFromUrlModal } from './LoadFromUrlModal'
 import { PasteJsonModal } from './PasteJsonModal'
+import { PrintDropdown, PrintSections } from './PrintDropdown'
 
 interface FileUploadControlsProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
   onUrlLoad: (url: string) => void
-  onPrint: () => void
+  onPrint: (sections: PrintSections) => void
   onCopyLink: () => void
   hasScript: boolean
   linkCopied: boolean
@@ -121,10 +121,7 @@ export function FileUploadControls({
 
             {/* Script actions buttons */}
             <Flex direction="row" gap="2">
-              <Button onClick={onPrint} variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
-                <Printer size={16} />
-                {t('Print')}
-              </Button>
+              <PrintDropdown onPrint={onPrint} hasScript={hasScript} />
               <Button onClick={onCopyLink} variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
                 {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
                 {linkCopied ? t('Link Copied!') : t('Share')}
