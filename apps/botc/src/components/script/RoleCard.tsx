@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Role } from '@/types'
-import { roles as baseRoles } from '@/data/roles'
+import { roles as baseRoles } from '@/data/roles.en'
 import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
 
 interface RoleCardProps {

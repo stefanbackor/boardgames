@@ -1,63 +1,36 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState, useEffect, useMemo, useCallback } from 'react'
-import {
-  Box,
-  Container,
-  Flex,
-  Text,
-  Button,
-  Link,
-  Tooltip,
-} from '@radix-ui/themes'
-import { Trans, useTranslation } from 'react-i18next'
-import { roles as baseRoles } from '@/data/roles'
-import { roleTranslationsEn } from '@/data/roles.en.translation'
-import { roleTranslationsCs } from '@/data/roles.cs.translation'
-import { roleTranslationsHu } from '@/data/roles.hu.translation'
-import { roleTranslationsPl } from '@/data/roles.pl.translation'
-import { jinxes } from '@/data/jinxes'
-import { jinxesCs } from '@/data/jinxes.cs.translations'
+import { useState, useEffect, useMemo } from 'react'
+import { Box, Container, Flex } from '@radix-ui/themes'
+import { roles as baseRoles } from '@/data/roles.en'
 import { AppHeader } from '@/components/AppHeader'
 import { FileUploadControls } from '@/components/FileUploadControls'
-import { Header } from '@/components/script/Header'
-import { NightFirstSetup } from '@/components/script/NightFirstSetup'
-import { NightOtherSetup } from '@/components/script/NightOtherSetup'
-import { Footer } from '@/components/Footer'
 import { LoadingIndicator } from '@/components/LoadingIndicator'
+import { EmptyState } from '@/components/EmptyState'
+import { ScriptContent } from '@/components/ScriptContent'
+import { Footer } from '@/components/Footer'
 import type { PrintSections } from '@/components/PrintDropdown'
-import {
-  getScriptMeta,
-  parseScript,
-  type ScriptData,
-} from '@/utils/parseScript'
+import { parseScript } from '@/utils/parseScript'
+import { generateMetaDescription } from '@/utils/generateMetaDescription'
+import { applyAutoRoles } from '@/utils/scriptAutoRoles'
 import { useBaseScripts } from '@/hooks/useBaseScripts'
-import { PlayerCountTable } from '@/components/script/PlayerCountTable'
-import { TeamSection } from '@/components/script/TeamSection'
-import type { Role } from '@/types'
-import { useScriptModificationStore } from '@/stores/scriptModificationStore'
-import { compressForUrl } from '@/utils/urlCompression'
-import { CarouselScript, useCarouselScripts } from '@/hooks/useCarouselScripts'
+import { useCarouselScripts } from '@/hooks/useCarouselScripts'
 import { useMetaTags } from '@/hooks/useMetaTags'
 import { useLanguage } from '@/hooks/useLanguage'
 import { useScript } from '@/hooks/useScript'
-import { Team, TEAM_CONFIG } from '@/constants'
-import { applyAutoRoles } from '@/utils/scriptAutoRoles'
+import { useTranslatedRoles } from '@/hooks/useTranslatedRoles'
+import { useActiveJinxes } from '@/hooks/useActiveJinxes'
+import { useScriptModification } from '@/hooks/useScriptModification'
+import { useScriptCommit } from '@/hooks/useScriptCommit'
+import { useScriptModificationStore } from '@/stores/scriptModificationStore'
 
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
-  const { t } = useTranslation()
+  // ==================== HOOKS & STATE ====================
+  // Translation/i18n hooks
   const { language, changeLanguage } = useLanguage()
-  const [linkCopied, setLinkCopied] = useState(false)
-  const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
-  const [printSections, setPrintSections] = useState<PrintSections>({
-    roles: true,
-    tables: true,
-    firstNight: true,
-    otherNights: true,
-  })
 
-  // Script loading and management
+  // Script data hooks
   const {
     scriptData,
     scriptName,
@@ -88,49 +61,48 @@ function App() {
     reset: resetModifications,
   } = useScriptModificationStore()
 
-  // Language is automatically detected and initialized by i18next
-  // Slovak (sk) is automatically normalized to Czech (cs) by custom detectors
-
-  // Apply language translations to roles
-  const roles = baseRoles.map((role) => {
-    let translationsMap:
-      | typeof roleTranslationsEn
-      | typeof roleTranslationsCs
-      | typeof roleTranslationsHu
-      | typeof roleTranslationsPl
-      | undefined
-
-    if (language === 'cs') {
-      translationsMap = roleTranslationsCs
-    } else if (language === 'hu') {
-      translationsMap = roleTranslationsHu
-    } else if (language === 'pl') {
-      translationsMap = roleTranslationsPl
-    } else {
-      translationsMap = roleTranslationsEn
-    }
-
-    const translation = translationsMap[role.id]
-    if (!translation) return role
-
-    return {
-      ...role,
-      ...(translation.name && { name: translation.name }),
-      ...(translation.ability && { ability: translation.ability }),
-      ...(translation.reminders && { reminders: translation.reminders }),
-      ...(translation.firstNightReminder && {
-        firstNightReminder: translation.firstNightReminder,
-      }),
-      ...(translation.otherNightReminder && {
-        otherNightReminder: translation.otherNightReminder,
-      }),
-      ...(translation.flavor && { flavor: translation.flavor }),
-    }
+  // UI state hooks
+  const [linkCopied, setLinkCopied] = useState(false)
+  const [printSections, setPrintSections] = useState<PrintSections>({
+    roles: true,
+    tables: true,
+    firstNight: true,
+    otherNights: true,
   })
 
-  // Choose language-appropriate jinx data
-  const activeJinxes = language === 'cs' ? jinxesCs : jinxes
+  // ==================== DERIVED DATA ====================
+  // Get translated roles and active jinxes for current language (lazy-loaded)
+  const roles = useTranslatedRoles(language)
+  const activeJinxes = useActiveJinxes(language)
 
+  // Parse script and apply auto-roles
+  const parsedScript = scriptData ? parseScript(scriptData, roles) : null
+  const meta = parsedScript?.meta
+  const parsedRoles = parsedScript?.roles
+
+  const displayScriptName = getName() || meta?.name || scriptName
+
+  // Auto-add bootlegger if there are custom roles, and djinn if there are jinxed roles
+  // Auto-remove djinn if there are no active jinx pairs
+  const scriptRoles = useMemo(() => {
+    if (!parsedRoles) return null
+    return applyAutoRoles(parsedRoles, activeJinxes, roles)
+  }, [parsedRoles, roles, activeJinxes])
+
+  // Track existing role IDs for filtering in add modal
+  const existingRoleIds = useMemo(() => {
+    return new Set(scriptRoles?.map((role) => role.id) || [])
+  }, [scriptRoles])
+
+  // Sample and carousel scripts for empty state
+  const sampleScripts = useBaseScripts()
+  const carouselScripts = useCarouselScripts()
+
+  // Get current script JSON for the paste modal
+  const currentScriptJson = scriptData ? JSON.stringify(scriptData) : undefined
+
+  // ==================== HANDLERS ====================
+  // File upload handlers
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
@@ -149,89 +121,34 @@ function App() {
     }, 0)
   }
 
-  const parsedScript = scriptData ? parseScript(scriptData, roles) : null
-  const meta = parsedScript?.meta
-  let scriptRoles = parsedScript?.roles
+  // Script modification handlers (from hook)
+  const { handleAddRole, handleRemoveRole, handleReplaceRole, handleReorderRoles } =
+    useScriptModification({
+      scriptData,
+      scriptRoles,
+      baseRoles,
+      addRole,
+      removeRole,
+      replaceRole,
+      reorderRoles,
+      setScriptData,
+    })
 
-  const displayScriptName = getName() || meta?.name || scriptName
-
-  // Auto-add bootlegger if there are custom roles, and djinn if there are jinxed roles
-  // Auto-remove djinn if there are no active jinx pairs
-  scriptRoles = useMemo(() => {
-    if (!scriptRoles) return scriptRoles
-    return applyAutoRoles(scriptRoles, activeJinxes, roles)
-  }, [scriptRoles, roles, activeJinxes])
-
-  // Track existing role IDs for filtering in add modal
-  const existingRoleIds = useMemo(() => {
-    return new Set(scriptRoles?.map((role) => role.id) || [])
-  }, [scriptRoles])
-
-  // Handler to add a new role to the script
-  const handleAddRole = useCallback(
-    (role: Role) => {
-      if (!scriptData) return
-
-      // When adding a role from the modal, check if it exists in base roles
-      // If yes, store just the id string for compact JSON
-      // If it's a custom role not in base, store the full object
-      const isBaseRole = baseRoles.some((r) => r.id === role.id)
-
-      const roleItem = isBaseRole ? role.id : role
-
-      // Update store for tracking changes
-      addRole(roleItem)
-
-      // Update local state directly - append the new role at the end
-      const newScriptData = [...scriptData, roleItem]
-      setScriptData(newScriptData as ScriptData)
-    },
-    [scriptData, addRole, setScriptData],
-  )
-
-  // Handler to remove a role from the script
-  const handleRemoveRole = useCallback(
-    (roleId: string) => {
-      if (!scriptData) return
-
-      // Update store for tracking changes
-      removeRole(roleId)
-
-      // Update local state directly - filter out the removed role
-      const newScriptData = scriptData.filter((item) => {
-        const id = typeof item === 'string' ? item : item.id
-        return id !== roleId
-      })
-      setScriptData(newScriptData as ScriptData)
-    },
-    [scriptData, removeRole, setScriptData],
-  )
-
-  // Handler to replace a role in the script (at same position)
-  const handleReplaceRole = useCallback(
-    (oldRoleId: string, newRole: Role) => {
-      if (!scriptData) return
-
-      // Check if new role exists in base roles
-      const isBaseRole = baseRoles.some((r) => r.id === newRole.id)
-      const newRoleItem = isBaseRole ? newRole.id : newRole
-
-      // Update store for tracking changes
-      replaceRole(oldRoleId, newRoleItem)
-
-      // Update local state directly - replace the role at the same position
-      const newScriptData = scriptData.map((item) => {
-        const id = typeof item === 'string' ? item : item.id
-        return id === oldRoleId ? newRoleItem : item
-      })
-      setScriptData(newScriptData as ScriptData)
-    },
-    [scriptData, replaceRole, setScriptData],
-  )
+  // Commit/revert handlers (from hook)
+  const { handleCommitChanges, handleRevertChanges } = useScriptCommit({
+    scriptData,
+    getMetaOverrides,
+    setScriptData,
+    setScriptName,
+    setCurrentScriptUrl,
+    resetModifications,
+    loadFromUrlParams,
+  })
 
   // Check if script is modified
   const scriptIsModified = isModified()
 
+  // ==================== EFFECTS ====================
   // Add beforeunload handler to warn about unsaved changes
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -247,196 +164,9 @@ function App() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [scriptIsModified])
 
-  // Handler to commit changes to URL
-  const handleCommitChanges = useCallback(async () => {
-    if (!scriptData) return
-
-    // Get current name/author from scriptData's _meta
-    const currentMeta = scriptData.find(
-      (item) =>
-        typeof item === 'object' &&
-        item !== null &&
-        (item as { id?: string }).id === '_meta',
-    ) as { name?: string; author?: string } | undefined
-
-    // Check if user explicitly overrode name/author
-    const metaOverrides = getMetaOverrides()
-
-    // Use overridden values if they exist, otherwise use current values from scriptData
-    const name =
-      metaOverrides?.name !== undefined
-        ? metaOverrides.name
-        : currentMeta?.name || ''
-    const author =
-      metaOverrides?.author !== undefined
-        ? metaOverrides.author
-        : currentMeta?.author || ''
-
-    // Build committed script: update _meta with name and author, preserve all other role data
-    let hasMetaEntry = false
-    const committed = scriptData.map((item) => {
-      const id = typeof item === 'string' ? item : item.id
-      if (id === '_meta' && typeof item === 'object') {
-        hasMetaEntry = true
-        return { ...item, name, author }
-      }
-      return item
-    })
-
-    if (!hasMetaEntry) {
-      committed.unshift({ id: '_meta', name, author })
-    }
-
-    if (committed.length === 0) return
-
-    // Encode the committed script to URL with compression (name is stored in _meta)
-    // pako is lazy-loaded here for compression
-    const content = JSON.stringify(committed)
-    const encoded = await compressForUrl(content)
-
-    const params = new URLSearchParams()
-    params.set('script', encoded)
-
-    // Update URL without reloading the page
-    const newUrl = `${window.location.pathname}?${params.toString()}`
-    window.history.pushState({}, '', newUrl)
-
-    // Clear the script URL since we're now using encoded script
-    setCurrentScriptUrl('')
-
-    // Update local state to match committed script
-    setScriptData(committed as ScriptData)
-    setScriptName(name)
-
-    // Reset modification tracking in the store
-    resetModifications()
-  }, [
-    scriptData,
-    getMetaOverrides,
-    setScriptData,
-    setScriptName,
-    setCurrentScriptUrl,
-    resetModifications,
-  ])
-
-  // Handler to revert changes
-  const handleRevertChanges = useCallback(() => {
-    // Reload the script from URL params, which will also reset modifications
-    loadFromUrlParams(resetModifications)
-  }, [loadFromUrlParams, resetModifications])
-
-  // Handler to reorder roles within a team
-  const handleReorderRoles = useCallback(
-    (team: string, fromIndex: number, toIndex: number) => {
-      if (!scriptRoles) return
-
-      // Get all roles in the script
-      const allRoles = [...scriptRoles]
-
-      // Split roles into team roles and other roles
-      const teamRoles = allRoles.filter((r) => r.team === team)
-      const otherRoles = allRoles.filter((r) => r.team !== team)
-
-      // Reorder within the team
-      const [movedRole] = teamRoles.splice(fromIndex, 1)
-      teamRoles.splice(toIndex, 0, movedRole)
-
-      // Find the original position of the first role of this team
-      const firstTeamRoleIndex = allRoles.findIndex((r) => r.team === team)
-
-      // Reconstruct the script by inserting reordered team at the correct position
-      const newScript = [
-        ...otherRoles.slice(0, firstTeamRoleIndex),
-        ...teamRoles,
-        ...otherRoles.slice(firstTeamRoleIndex),
-      ]
-
-      // Update the store with reordered role IDs (for commit functionality)
-      // Extract role IDs in the new order
-      const roleIds = newScript.map((role) => role.id)
-
-      // Add _meta at the beginning if it exists in scriptData
-      const metaItem = scriptData?.find(
-        (item) =>
-          typeof item === 'object' &&
-          item !== null &&
-          (item as { id?: string }).id === '_meta',
-      )
-
-      if (metaItem) {
-        roleIds.unshift('_meta')
-      }
-
-      reorderRoles(roleIds)
-
-      // Update local state directly with the new order
-      // Build new script data with reordered roles
-      const newScriptData: ScriptData = []
-      if (metaItem) {
-        newScriptData.push(metaItem)
-      }
-
-      // Add roles in new order
-      newScript.forEach((role) => {
-        // Find the original item in scriptData
-        const originalItem = scriptData?.find((item) => {
-          const id = typeof item === 'string' ? item : item.id
-          return id === role.id
-        })
-        if (originalItem) {
-          newScriptData.push(originalItem)
-        }
-      })
-
-      setScriptData(newScriptData as ScriptData)
-    },
-    [scriptRoles, scriptData, reorderRoles, setScriptData],
-  )
-
-  const sampleScripts = useBaseScripts()
-  const carouselScripts = useCarouselScripts()
-
-  // Get current script JSON for the paste modal
-  const currentScriptJson = scriptData ? JSON.stringify(scriptData) : undefined
-
-  // Generate dynamic meta tags for social media sharing
-  const metaDescription = useMemo(() => {
-    if (!scriptData || !scriptRoles) {
-      return 'Create and share custom Blood on the Clocktower scripts with night order sheets and role information'
-    }
-
-    // Extract author if available
-    const metaItem = scriptData.find(
-      (item) =>
-        typeof item === 'object' && item !== null && item.id === '_meta',
-    )
-    const metaObj = metaItem as { author?: string } | undefined
-    const author = metaObj?.author
-
-    // Count roles by team
-    const townsfolk = scriptRoles.filter(
-      (r) => r.team === Team.Townsfolk,
-    ).length
-    const outsider = scriptRoles.filter((r) => r.team === Team.Outsider).length
-    const minion = scriptRoles.filter((r) => r.team === Team.Minion).length
-    const demon = scriptRoles.filter((r) => r.team === Team.Demon).length
-    const traveler = scriptRoles.filter((r) => r.team === Team.Traveler).length
-
-    const parts = [
-      `${townsfolk} Townsfolk`,
-      `${outsider} Outsider${outsider !== 1 ? 's' : ''}`,
-      `${minion} Minion${minion !== 1 ? 's' : ''}`,
-      `${demon} Demon${demon !== 1 ? 's' : ''}`,
-    ]
-    if (traveler > 0) {
-      parts.push(`${traveler} Traveler${traveler !== 1 ? 's' : ''}`)
-    }
-
-    const rolesSummary = parts.join(', ')
-    const authorPart = author ? ` by ${author}` : ''
-
-    return `A Blood on the Clocktower script${authorPart} with ${rolesSummary}. View night order and role details.`
-  }, [scriptData, scriptRoles])
+  // ==================== META TAGS ====================
+  // Generate dynamic meta description for social media sharing
+  const metaDescription = generateMetaDescription(scriptData, scriptRoles)
 
   useMetaTags({
     title: scriptName
@@ -446,6 +176,7 @@ function App() {
     url: window.location.href,
   })
 
+  // Share/copy link handler
   const handleCopyLink = async () => {
     try {
       const url = new URL(window.location.href)
@@ -476,11 +207,13 @@ function App() {
     }
   }
 
+  // ==================== RENDER ====================
   return (
     <>
       <AppHeader language={language} onLanguageChange={changeLanguage} />
       <Container size="4" p="4">
         <Flex direction="column" gap="9">
+          {/* File upload controls */}
           <div className="no-print">
             <Box>
               <FileUploadControls
@@ -499,206 +232,43 @@ function App() {
             </Box>
           </div>
 
+          {/* Script content when loaded */}
           {scriptData && scriptRoles && (
-            <Flex direction="column" gap="9">
-              <Flex direction="column" className={!printSections.roles ? 'print-hide-roles' : ''}>
-                <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
-                  <Header
-                    name={displayScriptName}
-                    author={getAuthor() || meta?.author || ''}
-                    isModified={scriptIsModified}
-                    onCommit={handleCommitChanges}
-                    onRevert={handleRevertChanges}
-                    onNameChange={setName}
-                    onAuthorChange={setAuthor}
-                  />
-                  {/* Render first team (townsfolk) without wrapper for proper page break handling */}
-                  <TeamSection
-                    key={Team.Townsfolk}
-                    team={Team.Townsfolk}
-                    teamColor={TEAM_CONFIG[Team.Townsfolk].color}
-                    columnsCount={TEAM_CONFIG[Team.Townsfolk].columns}
-                    roles={scriptRoles.filter(
-                      (role) => role.team === Team.Townsfolk,
-                    )}
-                    allRoles={roles}
-                    existingRoleIds={existingRoleIds}
-                    onAddRole={handleAddRole}
-                    onRemoveRole={handleRemoveRole}
-                    onReplaceRole={handleReplaceRole}
-                    onReorderRoles={handleReorderRoles}
-                    scriptRoles={scriptRoles}
-                    jinxes={activeJinxes}
-                  />
-                </Flex>
-                {/* Render main teams (outsider, minion, demon) */}
-                {[Team.Outsider, Team.Minion, Team.Demon].map((team) => {
-                  const teamRoles = scriptRoles.filter(
-                    (role) => role.team === team,
-                  )
-                  const config = TEAM_CONFIG[team]
-
-                  return (
-                    <div key={team} style={{ pageBreakInside: 'avoid' }}>
-                      <TeamSection
-                        team={team}
-                        teamColor={config.color}
-                        columnsCount={config.columns}
-                        roles={teamRoles}
-                        allRoles={roles}
-                        existingRoleIds={existingRoleIds}
-                        onAddRole={handleAddRole}
-                        onRemoveRole={handleRemoveRole}
-                        onReplaceRole={handleReplaceRole}
-                        onReorderRoles={handleReorderRoles}
-                        scriptRoles={scriptRoles}
-                        jinxes={activeJinxes}
-                      />
-                    </div>
-                  )
-                })}
-              </Flex>
-              {/* Render special teams (traveler, fabled, loric) with page break */}
-              <Flex
-                direction="column"
-                gap="5"
-                justify="start"
-                align="stretch"
-                className={!printSections.tables ? 'print-hide-tables' : ''}
-                style={{
-                  height: '100vh',
-                  pageBreakBefore: printSections.roles ? 'always' : 'auto',
-                  pageBreakInside: 'avoid',
-                }}
-              >
-                {[Team.Traveler, Team.Fabled, Team.Loric].map((team) => {
-                  const teamRoles = scriptRoles.filter(
-                    (role) => role.team === team,
-                  )
-                  const config = TEAM_CONFIG[team]
-                  const isEmpty = teamRoles.length === 0
-
-                  return (
-                    <div
-                      key={team}
-                      className={
-                        isEmpty && config.hideIfEmpty ? 'print:hidden' : ''
-                      }
-                    >
-                      <TeamSection
-                        team={team}
-                        teamColor={config.color}
-                        columnsCount={config.columns}
-                        roles={teamRoles}
-                        allRoles={roles}
-                        existingRoleIds={existingRoleIds}
-                        onAddRole={handleAddRole}
-                        onRemoveRole={handleRemoveRole}
-                        onReplaceRole={handleReplaceRole}
-                        onReorderRoles={handleReorderRoles}
-                        scriptRoles={scriptRoles}
-                        jinxes={activeJinxes}
-                      />
-                    </div>
-                  )
-                })}
-
-                <PlayerCountTable />
-              </Flex>
-              <div
-                className={!printSections.firstNight ? 'print-hide-first-night' : ''}
-                style={{
-                  pageBreakBefore: (printSections.roles || printSections.tables) ? 'always' : 'auto'
-                }}
-              >
-                <NightFirstSetup
-                  roles={scriptRoles}
-                  scriptName={displayScriptName}
-                />
-              </div>
-              <Flex
-                direction="column"
-                gap="5"
-                className={!printSections.otherNights ? 'print-hide-other-nights' : ''}
-                style={{
-                  pageBreakBefore: (printSections.roles || printSections.tables || printSections.firstNight) ? 'always' : 'auto'
-                }}
-              >
-                <NightOtherSetup
-                  roles={scriptRoles}
-                  scriptName={displayScriptName}
-                />
-                <Footer />
-              </Flex>
-            </Flex>
+            <ScriptContent
+              scriptRoles={scriptRoles}
+              displayScriptName={displayScriptName}
+              meta={meta}
+              roles={roles}
+              activeJinxes={activeJinxes}
+              existingRoleIds={existingRoleIds}
+              printSections={printSections}
+              scriptIsModified={scriptIsModified}
+              onCommit={handleCommitChanges}
+              onRevert={handleRevertChanges}
+              onNameChange={setName}
+              onAuthorChange={setAuthor}
+              onAddRole={handleAddRole}
+              onRemoveRole={handleRemoveRole}
+              onReplaceRole={handleReplaceRole}
+              onReorderRoles={handleReorderRoles}
+              getAuthor={getAuthor}
+            />
           )}
 
+          {/* Empty state when no script loaded */}
           {!scriptData && !isLoading && (
-            <Flex
-              direction="column"
-              align="center"
-              justify="center"
-              gap="2"
-              style={{ minHeight: '300px' }}
-            >
-              <Text size="5" color="gray" align="center">
-                {t('Upload a script json or pick one below to get started')}
-              </Text>
-
-              <Flex gap="2" wrap="wrap" justify="center">
-                {sampleScripts.map((script) => (
-                  <Button
-                    key={script.key}
-                    variant="solid"
-                    size="2"
-                    onClick={() => handleJsonPaste(JSON.stringify(script.json))}
-                  >
-                    {getScriptMeta(script.json)?.name || script.key}
-                  </Button>
-                ))}
-              </Flex>
-              {carouselScripts.length > 0 && (
-                <Flex direction="column" gap="2" align="center">
-                  <Button
-                    variant="outline"
-                    size="1"
-                    onClick={() => setShowExperimentalScripts((prev) => !prev)}
-                  >
-                    {t('Experimental Carousel scripts')}
-                  </Button>
-                  {showExperimentalScripts && (
-                    <Flex gap="2" wrap="wrap" justify="center">
-                      {carouselScripts.map((script: CarouselScript) => (
-                        <Tooltip key={script.key} content={script.flavor}>
-                          <Button
-                            variant="soft"
-                            size="1"
-                            onClick={() =>
-                              loadFromUrl(script.url, resetModifications)
-                            }
-                          >
-                            {script.name}
-                          </Button>
-                        </Tooltip>
-                      ))}
-                    </Flex>
-                  )}
-                </Flex>
-              )}
-
-              <Text size="2" color="gray">
-                <Trans>
-                  Find more scripts on{' '}
-                  <Link target="_blank" href="https://www.botcscripts.com">
-                    botcscripts.com
-                  </Link>
-                </Trans>
-              </Text>
-            </Flex>
+            <EmptyState
+              sampleScripts={sampleScripts}
+              carouselScripts={carouselScripts}
+              onLoadScript={handleJsonPaste}
+              onLoadUrl={(url) => loadFromUrl(url, resetModifications)}
+            />
           )}
 
+          {/* Loading indicator */}
           {isLoading && <LoadingIndicator />}
 
+          {/* Footer when no script loaded */}
           {!scriptData && <Footer />}
         </Flex>
       </Container>

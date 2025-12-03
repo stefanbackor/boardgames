@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { parseScript } from './parseScript'
-import { roles as baseRolesData } from '@/data/roles'
+import { roles as baseRolesData } from '@/data/roles.en'
 import type { Role } from '@/types'
 import fs from 'fs'
 import path from 'path'
@@ -12,7 +12,9 @@ const __dirname = path.dirname(__filename)
 const fixturesDir = path.resolve(__dirname, '../../fixtures/scripts')
 
 // Load all fixture files
-const fixtureFiles = fs.readdirSync(fixturesDir).filter((file) => file.endsWith('.json'))
+const fixtureFiles = fs
+  .readdirSync(fixturesDir)
+  .filter((file) => file.endsWith('.json'))
 
 describe('parseScript', () => {
   const baseRoles = baseRolesData as Role[]
@@ -138,7 +140,9 @@ describe('parseScript', () => {
           image: 'https://example.com/image.png',
           flavor: 'Flavor text',
           remindersGlobal: ['Global reminder'],
-          special: [{ name: 'replace-character' as const, type: 'reveal' as const }],
+          special: [
+            { name: 'replace-character' as const, type: 'reveal' as const },
+          ],
         },
       ]
 
@@ -192,9 +196,15 @@ describe('parseScript', () => {
             expect(role.name).toBeDefined()
             expect(typeof role.name).toBe('string')
             expect(role.team).toBeDefined()
-            expect(['townsfolk', 'outsider', 'minion', 'demon', 'traveler', 'fabled', 'loric']).toContain(
-              role.team,
-            )
+            expect([
+              'townsfolk',
+              'outsider',
+              'minion',
+              'demon',
+              'traveler',
+              'fabled',
+              'loric',
+            ]).toContain(role.team)
 
             // Should have isCustom flag
             expect(typeof role.isCustom).toBe('boolean')
@@ -215,7 +225,9 @@ describe('parseScript', () => {
           const result = parseScript(scriptData, baseRoles)
 
           result.roles.forEach((role) => {
-            const isInBase = baseRoles.some((baseRole) => baseRole.id === role.id)
+            const isInBase = baseRoles.some(
+              (baseRole) => baseRole.id === role.id,
+            )
 
             if (isInBase) {
               expect(role.isCustom).toBe(false)
@@ -234,7 +246,9 @@ describe('parseScript', () => {
 
         it('should preserve role order from script', () => {
           const result = parseScript(scriptData, baseRoles)
-          const scriptRoles = scriptData.filter((item: any) => item.id !== '_meta')
+          const scriptRoles = scriptData.filter(
+            (item: any) => item.id !== '_meta',
+          )
 
           // Get IDs from valid parsed roles
           const parsedIds = result.roles.map((r) => r.id)

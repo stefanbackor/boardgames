@@ -58,4 +58,3 @@ export interface ParseScriptResult {
   meta?: ScriptMeta
   roles: Array<Role & { isCustom: boolean }>
 }
-

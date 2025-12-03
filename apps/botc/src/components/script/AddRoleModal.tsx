@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
 import { Team } from '@/constants'
 import { useTeamLabels } from '@/hooks/useTeamLabels'
-import { roles as baseRoles } from '@/data/roles'
+import { roles as baseRoles } from '@/data/roles.en'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
 import { getProxiedImageUrl } from '@/utils/imageUrl'
 

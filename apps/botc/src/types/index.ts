@@ -17,4 +17,3 @@ export type {
 
 // Sample script types
 export type { SampleScript, CarouselScript } from './samples'
-

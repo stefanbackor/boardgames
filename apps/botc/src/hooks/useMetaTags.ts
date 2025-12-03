@@ -34,7 +34,8 @@ export function useMetaTags(config: MetaTagsConfig) {
       let element = document.querySelector(selector)
       if (!element) {
         element = document.createElement('meta')
-        const [attr, value] = selector.match(/\[(.*?)="(.*?)"\]/)?.slice(1, 3) || []
+        const [attr, value] =
+          selector.match(/\[(.*?)="(.*?)"\]/)?.slice(1, 3) || []
         if (attr && value) {
           element.setAttribute(attr, value)
         }
@@ -49,7 +50,10 @@ export function useMetaTags(config: MetaTagsConfig) {
     // Open Graph tags (for Facebook, LinkedIn, etc.)
     setMetaTag('meta[property="og:title"]', title)
     setMetaTag('meta[property="og:description"]', description)
-    setMetaTag('meta[property="og:image"]', new URL(image, window.location.origin).href)
+    setMetaTag(
+      'meta[property="og:image"]',
+      new URL(image, window.location.origin).href,
+    )
     setMetaTag('meta[property="og:url"]', url)
     setMetaTag('meta[property="og:type"]', type)
     setMetaTag('meta[property="og:site_name"]', 'BotC Script Tool')
@@ -58,9 +62,11 @@ export function useMetaTags(config: MetaTagsConfig) {
     setMetaTag('meta[name="twitter:card"]', 'summary_large_image')
     setMetaTag('meta[name="twitter:title"]', title)
     setMetaTag('meta[name="twitter:description"]', description)
-    setMetaTag('meta[name="twitter:image"]', new URL(image, window.location.origin).href)
+    setMetaTag(
+      'meta[name="twitter:image"]',
+      new URL(image, window.location.origin).href,
+    )
 
     // WhatsApp and other messengers also use Open Graph tags
   }, [config.title, config.description, config.image, config.url, config.type])
 }
-

@@ -56,6 +56,7 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
           <Select.Content position="popper" sideOffset={5}>
             <Select.Group>
               <Select.Item value="cs">Čeština</Select.Item>
+              <Select.Item value="de">Deutsch</Select.Item>
               <Select.Item value="en">English</Select.Item>
               <Select.Item value="hu">Magyar</Select.Item>
               <Select.Item value="pl">Polski</Select.Item>

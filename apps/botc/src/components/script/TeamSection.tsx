@@ -24,7 +24,7 @@ import { useTeamLabels } from '@/hooks/useTeamLabels'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
-import { jinxes as baseJinxes } from '@/data/jinxes'
+import { jinxes as baseJinxes } from '@/data/jinxes.en'
 import type { Jinx } from '@/types/jinx'
 
 interface TeamSectionProps {
