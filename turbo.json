@@ -1,46 +1,31 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": [
-    "VERCEL_*"
-  ],
+  "globalEnv": ["VERCEL_*"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**",
-        "build/**"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "lint-staged": {
-      "dependsOn": [
-        "^lint-staged"
-      ],
+      "dependsOn": ["^lint-staged"],
       "cache": false
     },
     "test": {
-      "dependsOn": [
-        "^test"
-      ]
+      "dependsOn": ["^test"]
+    },
+    "test:e2e": {
+      "cache": false,
+      "dependsOn": ["^test:e2e"],
+      "outputs": ["playwright-report/**", "test-results/**"]
     },
     "typecheck": {
       "cache": false,
-      "dependsOn": [
-        "^typecheck"
-      ]
+      "dependsOn": ["^typecheck"]
     },
     "dev": {
       "cache": false,

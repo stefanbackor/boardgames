@@ -5,6 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
     "lint": "turbo lint",
     "lint-staged": "turbo lint-staged",
     "typecheck": "turbo typecheck",
