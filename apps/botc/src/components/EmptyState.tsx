@@ -65,7 +65,7 @@ export function EmptyState({
             key={script.key}
             variant="solid"
             size="2"
-            onClick={() => onLoadScript(script.json)}
+            onClick={() => onLoadScript(JSON.stringify(script.json))}
           >
             {getScriptMeta(script.json)?.name || script.key}
           </Button>
