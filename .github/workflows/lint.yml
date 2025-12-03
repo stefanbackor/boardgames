@@ -22,7 +22,3 @@ jobs:
         run: npx turbo build --filter="./packages/*"
       - name: Lint
         run: yarn lint
-      - name: 'notify vercel'
-        uses: 'vercel/repository-dispatch/actions/status@v1'
-        with:
-          name: Vercel - boardgames-botc: Lint
