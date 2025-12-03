@@ -82,8 +82,6 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         const { addedRoles, removedRoles } = get()
         const { script: originalScript } = getOriginalFromUrl()
         const originalRoleIds = originalScript ? getRoleIds(originalScript) : []
-        console.log('originalRoleIds', originalRoleIds)
-        console.log('originalScript', originalScript)
 
         // If role was added (not in original), just un-add it
         if (addedRoles.some((r) => normalizeScriptItem(r) === roleId)) {
