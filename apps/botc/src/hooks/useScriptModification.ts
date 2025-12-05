@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import type { Role, ParsedRole } from '@/types'
 import type { ScriptData } from '@/utils/parseScript'
+import { sendEvent } from '@/utils/analytics'
 
 /**
  * Props for the useScriptModification hook
@@ -82,6 +83,19 @@ export function useScriptModification({
       const isBaseRole = baseRoles.some((r) => r.id === role.id)
       const roleItem = isBaseRole ? role.id : role
 
+      /**
+       * Analytics: Track when users add roles to their scripts
+       * Purpose: Understand which roles are most popular and script building patterns
+       * Key insights: Most added roles, custom vs base roles ratio, team preferences
+       */
+      sendEvent('add_role', {
+        role_id: role.id,
+        role_name: role.name,
+        team: role.team,
+        is_custom: !isBaseRole,
+        edition: role.edition || 'unknown',
+      })
+
       // Update store for tracking changes
       addRole(roleItem)
 
@@ -98,6 +112,15 @@ export function useScriptModification({
   const handleRemoveRole = useCallback(
     (roleId: string) => {
       if (!scriptData) return
+
+      /**
+       * Analytics: Track when users remove roles from their scripts
+       * Purpose: Understand script refinement patterns and unpopular roles
+       * Key insights: Most removed roles, script editing behavior, role balance issues
+       */
+      sendEvent('remove_role', {
+        role_id: roleId,
+      })
 
       // Update store for tracking changes
       removeRole(roleId)
@@ -123,6 +146,19 @@ export function useScriptModification({
       const isBaseRole = baseRoles.some((r) => r.id === newRole.id)
       const newRoleItem = isBaseRole ? newRole.id : newRole
 
+      /**
+       * Analytics: Track when users replace one role with another
+       * Purpose: Understand role substitution patterns and script balancing behavior
+       * Key insights: Common role swaps, team composition adjustments, role popularity
+       */
+      sendEvent('replace_role', {
+        old_role_id: oldRoleId,
+        new_role_id: newRole.id,
+        new_role_name: newRole.name,
+        new_role_team: newRole.team,
+        is_custom: !isBaseRole,
+      })
+
       // Update store for tracking changes
       replaceRole(oldRoleId, newRoleItem)
 
@@ -143,6 +179,18 @@ export function useScriptModification({
   const handleReorderRoles = useCallback(
     (team: string, fromIndex: number, toIndex: number) => {
       if (!scriptRoles) return
+
+      /**
+       * Analytics: Track when users reorder roles within a team
+       * Purpose: Understand if users care about role presentation order
+       * Key insights: Reorder frequency, preferred role arrangements, UX friction points
+       */
+      sendEvent('reorder_roles', {
+        team: team,
+        from_index: fromIndex,
+        to_index: toIndex,
+        distance: Math.abs(toIndex - fromIndex),
+      })
 
       // Get all roles in the script
       const allRoles = [...scriptRoles]

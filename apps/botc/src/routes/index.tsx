@@ -22,6 +22,7 @@ import { useActiveJinxes } from '@/hooks/useActiveJinxes'
 import { useScriptModification } from '@/hooks/useScriptModification'
 import { useScriptCommit } from '@/hooks/useScriptCommit'
 import { useScriptModificationStore } from '@/stores/scriptModificationStore'
+import { sendEvent } from '@/utils/analytics'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -106,14 +107,43 @@ function App() {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
+
+    /**
+     * Analytics: Track file upload button click
+     * Purpose: Understand how users interact with file upload feature
+     * Key insights: File upload usage vs other loading methods
+     */
+    sendEvent('click_upload_file', {
+      file_size: file.size,
+      file_name: file.name,
+    })
+
     loadFromFile(file, resetModifications)
   }
 
   const handleJsonPaste = (content: string) => {
+    /**
+     * Analytics: Track JSON paste modal usage
+     * Purpose: Understand clipboard/paste feature adoption
+     * Key insights: Paste vs other loading methods
+     */
+    sendEvent('click_paste_json', {
+      content_length: content.length,
+    })
+
     loadFromJson(content, resetModifications)
   }
 
   const handlePrint = (sections: PrintSections) => {
+    // Track print event
+    sendEvent('print_script', {
+      script_name: displayScriptName,
+      sections: Object.entries(sections)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+        .join(','),
+    })
+
     setPrintSections(sections)
     // Use setTimeout to ensure state is updated before print dialog opens
     setTimeout(() => {
@@ -148,7 +178,63 @@ function App() {
   // Check if script is modified
   const scriptIsModified = isModified()
 
+  // Handlers for meta changes with analytics
+  const handleNameChange = (name: string) => {
+    /**
+     * Analytics: Track script name edits
+     * Purpose: Understand how often users customize script names
+     * Key insights: Naming patterns, script personalization behavior
+     */
+    sendEvent('edit_script_meta', {
+      field: 'name',
+      script_name: displayScriptName,
+    })
+    setName(name)
+  }
+
+  const handleAuthorChange = (author: string) => {
+    /**
+     * Analytics: Track author name edits
+     * Purpose: Understand authorship attribution patterns
+     * Key insights: How often scripts are attributed, collaboration patterns
+     */
+    sendEvent('edit_script_meta', {
+      field: 'author',
+      script_name: displayScriptName,
+    })
+    setAuthor(author)
+  }
+
   // ==================== EFFECTS ====================
+  // Session tracking - track user engagement and session duration
+  useEffect(() => {
+    const sessionStartTime = Date.now()
+
+    /**
+     * Analytics: Track session start
+     * Purpose: Understand when users access the app
+     * Key insights: Peak usage times, session frequency
+     */
+    sendEvent('session_start', {
+      has_script_on_load: !!scriptData,
+      language: language,
+    })
+
+    return () => {
+      /**
+       * Analytics: Track session end and duration
+       * Purpose: Understand user engagement and session length
+       * Key insights: Average session duration, engagement patterns, retention signals
+       */
+      sendEvent('session_end', {
+        duration_seconds: Math.floor((Date.now() - sessionStartTime) / 1000),
+        had_script: !!scriptData,
+        made_changes: scriptIsModified,
+        language: language,
+      })
+    }
+  }, []) // Empty deps - only run on mount/unmount
+
   // Add beforeunload handler to warn about unsaved changes
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -187,6 +273,9 @@ function App() {
         ? `${url.origin}/api/share?${params.toString()}`
         : url.href
 
+      // Determine share method
+      let shareMethod = 'unknown'
+
       if (navigator.share) {
         await navigator.share({
           url: shareUrl,
@@ -195,13 +284,22 @@ function App() {
             : 'Blood on the Clocktower Script Tool',
           text: metaDescription,
         })
+        shareMethod = 'native'
       } else if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl)
         setLinkCopied(true)
         setTimeout(() => setLinkCopied(false), 2000)
+        shareMethod = 'clipboard'
       } else {
         window.open(shareUrl, '_blank')
+        shareMethod = 'new_tab'
       }
+
+      // Track share event
+      sendEvent('share_script', {
+        script_name: displayScriptName,
+        method: shareMethod,
+      })
     } catch (err) {
       console.error('Failed to share link:', err)
     }
@@ -247,8 +345,8 @@ function App() {
               scriptIsModified={scriptIsModified}
               onCommit={handleCommitChanges}
               onRevert={handleRevertChanges}
-              onNameChange={setName}
-              onAuthorChange={setAuthor}
+              onNameChange={handleNameChange}
+              onAuthorChange={handleAuthorChange}
               onAddRole={handleAddRole}
               onRemoveRole={handleRemoveRole}
               onReplaceRole={handleReplaceRole}

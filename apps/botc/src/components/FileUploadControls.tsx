@@ -13,6 +13,7 @@ import { LoadFromUrlModal } from './LoadFromUrlModal'
 import { PasteJsonModal } from './PasteJsonModal'
 import { PrintDropdown, PrintSections } from './PrintDropdown'
 import type { ScriptData } from '@/types/script'
+import { sendEvent } from '@/utils/analytics'
 
 interface FileUploadControlsProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -51,6 +52,12 @@ export function FileUploadControls({
 
   const handleDownloadJson = () => {
     if (!scriptData) return
+
+    // Track download event
+    sendEvent('download_script', {
+      script_name: scriptName || 'unnamed',
+      format: 'json',
+    })
 
     // Create JSON string with proper formatting
     const jsonString = JSON.stringify(scriptData, null, 2)

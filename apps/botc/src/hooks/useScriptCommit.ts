@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import type { ScriptData } from '@/utils/parseScript'
 import { compressForUrl } from '@/utils/urlCompression'
+import { sendEvent } from '@/utils/analytics'
+import { extractMeta } from '@/utils/parseScript'
 
 /**
  * Props for the useScriptCommit hook
@@ -133,6 +135,20 @@ export function useScriptCommit({
     setScriptData(committed as ScriptData)
     setScriptName(name)
 
+    /**
+     * Analytics: Track when users commit their script changes
+     * Purpose: Understand script finalization patterns and user confidence
+     * Key insights: Commit frequency, script complexity (role count), save behavior
+     */
+    sendEvent('commit_changes', {
+      script_name: name,
+      role_count: committed.filter(item => {
+        const id = typeof item === 'string' ? item : item.id
+        return id !== '_meta'
+      }).length,
+      has_author: !!author,
+    })
+
     // Reset modification tracking in the store
     resetModifications()
   }, [
@@ -149,9 +165,18 @@ export function useScriptCommit({
    * Reloads the script from URL params to discard uncommitted changes
    */
   const handleRevertChanges = useCallback(() => {
+    /**
+     * Analytics: Track when users revert their uncommitted changes
+     * Purpose: Understand user regret patterns and change confidence
+     * Key insights: Revert frequency, indicates UX friction or user uncertainty
+     */
+    sendEvent('revert_changes', {
+      script_name: extractMeta(scriptData || [])?.name || 'unknown',
+    })
+
     // Reload the script from URL params, which will also reset modifications
     loadFromUrlParams(resetModifications)
-  }, [loadFromUrlParams, resetModifications])
+  }, [loadFromUrlParams, resetModifications, scriptData])
 
   return {
     handleCommitChanges,

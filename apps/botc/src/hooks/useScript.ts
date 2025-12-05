@@ -7,6 +7,7 @@ import {
   setOriginalScriptCache,
   clearOriginalScriptCache,
 } from '@/stores/scriptModificationStore'
+import { sendEvent } from '@/utils/analytics'
 
 /**
  * Custom hook to manage script loading, parsing, and URL synchronization
@@ -109,6 +110,20 @@ export function useScript() {
           }
 
           const name = extractMeta(parsed)?.name || t('Script from URL')
+
+          /**
+           * Analytics: Track script loaded from encoded URL parameter
+           * Purpose: Understand usage of script-sharing feature and traffic sources
+           * Key insights: Which domains are sharing scripts, success rate of shared links
+           */
+          sendEvent('load_script', {
+            source: 'url',
+            url_type: 'encoded_tool_url',
+            domain: parsedUrl.hostname,
+            has_meta: !!extractMeta(parsed),
+            script_name: name,
+          })
+
           await parseAndSetScript(parsed, name, url, resetModifications)
         } else {
           // No script parameter - fetch from direct JSON URL
@@ -133,10 +148,36 @@ export function useScript() {
               ?.replace(/\.[^/.]+$/, '') ||
             t('Script from URL')
 
+          /**
+           * Analytics: Track script loaded from direct JSON URL
+           * Purpose: Understand how users discover and load scripts from external sources
+           * Key insights: Popular script repositories, direct JSON file usage patterns
+           */
+          sendEvent('load_script', {
+            source: 'url',
+            url_type: 'direct_json',
+            domain: parsedUrl.hostname,
+            has_meta: !!extractMeta(parsed),
+            script_name: urlName,
+          })
+
           await parseAndSetScript(parsed, urlName, url, resetModifications)
         }
       } catch (err) {
         console.error('Failed to load script from URL:', err)
+
+        /**
+         * Analytics: Track script loading errors from URLs
+         * Purpose: Monitor and debug issues with script loading from external sources
+         * Key insights: Common error patterns, problematic domains, URL format issues
+         */
+        sendEvent('script_error', {
+          error_type: 'load_failed',
+          source: 'url',
+          error_message: err instanceof Error ? err.message : 'Unknown error',
+          url: url,
+        })
+
         setError(
           t('Failed to load script from URL: {{error}}', {
             error: err instanceof Error ? err.message : t('Unknown error'),
@@ -164,15 +205,40 @@ export function useScript() {
           const fileName = file.name.replace(/\.[^/.]+$/, '')
           const name = extractMeta(parsed)?.name || fileName
 
+          /**
+           * Analytics: Track script loaded from file upload
+           * Purpose: Understand local file usage patterns and file sizes
+           * Key insights: Average file sizes, file naming patterns, upload success rate
+           */
+          sendEvent('load_script', {
+            source: 'file',
+            file_name: file.name,
+            file_size: file.size,
+            script_name: name,
+            has_meta: !!extractMeta(parsed),
+          })
+
           parseAndSetScript(parsed, name, undefined, resetModifications)
-        } catch {
+        } catch (err) {
+          /**
+           * Analytics: Track JSON parsing errors from file uploads
+           * Purpose: Identify common issues with user-provided JSON files
+           * Key insights: Malformed JSON patterns, file encoding issues
+           */
+          sendEvent('script_error', {
+            error_type: 'parse_failed',
+            source: 'file',
+            file_name: file.name,
+            file_size: file.size,
+          })
+
           setError(t('Failed to parse JSON file'))
           if (resetModifications) resetModifications()
         }
       }
       reader.readAsText(file)
     },
-    [parseAndSetScript],
+    [parseAndSetScript, t],
   )
 
   /**
@@ -184,8 +250,31 @@ export function useScript() {
         const parsed = JSON.parse(jsonContent)
         const name = extractMeta(parsed)?.name || t('Pasted Script')
 
+        /**
+         * Analytics: Track script loaded from JSON paste
+         * Purpose: Understand clipboard usage and manual JSON entry patterns
+         * Key insights: Content length patterns, paste feature adoption
+         */
+        sendEvent('load_script', {
+          source: 'paste',
+          content_length: jsonContent.length,
+          script_name: name,
+          has_meta: !!extractMeta(parsed),
+        })
+
         parseAndSetScript(parsed, name, undefined, resetModifications)
       } catch (err) {
+        /**
+         * Analytics: Track JSON parsing errors from paste
+         * Purpose: Identify issues with pasted content
+         * Key insights: Common JSON syntax errors, clipboard formatting issues
+         */
+        sendEvent('script_error', {
+          error_type: 'parse_failed',
+          source: 'paste',
+          content_length: jsonContent.length,
+        })
+
         setError(t('Failed to parse JSON'))
         if (resetModifications) resetModifications()
         console.error(err)
