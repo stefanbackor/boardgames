@@ -22,6 +22,8 @@
   "Commit": "Zapisz do linku",
   "Demons": "Demony",
   "Done": "Gotowe",
+  "Download JSON": "Pobierz JSON",
+  "Download script as JSON file": "Pobierz skrypt jako plik JSON",
   "Drag to reorder": "Przeciągnij, aby zmienić kolejność",
   "Enter a URL to a script JSON file or a script tool URL": "Podaj adres URL do pliku JSON skryptu lub link do script tool",
   "Experimental Carousel scripts": "Eksperymentalne skrypty Carousel",

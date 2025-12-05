@@ -228,6 +228,8 @@ function App() {
                 isLoading={isLoading}
                 onJsonPaste={handleJsonPaste}
                 currentScriptJson={currentScriptJson}
+                scriptData={scriptData || undefined}
+                scriptName={displayScriptName}
               />
             </Box>
           </div>

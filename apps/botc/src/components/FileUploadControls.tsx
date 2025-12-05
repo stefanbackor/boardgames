@@ -6,11 +6,13 @@ import {
   Check,
   Link2,
   FileJson,
+  Download,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { LoadFromUrlModal } from './LoadFromUrlModal'
 import { PasteJsonModal } from './PasteJsonModal'
 import { PrintDropdown, PrintSections } from './PrintDropdown'
+import type { ScriptData } from '@/types/script'
 
 interface FileUploadControlsProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -24,6 +26,8 @@ interface FileUploadControlsProps {
   isLoading: boolean
   onJsonPaste?: (jsonContent: string) => void
   currentScriptJson?: string
+  scriptData?: ScriptData
+  scriptName?: string
 }
 
 export function FileUploadControls({
@@ -38,10 +42,37 @@ export function FileUploadControls({
   isLoading,
   onJsonPaste,
   currentScriptJson,
+  scriptData,
+  scriptName,
 }: FileUploadControlsProps) {
   const { t } = useTranslation()
   const [urlModalOpen, setUrlModalOpen] = useState(false)
   const [pasteModalOpen, setPasteModalOpen] = useState(false)
+
+  const handleDownloadJson = () => {
+    if (!scriptData) return
+
+    // Create JSON string with proper formatting
+    const jsonString = JSON.stringify(scriptData, null, 2)
+
+    // Create blob and download link
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+
+    // Use script name or default filename
+    const fileName = scriptName ? `${scriptName}.json` : 'script.json'
+    link.download = fileName
+
+    // Trigger download
+    document.body.appendChild(link)
+    link.click()
+
+    // Cleanup
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
 
   const UrlButton = () => (
     <Tooltip
@@ -122,6 +153,16 @@ export function FileUploadControls({
             {/* Script actions buttons */}
             <Flex direction="row" gap="2">
               <PrintDropdown onPrint={onPrint} hasScript={hasScript} />
+              <Tooltip content={t('Download script as JSON file')}>
+                <Button
+                  onClick={handleDownloadJson}
+                  variant={hasScript ? 'solid' : 'soft'}
+                  disabled={!hasScript}
+                >
+                  <Download size={16} />
+                  {t('Download JSON')}
+                </Button>
+              </Tooltip>
               <Button onClick={onCopyLink} variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
                 {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
                 {linkCopied ? t('Link Copied!') : t('Share')}
