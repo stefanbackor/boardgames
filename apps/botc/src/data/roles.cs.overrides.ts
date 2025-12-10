@@ -933,9 +933,9 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
   alchemist: {
     name: 'Alchymista',
     ability:
-      'Máš schopnost Přisluhovače, při použití shopnosti Vypravěč může vyzvat ke změně volby.',
+      'Máš schopnost Přisluhovače. Při použití shopnosti Vypravěč může vyzvat ke změně volby.',
     firstNightReminder:
-      'Ukažte Alchymistovi žeton Přisluhovače, který není ve hře.',
+      'Ukažte mu žeton JSI a žeton postavy Přisluhovače.',
     flavor:
       'Visit the interior of the Earth. By rectification thou shalt find the hidden stone. Above the gold, lieth the red. Kether in Malkuth.',
   },
