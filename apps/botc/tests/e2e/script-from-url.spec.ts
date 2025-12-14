@@ -244,7 +244,7 @@ test.describe('Script from URL', () => {
     await page.waitForTimeout(500)
 
     // Check for night order content
-    await expect(page.getByText('First Night')).toBeVisible()
+    await expect(page.getByText('First Night', { exact: true })).toBeVisible()
     await expect(page.getByText('Other Nights')).toBeVisible()
 
     // Verify that at least some roles with night actions are present in the page
