@@ -1,13 +1,15 @@
-import { Flex } from '@radix-ui/themes'
+import { Flex, Text } from '@radix-ui/themes'
 import { Header } from '@/components/script/Header'
 import { TeamSection } from '@/components/script/TeamSection'
 import { NightFirstSetup } from '@/components/script/NightFirstSetup'
 import { NightOtherSetup } from '@/components/script/NightOtherSetup'
+import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { Footer } from '@/components/Footer'
 import type { Role, ParsedRole } from '@/types'
 import type { Jinx } from '@/types/jinx'
 import type { PrintSections } from '@/components/PrintDropdown'
 import { Team, TEAM_CONFIG } from '@/constants'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Script metadata type
@@ -101,6 +103,8 @@ export function ScriptContent({
   onReorderRoles,
   getAuthor,
 }: ScriptContentProps) {
+  const { t: tContent } = useTranslation('content')
+
   return (
     <Flex direction="column" gap="9">
       {/* Roles Section */}
@@ -159,6 +163,11 @@ export function ScriptContent({
             </div>
           )
         })}
+        <Flex mt="4" justify="end">
+          <Text size="2" color="gray">
+            {tContent('*Not the first night')}
+          </Text>
+        </Flex>
       </Flex>
 
       {/* Special Teams & Tables Section */}
@@ -169,7 +178,7 @@ export function ScriptContent({
         align="stretch"
         className={!printSections.tables ? 'print-hide-tables' : ''}
         style={{
-          height: '100vh',
+          minHeight: '100vh',
           pageBreakBefore: printSections.roles ? 'always' : 'auto',
           pageBreakInside: 'avoid',
         }}
@@ -201,6 +210,9 @@ export function ScriptContent({
             </div>
           )
         })}
+
+        {/* Player Count Table */}
+        <PlayerCountTable />
       </Flex>
 
       {/* First Night Section */}
@@ -215,9 +227,7 @@ export function ScriptContent({
       </div>
 
       {/* Other Nights Section */}
-      <Flex
-        direction="column"
-        gap="5"
+      <div
         className={!printSections.otherNights ? 'print-hide-other-nights' : ''}
         style={{
           pageBreakBefore:
@@ -230,7 +240,7 @@ export function ScriptContent({
       >
         <NightOtherSetup roles={scriptRoles} scriptName={displayScriptName} />
         <Footer />
-      </Flex>
+      </div>
     </Flex>
   )
 }
