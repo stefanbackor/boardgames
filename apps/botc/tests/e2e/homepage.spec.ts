@@ -118,7 +118,7 @@ test.describe('Homepage', () => {
     })
 
     // Check for night order sections (these may be further down the page)
-    await expect(page.getByText('First Night')).toBeVisible()
+    await expect(page.getByText('First Night', { exact: true })).toBeVisible()
     await expect(page.getByText('Other Nights')).toBeVisible()
   })
 
@@ -135,7 +135,7 @@ test.describe('Homepage', () => {
     })
 
     // Verify the English label is shown by default
-    await expect(page.getByText('First Night')).toBeVisible()
+    await expect(page.getByText('First Night', { exact: true })).toBeVisible()
 
     // Change language to Czech via the header language selector
     const languageSelector = page.getByRole('combobox')
@@ -144,6 +144,6 @@ test.describe('Homepage', () => {
 
     // After language change, the "First Night" label should be translated
     await expect(page.getByText('První noc')).toBeVisible()
-    await expect(page.getByText('First Night')).toHaveCount(0)
+    await expect(page.getByText('First Night', { exact: true })).toHaveCount(0)
   })
 })
