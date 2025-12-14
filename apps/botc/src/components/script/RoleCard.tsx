@@ -204,6 +204,7 @@ export function RoleCard({
       <Box className="role-card-text" my="2" style={{ lineHeight: '1' }}>
         <Heading
           size="4"
+          mr="1"
           style={{
             lineHeight: 'inherit',
             display: 'inline',

@@ -83,13 +83,7 @@ export function NightFirstSetup({ roles, scriptName }: NightFirstSetupProps) {
   ].sort((a, b) => a.firstNight - b.firstNight)
 
   return (
-    <Flex
-      className="night-page"
-      direction="row"
-      align="stretch"
-      gap="4"
-      style={{ pageBreakInside: 'avoid' }}
-    >
+    <Flex className="night-page" direction="row" align="stretch" gap="4">
       <Flex direction="column" gap="3" style={{ flex: 1 }}>
         <Flex direction="row" gap="2" align="center">
           <Badge size="3" color="gray">

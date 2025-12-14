@@ -11,10 +11,7 @@ export function PlayerCountTable() {
   const demons = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
   return (
-    <Table.Root
-      size="1"
-      style={{ fontFamily: 'var(--heading-font-family)', fontSize: '10px' }}
-    >
+    <Table.Root size="1" style={{ fontFamily: 'var(--heading-font-family)' }}>
       <Table.Header>
         <Table.Row align="baseline">
           <Table.ColumnHeaderCell justify="end">

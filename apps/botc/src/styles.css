@@ -11,6 +11,7 @@
 
 /* Radix UI Themes: Proper font configuration using official CSS custom properties */
 .radix-themes {
+  --default-font-family: "Inter", sans-serif;
   --heading-font-family: "Sorts Mill Goudy", serif;
 }
 
@@ -27,7 +28,7 @@ body {
 /* A4 Portrait page setup with small margins */
 @page {
   size: A4 portrait;
-  margin: 10mm;
+  margin: 0mm;
 }
 
 /* Print Styles */
@@ -127,6 +128,7 @@ body {
     /* Text content should flow inline/stacked next to image */
     .role-card .role-card-text {
       margin: 0 !important;
+      line-height: 1.25 !important;
     }
 
     .role-card .role-card-ability-break {
@@ -136,14 +138,15 @@ body {
     /* Compact text sizes for linear layout */
     .role-card .rt-Heading {
       font-family: var(--default-font-family);
-      font-size: 0.8rem !important;
+      font-size: 1rem !important;
       /* line-height: 1.2 !important; */
+      white-space: nowrap;
       /* DEBUG: Orange border around name */
       /* border: 1px solid orange !important; */
     }
 
     .role-card .rt-Text {
-      font-size: 0.8rem !important;
+      font-size: 1rem !important;
       /* line-height: 1.25 !important; */
       /* DEBUG: Purple border around ability */
       /* border: 1px solid purple !important; */
@@ -250,11 +253,7 @@ body {
 }
 
 @media print {
-  .night-page {
-    height: 100vh;
-    page-break-inside: avoid;
-  }
+  .night-page {}
 
-  .night-script-label-text {
-  }
+  .night-script-label-text {}
 }

@@ -11,7 +11,7 @@ interface NightRoleItemProps {
 
 export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
   return (
-    <Flex gap="3" justify="start">
+    <Flex gap="3" justify="start" style={{ pageBreakInside: 'avoid' }}>
       {typeof image === 'string' ? (
         <Avatar
           size="4"
