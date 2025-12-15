@@ -13,6 +13,7 @@ export type {
   ScriptItem,
   MetaOverrides,
   ParseScriptResult,
+  SavedScript,
 } from './script'
 
 // Sample script types

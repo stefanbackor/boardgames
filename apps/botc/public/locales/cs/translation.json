@@ -9,6 +9,7 @@
   "Add Outsiders": "Přidat Podivíny",
   "Add Recommended Travelers": "Přidat doporučené pocestné",
   "Add Townsfolk": "Přidat Měšťany",
+  "Are you sure you want to delete this script?": "Opravdu chcete tento skript smazat?",
   "Bad Moon Rising": "Čas Krvavého Měsíce",
   "Blood on the Clocktower": "Krvavá Hodina Odbila",
   "BotC": "KHO",
@@ -20,7 +21,7 @@
   "Clear": "Vymazat",
   "Click to edit": "Klikněte pro úpravu",
   "Close": "Zavřít",
-  "Commit": "Uložit",
+  "Delete": "Smazat",
   "Demons": "Démoni",
   "Done": "Hotovo",
   "Download JSON": "Stáhnout JSON",
@@ -30,7 +31,7 @@
   "Experimental Carousel scripts": "Experimentální Carousel skripty",
   "Fabled": "Báje",
   "Failed to fetch script: {{statusText}}": "Nepodařilo se načíst skript: {{statusText}}",
-  "Failed to load script from URL": "",
+  "Failed to load script from URL": "Nepodařilo se načíst skript z URL",
   "Failed to load script from URL: {{error}}": "Nepodařilo se načíst skript z URL: {{error}}",
   "Failed to parse JSON": "Nepodařilo se zpracovat JSON",
   "Failed to parse JSON file": "Nepodařilo se zpracovat JSON soubor",
@@ -74,6 +75,7 @@
   "Replacing: {{roleId}}": "Nahrazuji: {{roleId}}",
   "Revert": "Vrátit",
   "Roles": "Role",
+  "Save": "Uložit",
   "Script from URL": "Skript z URL",
   "Script Tool": "Nástroj pro skripty",
   "Search characters...": "Hledat postavy...",
@@ -88,5 +90,6 @@
   "Unknown": "Neznámý",
   "Unknown error": "Neznámá chyba",
   "Upload a script JSON file": "Nahrát JSON soubor skriptu",
-  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže"
+  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže",
+  "Your Saved Scripts": "Vaše uložené skripty"
 }

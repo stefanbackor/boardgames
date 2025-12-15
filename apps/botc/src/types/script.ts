@@ -58,3 +58,16 @@ export interface ParseScriptResult {
   meta?: ScriptMeta
   roles: Array<Role & { isCustom: boolean }>
 }
+
+/**
+ * Saved script with persistence metadata
+ */
+export interface SavedScript {
+  id: string // UUID v4
+  name: string // Script name from _meta
+  author: string // Author from _meta
+  scriptData: ScriptData // Full script JSON
+  encodedScript: string // Compressed base64 for URL
+  savedAt: string // ISO 8601 timestamp
+  lastModified: string // ISO 8601 timestamp
+}

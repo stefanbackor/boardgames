@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ScriptData } from '@/types'
+import type { ScriptData, SavedScript } from '@/types'
 import { compressForUrl, decompressFromUrl } from '@/utils/urlCompression'
 import { extractMeta } from '@/utils/parseScript'
 import {
@@ -27,6 +27,7 @@ export function useScript() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [currentScriptUrl, setCurrentScriptUrl] = useState<string>('')
+  const [currentScriptId, setCurrentScriptId] = useState<string | null>(null)
 
   /**
    * Parses and sets script data, updating URL
@@ -287,16 +288,50 @@ export function useScript() {
    * Loads script from URL parameters (on mount or navigation)
    */
   const loadFromUrlParams = useCallback(
-    async (resetModifications?: () => void) => {
+    async (
+      resetModifications?: () => void,
+      getSavedScript?: (id: string) => SavedScript | null,
+    ) => {
       const params = new URLSearchParams(window.location.search)
       const encodedScript = params.get('script')
+      const scriptId = params.get('id')
       const scriptUrlParam = params.get('script_url')
 
-      // Prioritize script_url over encoded script
+      // Priority 1: script_url (external URL)
       if (scriptUrlParam) {
         setCurrentScriptUrl(scriptUrlParam)
+        setCurrentScriptId(null)
         await loadFromUrl(scriptUrlParam, resetModifications)
-      } else if (encodedScript) {
+        return
+      }
+
+      // Priority 2: id parameter - load from localStorage
+      if (scriptId && getSavedScript) {
+        const savedScript = getSavedScript(scriptId)
+
+        if (savedScript) {
+          setScriptData(savedScript.scriptData)
+          setScriptName(savedScript.name)
+          setCurrentScriptId(scriptId)
+          setCurrentScriptUrl('')
+          setOriginalScriptCache(savedScript.scriptData)
+          if (resetModifications) resetModifications()
+          setError(null)
+
+          sendEvent('load_saved_script', {
+            script_name: savedScript.name,
+            script_id: scriptId,
+          })
+          return
+        } else {
+          // ID not found in localStorage - fall back to encoded script
+          console.warn('Script ID not found in localStorage:', scriptId)
+          setCurrentScriptId(null)
+        }
+      }
+
+      // Priority 3: encoded script in URL
+      if (encodedScript) {
         try {
           // Decompress from URL (handles both compressed and legacy uncompressed formats)
           const decoded = decompressFromUrl(encodedScript)
@@ -306,6 +341,8 @@ export function useScript() {
             const name = extractMeta(parsed)?.name || t('Shared Script')
             setScriptData(parsed as ScriptData)
             setScriptName(name)
+            setCurrentScriptId(null) // Clear ID for shared scripts
+            setCurrentScriptUrl('')
             // Populate cache so store can access original script synchronously
             setOriginalScriptCache(parsed as ScriptData)
             if (resetModifications) resetModifications()
@@ -322,6 +359,7 @@ export function useScript() {
         setScriptData(null)
         setScriptName('')
         setCurrentScriptUrl('')
+        setCurrentScriptId(null)
         setError(null)
         clearOriginalScriptCache()
         if (resetModifications) resetModifications()
@@ -337,28 +375,14 @@ export function useScript() {
     setScriptData(null)
     setScriptName('')
     setCurrentScriptUrl('')
+    setCurrentScriptId(null)
     setError(null)
     clearOriginalScriptCache()
     if (resetModifications) resetModifications()
   }, [])
 
-  // Load script from URL on mount (client-side only)
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    loadFromUrlParams()
-  }, [loadFromUrlParams])
-
-  // Listen for browser back/forward navigation
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const handlePopState = () => {
-      loadFromUrlParams()
-    }
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [loadFromUrlParams])
+  // Note: useEffect hooks for loading from URL params and popstate
+  // are handled in the parent component (index.tsx) where getSavedScript is available
 
   return {
     // State
@@ -367,6 +391,7 @@ export function useScript() {
     error,
     isLoading,
     currentScriptUrl,
+    currentScriptId,
     // Actions
     loadFromUrl,
     loadFromFile,
@@ -377,5 +402,6 @@ export function useScript() {
     setScriptData,
     setScriptName,
     setCurrentScriptUrl,
+    setCurrentScriptId,
   }
 }

@@ -39,8 +39,8 @@ interface ScriptContentProps {
   printSections: PrintSections
   /** Whether the script has been modified */
   scriptIsModified: boolean
-  /** Handler to commit changes */
-  onCommit: () => void
+  /** Handler to save changes */
+  onSave: () => void
   /** Handler to revert changes */
   onRevert: () => void
   /** Handler when script name changes */
@@ -73,7 +73,7 @@ interface ScriptContentProps {
  *   existingRoleIds={existingRoleIds}
  *   printSections={printSections}
  *   scriptIsModified={scriptIsModified}
- *   onCommit={handleCommitChanges}
+ *   onSave={handleSaveChanges}
  *   onRevert={handleRevertChanges}
  *   onNameChange={setName}
  *   onAuthorChange={setAuthor}
@@ -93,7 +93,7 @@ export function ScriptContent({
   existingRoleIds,
   printSections,
   scriptIsModified,
-  onCommit,
+  onSave,
   onRevert,
   onNameChange,
   onAuthorChange,
@@ -117,7 +117,7 @@ export function ScriptContent({
             name={displayScriptName}
             author={getAuthor() || meta?.author || ''}
             isModified={scriptIsModified}
-            onCommit={onCommit}
+            onSave={onSave}
             onRevert={onRevert}
             onNameChange={onNameChange}
             onAuthorChange={onAuthorChange}

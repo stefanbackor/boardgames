@@ -6,7 +6,7 @@ interface Props {
   name: string
   author: string
   isModified?: boolean
-  onCommit?: () => void
+  onSave?: () => void
   onRevert?: () => void
   onNameChange?: (name: string) => void
   onAuthorChange?: (author: string) => void
@@ -16,7 +16,7 @@ export function Header({
   name,
   author,
   isModified,
-  onCommit,
+  onSave,
   onRevert,
   onNameChange,
   onAuthorChange,
@@ -25,15 +25,23 @@ export function Header({
   const headingRef = useRef<HTMLHeadingElement>(null)
   const authorRef = useRef<HTMLSpanElement>(null)
 
+  const handleNameInput = () => {
+    if (!onNameChange || !headingRef.current) return
+
+    const newName = headingRef.current.textContent?.trim() || ''
+    if (newName !== name) {
+      onNameChange(newName)
+    }
+  }
+
   const handleNameBlur = () => {
     if (!onNameChange || !headingRef.current) return
 
     const newName = headingRef.current.textContent?.trim() || ''
-    if (newName && newName !== name) {
-      onNameChange(newName)
-    } else {
-      // Reset to original if empty or unchanged
+    if (!newName) {
+      // Reset to original if empty
       headingRef.current.textContent = name
+      onNameChange(name)
     }
   }
 
@@ -44,18 +52,23 @@ export function Header({
     } else if (e.key === 'Escape') {
       if (headingRef.current) {
         headingRef.current.textContent = name
+        onNameChange?.(name)
         headingRef.current.blur()
       }
     }
   }
 
-  const handleAuthorBlur = () => {
+  const handleAuthorInput = () => {
     if (!onAuthorChange || !authorRef.current) return
 
     const newAuthor = authorRef.current.textContent?.trim() || ''
     if (newAuthor !== author) {
       onAuthorChange(newAuthor)
     }
+  }
+
+  const handleAuthorBlur = () => {
+    // No need to do anything on blur, input handler already updated the value
   }
 
   const handleAuthorKeyDown = (e: React.KeyboardEvent) => {
@@ -65,6 +78,7 @@ export function Header({
     } else if (e.key === 'Escape') {
       if (authorRef.current) {
         authorRef.current.textContent = author || t('Unknown')
+        onAuthorChange?.(author || '')
         authorRef.current.blur()
       }
     }
@@ -78,6 +92,7 @@ export function Header({
           size="7"
           contentEditable={!!onNameChange}
           suppressContentEditableWarning
+          onInput={handleNameInput}
           onBlur={handleNameBlur}
           onKeyDown={handleNameKeyDown}
           style={{
@@ -95,6 +110,7 @@ export function Header({
             ref={authorRef}
             contentEditable={!!onAuthorChange}
             suppressContentEditableWarning
+            onInput={handleAuthorInput}
             onBlur={handleAuthorBlur}
             onKeyDown={handleAuthorKeyDown}
             style={{
@@ -111,9 +127,9 @@ export function Header({
           <Text size="2" color="orange">
             {t('Changes made')}
           </Text>
-          {onCommit && (
-            <Button size="1" variant="soft" color="green" onClick={onCommit}>
-              {t('Commit')}
+          {onSave && (
+            <Button size="1" variant="soft" color="green" onClick={onSave}>
+              {t('Save')}
             </Button>
           )}
           {onRevert && (

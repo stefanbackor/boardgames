@@ -9,6 +9,7 @@
   "Add Outsiders": "Außenseiter hinzufügen",
   "Add Recommended Travelers": "Empfohlene Reisende hinzufügen",
   "Add Townsfolk": "Dorfbewohner hinzufügen",
+  "Are you sure you want to delete this script?": "Möchten Sie dieses Skript wirklich löschen?",
   "Bad Moon Rising": "Bad Moon Rising",
   "Blood on the Clocktower": "Blood on the Clocktower",
   "BotC": "BotC",
@@ -20,7 +21,7 @@
   "Clear": "Löschen",
   "Click to edit": "Zum Bearbeiten klicken",
   "Close": "Schließen",
-  "Commit": "Speichern",
+  "Delete": "Löschen",
   "Demons": "Dämonen",
   "Done": "Fertig",
   "Download JSON": "JSON herunterladen",
@@ -74,6 +75,7 @@
   "Replacing: {{roleId}}": "Ersetzen: {{roleId}}",
   "Revert": "Zurücksetzen",
   "Roles": "Rollen",
+  "Save": "Speichern",
   "Script from URL": "Skript von URL",
   "Script Tool": "Skript-Werkzeug",
   "Search characters...": "Charaktere suchen...",
@@ -88,5 +90,6 @@
   "Unknown": "Unbekannt",
   "Unknown error": "Unbekannter Fehler",
   "Upload a script JSON file": "Eine Skript-JSON-Datei hochladen",
-  "Upload a script json or pick one below to get started": "Laden Sie eine Skript-JSON hoch oder wählen Sie unten eines der Basis-Skripte aus, um loszulegen"
+  "Upload a script json or pick one below to get started": "Laden Sie eine Skript-JSON hoch oder wählen Sie unten eines der Basis-Skripte aus, um loszulegen",
+  "Your Saved Scripts": "Ihre gespeicherten Skripte"
 }

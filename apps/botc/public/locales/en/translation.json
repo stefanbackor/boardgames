@@ -9,6 +9,7 @@
   "Add Outsiders": "Add Outsiders",
   "Add Recommended Travelers": "Add Recommended Travelers",
   "Add Townsfolk": "Add Townsfolk",
+  "Are you sure you want to delete this script?": "Are you sure you want to delete this script?",
   "Bad Moon Rising": "Bad Moon Rising",
   "Blood on the Clocktower": "Blood on the Clocktower",
   "BotC": "BotC",
@@ -20,7 +21,7 @@
   "Clear": "Clear",
   "Click to edit": "Click to edit",
   "Close": "Close",
-  "Commit": "Commit",
+  "Delete": "Delete",
   "Demons": "Demons",
   "Done": "Done",
   "Download JSON": "Download JSON",
@@ -74,6 +75,7 @@
   "Replacing: {{roleId}}": "Replacing: {{roleId}}",
   "Revert": "Revert",
   "Roles": "Roles",
+  "Save": "Save",
   "Script from URL": "Script from URL",
   "Script Tool": "Script Tool",
   "Search characters...": "Search characters...",
@@ -88,5 +90,6 @@
   "Unknown": "Unknown",
   "Unknown error": "Unknown error",
   "Upload a script JSON file": "Upload a script JSON file",
-  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started"
+  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started",
+  "Your Saved Scripts": "Your Saved Scripts"
 }

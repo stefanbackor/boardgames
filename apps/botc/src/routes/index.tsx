@@ -22,6 +22,7 @@ import { useActiveJinxes } from '@/hooks/useActiveJinxes'
 import { useScriptModification } from '@/hooks/useScriptModification'
 import { useScriptCommit } from '@/hooks/useScriptCommit'
 import { useScriptModificationStore } from '@/stores/scriptModificationStore'
+import { useSavedScriptsStore } from '@/stores/savedScriptsStore'
 import { sendEvent } from '@/utils/analytics'
 
 export const Route = createFileRoute('/')({ component: App })
@@ -38,6 +39,7 @@ function App() {
     error,
     isLoading,
     currentScriptUrl,
+    currentScriptId,
     loadFromUrl,
     loadFromFile,
     loadFromJson,
@@ -45,6 +47,7 @@ function App() {
     setScriptData,
     setScriptName,
     setCurrentScriptUrl,
+    setCurrentScriptId,
   } = useScript()
 
   // Script modification store (diff-based, URL is source of truth)
@@ -61,6 +64,16 @@ function App() {
     isModified,
     reset: resetModifications,
   } = useScriptModificationStore()
+
+  // Saved scripts store (localStorage persistence)
+  const {
+    saveScript,
+    loadScript: getSavedScript,
+    deleteScript,
+    getAllScripts,
+  } = useSavedScriptsStore()
+
+  const savedScripts = getAllScripts()
 
   // UI state hooks
   const [linkCopied, setLinkCopied] = useState(false)
@@ -164,8 +177,8 @@ function App() {
       setScriptData,
     })
 
-  // Commit/revert handlers (from hook)
-  const { handleCommitChanges, handleRevertChanges } = useScriptCommit({
+  // Save/revert handlers (from hook)
+  const { handleSaveChanges, handleRevertChanges } = useScriptCommit({
     scriptData,
     getMetaOverrides,
     setScriptData,
@@ -173,6 +186,9 @@ function App() {
     setCurrentScriptUrl,
     resetModifications,
     loadFromUrlParams,
+    currentScriptId,
+    saveScript,
+    setCurrentScriptId,
   })
 
   // Check if script is modified
@@ -250,6 +266,24 @@ function App() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [scriptIsModified])
 
+  // Load script from URL params on mount (with saved script support)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    loadFromUrlParams(undefined, getSavedScript)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Listen for browser back/forward navigation (with saved script support)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handlePopState = () => {
+      loadFromUrlParams(undefined, getSavedScript)
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [loadFromUrlParams, getSavedScript])
+
   // ==================== META TAGS ====================
   // Generate dynamic meta description for social media sharing
   const metaDescription = generateMetaDescription(scriptData, scriptRoles)
@@ -268,9 +302,16 @@ function App() {
       const url = new URL(window.location.href)
       const params = url.searchParams
 
+      // Remove id parameter for sharing (keep only script parameter)
+      const scriptParam = params.get('script')
+      const shareParams = new URLSearchParams()
+      if (scriptParam) {
+        shareParams.set('script', scriptParam)
+      }
+
       const hasScript = params.has('script')
       const shareUrl = hasScript
-        ? `${url.origin}/api/share?${params.toString()}`
+        ? `${url.origin}/api/share?${shareParams.toString()}`
         : url.href
 
       // Determine share method
@@ -299,10 +340,52 @@ function App() {
       sendEvent('share_script', {
         script_name: displayScriptName,
         method: shareMethod,
+        had_id: !!params.get('id'),
       })
     } catch (err) {
       console.error('Failed to share link:', err)
     }
+  }
+
+  // Handler for loading saved scripts
+  const handleLoadSavedScript = (id: string) => {
+    const saved = getSavedScript(id)
+    if (!saved) {
+      console.error('Script not found:', id)
+      return
+    }
+
+    // Update URL with both script and id
+    const params = new URLSearchParams()
+    params.set('script', saved.encodedScript)
+    params.set('id', id)
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`
+    window.history.pushState({}, '', newUrl)
+
+    // Trigger load
+    loadFromUrlParams(resetModifications, getSavedScript)
+
+    sendEvent('load_saved_script', {
+      script_name: saved.name,
+      script_id: id,
+    })
+  }
+
+  // Handler for deleting saved scripts
+  const handleDeleteScript = (id: string) => {
+    deleteScript(id)
+
+    // If currently viewing this script, clear URL
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('id') === id) {
+      window.history.pushState({}, '', window.location.pathname)
+      loadFromUrlParams(resetModifications, getSavedScript)
+    }
+
+    sendEvent('delete_saved_script', {
+      script_id: id,
+    })
   }
 
   // ==================== RENDER ====================
@@ -343,7 +426,7 @@ function App() {
               existingRoleIds={existingRoleIds}
               printSections={printSections}
               scriptIsModified={scriptIsModified}
-              onCommit={handleCommitChanges}
+              onSave={handleSaveChanges}
               onRevert={handleRevertChanges}
               onNameChange={handleNameChange}
               onAuthorChange={handleAuthorChange}
@@ -360,8 +443,11 @@ function App() {
             <EmptyState
               sampleScripts={sampleScripts}
               carouselScripts={carouselScripts}
+              savedScripts={savedScripts}
               onLoadScript={handleJsonPaste}
               onLoadUrl={(url) => loadFromUrl(url, resetModifications)}
+              onLoadSavedScript={handleLoadSavedScript}
+              onDeleteScript={handleDeleteScript}
             />
           )}
 

@@ -22,26 +22,39 @@ interface UseScriptCommitProps {
   resetModifications: () => void
   /** Function to reload script from URL params */
   loadFromUrlParams: (resetCallback: () => void) => void
+  /** Current script ID if this is a saved script */
+  currentScriptId: string | null
+  /** Function to save script to localStorage */
+  saveScript: (
+    id: string | null,
+    scriptData: ScriptData,
+    name: string,
+    author: string,
+    encodedScript: string,
+  ) => string
+  /** Function to update current script ID */
+  setCurrentScriptId: (id: string | null) => void
 }
 
 /**
  * Return type for the useScriptCommit hook
  */
 interface UseScriptCommitReturn {
-  /** Handler to commit changes to the URL */
-  handleCommitChanges: () => Promise<void>
+  /** Handler to save changes to localStorage and URL */
+  handleSaveChanges: () => Promise<void>
   /** Handler to revert changes to original state */
   handleRevertChanges: () => void
 }
 
 /**
- * Custom hook for committing and reverting script changes.
- * Handles URL encoding, metadata updates, and modification tracking.
+ * Custom hook for saving and reverting script changes.
+ * Handles URL encoding, metadata updates, localStorage persistence, and modification tracking.
  *
- * When committing:
+ * When saving:
  * - Builds a complete script with updated metadata
  * - Compresses and encodes the script for URL
- * - Updates browser history without page reload
+ * - Saves to localStorage with UUID
+ * - Updates browser history with both script and id parameters
  * - Resets modification tracking
  *
  * When reverting:
@@ -49,10 +62,10 @@ interface UseScriptCommitReturn {
  * - Discards all uncommitted changes
  *
  * @param props - Configuration including script data and state management functions
- * @returns Object containing commit and revert handlers
+ * @returns Object containing save and revert handlers
  *
  * @example
- * const { handleCommitChanges, handleRevertChanges } = useScriptCommit({
+ * const { handleSaveChanges, handleRevertChanges } = useScriptCommit({
  *   scriptData,
  *   getMetaOverrides,
  *   setScriptData,
@@ -60,6 +73,9 @@ interface UseScriptCommitReturn {
  *   setCurrentScriptUrl,
  *   resetModifications,
  *   loadFromUrlParams,
+ *   currentScriptId,
+ *   saveScript,
+ *   setCurrentScriptId,
  * })
  */
 export function useScriptCommit({
@@ -70,12 +86,15 @@ export function useScriptCommit({
   setCurrentScriptUrl,
   resetModifications,
   loadFromUrlParams,
+  currentScriptId,
+  saveScript,
+  setCurrentScriptId,
 }: UseScriptCommitProps): UseScriptCommitReturn {
   /**
-   * Handler to commit changes to URL
-   * Encodes the script with metadata and updates the URL
+   * Handler to save changes to localStorage and URL
+   * Encodes the script with metadata, saves to localStorage, and updates the URL
    */
-  const handleCommitChanges = useCallback(async () => {
+  const handleSaveChanges = useCallback(async () => {
     if (!scriptData) return
 
     // Get current name/author from scriptData's _meta
@@ -121,32 +140,48 @@ export function useScriptCommit({
     const content = JSON.stringify(committed)
     const encoded = await compressForUrl(content)
 
+    // Save to localStorage and get/generate UUID
+    const scriptId = saveScript(
+      currentScriptId,
+      committed as ScriptData,
+      name,
+      author,
+      encoded,
+    )
+
+    // Update URL with both script and id parameters
     const params = new URLSearchParams()
     params.set('script', encoded)
+    params.set('id', scriptId)
 
-    // Update URL without reloading the page
     const newUrl = `${window.location.pathname}?${params.toString()}`
     window.history.pushState({}, '', newUrl)
 
     // Clear the script URL since we're now using encoded script
     setCurrentScriptUrl('')
 
+    // Update script ID if this was a new save
+    if (currentScriptId !== scriptId) {
+      setCurrentScriptId(scriptId)
+    }
+
     // Update local state to match committed script
     setScriptData(committed as ScriptData)
     setScriptName(name)
 
     /**
-     * Analytics: Track when users commit their script changes
-     * Purpose: Understand script finalization patterns and user confidence
-     * Key insights: Commit frequency, script complexity (role count), save behavior
+     * Analytics: Track when users save their script changes
+     * Purpose: Understand script save patterns and user behavior
+     * Key insights: Save frequency, script complexity (role count), new vs update saves
      */
-    sendEvent('commit_changes', {
+    sendEvent('save_script', {
       script_name: name,
-      role_count: committed.filter(item => {
+      role_count: committed.filter((item) => {
         const id = typeof item === 'string' ? item : item.id
         return id !== '_meta'
       }).length,
       has_author: !!author,
+      is_new: !currentScriptId,
     })
 
     // Reset modification tracking in the store
@@ -157,6 +192,9 @@ export function useScriptCommit({
     setScriptData,
     setScriptName,
     setCurrentScriptUrl,
+    currentScriptId,
+    saveScript,
+    setCurrentScriptId,
     resetModifications,
   ])
 
@@ -179,7 +217,7 @@ export function useScriptCommit({
   }, [loadFromUrlParams, resetModifications, scriptData])
 
   return {
-    handleCommitChanges,
+    handleSaveChanges,
     handleRevertChanges,
   }
 }
