@@ -64,6 +64,18 @@ export function RoleCard({
     return `https://wiki.bloodontheclocktower.com/${encodeURIComponent(formattedName)}`
   }
 
+  // Helper function to render ability text with bold brackets
+  const renderAbilityText = (text: string) => {
+    const parts = text.split(/(\[[^\]]+\])/g)
+    return parts.map((part, index) => {
+      if (part.match(/\[[^\]]+\]/)) {
+        // This is text in square brackets
+        return <strong key={index}>{part}</strong>
+      }
+      return part
+    })
+  }
+
   const roleImage = (
     <img
       src={getProxiedImageUrl(role.image)}
@@ -166,7 +178,7 @@ export function RoleCard({
         ) : (
           <Tooltip
             content={t('Open {{roleName}} official wiki', {
-              roleName: role.name,
+              roleName: getEnglishRoleName(role.id),
             })}
           >
             <a
@@ -272,7 +284,7 @@ export function RoleCard({
           size="2"
           style={{ lineHeight: 'inherit' }}
         >
-          {role.ability}
+          {renderAbilityText(role.ability)}
         </Text>
         {jinxes && jinxes.length > 0 && (
           <Box

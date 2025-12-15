@@ -103,7 +103,7 @@ export function ScriptContent({
   onReorderRoles,
   getAuthor,
 }: ScriptContentProps) {
-  const { t: tContent } = useTranslation('content')
+  const { t } = useTranslation()
 
   return (
     <Flex direction="column" gap="9">
@@ -165,7 +165,7 @@ export function ScriptContent({
         })}
         <Flex mt="4" justify="end">
           <Text size="2" color="gray">
-            {tContent('*Not the first night')}
+            {t('*Not the first night')}
           </Text>
         </Flex>
       </Flex>

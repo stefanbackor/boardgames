@@ -10,6 +10,13 @@ interface NightRoleItemProps {
 }
 
 export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
+  // Helper function to make uppercase parts bold
+  const formatReminder = (text: string) => {
+    // Match sequences of uppercase letters (2+ chars), optionally with spaces between uppercase words
+    // Using \p{Lu} to match any Unicode uppercase letter (including accented characters like Á, É, Ñ, etc.)
+    return text.replace(/\b\p{Lu}{2,}(?:\s+\p{Lu}{2,})*\b/gu, (match) => `<strong>${match}</strong>`)
+  }
+
   return (
     <Flex gap="3" justify="start" style={{ pageBreakInside: 'avoid' }}>
       {typeof image === 'string' ? (
@@ -30,7 +37,7 @@ export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
           <Text
             size="2"
             style={{ lineHeight: '1.33' }}
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(reminder) }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatReminder(reminder)) }}
           />
         )}
       </Flex>
