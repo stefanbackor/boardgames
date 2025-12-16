@@ -1,8 +1,5 @@
-import {
-  createMemoryRouter,
-  RouterProvider,
-} from '@remix-run/react/node_modules/react-router-dom'
 import { act, renderHook } from '@testing-library/react'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 
 import { IBTurnProcedure } from '~/constants/ironbot'
 

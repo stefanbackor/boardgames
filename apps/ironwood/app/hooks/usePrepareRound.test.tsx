@@ -1,9 +1,6 @@
-import {
-  createMemoryRouter,
-  RouterProvider,
-} from '@remix-run/react/node_modules/react-router-dom'
 import { renderHook } from '@testing-library/react'
 import { act } from 'react'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 
 import { Difficulty } from '~/constants/difficulty'
 import { loadDeck } from '~/utils/deck/loadDeck'

@@ -1,8 +1,5 @@
-import {
-  createMemoryRouter,
-  RouterProvider,
-} from '@remix-run/react/node_modules/react-router-dom'
 import { renderHook } from '@testing-library/react'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 
 import { useGameParams } from './useGameParams'
 

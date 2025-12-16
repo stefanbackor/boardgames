@@ -12,7 +12,7 @@
     "lint-staged:lint": "eslint --fix --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint",
     "lint-staged:format": "prettier --write --ignore-unknown",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
     "typecheck": "tsc",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
