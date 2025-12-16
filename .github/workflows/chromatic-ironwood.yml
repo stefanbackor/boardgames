@@ -1,6 +1,14 @@
 name: "Chromatic - Ironwood"
 
-on: push
+on:
+  push:
+    paths:
+      - "apps/ironwood/**"
+      - "packages/**"
+      - "turbo.json"
+      - "package.json"
+      - "yarn.lock"
+      - ".github/workflows/chromatic-ironwood.yml"
 
 jobs:
   chromatic:
