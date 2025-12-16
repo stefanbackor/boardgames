@@ -1,7 +1,4 @@
-import {
-  createMemoryRouter,
-  RouterProvider,
-} from '@remix-run/react/node_modules/react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import React from 'react'
 
 /**
