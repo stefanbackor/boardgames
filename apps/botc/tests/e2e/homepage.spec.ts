@@ -143,7 +143,7 @@ test.describe('Homepage', () => {
     await page.getByText('Čeština').click()
 
     // After language change, the "First Night" label should be translated
-    await expect(page.getByText('První noc')).toBeVisible()
+    await expect(page.getByText('První noc', { exact: true })).toBeVisible()
     await expect(page.getByText('First Night', { exact: true })).toHaveCount(0)
   })
 })
