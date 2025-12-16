@@ -76,6 +76,7 @@
   "Revert": "Vrátit",
   "Roles": "Role",
   "Save": "Uložit",
+  "Saved": "Uloženo",
   "Script from URL": "Skript z URL",
   "Script Tool": "Nástroj pro skripty",
   "Search characters...": "Hledat postavy...",
@@ -90,6 +91,5 @@
   "Unknown": "Neznámý",
   "Unknown error": "Neznámá chyba",
   "Upload a script JSON file": "Nahrát JSON soubor skriptu",
-  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže",
-  "Your Saved Scripts": "Vaše uložené skripty"
+  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže"
 }

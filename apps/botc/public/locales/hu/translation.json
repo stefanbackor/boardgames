@@ -76,6 +76,7 @@
   "Revert": "Visszaállítás",
   "Roles": "Szerepek",
   "Save": "Mentés",
+  "Saved": "Mentve",
   "Script from URL": "Szkript URL-ről",
   "Script Tool": "Szkript eszköz",
   "Search characters...": "Karakter keresése...",
@@ -90,6 +91,5 @@
   "Unknown": "Ismeretlen",
   "Unknown error": "Ismeretlen hiba",
   "Upload a script JSON file": "Szkript JSON fájl feltöltése",
-  "Upload a script json or pick one below to get started": "Tölts fel egy szkript JSON-t vagy válassz egyet az alábbi alap szkriptek közül",
-  "Your Saved Scripts": "Mentett szkriptjeid"
+  "Upload a script json or pick one below to get started": "Tölts fel egy szkript JSON-t vagy válassz egyet az alábbi alap szkriptek közül"
 }

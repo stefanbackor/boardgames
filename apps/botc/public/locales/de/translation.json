@@ -76,6 +76,7 @@
   "Revert": "Zurücksetzen",
   "Roles": "Rollen",
   "Save": "Speichern",
+  "Saved": "Gespeichert",
   "Script from URL": "Skript von URL",
   "Script Tool": "Skript-Werkzeug",
   "Search characters...": "Charaktere suchen...",
@@ -90,6 +91,5 @@
   "Unknown": "Unbekannt",
   "Unknown error": "Unbekannter Fehler",
   "Upload a script JSON file": "Eine Skript-JSON-Datei hochladen",
-  "Upload a script json or pick one below to get started": "Laden Sie eine Skript-JSON hoch oder wählen Sie unten eines der Basis-Skripte aus, um loszulegen",
-  "Your Saved Scripts": "Ihre gespeicherten Skripte"
+  "Upload a script json or pick one below to get started": "Laden Sie eine Skript-JSON hoch oder wählen Sie unten eines der Basis-Skripte aus, um loszulegen"
 }

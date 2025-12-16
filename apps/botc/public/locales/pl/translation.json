@@ -76,6 +76,7 @@
   "Revert": "Przywróć",
   "Roles": "Postacie",
   "Save": "Zapisz",
+  "Saved": "Zapisano",
   "Script from URL": "Skrypt z URL",
   "Script Tool": "Narzędzie skryptów",
   "Search characters...": "Szukaj postaci...",
@@ -90,6 +91,5 @@
   "Unknown": "Nieznany",
   "Unknown error": "Nieznany błąd",
   "Upload a script JSON file": "Prześlij plik JSON skryptu",
-  "Upload a script json or pick one below to get started": "Prześlij JSON skryptu lub wybierz jeden z podstawowych poniżej",
-  "Your Saved Scripts": "Twoje zapisane skrypty"
+  "Upload a script json or pick one below to get started": "Prześlij JSON skryptu lub wybierz jeden z podstawowych poniżej"
 }

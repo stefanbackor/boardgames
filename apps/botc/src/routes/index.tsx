@@ -165,17 +165,21 @@ function App() {
   }
 
   // Script modification handlers (from hook)
-  const { handleAddRole, handleRemoveRole, handleReplaceRole, handleReorderRoles } =
-    useScriptModification({
-      scriptData,
-      scriptRoles,
-      baseRoles,
-      addRole,
-      removeRole,
-      replaceRole,
-      reorderRoles,
-      setScriptData,
-    })
+  const {
+    handleAddRole,
+    handleRemoveRole,
+    handleReplaceRole,
+    handleReorderRoles,
+  } = useScriptModification({
+    scriptData,
+    scriptRoles,
+    baseRoles,
+    addRole,
+    removeRole,
+    replaceRole,
+    reorderRoles,
+    setScriptData,
+  })
 
   // Save/revert handlers (from hook)
   const { handleSaveChanges, handleRevertChanges } = useScriptCommit({
@@ -193,6 +197,9 @@ function App() {
 
   // Check if script is modified
   const scriptIsModified = isModified()
+
+  // Show save button if script is modified OR not saved yet (no script ID)
+  const showSaveButton = scriptIsModified || !currentScriptId
 
   // Handlers for meta changes with analytics
   const handleNameChange = (name: string) => {
@@ -388,6 +395,15 @@ function App() {
     })
   }
 
+  // Handler for deleting the current script
+  const handleDeleteCurrentScript = () => {
+    if (!currentScriptId) return
+
+    if (window.confirm('Are you sure you want to delete this script?')) {
+      handleDeleteScript(currentScriptId)
+    }
+  }
+
   // ==================== RENDER ====================
   return (
     <>
@@ -426,8 +442,11 @@ function App() {
               existingRoleIds={existingRoleIds}
               printSections={printSections}
               scriptIsModified={scriptIsModified}
+              showSave={showSaveButton}
+              isSaved={!!currentScriptId}
               onSave={handleSaveChanges}
               onRevert={handleRevertChanges}
+              onDelete={currentScriptId ? handleDeleteCurrentScript : undefined}
               onNameChange={handleNameChange}
               onAuthorChange={handleAuthorChange}
               onAddRole={handleAddRole}
@@ -447,7 +466,6 @@ function App() {
               onLoadScript={handleJsonPaste}
               onLoadUrl={(url) => loadFromUrl(url, resetModifications)}
               onLoadSavedScript={handleLoadSavedScript}
-              onDeleteScript={handleDeleteScript}
             />
           )}
 

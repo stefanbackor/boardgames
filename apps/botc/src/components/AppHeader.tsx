@@ -25,7 +25,7 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
         backgroundRepeat: 'repeat',
         backgroundSize: '100px',
         zIndex: 1000,
-        color: 'white',
+        color: '#f1ead8',
       }}
     >
       <Flex gap="4" align="baseline">
@@ -35,7 +35,6 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
           style={{
             fontFamily: "'LHF Unlovable', serif",
             fontWeight: 'normal',
-            color: 'white',
             wordSpacing: '-10px',
             textDecoration: 'none',
           }}

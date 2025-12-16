@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { Flex, Text, Button, Link, Tooltip, IconButton } from '@radix-ui/themes'
+import { Flex, Text, Button, Link, Tooltip, Separator } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
-import { Trash2 } from 'lucide-react'
 import { getScriptMeta, parseScript } from '@/utils/parseScript'
 import { getImageScale, getProxiedImageUrl } from '@/utils/imageUrl'
 import type { CarouselScript } from '@/hooks/useCarouselScripts'
 import type { SavedScript } from '@/types'
-import { formatRelativeTime } from '@/utils/formatRelativeTime'
 import { useLanguage } from '@/hooks/useLanguage'
 import { useTranslatedRoles } from '@/hooks/useTranslatedRoles'
 
@@ -34,8 +32,6 @@ interface EmptyStateProps {
   onLoadUrl: (url: string) => void
   /** Handler for loading a saved script by ID */
   onLoadSavedScript: (id: string) => void
-  /** Handler for deleting a saved script */
-  onDeleteScript: (id: string) => void
 }
 
 /**
@@ -57,19 +53,11 @@ export function EmptyState({
   onLoadScript,
   onLoadUrl,
   onLoadSavedScript,
-  onDeleteScript,
 }: EmptyStateProps) {
   const { t } = useTranslation()
   const { language } = useLanguage()
   const roles = useTranslatedRoles(language)
   const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
-
-  const handleDelete = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation() // Prevent loading the script
-    if (window.confirm(t('Are you sure you want to delete this script?'))) {
-      onDeleteScript(id)
-    }
-  }
 
   // Helper to extract demon images from a saved script
   const getDemonImages = (script: SavedScript): string[] => {
@@ -80,74 +68,79 @@ export function EmptyState({
     return demons.map((demon) => demon.image).filter(Boolean)
   }
 
+  // Helper to generate tooltip content with script details
+  const getTooltipContent = (script: SavedScript): string => {
+    const parsed = parseScript(script.scriptData, roles)
+    const meta = parsed.meta
+
+    // Count roles by team
+    const townsfolkCount = parsed.roles.filter(
+      (role) => String(role.team).toLowerCase() === 'townsfolk',
+    ).length
+    const outsidersCount = parsed.roles.filter(
+      (role) => String(role.team).toLowerCase() === 'outsider',
+    ).length
+    const minionsCount = parsed.roles.filter(
+      (role) => String(role.team).toLowerCase() === 'minion',
+    ).length
+    const demonsCount = parsed.roles.filter(
+      (role) => String(role.team).toLowerCase() === 'demon',
+    ).length
+
+    const author = meta?.author || t('Unknown')
+    return `${script.name} by ${author}; ${townsfolkCount} townsfolk, ${outsidersCount} outsiders, ${minionsCount} minions, ${demonsCount} demons`
+  }
+
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      gap="4"
-      style={{ minHeight: '300px' }}
-    >
+    <Flex direction="column" align="center" justify="center" gap="4">
       {/* Saved Scripts Section */}
       {savedScripts.length > 0 && (
-        <Flex direction="column" gap="3" width="100%" align="center">
-          <Text size="4" weight="bold">
-            {t('Your Saved Scripts')}
-          </Text>
-          <Flex gap="3" wrap="wrap" justify="center">
-            {savedScripts.map((script) => {
-              const demonImages = getDemonImages(script)
-              return (
-                <Flex key={script.id} direction="row" gap="2" align="center">
-                  <Tooltip
-                    content={formatRelativeTime(script.lastModified, language)}
-                  >
-                    <Button
-                      color="crimson"
-                      onClick={() => onLoadSavedScript(script.id)}
-                    >
-                      <Flex direction="row" gap="1" align="center">
-                        {/* Demon icons */}
-                        {demonImages.slice(0, 4).map((image, index) => (
-                          <img
-                            key={index}
-                            src={getProxiedImageUrl(image)}
-                            alt=""
-                            style={{
-                              width: '16px',
-                              height: '16px',
-                              aspectRatio: '1/1',
-                              borderRadius: '50%',
-                              backgroundColor:
-                                'color-mix(in srgb, var(--color-background) 80%, transparent)',
-                              objectFit: 'cover',
-                              transform: `scale(${getImageScale(image)})`,
-                            }}
-                          />
-                        ))}
+        <>
+          <Flex direction="column" gap="3" width="100%" align="center">
+            <Flex gap="2" wrap="wrap" justify="center">
+              {savedScripts.map((script) => {
+                const demonImages = getDemonImages(script)
+                return (
+                  <Flex key={script.id} direction="row" gap="2" align="center">
+                    <Tooltip content={getTooltipContent(script)}>
+                      <Button
+                        color="crimson"
+                        onClick={() => onLoadSavedScript(script.id)}
+                      >
+                        <Flex direction="row" gap="2" align="center">
+                          {demonImages.length > 0 && (
+                            <Flex direction="row" gap="0" align="center">
+                              {demonImages.map((image, index) => (
+                                <img
+                                  key={index}
+                                  src={getProxiedImageUrl(image)}
+                                  alt=""
+                                  style={{
+                                    width: '16px',
+                                    height: '16px',
+                                    aspectRatio: '1/1',
+                                    borderRadius: '50%',
+                                    backgroundColor:
+                                      'color-mix(in srgb, var(--color-background) 80%, transparent)',
+                                    objectFit: 'cover',
+                                    transform: `scale(${getImageScale(image)})`,
+                                  }}
+                                />
+                              ))}
+                            </Flex>
+                          )}
 
-                        <Text>{script.name}</Text>
-                      </Flex>
-                    </Button>
-                  </Tooltip>
-
-                  {/* Delete button */}
-                  <Tooltip content={t('Delete')}>
-                    <IconButton
-                      size="1"
-                      variant="ghost"
-                      color="red"
-                      onClick={(e) => handleDelete(e, script.id)}
-                      style={{ flexShrink: 0 }}
-                    >
-                      <Trash2 size={14} />
-                    </IconButton>
-                  </Tooltip>
-                </Flex>
-              )
-            })}
+                          <Text>{script.name}</Text>
+                        </Flex>
+                      </Button>
+                    </Tooltip>
+                  </Flex>
+                )
+              })}
+            </Flex>
           </Flex>
-        </Flex>
+          <Separator size="4" />
+        </>
       )}
 
       <Text size="5" color="gray" align="center">

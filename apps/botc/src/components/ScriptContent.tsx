@@ -39,10 +39,16 @@ interface ScriptContentProps {
   printSections: PrintSections
   /** Whether the script has been modified */
   scriptIsModified: boolean
+  /** Whether to show the save button (script modified or not saved yet) */
+  showSave?: boolean
+  /** Whether the script is saved (has an ID) */
+  isSaved?: boolean
   /** Handler to save changes */
   onSave: () => void
   /** Handler to revert changes */
   onRevert: () => void
+  /** Handler to delete script */
+  onDelete?: () => void
   /** Handler when script name changes */
   onNameChange: (name: string) => void
   /** Handler when author changes */
@@ -93,8 +99,11 @@ export function ScriptContent({
   existingRoleIds,
   printSections,
   scriptIsModified,
+  showSave,
+  isSaved,
   onSave,
   onRevert,
+  onDelete,
   onNameChange,
   onAuthorChange,
   onAddRole,
@@ -117,8 +126,11 @@ export function ScriptContent({
             name={displayScriptName}
             author={getAuthor() || meta?.author || ''}
             isModified={scriptIsModified}
+            showSave={showSave}
+            isSaved={isSaved}
             onSave={onSave}
             onRevert={onRevert}
+            onDelete={onDelete}
             onNameChange={onNameChange}
             onAuthorChange={onAuthorChange}
           />

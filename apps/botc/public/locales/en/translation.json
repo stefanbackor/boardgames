@@ -76,6 +76,7 @@
   "Revert": "Revert",
   "Roles": "Roles",
   "Save": "Save",
+  "Saved": "Saved",
   "Script from URL": "Script from URL",
   "Script Tool": "Script Tool",
   "Search characters...": "Search characters...",
@@ -90,6 +91,5 @@
   "Unknown": "Unknown",
   "Unknown error": "Unknown error",
   "Upload a script JSON file": "Upload a script JSON file",
-  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started",
-  "Your Saved Scripts": "Your Saved Scripts"
+  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started"
 }

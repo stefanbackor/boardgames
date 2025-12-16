@@ -1,13 +1,17 @@
-import { useRef } from 'react'
-import { Flex, Heading, Text, Button, Tooltip } from '@radix-ui/themes'
+import { useRef, useEffect } from 'react'
+import { Flex, Heading, Text, Button, Tooltip, Badge, IconButton } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
+import { Trash2 } from 'lucide-react'
 
 interface Props {
   name: string
   author: string
   isModified?: boolean
+  showSave?: boolean
+  isSaved?: boolean
   onSave?: () => void
   onRevert?: () => void
+  onDelete?: () => void
   onNameChange?: (name: string) => void
   onAuthorChange?: (author: string) => void
 }
@@ -16,14 +20,38 @@ export function Header({
   name,
   author,
   isModified,
+  showSave,
+  isSaved,
   onSave,
   onRevert,
+  onDelete,
   onNameChange,
   onAuthorChange,
 }: Props) {
   const { t } = useTranslation()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const authorRef = useRef<HTMLSpanElement>(null)
+
+  // Sync external name changes to the contentEditable element
+  useEffect(() => {
+    if (headingRef.current && headingRef.current.textContent !== name) {
+      // Only update if the user is not currently editing
+      if (document.activeElement !== headingRef.current) {
+        headingRef.current.textContent = name
+      }
+    }
+  }, [name])
+
+  // Sync external author changes to the contentEditable element
+  useEffect(() => {
+    const displayAuthor = author || t('Unknown')
+    if (authorRef.current && authorRef.current.textContent !== displayAuthor) {
+      // Only update if the user is not currently editing
+      if (document.activeElement !== authorRef.current) {
+        authorRef.current.textContent = displayAuthor
+      }
+    }
+  }, [author, t])
 
   const handleNameInput = () => {
     if (!onNameChange || !headingRef.current) return
@@ -85,60 +113,71 @@ export function Header({
   }
 
   return (
-    <Flex direction="row" justify="start" align="baseline" gap="2">
-      <Tooltip content={onNameChange ? t('Click to edit') : undefined}>
-        <Heading
-          ref={headingRef}
-          size="7"
-          contentEditable={!!onNameChange}
-          suppressContentEditableWarning
-          onInput={handleNameInput}
-          onBlur={handleNameBlur}
-          onKeyDown={handleNameKeyDown}
-          style={{
-            cursor: onNameChange ? 'text' : 'default',
-            outline: 'none',
-          }}
-        >
-          {name}
-        </Heading>
-      </Tooltip>
-      <Text size="3" color="gray">
-        {t('by')}{' '}
-        <Tooltip content={onAuthorChange ? t('Click to edit') : undefined}>
-          <span
-            ref={authorRef}
-            contentEditable={!!onAuthorChange}
-            suppressContentEditableWarning
-            onInput={handleAuthorInput}
-            onBlur={handleAuthorBlur}
-            onKeyDown={handleAuthorKeyDown}
-            style={{
-              cursor: onAuthorChange ? 'text' : 'default',
-              outline: 'none',
-            }}
-          >
-            {author || t('Unknown')}
-          </span>
-        </Tooltip>
-      </Text>
-      {isModified && (
-        <Flex gap="2" align="center" className="no-print">
-          <Text size="2" color="orange">
-            {t('Changes made')}
-          </Text>
-          {onSave && (
-            <Button size="1" variant="soft" color="green" onClick={onSave}>
+    <Flex direction="column" gap="2">
+      {/* Top row: Editing section with Delete button */}
+      {(isModified || showSave || isSaved || onDelete) && (
+        <Flex justify="end" align="center" gap="2" className="no-print">
+          {isModified && <Badge color="orange">{t('Changes made')}</Badge>}
+          {isSaved && !isModified && <Badge color="green">{t('Saved')}</Badge>}
+          {onSave && showSave && (
+            <Button size="1" color="green" onClick={onSave}>
               {t('Save')}
             </Button>
           )}
-          {onRevert && (
-            <Button size="1" variant="soft" color="gray" onClick={onRevert}>
+          {onRevert && isModified && (
+            <Button size="1" color="gray" onClick={onRevert}>
               {t('Revert')}
             </Button>
           )}
+          {onDelete && (
+            <Tooltip content={t('Delete')}>
+              <IconButton size="1" color="red" variant="soft" onClick={onDelete}>
+                <Trash2 size={14} />
+              </IconButton>
+            </Tooltip>
+          )}
         </Flex>
       )}
+
+      {/* Bottom row: Script name and author */}
+      <Flex direction="row" justify="start" align="baseline" gap="2">
+        <Tooltip content={onNameChange ? t('Click to edit') : undefined}>
+          <Heading
+            ref={headingRef}
+            size="7"
+            contentEditable={!!onNameChange}
+            suppressContentEditableWarning
+            onInput={handleNameInput}
+            onBlur={handleNameBlur}
+            onKeyDown={handleNameKeyDown}
+            style={{
+              cursor: onNameChange ? 'text' : 'default',
+              outline: 'none',
+            }}
+          >
+            {!onNameChange && name}
+          </Heading>
+        </Tooltip>
+        <Text size="3" color="gray">
+          {t('by')}{' '}
+          <Tooltip content={onAuthorChange ? t('Click to edit') : undefined}>
+            <span
+              ref={authorRef}
+              contentEditable={!!onAuthorChange}
+              suppressContentEditableWarning
+              onInput={handleAuthorInput}
+              onBlur={handleAuthorBlur}
+              onKeyDown={handleAuthorKeyDown}
+              style={{
+                cursor: onAuthorChange ? 'text' : 'default',
+                outline: 'none',
+              }}
+            >
+              {!onAuthorChange && (author || t('Unknown'))}
+            </span>
+          </Tooltip>
+        </Text>
+      </Flex>
     </Flex>
   )
 }
