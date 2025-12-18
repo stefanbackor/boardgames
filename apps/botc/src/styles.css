@@ -53,6 +53,13 @@ body {
     display: none !important;
   }
 
+  /* Hide all tooltips when printing */
+  .rt-Tooltip,
+  [role="tooltip"],
+  [data-radix-popper-content-wrapper] {
+    display: none !important;
+  }
+
   /* Hide print sections when not selected */
   .print-hide-roles,
   .print-hide-tables,
