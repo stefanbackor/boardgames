@@ -1,5 +1,11 @@
 import { Flex, Heading, Text, IconButton, Box, Tooltip } from '@radix-ui/themes'
-import { ExternalLink, GripVertical, ReplaceIcon, Trash } from 'lucide-react'
+import {
+  ExternalLink,
+  GripVertical,
+  Lock,
+  ReplaceIcon,
+  Trash,
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -264,15 +270,34 @@ export function RoleCard({
             </>
           )}
 
-          {!role.isCustom && role.edition && role.edition.trim() !== '' && (
-            <Box
-              display="inline-block"
-              ml="1"
-              className="role-card-edition no-print"
-            >
+          <Box
+            display="inline-block"
+            ml="1"
+            className="role-card-edition no-print"
+          >
+            {role.isCustom && (
+              <Tooltip content={t('Custom role. Translation not available.')}>
+                <Text
+                  size="1"
+                  color="gray"
+                  style={{
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  <Lock size={10} />
+                </Text>
+              </Tooltip>
+            )}
+            {!role.isCustom && (
               <Tooltip
                 content={t('Character edition: {{edition}}', {
-                  edition: t(role.edition, { ns: 'content' }),
+                  edition: role.edition
+                    ? {
+                        tb: t('Trouble Brewing', { ns: 'content' }),
+                        snv: t('Sects and Violets', { ns: 'content' }),
+                        bmr: t('Bad Moon Rising', { ns: 'content' }),
+                      }[role.edition]
+                    : t('Carousel', { ns: 'content' }),
                 })}
               >
                 <Text
@@ -280,11 +305,12 @@ export function RoleCard({
                   color="gray"
                   style={{ textTransform: 'uppercase' }}
                 >
-                  {role.edition}
+                  {role.edition || 'CRSL'}
                 </Text>
               </Tooltip>
-            </Box>
-          )}
+            )}
+          </Box>
+
           <br className="role-card-ability-break" />
           <Text
             className="role-card-ability"
