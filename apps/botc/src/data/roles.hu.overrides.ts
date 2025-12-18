@@ -528,6 +528,111 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
       'Éjjelente* választhatsz egy játékost: meghal. Ha előző éjjel senkit sem választottál, ezen az éjjelen három játékost válassz.',
     reminders: ['3 támadás', 'Halott'],
   },
+  // === FABLED ROLES ===
+  angel: {
+    name: 'Angyal',
+    ability:
+      'Valami rossz történhet azzal, aki a leginkább felelős egy új játékos haláláért.',
+    reminders: ['Védeni', 'Valami rossz'],
+  },
+  buddhist: {
+    name: 'Buddhista',
+    ability: 'Minden nap első 2 percében a tapasztalt játékosok nem beszélhetnek.',
+  },
+  deusexfiasco: {
+    name: 'Deus ex Fiasco',
+    ability:
+      'Legalább egyszer játékonként a Mesélő hibázik, kijavítja, és nyilvánosan beismeri.',
+  },
+  djinn: {
+    name: 'Dzsinn',
+    ability: 'Használd a Dzsinn speciális szabályát. Minden játékos tudja, mi az.',
+  },
+  doomsayer: {
+    name: 'Végítélet próféta',
+    ability:
+      'Ha 4 vagy több játékos él, minden élő játékos nyilvánosan dönthet (játékonként egyszer), hogy egy azonos csapathoz tartozó játékos meghal.',
+  },
+  duchess: {
+    name: 'Hercegnő',
+    ability:
+      'Minden nap 3 játékos dönthet úgy, hogy meglátogat téged. Éjjel* minden látogató megtudja, hány látogató gonosz, de 1 hamis információt kap.',
+    reminders: ['Látogató', 'Hamis információ'],
+    otherNightReminder:
+      'Ébreszd fel minden „Látogató" vagy „Hamis információ" jelzéssel ellátott játékost egyenként. Mutasd nekik a Hercegnő tokent, majd ujjakat (1, 2, 3) a „Látogató" jelzéssel ellátott gonosz játékosok számának megfelelően, vagy ha a „Hamis információ" jelzéssel ellátott játékost ébreszted, mutass bármennyi ujjat a „Látogató" jelzéssel ellátott gonosz játékosok száma kivételével.',
+  },
+  ferryman: {
+    name: 'Révész',
+    ability: 'Az utolsó napon minden halott játékos visszakapja a szavazati tokenét.',
+  },
+  fibbin: {
+    name: 'Hazug',
+    ability: 'Játékonként egyszer 1 jó játékos hamis információt kaphat.',
+    reminders: ['Használt'],
+  },
+  fiddler: {
+    name: 'Hegedűs',
+    ability:
+      'Játékonként egyszer a Démon titokban választ egy ellenfelet: minden játékos választja ki, hogy e 2 játékos közül melyik nyer.',
+  },
+  hellslibrarian: {
+    name: 'Pokol könyvtárosa',
+    ability:
+      'Valami rossz történhet azzal, aki beszél, amikor a Mesélő csendet kért.',
+    reminders: ['Valami rossz'],
+  },
+  revolutionary: {
+    name: 'Forradalmár',
+    ability:
+      '2 szomszédos játékos ismerten azonos csapathoz tartozik. Játékonként egyszer egyikük hamisan regisztrálhat.',
+    reminders: ['Használt'],
+  },
+  sentinel: {
+    name: 'Őr',
+    ability: 'Lehet 1-gyel több vagy kevesebb Kívülálló a játékban.',
+  },
+  spiritofivory: {
+    name: 'Elefántcsont szelleme',
+    ability: 'Nem lehet több mint 1 extra gonosz játékos.',
+    reminders: ['Nincs extra gonosz'],
+  },
+  toymaker: {
+    name: 'Játékkészítő',
+    ability:
+      'A Démon dönthet úgy, hogy nem támad, és ezt legalább egyszer meg kell tennie játékonként. A gonosz játékosok normál kezdő információt kapnak.',
+    reminders: ['Utolsó éjjel: Nincs támadás'],
+    otherNightReminder:
+      'Ha ez az az éjjel, amikor a Démon támadása véget vethet a játéknak, és a Démon „Utolsó éjjel: Nincs támadás" jelzéssel van ellátva, akkor a Démon ezen az éjjelen nem cselekszik. (Ne ébreszd fel.)',
+  },
+  // === LORIC ROLES ===
+  bootlegger: {
+    name: 'Csempész',
+    ability: 'Ez a forgatókönyv homebrew karaktereket vagy szabályokat tartalmaz.',
+    flavor:
+      "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
+  },
+  gardener: {
+    name: 'Kertész',
+    ability: 'A Mesélő 1 vagy több játékos karakterét kijelöli.',
+    flavor:
+      "Oh now, this won't do. We've got the monkshood mixed in with the wolfsbane and the hemlock is smothering the hellebore! Oh dear me, we'd better start over. Fetch my shears.",
+  },
+  stormcatcher: {
+    name: 'Viharfogó',
+    ability:
+      'Nevezz meg egy jó karaktert. Ha játékban van, csak kivégzéssel halhat meg, de a gonosz játékosok megtudják, melyik játékos az.',
+    firstNightReminder:
+      'Az éjjel elején hirdesd ki, melyik karakter van viharba zárva. Ha játékban van, jelöld meg ezt a játékost VIHARBA ZÁRVA-ként. Ébreszd fel minden gonosz játékost és mutasd meg nekik a karakter tokent, majd a megjelölt játékost. Ha nincs játékban, ébreszd fel minden gonosz játékost, mutasd meg nekik a EZEK A KARAKTEREK NEM JÁTÉKBAN tokent és a megfelelő karakter tokent.',
+    flavor:
+      "At dawn, the temple's long shadow creeps to the fountain. At dusk, the obelisk blocks the red glare, cooling warm water under the archway. All lines converge here. A storm is coming, and this, this pebbled and lush and holy place between the apple trees, is the eye.",
+  },
+  zenomancer: {
+    name: 'Zenomancer',
+    ability:
+      'Egy vagy több játékosnak külön-külön célja van. Ha elérte, az a játékos megtud egy igaz információt.',
+    flavor:
+      'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+  },
 }
 
 export default roleTranslationsHu

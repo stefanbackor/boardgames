@@ -257,3 +257,33 @@ body {
 
   .night-script-label-text {}
 }
+
+/* Editable heading placeholder support */
+.editable-heading:empty:before {
+  content: attr(data-placeholder);
+  color: var(--gray-a9);
+  pointer-events: none;
+}
+
+.editable-heading {
+  border-bottom: 1px solid transparent;
+}
+
+.editable-heading:empty {
+  border-bottom: 1px dashed var(--gray-a9);
+}
+
+/* Editable author placeholder support */
+.editable-author:empty:before {
+  content: attr(data-placeholder);
+  color: var(--gray-a9);
+  pointer-events: none;
+}
+
+.editable-author {
+  border-bottom: 1px solid transparent;
+}
+
+.editable-author:empty {
+  border-bottom: 1px dashed var(--gray-a9);
+}

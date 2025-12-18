@@ -68,29 +68,6 @@ export function EmptyState({
     return demons.map((demon) => demon.image).filter(Boolean)
   }
 
-  // Helper to generate tooltip content with script details
-  const getTooltipContent = (script: SavedScript): string => {
-    const parsed = parseScript(script.scriptData, roles)
-    const meta = parsed.meta
-
-    // Count roles by team
-    const townsfolkCount = parsed.roles.filter(
-      (role) => String(role.team).toLowerCase() === 'townsfolk',
-    ).length
-    const outsidersCount = parsed.roles.filter(
-      (role) => String(role.team).toLowerCase() === 'outsider',
-    ).length
-    const minionsCount = parsed.roles.filter(
-      (role) => String(role.team).toLowerCase() === 'minion',
-    ).length
-    const demonsCount = parsed.roles.filter(
-      (role) => String(role.team).toLowerCase() === 'demon',
-    ).length
-
-    const author = meta?.author || t('Unknown')
-    return `${script.name} by ${author}; ${townsfolkCount} townsfolk, ${outsidersCount} outsiders, ${minionsCount} minions, ${demonsCount} demons`
-  }
-
   return (
     <Flex direction="column" align="center" justify="center" gap="4">
       {/* Saved Scripts Section */}
@@ -102,38 +79,36 @@ export function EmptyState({
                 const demonImages = getDemonImages(script)
                 return (
                   <Flex key={script.id} direction="row" gap="2" align="center">
-                    <Tooltip content={getTooltipContent(script)}>
-                      <Button
-                        color="crimson"
-                        onClick={() => onLoadSavedScript(script.id)}
-                      >
-                        <Flex direction="row" gap="2" align="center">
-                          {demonImages.length > 0 && (
-                            <Flex direction="row" gap="0" align="center">
-                              {demonImages.map((image, index) => (
-                                <img
-                                  key={index}
-                                  src={getProxiedImageUrl(image)}
-                                  alt=""
-                                  style={{
-                                    width: '16px',
-                                    height: '16px',
-                                    aspectRatio: '1/1',
-                                    borderRadius: '50%',
-                                    backgroundColor:
-                                      'color-mix(in srgb, var(--color-background) 80%, transparent)',
-                                    objectFit: 'cover',
-                                    transform: `scale(${getImageScale(image)})`,
-                                  }}
-                                />
-                              ))}
-                            </Flex>
-                          )}
+                    <Button
+                      variant="soft"
+                      onClick={() => onLoadSavedScript(script.id)}
+                    >
+                      <Flex direction="row" gap="2" align="center">
+                        {demonImages.length > 0 && (
+                          <Flex direction="row" gap="0" align="center">
+                            {demonImages.map((image, index) => (
+                              <img
+                                key={index}
+                                src={getProxiedImageUrl(image)}
+                                alt=""
+                                style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  aspectRatio: '1/1',
+                                  borderRadius: '50%',
+                                  backgroundColor:
+                                    'color-mix(in srgb, var(--color-background) 80%, transparent)',
+                                  objectFit: 'cover',
+                                  transform: `scale(${getImageScale(image)})`,
+                                }}
+                              />
+                            ))}
+                          </Flex>
+                        )}
 
-                          <Text>{script.name}</Text>
-                        </Flex>
-                      </Button>
-                    </Tooltip>
+                        <Text>{script.name}</Text>
+                      </Flex>
+                    </Button>
                   </Flex>
                 )
               })}
@@ -143,7 +118,12 @@ export function EmptyState({
         </>
       )}
 
-      <Text size="5" color="gray" align="center">
+      <Text
+        size="5"
+        color="gray"
+        align="center"
+        style={{ fontFamily: 'var(--heading-font-family)' }}
+      >
         {t('Upload a script json or pick one below to get started')}
       </Text>
 
@@ -187,7 +167,11 @@ export function EmptyState({
         </Flex>
       )}
 
-      <Text size="2" color="gray">
+      <Text
+        size="2"
+        color="gray"
+        style={{ fontFamily: 'var(--heading-font-family)' }}
+      >
         <Trans>
           Find more scripts on{' '}
           <Link target="_blank" href="https://www.botcscripts.com">

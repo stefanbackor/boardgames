@@ -97,7 +97,7 @@ export function RoleCard({
       ref={setNodeRef}
       style={{ ...style, position: 'relative' }}
       gap="3"
-      align="center"
+      align="start"
       className="role-card break-inside-avoid print:break-inside-avoid-page"
     >
       {(onRemove || onSearch || isDraggable) && (

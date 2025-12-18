@@ -24,6 +24,7 @@ import { useScriptCommit } from '@/hooks/useScriptCommit'
 import { useScriptModificationStore } from '@/stores/scriptModificationStore'
 import { useSavedScriptsStore } from '@/stores/savedScriptsStore'
 import { sendEvent } from '@/utils/analytics'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/')({ component: App })
 
@@ -31,6 +32,7 @@ function App() {
   // ==================== HOOKS & STATE ====================
   // Translation/i18n hooks
   const { language, changeLanguage } = useLanguage()
+  const { t } = useTranslation()
 
   // Script data hooks
   const {
@@ -291,6 +293,21 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [loadFromUrlParams, getSavedScript])
 
+  // Ensure displayScriptName is stored when loading a script with empty name
+  // This ensures the fallback filename will be saved instead of empty string
+  useEffect(() => {
+    if (!scriptData) return
+
+    const currentName = getName()
+    const metaName = meta?.name
+
+    // If the original meta name is empty but we're displaying a fallback (scriptName)
+    // and there's no override yet, set the fallback as the actual name
+    if (!metaName && !currentName && displayScriptName) {
+      setName(displayScriptName)
+    }
+  }, [scriptData, meta, displayScriptName, getName, setName])
+
   // ==================== META TAGS ====================
   // Generate dynamic meta description for social media sharing
   const metaDescription = generateMetaDescription(scriptData, scriptRoles)
@@ -399,7 +416,7 @@ function App() {
   const handleDeleteCurrentScript = () => {
     if (!currentScriptId) return
 
-    if (window.confirm('Are you sure you want to delete this script?')) {
+    if (window.confirm(t('Are you sure you want to delete this script?'))) {
       handleDeleteScript(currentScriptId)
     }
   }

@@ -1,4 +1,4 @@
-import { Button, DropdownMenu } from '@radix-ui/themes'
+import { Button, DropdownMenu, Tooltip } from '@radix-ui/themes'
 import { Printer, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
@@ -30,13 +30,15 @@ export function PrintDropdown({ onPrint, hasScript }: PrintDropdownProps) {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger disabled={!hasScript}>
-        <Button variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
-          <Printer size={16} />
-          {t('Print')}
-          <ChevronDown size={16} />
-        </Button>
-      </DropdownMenu.Trigger>
+      <Tooltip content={t('Choose a page to print')}>
+        <DropdownMenu.Trigger disabled={!hasScript}>
+          <Button variant={hasScript ? 'solid' : 'soft'} disabled={!hasScript}>
+            <Printer size={16} />
+            {t('Print')}
+            <ChevronDown size={16} />
+          </Button>
+        </DropdownMenu.Trigger>
+      </Tooltip>
       <DropdownMenu.Content className="no-print">
         <DropdownMenu.Item onSelect={() => handlePrintSection('roles')}>
           {t('Roles')}

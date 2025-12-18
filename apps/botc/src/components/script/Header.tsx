@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
-import { Flex, Heading, Text, Button, Tooltip, Badge, IconButton } from '@radix-ui/themes'
+import { Flex, Heading, Text, Button, Tooltip, Badge } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
-import { Trash2 } from 'lucide-react'
+import { Check, Trash2 } from 'lucide-react'
 
 interface Props {
   name: string
@@ -44,7 +44,7 @@ export function Header({
 
   // Sync external author changes to the contentEditable element
   useEffect(() => {
-    const displayAuthor = author || t('Unknown')
+    const displayAuthor = author
     if (authorRef.current && authorRef.current.textContent !== displayAuthor) {
       // Only update if the user is not currently editing
       if (document.activeElement !== authorRef.current) {
@@ -56,7 +56,14 @@ export function Header({
   const handleNameInput = () => {
     if (!onNameChange || !headingRef.current) return
 
-    const newName = headingRef.current.textContent?.trim() || ''
+    // Remove any <br> elements that browsers insert when content is empty
+    const brElements = headingRef.current.querySelectorAll('br')
+    brElements.forEach((br) => br.remove())
+
+    // Remove any line breaks from the content
+    let newName = headingRef.current.textContent || ''
+    newName = newName.replace(/[\r\n]+/g, ' ').trim()
+
     if (newName !== name) {
       onNameChange(newName)
     }
@@ -65,11 +72,14 @@ export function Header({
   const handleNameBlur = () => {
     if (!onNameChange || !headingRef.current) return
 
+    // Remove any <br> elements that browsers insert when content is empty
+    const brElements = headingRef.current.querySelectorAll('br')
+    brElements.forEach((br) => br.remove())
+
     const newName = headingRef.current.textContent?.trim() || ''
-    if (!newName) {
-      // Reset to original if empty
-      headingRef.current.textContent = name
-      onNameChange(name)
+    // Always call onNameChange with the current value, even if empty
+    if (newName !== name) {
+      onNameChange(newName)
     }
   }
 
@@ -86,17 +96,42 @@ export function Header({
     }
   }
 
+  const handleNamePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData('text/plain')
+    // Remove line breaks and insert as plain text
+    const cleanText = text.replace(/[\r\n]+/g, ' ')
+    document.execCommand('insertText', false, cleanText)
+  }
+
   const handleAuthorInput = () => {
     if (!onAuthorChange || !authorRef.current) return
 
-    const newAuthor = authorRef.current.textContent?.trim() || ''
+    // Remove any <br> elements that browsers insert when content is empty
+    const brElements = authorRef.current.querySelectorAll('br')
+    brElements.forEach((br) => br.remove())
+
+    // Remove any line breaks from the content
+    let newAuthor = authorRef.current.textContent || ''
+    newAuthor = newAuthor.replace(/[\r\n]+/g, ' ').trim()
+
     if (newAuthor !== author) {
       onAuthorChange(newAuthor)
     }
   }
 
   const handleAuthorBlur = () => {
-    // No need to do anything on blur, input handler already updated the value
+    if (!onAuthorChange || !authorRef.current) return
+
+    // Remove any <br> elements that browsers insert when content is empty
+    const brElements = authorRef.current.querySelectorAll('br')
+    brElements.forEach((br) => br.remove())
+
+    const newAuthor = authorRef.current.textContent?.trim() || ''
+    // Always call onAuthorChange with the current value, even if empty
+    if (newAuthor !== author) {
+      onAuthorChange(newAuthor)
+    }
   }
 
   const handleAuthorKeyDown = (e: React.KeyboardEvent) => {
@@ -105,11 +140,19 @@ export function Header({
       authorRef.current?.blur()
     } else if (e.key === 'Escape') {
       if (authorRef.current) {
-        authorRef.current.textContent = author || t('Unknown')
+        authorRef.current.textContent = author
         onAuthorChange?.(author || '')
         authorRef.current.blur()
       }
     }
+  }
+
+  const handleAuthorPaste = (e: React.ClipboardEvent) => {
+    e.preventDefault()
+    const text = e.clipboardData.getData('text/plain')
+    // Remove line breaks and insert as plain text
+    const cleanText = text.replace(/[\r\n]+/g, ' ')
+    document.execCommand('insertText', false, cleanText)
   }
 
   return (
@@ -118,7 +161,11 @@ export function Header({
       {(isModified || showSave || isSaved || onDelete) && (
         <Flex justify="end" align="center" gap="2" className="no-print">
           {isModified && <Badge color="orange">{t('Changes made')}</Badge>}
-          {isSaved && !isModified && <Badge color="green">{t('Saved')}</Badge>}
+          {isSaved && !isModified && (
+            <Badge color="gray" variant="soft">
+              <Check size={14} /> {t('Saved')}
+            </Badge>
+          )}
           {onSave && showSave && (
             <Button size="1" color="green" onClick={onSave}>
               {t('Save')}
@@ -131,9 +178,10 @@ export function Header({
           )}
           {onDelete && (
             <Tooltip content={t('Delete')}>
-              <IconButton size="1" color="red" variant="soft" onClick={onDelete}>
+              <Button size="1" color="red" onClick={onDelete}>
                 <Trash2 size={14} />
-              </IconButton>
+                {t('Delete')}
+              </Button>
             </Tooltip>
           )}
         </Flex>
@@ -150,33 +198,58 @@ export function Header({
             onInput={handleNameInput}
             onBlur={handleNameBlur}
             onKeyDown={handleNameKeyDown}
+            onPaste={handleNamePaste}
+            data-placeholder={onNameChange ? t('Add a name') : undefined}
             style={{
               cursor: onNameChange ? 'text' : 'default',
               outline: 'none',
+              minWidth: onNameChange ? '150px' : undefined,
+              display: 'inline-block',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
+            className={onNameChange ? 'editable-heading' : undefined}
           >
             {!onNameChange && name}
           </Heading>
         </Tooltip>
-        <Text size="3" color="gray">
-          {t('by')}{' '}
+        <Flex align="baseline" gap="1">
+          <Text
+            size="4"
+            color="gray"
+            style={{ fontFamily: 'var(--heading-font-family)' }}
+          >
+            {t('by')}{' '}
+          </Text>
           <Tooltip content={onAuthorChange ? t('Click to edit') : undefined}>
-            <span
+            <Text
+              size="4"
+              color="gray"
               ref={authorRef}
               contentEditable={!!onAuthorChange}
               suppressContentEditableWarning
               onInput={handleAuthorInput}
               onBlur={handleAuthorBlur}
               onKeyDown={handleAuthorKeyDown}
+              onPaste={handleAuthorPaste}
+              data-placeholder={onAuthorChange ? t('Add author') : undefined}
               style={{
                 cursor: onAuthorChange ? 'text' : 'default',
                 outline: 'none',
+                whiteSpace: 'nowrap',
+                minWidth: onAuthorChange ? '100px' : undefined,
+                display: 'inline-block',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                fontFamily: 'var(--heading-font-family)',
               }}
+              className={onAuthorChange ? 'editable-author' : undefined}
             >
-              {!onAuthorChange && (author || t('Unknown'))}
-            </span>
+              {!onAuthorChange && author}
+            </Text>
           </Tooltip>
-        </Text>
+        </Flex>
       </Flex>
     </Flex>
   )

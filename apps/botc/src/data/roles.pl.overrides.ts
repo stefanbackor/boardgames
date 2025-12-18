@@ -531,6 +531,111 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
       'Każdej nocy* możesz wybrać gracza, który umrze. Jeśli poprzedniej nocy nikogo nie wybrałeś, tej nocy wybierz 3 graczy.',
     reminders: ['3 ataki', 'Martwy'],
   },
+  // === FABLED ROLES ===
+  angel: {
+    name: 'Anioł',
+    ability:
+      'Coś złego może się przydarzyć temu, kto jest najbardziej odpowiedzialny za śmierć nowego gracza.',
+    reminders: ['Chronić', 'Coś złego'],
+  },
+  buddhist: {
+    name: 'Budda',
+    ability: 'Przez pierwsze 2 minuty każdego dnia doświadczeni gracze nie mogą mówić.',
+  },
+  deusexfiasco: {
+    name: 'Deus ex Fiasco',
+    ability:
+      'Co najmniej raz na grę Narrator popełni błąd, poprawi go i publicznie się do niego przyzna.',
+  },
+  djinn: {
+    name: 'Dżinn',
+    ability: 'Użyj specjalnej zasady Dżinna. Wszyscy gracze wiedzą, jaka jest.',
+  },
+  doomsayer: {
+    name: 'Prorok zagłady',
+    ability:
+      'Jeśli żyją 4 lub więcej graczy, każdy żyjący gracz może publicznie wybrać (raz na grę), że gracz tej samej frakcji umiera.',
+  },
+  duchess: {
+    name: 'Księżna',
+    ability:
+      'Każdego dnia 3 graczy może zdecydować się cię odwiedzić. Nocą* każdy odwiedzający dowiaduje się, ilu odwiedzających jest złych, ale 1 otrzymuje fałszywą informację.',
+    reminders: ['Odwiedzający', 'Fałszywa informacja'],
+    otherNightReminder:
+      'Obudź każdego gracza oznaczonego jako „Odwiedzający" lub „Fałszywa informacja" pojedynczo. Pokaż im żeton Księżnej, następnie palce (1, 2, 3) odpowiadające liczbie złych graczy oznaczonych jako „Odwiedzający" lub, jeśli budzisz gracza oznaczonego jako „Fałszywa informacja", pokaż dowolną liczbę palców oprócz liczby złych graczy oznaczonych jako „Odwiedzający".',
+  },
+  ferryman: {
+    name: 'Przewoźnik',
+    ability: 'Ostatniego dnia wszyscy martwi gracze odzyskują swój żeton głosowania.',
+  },
+  fibbin: {
+    name: 'Kłamca',
+    ability: 'Raz na grę 1 dobry gracz może otrzymać fałszywą informację.',
+    reminders: ['Użyte'],
+  },
+  fiddler: {
+    name: 'Skrzypek',
+    ability:
+      'Raz na grę Demon potajemnie wybiera przeciwnika: wszyscy gracze wybierają, który z tych 2 graczy wygrywa.',
+  },
+  hellslibrarian: {
+    name: 'Piekielna bibliotekarka',
+    ability:
+      'Coś złego może się przydarzyć temu, kto mówi, gdy Narrator poprosił o ciszę.',
+    reminders: ['Coś złego'],
+  },
+  revolutionary: {
+    name: 'Rewolucjonista',
+    ability:
+      '2 sąsiadujący gracze są znani jako ta sama frakcja. Raz na grę jeden z nich może zarejestrować się fałszywie.',
+    reminders: ['Użyte'],
+  },
+  sentinel: {
+    name: 'Strażnik',
+    ability: 'W grze może być o 1 Obcego więcej lub mniej.',
+  },
+  spiritofivory: {
+    name: 'Duch kości słoniowej',
+    ability: 'Nie może być więcej niż 1 dodatkowy zły gracz.',
+    reminders: ['Brak dodatkowego zła'],
+  },
+  toymaker: {
+    name: 'Twórca zabawek',
+    ability:
+      'Demon może zdecydować się nie atakować i musi to zrobić co najmniej raz na grę. Źli gracze otrzymują normalne informacje początkowe.',
+    reminders: ['Ostatnia noc: Brak ataku'],
+    otherNightReminder:
+      'Jeśli to noc, w której atak Demona może zakończyć grę, a Demon jest oznaczony jako „Ostatnia noc: Brak ataku", to Demon nie działa tej nocy. (Nie budź go.)',
+  },
+  // === LORIC ROLES ===
+  bootlegger: {
+    name: 'Przemytnik',
+    ability: 'Ten scenariusz ma postacie lub zasady homebrew.',
+    flavor:
+      "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
+  },
+  gardener: {
+    name: 'Ogrodnik',
+    ability: 'Narrator przypisuje 1 lub więcej graczy do ich postaci.',
+    flavor:
+      "Oh now, this won't do. We've got the monkshood mixed in with the wolfsbane and the hemlock is smothering the hellebore! Oh dear me, we'd better start over. Fetch my shears.",
+  },
+  stormcatcher: {
+    name: 'Łowca burz',
+    ability:
+      'Nazwij dobrą postać. Jeśli jest w grze, może umrzeć tylko przez egzekucję, ale źli gracze dowiadują się, który gracz to jest.',
+    firstNightReminder:
+      'Na początku nocy ogłoś, która postać jest schwytana przez burzę. Jeśli jest w grze, oznacz tego gracza jako SCHWYTANY PRZEZ BURZĘ. Obudź każdego złego gracza i pokaż mu żeton postaci, następnie oznaczonego gracza. Jeśli nie jest w grze, obudź każdego złego gracza, pokaż im żeton TE POSTACIE NIE SĄ W GRZE i odpowiedni żeton postaci.',
+    flavor:
+      "At dawn, the temple's long shadow creeps to the fountain. At dusk, the obelisk blocks the red glare, cooling warm water under the archway. All lines converge here. A storm is coming, and this, this pebbled and lush and holy place between the apple trees, is the eye.",
+  },
+  zenomancer: {
+    name: 'Zenomancer',
+    ability:
+      'Jeden lub więcej graczy ma cel. Gdy zostanie osiągnięty, ten gracz dowiaduje się kawałka prawdziwej informacji.',
+    flavor:
+      'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+  },
 }
 
 export default roleTranslationsPl
