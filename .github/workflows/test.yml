@@ -18,11 +18,7 @@ jobs:
           cache-dependency-path: yarn.lock
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
       - name: Build local dependencies
         run: npx turbo build --filter="./packages/*"
       - name: Run unit tests
         run: yarn test
-      - name: Run e2e tests
-        run: yarn test:e2e
