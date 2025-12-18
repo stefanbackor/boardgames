@@ -1427,7 +1427,112 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       "Každý nominovaný si zvolí hráče: až do hlasování může mluvit pouze obhájce & je 'Posedlý' představou, že nominovaný je dobrý, jinak může zemřít.",
     flavor:
-      'Vanity asks ‘Is it popular?’ Cowardice asks ‘Is it safe?’ Conscience asks ‘Is it right?’ Who among us will ask: ‘Is it true?’',
+      "Vanity asks 'Is it popular?' Cowardice asks 'Is it safe?' Conscience asks 'Is it right?' Who among us will ask: 'Is it true?'",
+  },
+  // === FABLED ROLES ===
+  angel: {
+    name: 'Anděl',
+    ability:
+      'Tomu, kdo je nejvíce zodpovědný za smrt nového hráče, se může stát něco špatného.',
+    reminders: ['Chránit', 'Něco špatného'],
+  },
+  buddhist: {
+    name: 'Budha',
+    ability: 'Během prvních 2 minut každého dne nesmějí zkušení hráči mluvit.',
+  },
+  deusexfiasco: {
+    name: 'Deus ex Fiasco',
+    ability:
+      'Alespoň jednou za hru udělá Vypravěč chybu, opraví ji a veřejně se k ní přizná.',
+  },
+  djinn: {
+    name: 'Džin',
+    ability: 'Použij speciální pravidlo Džina. Všichni hráči vědí, jaké je.',
+  },
+  doomsayer: {
+    name: 'Věštec zkázy',
+    ability:
+      'Pokud žijí 4 nebo více hráčů, každý živý hráč může veřejně zvolit (jednou za hru), že hráč stejné Příslušnosti zemře.',
+  },
+  duchess: {
+    name: 'Vévodkyně',
+    ability:
+      'Každý den se tě mohou 3 hráči rozhodnout navštívit. V noci* se každý návštěvník dozví, kolik návštěvníků je zlých, ale 1 dostane falešnou informaci.',
+    reminders: ['Návštěvník', 'Falešná informace'],
+    otherNightReminder:
+      'Probuďte každého hráče označeného „Návštěvník" nebo „Falešná informace" jednoho po druhém. Ukažte jim žeton Vévodkyně, pak prsty (1, 2, 3) odpovídající počtu zlých hráčů označených „Návštěvník" nebo, pokud budíte hráče označeného „Falešná informace", ukažte jim libovolný počet prstů kromě počtu zlých hráčů označených „Návštěvník".',
+  },
+  ferryman: {
+    name: 'Převozník',
+    ability: 'V poslední den obdrží všichni mrtví hráči zpět svůj hlasovací žeton.',
+  },
+  fibbin: {
+    name: 'Lhář',
+    ability: 'Jednou za hru může 1 dobrý hráč dostat falešnou informaci.',
+    reminders: ['Použito'],
+  },
+  fiddler: {
+    name: 'Houslista',
+    ability:
+      'Jednou za hru si Démon tajně zvolí protivníka: všichni hráči zvolí, který z těchto 2 hráčů vyhraje.',
+  },
+  hellslibrarian: {
+    name: 'Pekelná knihovnice',
+    ability:
+      'Tomu, kdo mluví, když Vypravěč požádal o ticho, se může stát něco špatného.',
+    reminders: ['Něco špatného'],
+  },
+  revolutionary: {
+    name: 'Revolucionář',
+    ability:
+      '2 sousedící hráči jsou známí jako stejné Příslušnosti. Jednou za hru se jeden z nich může registrovat falešně.',
+    reminders: ['Použito'],
+  },
+  sentinel: {
+    name: 'Strážný',
+    ability: 'Ve hře může být o 1 Podivína více nebo méně.',
+  },
+  spiritofivory: {
+    name: 'Duch slonoviny',
+    ability: 'Nemůže být více než 1 extra zlý hráč.',
+    reminders: ['Žádné extra zlo'],
+  },
+  toymaker: {
+    name: 'Hračkář',
+    ability:
+      'Démon se může rozhodnout neútočit a musí to udělat alespoň jednou za hru. Zlí hráči dostanou normální počáteční informace.',
+    reminders: ['Poslední noc: Bez útoku'],
+    otherNightReminder:
+      'Pokud je to noc, kdy by útok Démona mohl ukončit hru, a Démon je označen „Poslední noc: Bez útoku", pak Démon dnes v noci nejedná. (Nebuďte ho.)',
+  },
+  // === LORIC ROLES ===
+  bootlegger: {
+    name: 'Pašerák',
+    ability: 'Tento scénář má homebrew postavy nebo pravidla.',
+    flavor:
+      "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
+  },
+  gardener: {
+    name: 'Zahradník',
+    ability: 'Vypravěč přiřadí 1 nebo více hráčům jejich postavy.',
+    flavor:
+      "Oh now, this won't do. We've got the monkshood mixed in with the wolfsbane and the hemlock is smothering the hellebore! Oh dear me, we'd better start over. Fetch my shears.",
+  },
+  stormcatcher: {
+    name: 'Lapač bouří',
+    ability:
+      'Pojmenuj dobrou postavu. Pokud je ve hře, může zemřít pouze popravou, ale zlí hráči se dozví, který hráč to je.',
+    firstNightReminder:
+      'Na začátku noci oznamte, která postava je chycena bouří. Pokud je ve hře, označte tohoto hráče jako CHYCENÝ BOUŘÍ. Probuďte každého zlého hráče a ukažte mu žeton postavy, pak označeného hráče. Pokud není ve hře, probuďte každého zlého hráče, ukažte jim žeton TYTO POSTAVY NEJSOU VE HŘE a příslušný žeton postavy.',
+    flavor:
+      "At dawn, the temple's long shadow creeps to the fountain. At dusk, the obelisk blocks the red glare, cooling warm water under the archway. All lines converge here. A storm is coming, and this, this pebbled and lush and holy place between the apple trees, is the eye.",
+  },
+  zenomancer: {
+    name: 'Zenomancer',
+    ability:
+      'Jeden nebo více hráčů má každý cíl. Když je dosaženo, tento hráč se dozví kus pravdivé informace.',
+    flavor:
+      'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
   },
 }
 
