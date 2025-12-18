@@ -78,7 +78,7 @@ export function RoleCard({
 
   const roleImage = (
     <img
-      src={getProxiedImageUrl(role.image)}
+      src={role.isCustom ? role.image : getProxiedImageUrl(role.image)}
       alt={role.name}
       style={{
         width: '100%',
