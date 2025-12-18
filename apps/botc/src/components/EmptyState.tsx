@@ -131,7 +131,7 @@ export function EmptyState({
         {sampleScripts.map((script) => (
           <Button
             key={script.key}
-            variant="solid"
+            variant="soft"
             size="2"
             onClick={() => onLoadScript(JSON.stringify(script.json))}
           >

@@ -97,7 +97,7 @@ export function RoleCard({
       ref={setNodeRef}
       style={{ ...style, position: 'relative' }}
       gap="3"
-      align="start"
+      align="stretch"
       className="role-card break-inside-avoid print:break-inside-avoid-page"
     >
       {(onRemove || onSearch || isDraggable) && (
@@ -213,143 +213,154 @@ export function RoleCard({
           </Tooltip>
         )}
       </Box>
-      <Box className="role-card-text" my="2" style={{ lineHeight: '1' }}>
-        <Heading
-          size="4"
-          mr="1"
-          style={{
-            lineHeight: 'inherit',
-            display: 'inline',
-          }}
-        >
-          {role.name}
-        </Heading>
-        {hatedBy && hatedBy.length > 0 && (
-          <>
-            {hatedBy.map((hater) => (
-              <Tooltip key={hater.id} content={`Jinxed with ${hater.name}`}>
-                <Box
-                  display="inline-block"
-                  ml="1"
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '1px solid var(--gray-a6)',
-                    verticalAlign: 'bottom',
-                  }}
-                >
-                  <img
-                    src={getProxiedImageUrl(hater.image)}
-                    alt={hater.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      verticalAlign: 'baseline',
-                      scale: getImageScale(hater.image),
-                    }}
-                  />
-                </Box>
-              </Tooltip>
-            ))}
-          </>
-        )}
-
-        {!role.isCustom && role.edition && role.edition.trim() !== '' && (
-          <Box
-            display="inline-block"
-            ml="1"
-            className="role-card-edition no-print"
+      <Flex
+        className="role-card-text"
+        my="2"
+        direction="column"
+        justify="center"
+        style={{ lineHeight: '1' }}
+      >
+        <Box>
+          <Heading
+            size="4"
+            mr="1"
+            style={{
+              lineHeight: 'inherit',
+              display: 'inline',
+            }}
           >
-            <Tooltip
-              content={t('Character edition: {{edition}}', {
-                edition: t(role.edition, { ns: 'content' }),
-              })}
-            >
-              <Text
-                size="1"
-                color="gray"
-                style={{ textTransform: 'uppercase' }}
-              >
-                {role.edition}
-              </Text>
-            </Tooltip>
-          </Box>
-        )}
-        <br className="role-card-ability-break" />
-        <Text
-          className="role-card-ability"
-          size="2"
-          style={{ lineHeight: 'inherit' }}
-        >
-          {renderAbilityText(role.ability)}
-        </Text>
-        {jinxes && jinxes.length > 0 && (
-          <Box
-            mt="2"
-            style={{ borderTop: '1px solid var(--gray-a5)', paddingTop: '8px' }}
-          >
-            {jinxes.map((jinx, index) => (
-              <Flex key={index} align="center" gap="2" mb="1">
-                <Box
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '1px solid var(--gray-a6)',
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src={getProxiedImageUrl(jinx.role1Image)}
-                    alt=""
+            {role.name}
+          </Heading>
+          {hatedBy && hatedBy.length > 0 && (
+            <>
+              {hatedBy.map((hater) => (
+                <Tooltip key={hater.id} content={`Jinxed with ${hater.name}`}>
+                  <Box
+                    display="inline-block"
+                    ml="1"
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      scale: getImageScale(jinx.role1Image),
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '1px solid var(--gray-a6)',
+                      verticalAlign: 'bottom',
                     }}
-                  />
-                </Box>
-                <Box
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    overflow: 'hidden',
-                    border: '1px solid var(--gray-a6)',
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src={getProxiedImageUrl(jinx.role2Image)}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      scale: getImageScale(jinx.role2Image),
-                    }}
-                  />
-                </Box>
-                <Box>
-                  <Text
-                    size="2"
-                    weight="bold"
-                    style={{ lineHeight: 'inherit' }}
                   >
-                    {jinx.name}
-                  </Text>{' '}
-                  <Text size="1">{jinx.reason}</Text>
-                </Box>
-              </Flex>
-            ))}
-          </Box>
-        )}
-      </Box>
+                    <img
+                      src={getProxiedImageUrl(hater.image)}
+                      alt={hater.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        verticalAlign: 'baseline',
+                        scale: getImageScale(hater.image),
+                      }}
+                    />
+                  </Box>
+                </Tooltip>
+              ))}
+            </>
+          )}
+
+          {!role.isCustom && role.edition && role.edition.trim() !== '' && (
+            <Box
+              display="inline-block"
+              ml="1"
+              className="role-card-edition no-print"
+            >
+              <Tooltip
+                content={t('Character edition: {{edition}}', {
+                  edition: t(role.edition, { ns: 'content' }),
+                })}
+              >
+                <Text
+                  size="1"
+                  color="gray"
+                  style={{ textTransform: 'uppercase' }}
+                >
+                  {role.edition}
+                </Text>
+              </Tooltip>
+            </Box>
+          )}
+          <br className="role-card-ability-break" />
+          <Text
+            className="role-card-ability"
+            size="2"
+            style={{ lineHeight: 'inherit' }}
+          >
+            {renderAbilityText(role.ability)}
+          </Text>
+          {jinxes && jinxes.length > 0 && (
+            <Box
+              mt="2"
+              style={{
+                borderTop: '1px solid var(--gray-a5)',
+                paddingTop: '8px',
+              }}
+            >
+              {jinxes.map((jinx, index) => (
+                <Flex key={index} align="center" gap="2" mb="1">
+                  <Box
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '1px solid var(--gray-a6)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={getProxiedImageUrl(jinx.role1Image)}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        scale: getImageScale(jinx.role1Image),
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      border: '1px solid var(--gray-a6)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={getProxiedImageUrl(jinx.role2Image)}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        scale: getImageScale(jinx.role2Image),
+                      }}
+                    />
+                  </Box>
+                  <Box>
+                    <Text
+                      size="2"
+                      weight="bold"
+                      style={{ lineHeight: 'inherit' }}
+                    >
+                      {jinx.name}
+                    </Text>{' '}
+                    <Text size="1">{jinx.reason}</Text>
+                  </Box>
+                </Flex>
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Flex>
     </Flex>
   )
 }
