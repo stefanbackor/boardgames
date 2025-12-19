@@ -1537,7 +1537,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
   hindu: {
     name: 'Hindu',
     ability:
-      'První 4 hráči, kteří zemřou, jsou okamžitě reinkarnováni jako Cestující stejné příslušnosti.',
+      'První 4 hráči, kteří zemřou, jsou okamžitě reinkarnováni jako Pocestní stejné příslušnosti.',
   },
 }
 
