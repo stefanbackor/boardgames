@@ -934,8 +934,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     name: 'Alchymista',
     ability:
       'Máš schopnost Přisluhovače. Při použití shopnosti Vypravěč může vyzvat ke změně volby.',
-    firstNightReminder:
-      'Ukažte mu žeton JSI a žeton postavy Přisluhovače.',
+    firstNightReminder: 'Ukažte mu žeton JSI a žeton postavy Přisluhovače.',
     flavor:
       'Visit the interior of the Earth. By rectification thou shalt find the hidden stone. Above the gold, lieth the red. Kether in Malkuth.',
   },
@@ -1464,7 +1463,8 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
   },
   ferryman: {
     name: 'Převozník',
-    ability: 'V poslední den obdrží všichni mrtví hráči zpět svůj hlasovací žeton.',
+    ability:
+      'V poslední den obdrží všichni mrtví hráči zpět svůj hlasovací žeton.',
   },
   fibbin: {
     name: 'Lhář',
@@ -1533,6 +1533,11 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Jeden nebo více hráčů má každý cíl. Když je dosaženo, tento hráč se dozví kus pravdivé informace.',
     flavor:
       'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+  },
+  hindu: {
+    name: 'Hindu',
+    ability:
+      'První 4 hráči, kteří zemřou, jsou okamžitě reinkarnováni jako Cestující stejné příslušnosti.',
   },
 }
 

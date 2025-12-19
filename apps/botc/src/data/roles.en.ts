@@ -15,13 +15,15 @@ export const roles = [
     edition: '',
     team: 'townsfolk',
     firstNight: 11,
-    firstNightReminder: 'Show the YOU ARE token and the character token of a Minion.',
+    firstNightReminder:
+      'Show the YOU ARE token and the character token of a Minion.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
     remindersGlobal: ['Is the Alchemist'],
     setup: false,
-    ability: 'You have a Minion ability. When using this, the Storyteller may prompt you to choose differently.',
+    ability:
+      'You have a Minion ability. When using this, the Storyteller may prompt you to choose differently.',
   },
   {
     id: 'alsaahir',
@@ -2747,7 +2749,23 @@ export const roles = [
     image:
       'https://wiki.bloodontheclocktower.com/images/4/44/Icon_zenomancer.png',
   },
-
+  {
+    id: 'hindu',
+    name: 'Hindu',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability:
+      'The first 4 players to die are immediately reincarnated as Travellers of the same alignment.',
+    flavor:
+      'चत्वारो मृत्युमध्ये पतन्ति,चत्वारो यात्री पुनरुद्गताः।चत्वारो धर्मे स्थितचित्तवृत्तेः,चत्वार एषां न पुनः क्षयः॥',
+    image: 'https://wiki.bloodontheclocktower.com/images/6/69/Icon_hindu.png',
+  },
   {
     id: 'doomsayer',
     firstNightReminder: '',

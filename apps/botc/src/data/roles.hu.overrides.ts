@@ -537,7 +537,8 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
   },
   buddhist: {
     name: 'Buddhista',
-    ability: 'Minden nap első 2 percében a tapasztalt játékosok nem beszélhetnek.',
+    ability:
+      'Minden nap első 2 percében a tapasztalt játékosok nem beszélhetnek.',
   },
   deusexfiasco: {
     name: 'Deus ex Fiasco',
@@ -546,7 +547,8 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
   },
   djinn: {
     name: 'Dzsinn',
-    ability: 'Használd a Dzsinn speciális szabályát. Minden játékos tudja, mi az.',
+    ability:
+      'Használd a Dzsinn speciális szabályát. Minden játékos tudja, mi az.',
   },
   doomsayer: {
     name: 'Végítélet próféta',
@@ -563,7 +565,8 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
   },
   ferryman: {
     name: 'Révész',
-    ability: 'Az utolsó napon minden halott játékos visszakapja a szavazati tokenét.',
+    ability:
+      'Az utolsó napon minden halott játékos visszakapja a szavazati tokenét.',
   },
   fibbin: {
     name: 'Hazug',
@@ -607,7 +610,8 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
   // === LORIC ROLES ===
   bootlegger: {
     name: 'Csempész',
-    ability: 'Ez a forgatókönyv homebrew karaktereket vagy szabályokat tartalmaz.',
+    ability:
+      'Ez a forgatókönyv homebrew karaktereket vagy szabályokat tartalmaz.',
     flavor:
       "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
   },
@@ -632,6 +636,11 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
       'Egy vagy több játékosnak külön-külön célja van. Ha elérte, az a játékos megtud egy igaz információt.',
     flavor:
       'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+  },
+  hindu: {
+    name: 'Hindu',
+    ability:
+      'Az első 4 játékos, aki meghal, azonnal újjászületik ugyanolyan hovatartozású Utazóként.',
   },
 }
 

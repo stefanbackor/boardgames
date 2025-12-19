@@ -557,467 +557,654 @@ export const roleTranslationsDe: Record<string, RoleTranslation> = {
       'Wenn niemand am Tag gestorben ist: Der Zombuul zeigt auf einen Spieler. Dieser Spieler stirbt.',
   },
   alchemist: {
-    ability: "Du hast die Fähigkeit eines nicht im Spiel befindlichen Günstlings.",
-    firstNightReminder: "Zeige dem Alchemist einen nicht im Spiel befindlichen Günstling-Marker.",
+    ability:
+      'Du hast die Fähigkeit eines nicht im Spiel befindlichen Günstlings.',
+    firstNightReminder:
+      'Zeige dem Alchemist einen nicht im Spiel befindlichen Günstling-Marker.',
   },
   alsaahir: {
-    ability: "Jeden Tag, wenn du öffentlich errätst, welche Spieler Günstlinge und welche Dämonen sind, gewinnt Gut.",
+    ability:
+      'Jeden Tag, wenn du öffentlich errätst, welche Spieler Günstlinge und welche Dämonen sind, gewinnt Gut.',
   },
   amnesiac: {
-    ability: "Du weißt nicht, was deine Fähigkeit ist. Jeden Tag rate privat, was sie ist: Du erfährst, wie genau du liegst.",
-    reminders: ["?"],
-    firstNightReminder: "Entscheide die Fähigkeit des Amnesiac. Falls die Fähigkeit des Amnesiac sie heute Nacht aufweckt: Wecke den Amnesiac und führe ihre Fähigkeit aus.",
-    otherNightReminder: "Falls die Fähigkeit des Amnesiac sie heute Nacht aufweckt: Wecke den Amnesiac und führe ihre Fähigkeit aus.",
+    ability:
+      'Du weißt nicht, was deine Fähigkeit ist. Jeden Tag rate privat, was sie ist: Du erfährst, wie genau du liegst.',
+    reminders: ['?'],
+    firstNightReminder:
+      'Entscheide die Fähigkeit des Amnesiac. Falls die Fähigkeit des Amnesiac sie heute Nacht aufweckt: Wecke den Amnesiac und führe ihre Fähigkeit aus.',
+    otherNightReminder:
+      'Falls die Fähigkeit des Amnesiac sie heute Nacht aufweckt: Wecke den Amnesiac und führe ihre Fähigkeit aus.',
   },
   atheist: {
-    ability: "Der Spielleiter kann die Spielregeln brechen. Wenn du hingerichtet wirst, gewinnt Gut, selbst wenn du tot bist. [Keine bösen Charaktere]",
+    ability:
+      'Der Spielleiter kann die Spielregeln brechen. Wenn du hingerichtet wirst, gewinnt Gut, selbst wenn du tot bist. [Keine bösen Charaktere]',
   },
   balloonist: {
-    ability: "Jede Nacht erfährst du 1 Spieler jedes Charaktertyps, bis es keine weiteren Typen zu lernen gibt. [+1 Außenseiter]",
-    reminders: ["Dorfbewohner gesehen","Außenseiter gesehen","Günstling gesehen","Dämon gesehen","Reisender gesehen"],
-    firstNightReminder: "Wähle einen Charaktertyp. Zeige auf einen Spieler, dessen Charakter von diesem Typ ist. Platziere den Balloonist-Erinnerungsmarker.",
-    otherNightReminder: "Wähle einen Charaktertyp, der noch keinen 'Gesehen'-Marker hat. Zeige auf einen Spieler dieses Charaktertyps, falls vorhanden. Platziere den Balloonist-Erinnerungsmarker.",
+    ability:
+      'Jede Nacht erfährst du 1 Spieler jedes Charaktertyps, bis es keine weiteren Typen zu lernen gibt. [+1 Außenseiter]',
+    reminders: [
+      'Dorfbewohner gesehen',
+      'Außenseiter gesehen',
+      'Günstling gesehen',
+      'Dämon gesehen',
+      'Reisender gesehen',
+    ],
+    firstNightReminder:
+      'Wähle einen Charaktertyp. Zeige auf einen Spieler, dessen Charakter von diesem Typ ist. Platziere den Balloonist-Erinnerungsmarker.',
+    otherNightReminder:
+      "Wähle einen Charaktertyp, der noch keinen 'Gesehen'-Marker hat. Zeige auf einen Spieler dieses Charaktertyps, falls vorhanden. Platziere den Balloonist-Erinnerungsmarker.",
   },
   bountyhunter: {
-    ability: "Du erfährst zu Beginn 1 bösen Spieler. Wenn der Spieler, den du kennst, stirbt, erfährst du heute Nacht einen anderen bösen Spieler. [1 Dorfbewohner ist böse]",
-    reminders: ["Bekannt"],
-    firstNightReminder: "Zeige auf 1 bösen Spieler. Wecke den bösen Dorfbewohner und zeige ihm das 'Du bist'-Zeichen.",
-    otherNightReminder: "Falls der bekannte böse Spieler gestorben ist, zeige auf einen anderen bösen Spieler.",
+    ability:
+      'Du erfährst zu Beginn 1 bösen Spieler. Wenn der Spieler, den du kennst, stirbt, erfährst du heute Nacht einen anderen bösen Spieler. [1 Dorfbewohner ist böse]',
+    reminders: ['Bekannt'],
+    firstNightReminder:
+      "Zeige auf 1 bösen Spieler. Wecke den bösen Dorfbewohner und zeige ihm das 'Du bist'-Zeichen.",
+    otherNightReminder:
+      'Falls der bekannte böse Spieler gestorben ist, zeige auf einen anderen bösen Spieler.',
   },
   cannibal: {
-    ability: "Du hast die Fähigkeit des zuletzt hingerichteten Spielers. Wenn dieser böse ist, bist du vergiftet, bis ein guter Spieler durch Hinrichtung stirbt.",
-    reminders: ["Vergiftet","Heute gestorben"],
+    ability:
+      'Du hast die Fähigkeit des zuletzt hingerichteten Spielers. Wenn dieser böse ist, bist du vergiftet, bis ein guter Spieler durch Hinrichtung stirbt.',
+    reminders: ['Vergiftet', 'Heute gestorben'],
   },
   choirboy: {
-    ability: "Wenn der Dämon den King tötet, erfährst du, welcher Spieler der Dämon ist. [+ den King]",
-    otherNightReminder: "Falls der King vom Dämon getötet wurde, wecke den Choirboy und zeige auf den Dämon-Spieler.",
+    ability:
+      'Wenn der Dämon den King tötet, erfährst du, welcher Spieler der Dämon ist. [+ den King]',
+    otherNightReminder:
+      'Falls der King vom Dämon getötet wurde, wecke den Choirboy und zeige auf den Dämon-Spieler.',
   },
   cultleader: {
-    ability: "Jede Nacht nimmst du die Gesinnung eines lebenden Nachbarn an. Wenn alle guten Spieler deiner Sekte beitreten, gewinnt dein Team.",
-    firstNightReminder: "Falls der Cult Leader die Gesinnung gewechselt hat, zeige ihm das Daumen-hoch-Signal für Gut oder das Daumen-runter-Signal für Böse.",
-    otherNightReminder: "Falls der Cult Leader die Gesinnung gewechselt hat, zeige ihm das Daumen-hoch-Signal für Gut oder das Daumen-runter-Signal für Böse.",
+    ability:
+      'Jede Nacht nimmst du die Gesinnung eines lebenden Nachbarn an. Wenn alle guten Spieler deiner Sekte beitreten, gewinnt dein Team.',
+    firstNightReminder:
+      'Falls der Cult Leader die Gesinnung gewechselt hat, zeige ihm das Daumen-hoch-Signal für Gut oder das Daumen-runter-Signal für Böse.',
+    otherNightReminder:
+      'Falls der Cult Leader die Gesinnung gewechselt hat, zeige ihm das Daumen-hoch-Signal für Gut oder das Daumen-runter-Signal für Böse.',
   },
   engineer: {
-    ability: "Einmal pro Spiel, nachts, wähle welche Günstlinge oder welcher Dämon im Spiel ist.",
-    reminders: ["Keine Fähigkeit"],
-    firstNightReminder: "Der Engineer zeigt auf einen Charakter.",
-    otherNightReminder: "Der Engineer zeigt auf einen Charakter.",
+    ability:
+      'Einmal pro Spiel, nachts, wähle welche Günstlinge oder welcher Dämon im Spiel ist.',
+    reminders: ['Keine Fähigkeit'],
+    firstNightReminder: 'Der Engineer zeigt auf einen Charakter.',
+    otherNightReminder: 'Der Engineer zeigt auf einen Charakter.',
   },
   farmer: {
-    ability: "Wenn du nachts stirbst, wird ein lebender guter Spieler zum Farmer.",
-    otherNightReminder: "Falls heute Nacht ein Farmer gestorben ist, wähle einen anderen guten Spieler und mache ihn zum Farmer. Wecke diesen Spieler und zeige ihm den Farmer-Marker.",
+    ability:
+      'Wenn du nachts stirbst, wird ein lebender guter Spieler zum Farmer.',
+    otherNightReminder:
+      'Falls heute Nacht ein Farmer gestorben ist, wähle einen anderen guten Spieler und mache ihn zum Farmer. Wecke diesen Spieler und zeige ihm den Farmer-Marker.',
   },
   fisherman: {
-    ability: "Einmal pro Spiel, tagsüber, besuche den Spielleiter für einen Ratschlag, der dir beim Gewinnen hilft.",
-    reminders: ["Keine Fähigkeit"],
+    ability:
+      'Einmal pro Spiel, tagsüber, besuche den Spielleiter für einen Ratschlag, der dir beim Gewinnen hilft.',
+    reminders: ['Keine Fähigkeit'],
   },
   general: {
-    ability: "Jede Nacht erfährst du, welche Gesinnung der Spielleiter für gewinnend hält: Gut, Böse oder keine.",
-    firstNightReminder: "Zeige dem General Daumen hoch für Gut gewinnt, Daumen runter für Böse gewinnt oder Daumen zur Seite für weder noch.",
-    otherNightReminder: "Zeige dem General Daumen hoch für Gut gewinnt, Daumen runter für Böse gewinnt oder Daumen zur Seite für weder noch.",
+    ability:
+      'Jede Nacht erfährst du, welche Gesinnung der Spielleiter für gewinnend hält: Gut, Böse oder keine.',
+    firstNightReminder:
+      'Zeige dem General Daumen hoch für Gut gewinnt, Daumen runter für Böse gewinnt oder Daumen zur Seite für weder noch.',
+    otherNightReminder:
+      'Zeige dem General Daumen hoch für Gut gewinnt, Daumen runter für Böse gewinnt oder Daumen zur Seite für weder noch.',
   },
   huntsman: {
-    ability: "Einmal pro Spiel, nachts, wähle einen lebenden Spieler: die Damsel wird, falls gewählt, zu einem nicht im Spiel befindlichen Dorfbewohner. [+die Damsel]",
-    reminders: ["Keine Fähigkeit"],
-    firstNightReminder: "Der Huntsman schüttelt den Kopf.",
-    otherNightReminder: "Der Huntsman schüttelt den Kopf.",
+    ability:
+      'Einmal pro Spiel, nachts, wähle einen lebenden Spieler: die Damsel wird, falls gewählt, zu einem nicht im Spiel befindlichen Dorfbewohner. [+die Damsel]',
+    reminders: ['Keine Fähigkeit'],
+    firstNightReminder: 'Der Huntsman schüttelt den Kopf.',
+    otherNightReminder: 'Der Huntsman schüttelt den Kopf.',
   },
   king: {
-    ability: "Jede Nacht, wenn die Toten die Lebenden überzählen, erfährst du 1 lebenden Charakter. Der Dämon weiß, wer du bist.",
-    firstNightReminder: "Wecke den Dämon und zeige ihm den King-Marker.",
-    otherNightReminder: "Falls es mehr Tote als Lebende gibt, zeige dem King einen Charakter-Marker eines lebenden Spielers.",
+    ability:
+      'Jede Nacht, wenn die Toten die Lebenden überzählen, erfährst du 1 lebenden Charakter. Der Dämon weiß, wer du bist.',
+    firstNightReminder: 'Wecke den Dämon und zeige ihm den King-Marker.',
+    otherNightReminder:
+      'Falls es mehr Tote als Lebende gibt, zeige dem King einen Charakter-Marker eines lebenden Spielers.',
   },
   lycanthrope: {
-    ability: "Jede Nacht*, wähle einen lebenden Spieler: Wenn er gut ist, stirbt er, aber er ist der einzige Spieler, der heute Nacht sterben kann.",
-    reminders: ["Tot"],
-    otherNightReminder: "Der Lycanthrope zeigt auf einen lebenden Spieler: Falls gut, stirbt er und niemand sonst kann heute Nacht sterben.",
+    ability:
+      'Jede Nacht*, wähle einen lebenden Spieler: Wenn er gut ist, stirbt er, aber er ist der einzige Spieler, der heute Nacht sterben kann.',
+    reminders: ['Tot'],
+    otherNightReminder:
+      'Der Lycanthrope zeigt auf einen lebenden Spieler: Falls gut, stirbt er und niemand sonst kann heute Nacht sterben.',
   },
   magician: {
-    ability: "Der Dämon hält dich für einen Günstling. Günstlinge halten dich für einen Dämon.",
+    ability:
+      'Der Dämon hält dich für einen Günstling. Günstlinge halten dich für einen Dämon.',
   },
   nightwatchman: {
-    ability: "Einmal pro Spiel, nachts, wähle einen Spieler: Er erfährt, wer du bist.",
-    reminders: ["Keine Fähigkeit"],
-    firstNightReminder: "Der Nightwatchman kann auf einen Spieler zeigen. Wecke diesen Spieler und zeige ihm den Nightwatchman-Marker.",
-    otherNightReminder: "Der Nightwatchman kann auf einen Spieler zeigen. Wecke diesen Spieler und zeige ihm den Nightwatchman-Marker.",
+    ability:
+      'Einmal pro Spiel, nachts, wähle einen Spieler: Er erfährt, wer du bist.',
+    reminders: ['Keine Fähigkeit'],
+    firstNightReminder:
+      'Der Nightwatchman kann auf einen Spieler zeigen. Wecke diesen Spieler und zeige ihm den Nightwatchman-Marker.',
+    otherNightReminder:
+      'Der Nightwatchman kann auf einen Spieler zeigen. Wecke diesen Spieler und zeige ihm den Nightwatchman-Marker.',
   },
   noble: {
-    ability: "Du erfährst zu Beginn 3 Spieler, von denen 1 und nur 1 böse ist.",
-    reminders: ["Gesehen"],
-    firstNightReminder: "Zeige auf 3 Spieler, einschließlich eines bösen Spielers, in beliebiger Reihenfolge.",
+    ability: 'Du erfährst zu Beginn 3 Spieler, von denen 1 und nur 1 böse ist.',
+    reminders: ['Gesehen'],
+    firstNightReminder:
+      'Zeige auf 3 Spieler, einschließlich eines bösen Spielers, in beliebiger Reihenfolge.',
   },
   pixie: {
-    ability: "Du erfährst zu Beginn 1 im Spiel befindlichen Dorfbewohner. Wenn du verrückt warst, dass du dieser Charakter bist, erhältst du seine Fähigkeit, wenn er stirbt.",
-    reminders: ["Verrückt","Hat Fähigkeit"],
-    firstNightReminder: "Zeige dem Pixie 1 im Spiel befindlichen Dorfbewohner-Marker.",
+    ability:
+      'Du erfährst zu Beginn 1 im Spiel befindlichen Dorfbewohner. Wenn du verrückt warst, dass du dieser Charakter bist, erhältst du seine Fähigkeit, wenn er stirbt.',
+    reminders: ['Verrückt', 'Hat Fähigkeit'],
+    firstNightReminder:
+      'Zeige dem Pixie 1 im Spiel befindlichen Dorfbewohner-Marker.',
   },
   poppygrower: {
-    ability: "Günstlinge und Dämonen kennen einander nicht. Wenn du stirbst, erfahren sie in dieser Nacht, wer sie sind.",
-    reminders: ["Böse erwacht"],
-    firstNightReminder: "Informiere Dämon/Günstlinge nicht darüber, wer sie sind.",
-    otherNightReminder: "Falls der Poppy Grower gestorben ist, zeige den Günstlingen/Dämon, wer sie sind.",
+    ability:
+      'Günstlinge und Dämonen kennen einander nicht. Wenn du stirbst, erfahren sie in dieser Nacht, wer sie sind.',
+    reminders: ['Böse erwacht'],
+    firstNightReminder:
+      'Informiere Dämon/Günstlinge nicht darüber, wer sie sind.',
+    otherNightReminder:
+      'Falls der Poppy Grower gestorben ist, zeige den Günstlingen/Dämon, wer sie sind.',
   },
   preacher: {
-    ability: "Jede Nacht wähle einen Spieler: Ein Günstling erfährt dies, falls gewählt. Alle gewählten Günstlinge haben keine Fähigkeit.",
-    reminders: ["Bei einer Predigt"],
-    firstNightReminder: "Der Preacher wählt einen Spieler. Falls ein Günstling gewählt wurde, wecke den Günstling und zeige den Preacher-Marker.",
-    otherNightReminder: "Der Preacher wählt einen Spieler. Falls ein Günstling gewählt wurde, wecke den Günstling und zeige den Preacher-Marker.",
+    ability:
+      'Jede Nacht wähle einen Spieler: Ein Günstling erfährt dies, falls gewählt. Alle gewählten Günstlinge haben keine Fähigkeit.',
+    reminders: ['Bei einer Predigt'],
+    firstNightReminder:
+      'Der Preacher wählt einen Spieler. Falls ein Günstling gewählt wurde, wecke den Günstling und zeige den Preacher-Marker.',
+    otherNightReminder:
+      'Der Preacher wählt einen Spieler. Falls ein Günstling gewählt wurde, wecke den Günstling und zeige den Preacher-Marker.',
   },
   princess: {
-    ability: "An deinem 1. Tag, wenn du einen Spieler nominiert und hingerichtet hast, tötet der Dämon heute Nacht nicht.",
-    reminders: ["Tötet nicht"],
-    otherNightReminder: "Falls es der erste Tag der Princess war und sie nominiert und hingerichtet hat, tötet der Dämon nicht.",
+    ability:
+      'An deinem 1. Tag, wenn du einen Spieler nominiert und hingerichtet hast, tötet der Dämon heute Nacht nicht.',
+    reminders: ['Tötet nicht'],
+    otherNightReminder:
+      'Falls es der erste Tag der Princess war und sie nominiert und hingerichtet hat, tötet der Dämon nicht.',
   },
   knight: {
-    ability: "Du erfährst zu Beginn 2 Spieler, die nicht der Dämon sind.",
-    reminders: ["Weiß","Weiß"],
-    firstNightReminder: "Zeige auf die 2 markierten Spieler.",
+    ability: 'Du erfährst zu Beginn 2 Spieler, die nicht der Dämon sind.',
+    reminders: ['Weiß', 'Weiß'],
+    firstNightReminder: 'Zeige auf die 2 markierten Spieler.',
   },
   shugenja: {
-    ability: "Du erfährst zu Beginn, ob dein nächster böser Spieler im Uhrzeigersinn oder gegen den Uhrzeigersinn ist. Bei gleicher Entfernung ist diese Info beliebig.",
-    firstNightReminder: "Falls der nächste böse Spieler im Uhrzeigersinn ist, zeige horizontal in diese Richtung. Falls gegen den Uhrzeigersinn, zeige horizontal in diese Richtung. Falls gleich weit entfernt, zeige horizontal in eine beliebige Richtung.",
+    ability:
+      'Du erfährst zu Beginn, ob dein nächster böser Spieler im Uhrzeigersinn oder gegen den Uhrzeigersinn ist. Bei gleicher Entfernung ist diese Info beliebig.',
+    firstNightReminder:
+      'Falls der nächste böse Spieler im Uhrzeigersinn ist, zeige horizontal in diese Richtung. Falls gegen den Uhrzeigersinn, zeige horizontal in diese Richtung. Falls gleich weit entfernt, zeige horizontal in eine beliebige Richtung.',
   },
   banshee: {
-    ability: "Wenn der Dämon dich tötet, erfahren es alle Spieler. Von nun an kannst du zweimal pro Tag nominieren und zweimal pro Nominierung abstimmen.",
-    reminders: ["Hat Fähigkeit"],
-    otherNightReminder: "Falls die Banshee vom Dämon getötet wurde, verkünde, dass die Banshee gestorben ist.",
+    ability:
+      'Wenn der Dämon dich tötet, erfahren es alle Spieler. Von nun an kannst du zweimal pro Tag nominieren und zweimal pro Nominierung abstimmen.',
+    reminders: ['Hat Fähigkeit'],
+    otherNightReminder:
+      'Falls die Banshee vom Dämon getötet wurde, verkünde, dass die Banshee gestorben ist.',
   },
   steward: {
-    ability: "Du erfährst zu Beginn 1 guten Spieler.",
-    reminders: ["Weiß"],
-    firstNightReminder: "Zeige auf den markierten Spieler.",
+    ability: 'Du erfährst zu Beginn 1 guten Spieler.',
+    reminders: ['Weiß'],
+    firstNightReminder: 'Zeige auf den markierten Spieler.',
   },
   highpriestess: {
-    ability: "Jede Nacht erfährst du, mit welchem Spieler der Spielleiter denkt, dass du am meisten reden solltest.",
-    firstNightReminder: "Zeige auf einen Spieler.",
-    otherNightReminder: "Zeige auf einen Spieler.",
+    ability:
+      'Jede Nacht erfährst du, mit welchem Spieler der Spielleiter denkt, dass du am meisten reden solltest.',
+    firstNightReminder: 'Zeige auf einen Spieler.',
+    otherNightReminder: 'Zeige auf einen Spieler.',
   },
   villageidiot: {
-    ability: "Jede Nacht wähle einen Spieler: Du erfährst seine Gesinnung. [+0 bis +2 Village Idiots. 1 der Extras ist betrunken]",
-    reminders: ["Betrunken"],
-    firstNightReminder: "Der Village Idiot zeigt auf einen Spieler; zeige Daumen hoch, falls dieser Spieler gut ist, oder Daumen runter, falls er böse ist.",
-    otherNightReminder: "Der Village Idiot zeigt auf einen Spieler; zeige Daumen hoch, falls dieser Spieler gut ist, oder Daumen runter, falls er böse ist.",
+    ability:
+      'Jede Nacht wähle einen Spieler: Du erfährst seine Gesinnung. [+0 bis +2 Village Idiots. 1 der Extras ist betrunken]',
+    reminders: ['Betrunken'],
+    firstNightReminder:
+      'Der Village Idiot zeigt auf einen Spieler; zeige Daumen hoch, falls dieser Spieler gut ist, oder Daumen runter, falls er böse ist.',
+    otherNightReminder:
+      'Der Village Idiot zeigt auf einen Spieler; zeige Daumen hoch, falls dieser Spieler gut ist, oder Daumen runter, falls er böse ist.',
   },
   acrobat: {
-    ability: "Jede Nacht*, wenn einer deiner guten lebenden Nachbarn betrunken oder vergiftet ist, stirbst du.",
-    reminders: ["Tot"],
-    otherNightReminder: "Falls ein guter lebender Nachbar betrunken oder vergiftet ist, stirbt der Acrobat.",
+    ability:
+      'Jede Nacht*, wenn einer deiner guten lebenden Nachbarn betrunken oder vergiftet ist, stirbst du.',
+    reminders: ['Tot'],
+    otherNightReminder:
+      'Falls ein guter lebender Nachbar betrunken oder vergiftet ist, stirbt der Acrobat.',
   },
   damsel: {
-    ability: "Alle Günstlinge wissen, dass du im Spiel bist. Wenn ein Günstling dich öffentlich errät (einmal), verliert dein Team.",
-    reminders: ["Raten verbraucht"],
-    firstNightReminder: "Wecke alle Günstlinge und zeige ihnen den Damsel-Marker.",
-    otherNightReminder: "Falls vom Huntsman gewählt, wecke die Damsel und zeige den neuen Charakter.",
+    ability:
+      'Alle Günstlinge wissen, dass du im Spiel bist. Wenn ein Günstling dich öffentlich errät (einmal), verliert dein Team.',
+    reminders: ['Raten verbraucht'],
+    firstNightReminder:
+      'Wecke alle Günstlinge und zeige ihnen den Damsel-Marker.',
+    otherNightReminder:
+      'Falls vom Huntsman gewählt, wecke die Damsel und zeige den neuen Charakter.',
   },
   golem: {
-    ability: "Du darfst nur einmal pro Spiel nominieren. Wenn du es tust und der Nominierte nicht der Dämon ist, stirbt er.",
-    reminders: ["Kann nicht nominieren"],
+    ability:
+      'Du darfst nur einmal pro Spiel nominieren. Wenn du es tust und der Nominierte nicht der Dämon ist, stirbt er.',
+    reminders: ['Kann nicht nominieren'],
   },
   hatter: {
-    ability: "Wenn du heute oder heute Nacht gestorben bist, können Günstling- und Dämon-Spieler neue Günstling- und Dämon-Charaktere wählen.",
-    reminders: ["Tee-Party heute Nacht"],
-    otherNightReminder: "Wecke Günstlinge und Dämon. Jeder Spieler schüttelt den Kopf oder zeigt auf einen anderen Charakter desselben Typs. Ändere jeden Spieler zum gewählten Charakter.",
+    ability:
+      'Wenn du heute oder heute Nacht gestorben bist, können Günstling- und Dämon-Spieler neue Günstling- und Dämon-Charaktere wählen.',
+    reminders: ['Tee-Party heute Nacht'],
+    otherNightReminder:
+      'Wecke Günstlinge und Dämon. Jeder Spieler schüttelt den Kopf oder zeigt auf einen anderen Charakter desselben Typs. Ändere jeden Spieler zum gewählten Charakter.',
   },
   heretic: {
-    ability: "Wer gewinnt, verliert und wer verliert, gewinnt, selbst wenn du tot bist.",
+    ability:
+      'Wer gewinnt, verliert und wer verliert, gewinnt, selbst wenn du tot bist.',
   },
   plaguedoctor: {
-    ability: "Wenn du stirbst, erhält der Spielleiter eine Günstling-Fähigkeit.",
-    reminders: ["Spielleiter-Fähigkeit"],
+    ability:
+      'Wenn du stirbst, erhält der Spielleiter eine Günstling-Fähigkeit.',
+    reminders: ['Spielleiter-Fähigkeit'],
   },
   politician: {
-    ability: "Wenn du der Spieler warst, der am meisten dafür verantwortlich ist, dass dein Team verliert, wechselst du die Gesinnung und gewinnst, selbst wenn tot.",
+    ability:
+      'Wenn du der Spieler warst, der am meisten dafür verantwortlich ist, dass dein Team verliert, wechselst du die Gesinnung und gewinnst, selbst wenn tot.',
   },
   hermit: {
-    ability: "Du hast alle Außenseiter-Fähigkeiten. [-0 oder -1 Außenseiter]",
-    reminders: ["1","2","3"],
+    ability: 'Du hast alle Außenseiter-Fähigkeiten. [-0 oder -1 Außenseiter]',
+    reminders: ['1', '2', '3'],
   },
   puzzlemaster: {
-    ability: "1 Spieler ist betrunken, selbst wenn du stirbst. Wenn du (einmal) errätst, wer es ist, erfährst du den Dämon-Spieler, aber rate falsch und erhalte falsche Info.",
-    reminders: ["Betrunken","Raten verbraucht"],
+    ability:
+      '1 Spieler ist betrunken, selbst wenn du stirbst. Wenn du (einmal) errätst, wer es ist, erfährst du den Dämon-Spieler, aber rate falsch und erhalte falsche Info.',
+    reminders: ['Betrunken', 'Raten verbraucht'],
   },
   snitch: {
-    ability: "Günstlinge erfahren zu Beginn 3 nicht im Spiel befindliche Charaktere.",
-    firstNightReminder: "Nach Günstling-Info wecke jeden Günstling und zeige ihm drei nicht im Spiel befindliche Charakter-Marker.",
+    ability:
+      'Günstlinge erfahren zu Beginn 3 nicht im Spiel befindliche Charaktere.',
+    firstNightReminder:
+      'Nach Günstling-Info wecke jeden Günstling und zeige ihm drei nicht im Spiel befindliche Charakter-Marker.',
   },
   zealot: {
-    ability: "Wenn 5 oder mehr Spieler leben, musst du für jede Nominierung stimmen.",
+    ability:
+      'Wenn 5 oder mehr Spieler leben, musst du für jede Nominierung stimmen.',
   },
   ogre: {
-    ability: "In deiner 1. Nacht wähle einen Spieler (nicht dich selbst): Du nimmst seine Gesinnung an (du weißt es nicht). Wenn er gut ist, gewinnt er auch, wenn du gewinnst.",
-    reminders: ["Freund"],
-    firstNightReminder: "Der Ogre zeigt auf einen Spieler (nicht sich selbst) und nimmt dessen Gesinnung an.",
+    ability:
+      'In deiner 1. Nacht wähle einen Spieler (nicht dich selbst): Du nimmst seine Gesinnung an (du weißt es nicht). Wenn er gut ist, gewinnt er auch, wenn du gewinnst.',
+    reminders: ['Freund'],
+    firstNightReminder:
+      'Der Ogre zeigt auf einen Spieler (nicht sich selbst) und nimmt dessen Gesinnung an.',
   },
   boffin: {
-    ability: "Der Dämon (selbst wenn betrunken oder vergiftet) hat eine nicht im Spiel befindliche gute Fähigkeit.",
-    firstNightReminder: "Wecke den Boffin und zeige den Marker der guten Fähigkeit, die der Dämon hat. Wecke den Dämon, zeige den Boffin-Marker, dann den Marker der guten Fähigkeit.",
+    ability:
+      'Der Dämon (selbst wenn betrunken oder vergiftet) hat eine nicht im Spiel befindliche gute Fähigkeit.',
+    firstNightReminder:
+      'Wecke den Boffin und zeige den Marker der guten Fähigkeit, die der Dämon hat. Wecke den Dämon, zeige den Boffin-Marker, dann den Marker der guten Fähigkeit.',
   },
   boomdandy: {
-    ability: "Wenn du hingerichtet wirst, sterben alle bis auf 3 Spieler. 1 Minute später stirbt der Spieler mit den meisten Fingern, die auf ihn zeigen.",
+    ability:
+      'Wenn du hingerichtet wirst, sterben alle bis auf 3 Spieler. 1 Minute später stirbt der Spieler mit den meisten Fingern, die auf ihn zeigen.',
   },
   wizard: {
-    ability: "Einmal pro Spiel wähle, einen Wunsch zu äußern. Wenn gewährt, kann er einen Preis haben und einen Hinweis auf seine Natur hinterlassen.",
-    reminders: ["?","?"],
-    firstNightReminder: "Falls der Wizard einen Wunsch geäußert hat, verarbeite ihn.",
-    otherNightReminder: "Falls der Wizard einen Wunsch geäußert hat, verarbeite ihn.",
+    ability:
+      'Einmal pro Spiel wähle, einen Wunsch zu äußern. Wenn gewährt, kann er einen Preis haben und einen Hinweis auf seine Natur hinterlassen.',
+    reminders: ['?', '?'],
+    firstNightReminder:
+      'Falls der Wizard einen Wunsch geäußert hat, verarbeite ihn.',
+    otherNightReminder:
+      'Falls der Wizard einen Wunsch geäußert hat, verarbeite ihn.',
   },
   organgrinder: {
-    ability: "Alle Spieler halten ihre Augen geschlossen beim Abstimmen und das Abstimmungsergebnis ist geheim. Jede Nacht wähle, ob du bis zur Abenddämmerung betrunken bist.",
-    reminders: ["Gleich sterben","Betrunken"],
-    firstNightReminder: "Wecke den Organ Grinder. Falls er das Daumen-hoch-Signal gibt, ist er betrunken.",
-    otherNightReminder: "Wecke den Organ Grinder. Falls er das Daumen-hoch-Signal gibt, ist er betrunken.",
+    ability:
+      'Alle Spieler halten ihre Augen geschlossen beim Abstimmen und das Abstimmungsergebnis ist geheim. Jede Nacht wähle, ob du bis zur Abenddämmerung betrunken bist.',
+    reminders: ['Gleich sterben', 'Betrunken'],
+    firstNightReminder:
+      'Wecke den Organ Grinder. Falls er das Daumen-hoch-Signal gibt, ist er betrunken.',
+    otherNightReminder:
+      'Wecke den Organ Grinder. Falls er das Daumen-hoch-Signal gibt, ist er betrunken.',
   },
   fearmonger: {
-    ability: "Jede Nacht wähle einen Spieler. Wenn du ihn nominierst und hinrichtest, verliert sein Team. Alle Spieler wissen, wenn du einen neuen Spieler wählst.",
-    reminders: ["Angst"],
-    firstNightReminder: "Der Fearmonger zeigt auf einen Spieler. Platziere den Angst-Marker und verkünde, dass ein neuer Spieler mit der Fearmonger-Fähigkeit gewählt wurde.",
-    otherNightReminder: "Der Fearmonger zeigt auf einen Spieler. Falls anders als letzte Nacht, platziere den Angst-Marker und verkünde, dass ein neuer Spieler gewählt wurde.",
+    ability:
+      'Jede Nacht wähle einen Spieler. Wenn du ihn nominierst und hinrichtest, verliert sein Team. Alle Spieler wissen, wenn du einen neuen Spieler wählst.',
+    reminders: ['Angst'],
+    firstNightReminder:
+      'Der Fearmonger zeigt auf einen Spieler. Platziere den Angst-Marker und verkünde, dass ein neuer Spieler mit der Fearmonger-Fähigkeit gewählt wurde.',
+    otherNightReminder:
+      'Der Fearmonger zeigt auf einen Spieler. Falls anders als letzte Nacht, platziere den Angst-Marker und verkünde, dass ein neuer Spieler gewählt wurde.',
   },
   goblin: {
-    ability: "Wenn du öffentlich behauptest, der Goblin zu sein, wenn du nominiert wirst, und an diesem Tag hingerichtet wirst, gewinnt dein Team.",
-    reminders: ["Behauptet"],
+    ability:
+      'Wenn du öffentlich behauptest, der Goblin zu sein, wenn du nominiert wirst, und an diesem Tag hingerichtet wirst, gewinnt dein Team.',
+    reminders: ['Behauptet'],
   },
   harpy: {
-    ability: "Jede Nacht wähle 2 Spieler: Morgen ist der 1. Spieler verrückt, dass der 2. böse ist, oder einer oder beide könnten sterben.",
-    reminders: ["Verrückt","2."],
-    firstNightReminder: "Die Harpy zeigt auf zwei Spieler. Wecke den 1. Spieler und zeige ihm die Harpy- und den 2. Spieler-Marker.",
-    otherNightReminder: "Die Harpy zeigt auf zwei Spieler. Wecke den 1. Spieler und zeige ihm die Harpy- und den 2. Spieler-Marker.",
+    ability:
+      'Jede Nacht wähle 2 Spieler: Morgen ist der 1. Spieler verrückt, dass der 2. böse ist, oder einer oder beide könnten sterben.',
+    reminders: ['Verrückt', '2.'],
+    firstNightReminder:
+      'Die Harpy zeigt auf zwei Spieler. Wecke den 1. Spieler und zeige ihm die Harpy- und den 2. Spieler-Marker.',
+    otherNightReminder:
+      'Die Harpy zeigt auf zwei Spieler. Wecke den 1. Spieler und zeige ihm die Harpy- und den 2. Spieler-Marker.',
   },
   marionette: {
-    ability: "Du denkst, du bist ein guter Charakter, bist es aber nicht. Der Dämon weiß, wer du bist. [Du bist Nachbar des Dämons]",
-    firstNightReminder: "Wähle einen der guten Spieler neben dem Dämon und platziere den Marionette-Marker. Wecke den Dämon und zeige ihm die Marionette.",
+    ability:
+      'Du denkst, du bist ein guter Charakter, bist es aber nicht. Der Dämon weiß, wer du bist. [Du bist Nachbar des Dämons]',
+    firstNightReminder:
+      'Wähle einen der guten Spieler neben dem Dämon und platziere den Marionette-Marker. Wecke den Dämon und zeige ihm die Marionette.',
   },
   mezepheles: {
-    ability: "Du erfährst zu Beginn ein geheimes Wort. Der 1. gute Spieler, der dieses Wort sagt, wird in dieser Nacht böse.",
-    reminders: ["Wird böse","Keine Fähigkeit"],
-    firstNightReminder: "Zeige dem Mezepheles sein geheimes Wort.",
-    otherNightReminder: "Wecke den 1. guten Spieler, der das Wort des Mezepheles gesagt hat, und zeige ihm, dass er böse ist.",
+    ability:
+      'Du erfährst zu Beginn ein geheimes Wort. Der 1. gute Spieler, der dieses Wort sagt, wird in dieser Nacht böse.',
+    reminders: ['Wird böse', 'Keine Fähigkeit'],
+    firstNightReminder: 'Zeige dem Mezepheles sein geheimes Wort.',
+    otherNightReminder:
+      'Wecke den 1. guten Spieler, der das Wort des Mezepheles gesagt hat, und zeige ihm, dass er böse ist.',
   },
   wraith: {
-    ability: "Du kannst wählen, nachts deine Augen zu öffnen. Du erwachst, wenn andere böse Spieler erwachen.",
-    firstNightReminder: "Wecke den Wraith immer, wenn andere böse Spieler erwachen.",
-    otherNightReminder: "Wecke den Wraith immer, wenn andere böse Spieler erwachen.",
+    ability:
+      'Du kannst wählen, nachts deine Augen zu öffnen. Du erwachst, wenn andere böse Spieler erwachen.',
+    firstNightReminder:
+      'Wecke den Wraith immer, wenn andere böse Spieler erwachen.',
+    otherNightReminder:
+      'Wecke den Wraith immer, wenn andere böse Spieler erwachen.',
   },
   psychopath: {
-    ability: "Jeden Tag, vor Nominierungen, kannst du öffentlich einen Spieler wählen: Er stirbt. Wenn hingerichtet, stirbst du nur, wenn du Schere-Stein-Papier verlierst.",
+    ability:
+      'Jeden Tag, vor Nominierungen, kannst du öffentlich einen Spieler wählen: Er stirbt. Wenn hingerichtet, stirbst du nur, wenn du Schere-Stein-Papier verlierst.',
   },
   summoner: {
-    ability: "Du erhältst 3 Bluffs. In der 3. Nacht wähle einen Spieler: Er wird ein böser Dämon deiner Wahl. [Kein Dämon]",
-    reminders: ["Nacht 1","Nacht 2","Nacht 3"],
-    firstNightReminder: "Zeige dem Summoner 3 nicht im Spiel befindliche Charaktere.",
-    otherNightReminder: "Falls es die 3. Nacht ist, wecke den Summoner. Er zeigt auf einen Spieler und einen Dämon. Dieser Spieler wird dieser Dämon.",
+    ability:
+      'Du erhältst 3 Bluffs. In der 3. Nacht wähle einen Spieler: Er wird ein böser Dämon deiner Wahl. [Kein Dämon]',
+    reminders: ['Nacht 1', 'Nacht 2', 'Nacht 3'],
+    firstNightReminder:
+      'Zeige dem Summoner 3 nicht im Spiel befindliche Charaktere.',
+    otherNightReminder:
+      'Falls es die 3. Nacht ist, wecke den Summoner. Er zeigt auf einen Spieler und einen Dämon. Dieser Spieler wird dieser Dämon.',
   },
   vizier: {
-    ability: "Alle Spieler wissen, dass du der Vizier bist. Du kannst nicht tagsüber sterben. Wenn Gute gestimmt haben, kannst du wählen, sofort hinzurichten.",
-    firstNightReminder: "Verkünde den Vizier-Spieler.",
+    ability:
+      'Alle Spieler wissen, dass du der Vizier bist. Du kannst nicht tagsüber sterben. Wenn Gute gestimmt haben, kannst du wählen, sofort hinzurichten.',
+    firstNightReminder: 'Verkünde den Vizier-Spieler.',
   },
   widow: {
-    ability: "In deiner 1. Nacht siehst du das Grimoire und wählst einen Spieler: Er ist vergiftet. 1 guter Spieler weiß, dass eine Widow im Spiel ist.",
-    reminders: ["Vergiftet"],
-    firstNightReminder: "Zeige der Widow das Grimoire. Die Widow zeigt auf einen Spieler. Dieser Spieler ist vergiftet. Wecke einen guten Spieler und zeige den Widow-Marker.",
+    ability:
+      'In deiner 1. Nacht siehst du das Grimoire und wählst einen Spieler: Er ist vergiftet. 1 guter Spieler weiß, dass eine Widow im Spiel ist.',
+    reminders: ['Vergiftet'],
+    firstNightReminder:
+      'Zeige der Widow das Grimoire. Die Widow zeigt auf einen Spieler. Dieser Spieler ist vergiftet. Wecke einen guten Spieler und zeige den Widow-Marker.',
   },
   xaan: {
-    ability: "In Nacht X sind alle Dorfbewohner bis zur Abenddämmerung vergiftet. [X Außenseiter]",
-    reminders: ["Nacht 1","Nacht 2","Nacht 3","X"],
-    firstNightReminder: "Füge den Xaan-Nachtmarker hinzu.",
-    otherNightReminder: "Ändere den Xaan-Nachtmarker.",
+    ability:
+      'In Nacht X sind alle Dorfbewohner bis zur Abenddämmerung vergiftet. [X Außenseiter]',
+    reminders: ['Nacht 1', 'Nacht 2', 'Nacht 3', 'X'],
+    firstNightReminder: 'Füge den Xaan-Nachtmarker hinzu.',
+    otherNightReminder: 'Ändere den Xaan-Nachtmarker.',
   },
   alhadikhia: {
-    ability: "Jede Nacht* wähle 3 Spieler (alle Spieler erfahren wer): Jeder wählt still zu leben oder zu sterben, aber wenn alle leben, sterben alle.",
-    reminders: ["1","2","3","Wählte Tod","Wählte Leben"],
-    otherNightReminder: "Al-Hadikhia wählt 3 Spieler. Verkünde den ersten Spieler, wecke ihn zum Nicken (leben) oder Kopfschütteln (sterben), töte oder erwecke entsprechend, dann schlafen legen und nächsten verkünden. Falls alle 3 danach leben, sterben alle 3.",
+    ability:
+      'Jede Nacht* wähle 3 Spieler (alle Spieler erfahren wer): Jeder wählt still zu leben oder zu sterben, aber wenn alle leben, sterben alle.',
+    reminders: ['1', '2', '3', 'Wählte Tod', 'Wählte Leben'],
+    otherNightReminder:
+      'Al-Hadikhia wählt 3 Spieler. Verkünde den ersten Spieler, wecke ihn zum Nicken (leben) oder Kopfschütteln (sterben), töte oder erwecke entsprechend, dann schlafen legen und nächsten verkünden. Falls alle 3 danach leben, sterben alle 3.',
   },
   yaggababble: {
-    ability: "Du erfährst zu Beginn eine geheime Phrase. Für jedes öffentliche Aussprechen tagsüber kann ein Spieler sterben.",
-    reminders: ["Tot","Tot","Tot"],
-    firstNightReminder: "Zeige dem Yaggababble seine geheime Phrase.",
-    otherNightReminder: "Wähle eine Anzahl von Spielern bis zur Gesamtzahl, wie oft Yaggababble heute öffentlich seine geheime Phrase gesagt hat. Diese Spieler sterben.",
+    ability:
+      'Du erfährst zu Beginn eine geheime Phrase. Für jedes öffentliche Aussprechen tagsüber kann ein Spieler sterben.',
+    reminders: ['Tot', 'Tot', 'Tot'],
+    firstNightReminder: 'Zeige dem Yaggababble seine geheime Phrase.',
+    otherNightReminder:
+      'Wähle eine Anzahl von Spielern bis zur Gesamtzahl, wie oft Yaggababble heute öffentlich seine geheime Phrase gesagt hat. Diese Spieler sterben.',
   },
   kazali: {
-    ability: "Jede Nacht* wähle einen Spieler: Er stirbt. [Du wählst, welche Spieler welche Günstlinge sind. -? bis +? Außenseiter]",
-    reminders: ["Tot"],
-    firstNightReminder: "Der Kazali zeigt auf einen Spieler und einen Günstling. Dies für so viele Günstlinge wie im Spiel sein sollten. Ändere diese Spieler zu Günstlingen.",
-    otherNightReminder: "Der Kazali zeigt auf einen Spieler. Dieser Spieler stirbt.",
+    ability:
+      'Jede Nacht* wähle einen Spieler: Er stirbt. [Du wählst, welche Spieler welche Günstlinge sind. -? bis +? Außenseiter]',
+    reminders: ['Tot'],
+    firstNightReminder:
+      'Der Kazali zeigt auf einen Spieler und einen Günstling. Dies für so viele Günstlinge wie im Spiel sein sollten. Ändere diese Spieler zu Günstlingen.',
+    otherNightReminder:
+      'Der Kazali zeigt auf einen Spieler. Dieser Spieler stirbt.',
   },
   legion: {
-    ability: "Jede Nacht* kann ein Spieler sterben. Hinrichtungen scheitern, wenn nur Böse gestimmt haben. Du zählst auch als Günstling. [Die meisten Spieler sind Legion]",
-    reminders: ["Tot","Stirbt gleich"],
-    otherNightReminder: "Wähle einen Spieler, dieser Spieler stirbt.",
+    ability:
+      'Jede Nacht* kann ein Spieler sterben. Hinrichtungen scheitern, wenn nur Böse gestimmt haben. Du zählst auch als Günstling. [Die meisten Spieler sind Legion]',
+    reminders: ['Tot', 'Stirbt gleich'],
+    otherNightReminder: 'Wähle einen Spieler, dieser Spieler stirbt.',
   },
   leviathan: {
-    ability: "Wenn mehr als 1 guter Spieler hingerichtet wird, gewinnst du. Alle Spieler wissen, dass du im Spiel bist. Nach Tag 5 gewinnt Böse.",
-    reminders: ["Tag 1","Tag 2","Tag 3","Tag 4","Tag 5","Guter Spieler hingerichtet"],
-    firstNightReminder: "Platziere den Leviathan-Tag-Marker.",
-    otherNightReminder: "Ändere den Leviathan-Tag-Marker für den nächsten Tag.",
+    ability:
+      'Wenn mehr als 1 guter Spieler hingerichtet wird, gewinnst du. Alle Spieler wissen, dass du im Spiel bist. Nach Tag 5 gewinnt Böse.',
+    reminders: [
+      'Tag 1',
+      'Tag 2',
+      'Tag 3',
+      'Tag 4',
+      'Tag 5',
+      'Guter Spieler hingerichtet',
+    ],
+    firstNightReminder: 'Platziere den Leviathan-Tag-Marker.',
+    otherNightReminder: 'Ändere den Leviathan-Tag-Marker für den nächsten Tag.',
   },
   lilmonsta: {
-    ability: "Jede Nacht wählen Günstlinge, wer Lil' Monsta babysittet. Ein Spieler ist Lil' Monsta. Babysitter sterben, wenn Lil' Monsta ein Dorfbewohner ist. [+1 Günstling]",
-    firstNightReminder: "Wecke alle Günstlinge zusammen, erlaube ihnen zu wählen, wer Lil' Monsta babysittet.",
-    otherNightReminder: "Wecke alle Günstlinge zusammen, erlaube ihnen zu wählen, wer Lil' Monsta babysittet.",
+    ability:
+      "Jede Nacht wählen Günstlinge, wer Lil' Monsta babysittet. Ein Spieler ist Lil' Monsta. Babysitter sterben, wenn Lil' Monsta ein Dorfbewohner ist. [+1 Günstling]",
+    firstNightReminder:
+      "Wecke alle Günstlinge zusammen, erlaube ihnen zu wählen, wer Lil' Monsta babysittet.",
+    otherNightReminder:
+      "Wecke alle Günstlinge zusammen, erlaube ihnen zu wählen, wer Lil' Monsta babysittet.",
   },
   lleech: {
-    ability: "Jede Nacht* wähle einen Spieler: Er stirbt. Du beginnst mit der Wahl eines lebenden Spielers: Er ist vergiftet - du stirbst nur, wenn er stirbt.",
-    reminders: ["Tot","Vergiftet"],
-    firstNightReminder: "Der Lleech zeigt auf einen Spieler. Platziere den Vergiftet-Marker.",
-    otherNightReminder: "Der Lleech zeigt auf einen Spieler. Dieser Spieler stirbt.",
+    ability:
+      'Jede Nacht* wähle einen Spieler: Er stirbt. Du beginnst mit der Wahl eines lebenden Spielers: Er ist vergiftet - du stirbst nur, wenn er stirbt.',
+    reminders: ['Tot', 'Vergiftet'],
+    firstNightReminder:
+      'Der Lleech zeigt auf einen Spieler. Platziere den Vergiftet-Marker.',
+    otherNightReminder:
+      'Der Lleech zeigt auf einen Spieler. Dieser Spieler stirbt.',
   },
   ojo: {
-    ability: "Jede Nacht* wähle einen Charakter: Er stirbt. Wenn er nicht im Spiel ist, wählt der Spielleiter, wer stirbt.",
-    reminders: ["Tot"],
-    otherNightReminder: "Der Ojo zeigt auf einen Charakter. Falls im Spiel, stirbt dieser Spieler. Falls nicht im Spiel, wählt der Spielleiter, wer stattdessen stirbt.",
+    ability:
+      'Jede Nacht* wähle einen Charakter: Er stirbt. Wenn er nicht im Spiel ist, wählt der Spielleiter, wer stirbt.',
+    reminders: ['Tot'],
+    otherNightReminder:
+      'Der Ojo zeigt auf einen Charakter. Falls im Spiel, stirbt dieser Spieler. Falls nicht im Spiel, wählt der Spielleiter, wer stattdessen stirbt.',
   },
   lordoftyphon: {
-    ability: "Jede Nacht* wähle einen Spieler: Er stirbt. [Böse Charaktere sind in einer Linie. Du bist in der Mitte. +1 Günstling. -? bis +? Außenseiter]",
-    reminders: ["Tot"],
-    firstNightReminder: "Wecke die Spieler auf beiden Seiten des Dämons. Zeige ihnen den 'Dies sind eure Günstlinge'-Marker.",
-    otherNightReminder: "Der Lord of Typhon zeigt auf einen Spieler. Dieser Spieler stirbt.",
+    ability:
+      'Jede Nacht* wähle einen Spieler: Er stirbt. [Böse Charaktere sind in einer Linie. Du bist in der Mitte. +1 Günstling. -? bis +? Außenseiter]',
+    reminders: ['Tot'],
+    firstNightReminder:
+      "Wecke die Spieler auf beiden Seiten des Dämons. Zeige ihnen den 'Dies sind eure Günstlinge'-Marker.",
+    otherNightReminder:
+      'Der Lord of Typhon zeigt auf einen Spieler. Dieser Spieler stirbt.',
   },
   riot: {
-    ability: "Nominierte sterben, können aber sofort wieder nominieren (an Tag 3 müssen sie). Nach Tag 3 gewinnt Böse. [Alle Günstlinge sind Riot]",
+    ability:
+      'Nominierte sterben, können aber sofort wieder nominieren (an Tag 3 müssen sie). Nach Tag 3 gewinnt Böse. [Alle Günstlinge sind Riot]',
   },
   apprentice: {
-    ability: "In deiner 1. Nacht erhältst du eine Dorfbewohner-Fähigkeit (falls gut) oder eine Günstling-Fähigkeit (falls böse).",
-    reminders: ["Ist der Apprentice"],
-    firstNightReminder: "Zeige dem Apprentice den 'Du hast'-Marker und einen Charakter-Marker.",
+    ability:
+      'In deiner 1. Nacht erhältst du eine Dorfbewohner-Fähigkeit (falls gut) oder eine Günstling-Fähigkeit (falls böse).',
+    reminders: ['Ist der Apprentice'],
+    firstNightReminder:
+      "Zeige dem Apprentice den 'Du hast'-Marker und einen Charakter-Marker.",
   },
   barista: {
-    ability: "Jede Nacht, bis zur Abenddämmerung, 1) wird ein Spieler nüchtern, gesund und erhält wahre Info, oder 2) seine Fähigkeit wirkt zweimal. Er erfährt, welches.",
-    reminders: ["Nüchtern & Gesund","Fähigkeit zweimal"],
-    firstNightReminder: "Wähle einen Spieler, wecke ihn und sage ihm, welche Barista-Kraft ihn betrifft. Behandle ihn entsprechend.",
-    otherNightReminder: "Wähle einen Spieler, wecke ihn und sage ihm, welche Barista-Kraft ihn betrifft. Behandle ihn entsprechend.",
+    ability:
+      'Jede Nacht, bis zur Abenddämmerung, 1) wird ein Spieler nüchtern, gesund und erhält wahre Info, oder 2) seine Fähigkeit wirkt zweimal. Er erfährt, welches.',
+    reminders: ['Nüchtern & Gesund', 'Fähigkeit zweimal'],
+    firstNightReminder:
+      'Wähle einen Spieler, wecke ihn und sage ihm, welche Barista-Kraft ihn betrifft. Behandle ihn entsprechend.',
+    otherNightReminder:
+      'Wähle einen Spieler, wecke ihn und sage ihm, welche Barista-Kraft ihn betrifft. Behandle ihn entsprechend.',
   },
   beggar: {
-    ability: "Du musst einen Abstimmungsmarker verwenden, um abzustimmen. Tote Spieler können dir ihren geben. Falls ja, erfährst du ihre Gesinnung. Du bist nüchtern und gesund.",
+    ability:
+      'Du musst einen Abstimmungsmarker verwenden, um abzustimmen. Tote Spieler können dir ihren geben. Falls ja, erfährst du ihre Gesinnung. Du bist nüchtern und gesund.',
   },
   bishop: {
-    ability: "Nur der Spielleiter kann nominieren. Mindestens 1 gegnerischer Spieler muss jeden Tag nominiert werden.",
-    reminders: ["Nominiere Gut","Nominiere Böse"],
+    ability:
+      'Nur der Spielleiter kann nominieren. Mindestens 1 gegnerischer Spieler muss jeden Tag nominiert werden.',
+    reminders: ['Nominiere Gut', 'Nominiere Böse'],
   },
   bonecollector: {
-    ability: "Einmal pro Spiel, nachts, wähle einen toten Spieler: Er erhält seine Fähigkeit bis zur Abenddämmerung zurück.",
-    reminders: ["Keine Fähigkeit","Hat Fähigkeit"],
-    otherNightReminder: "Der Bone Collector schüttelt den Kopf oder zeigt auf einen toten Spieler. Falls auf einen toten Spieler gezeigt, platziere den Bone Collector-Marker.",
+    ability:
+      'Einmal pro Spiel, nachts, wähle einen toten Spieler: Er erhält seine Fähigkeit bis zur Abenddämmerung zurück.',
+    reminders: ['Keine Fähigkeit', 'Hat Fähigkeit'],
+    otherNightReminder:
+      'Der Bone Collector schüttelt den Kopf oder zeigt auf einen toten Spieler. Falls auf einen toten Spieler gezeigt, platziere den Bone Collector-Marker.',
   },
   bureaucrat: {
-    ability: "Jede Nacht wähle einen Spieler (nicht dich selbst): Seine Stimme zählt morgen als 3 Stimmen.",
-    reminders: ["3 Stimmen"],
-    firstNightReminder: "Der Bureaucrat zeigt auf einen Spieler. Platziere den Bureaucrat-Marker.",
-    otherNightReminder: "Der Bureaucrat zeigt auf einen Spieler. Platziere den Bureaucrat-Marker.",
+    ability:
+      'Jede Nacht wähle einen Spieler (nicht dich selbst): Seine Stimme zählt morgen als 3 Stimmen.',
+    reminders: ['3 Stimmen'],
+    firstNightReminder:
+      'Der Bureaucrat zeigt auf einen Spieler. Platziere den Bureaucrat-Marker.',
+    otherNightReminder:
+      'Der Bureaucrat zeigt auf einen Spieler. Platziere den Bureaucrat-Marker.',
   },
   butcher: {
-    ability: "Jeden Tag, nach der 1. Hinrichtung, kannst du erneut nominieren.",
+    ability: 'Jeden Tag, nach der 1. Hinrichtung, kannst du erneut nominieren.',
   },
   cacklejack: {
-    ability: "Jeden Tag wähle einen Spieler: Ein anderer Spieler wechselt heute Nacht den Charakter.",
-    reminders: ["Nicht ich"],
-    otherNightReminder: "Ersetze den Charakter-Marker eines Spielers (außer dem vom Cacklejack heute gewählten) durch einen anderen. Wecke diesen Spieler und zeige den neuen Charakter.",
+    ability:
+      'Jeden Tag wähle einen Spieler: Ein anderer Spieler wechselt heute Nacht den Charakter.',
+    reminders: ['Nicht ich'],
+    otherNightReminder:
+      'Ersetze den Charakter-Marker eines Spielers (außer dem vom Cacklejack heute gewählten) durch einen anderen. Wecke diesen Spieler und zeige den neuen Charakter.',
   },
   deviant: {
-    ability: "Wenn du heute lustig warst, kannst du nicht durch Exil sterben.",
+    ability: 'Wenn du heute lustig warst, kannst du nicht durch Exil sterben.',
   },
   gangster: {
-    ability: "Einmal pro Tag kannst du wählen, einen lebenden Nachbarn zu töten, wenn dein anderer lebender Nachbar zustimmt.",
+    ability:
+      'Einmal pro Tag kannst du wählen, einen lebenden Nachbarn zu töten, wenn dein anderer lebender Nachbar zustimmt.',
   },
   gnome: {
-    ability: "Alle Spieler erfahren zu Beginn einen Spieler deiner Gesinnung. Du kannst wählen, jeden zu töten, der ihn nominiert.",
-    reminders: ["Amigo"],
+    ability:
+      'Alle Spieler erfahren zu Beginn einen Spieler deiner Gesinnung. Du kannst wählen, jeden zu töten, der ihn nominiert.',
+    reminders: ['Amigo'],
   },
   gunslinger: {
-    ability: "Jeden Tag, nachdem die 1. Abstimmung gezählt wurde, kannst du einen Spieler wählen, der gestimmt hat: Er stirbt.",
+    ability:
+      'Jeden Tag, nachdem die 1. Abstimmung gezählt wurde, kannst du einen Spieler wählen, der gestimmt hat: Er stirbt.',
   },
   harlot: {
-    ability: "Jede Nacht* wähle einen lebenden Spieler: Falls er zustimmt, erfährst du seinen Charakter, aber ihr könntet beide sterben.",
-    reminders: ["Tot"],
-    otherNightReminder: "Die Harlot zeigt auf einen Spieler. Wecke den gewählten Spieler und zeige den Harlot-Marker.",
+    ability:
+      'Jede Nacht* wähle einen lebenden Spieler: Falls er zustimmt, erfährst du seinen Charakter, aber ihr könntet beide sterben.',
+    reminders: ['Tot'],
+    otherNightReminder:
+      'Die Harlot zeigt auf einen Spieler. Wecke den gewählten Spieler und zeige den Harlot-Marker.',
   },
   judge: {
-    ability: "Einmal pro Spiel, wenn ein anderer Spieler nominiert hat, kannst du wählen, die aktuelle Hinrichtung durchzusetzen oder scheitern zu lassen.",
-    reminders: ["Keine Fähigkeit"],
+    ability:
+      'Einmal pro Spiel, wenn ein anderer Spieler nominiert hat, kannst du wählen, die aktuelle Hinrichtung durchzusetzen oder scheitern zu lassen.',
+    reminders: ['Keine Fähigkeit'],
   },
   matron: {
-    ability: "Jeden Tag kannst du bis zu 3 Sets von 2 Spielern wählen, um Plätze zu tauschen. Spieler dürfen ihre Plätze nicht verlassen, um privat zu sprechen.",
+    ability:
+      'Jeden Tag kannst du bis zu 3 Sets von 2 Spielern wählen, um Plätze zu tauschen. Spieler dürfen ihre Plätze nicht verlassen, um privat zu sprechen.',
   },
   scapegoat: {
-    ability: "Wenn ein Spieler deiner Gesinnung hingerichtet wird, könntest du stattdessen hingerichtet werden.",
+    ability:
+      'Wenn ein Spieler deiner Gesinnung hingerichtet wird, könntest du stattdessen hingerichtet werden.',
   },
   thief: {
-    ability: "Jede Nacht wähle einen Spieler (nicht dich selbst): Seine Stimme zählt morgen negativ.",
-    reminders: ["Negative Stimme"],
-    firstNightReminder: "Der Thief zeigt auf einen Spieler. Platziere den Thief-Marker.",
-    otherNightReminder: "Der Thief zeigt auf einen Spieler. Platziere den Thief-Marker.",
+    ability:
+      'Jede Nacht wähle einen Spieler (nicht dich selbst): Seine Stimme zählt morgen negativ.',
+    reminders: ['Negative Stimme'],
+    firstNightReminder:
+      'Der Thief zeigt auf einen Spieler. Platziere den Thief-Marker.',
+    otherNightReminder:
+      'Der Thief zeigt auf einen Spieler. Platziere den Thief-Marker.',
   },
   voudon: {
-    ability: "Nur du und die Toten können abstimmen. Sie wissen es nicht. Ein Toter kann nur einmal pro Nominierung abstimmen.",
+    ability:
+      'Nur du und die Toten können abstimmen. Sie wissen es nicht. Ein Toter kann nur einmal pro Nominierung abstimmen.',
   },
   tor: {
-    ability: "Spieler erfahren nicht, wenn sie sterben. Wenn sie nachts sterben, erfährt der Tor es morgen. Tote wählen.",
-    otherNightReminder: "Falls ein Spieler nachts stirbt, wecke ihn, zeige das 'Du bist'-Zeichen, seinen Charakter-Marker, und Daumen hoch oder runter für Gesinnung.",
+    ability:
+      'Spieler erfahren nicht, wenn sie sterben. Wenn sie nachts sterben, erfährt der Tor es morgen. Tote wählen.',
+    otherNightReminder:
+      "Falls ein Spieler nachts stirbt, wecke ihn, zeige das 'Du bist'-Zeichen, seinen Charakter-Marker, und Daumen hoch oder runter für Gesinnung.",
   },
   bigwig: {
-    ability: "Jeder Nominierte wählt einen Spieler: Bis zur Abstimmung darf nur dieser sprechen und er ist verrückt, dass der Nominierte gut ist, oder er könnte sterben.",
+    ability:
+      'Jeder Nominierte wählt einen Spieler: Bis zur Abstimmung darf nur dieser sprechen und er ist verrückt, dass der Nominierte gut ist, oder er könnte sterben.',
   },
   bootlegger: {
-    ability: "Dieses Skript hat Homebrew-Charaktere oder -Regeln.",
+    ability: 'Dieses Skript hat Homebrew-Charaktere oder -Regeln.',
   },
   gardener: {
-    ability: "Der Spielleiter weist 1 oder mehr Spielern Aufgaben zu. Wenn sie erfüllt werden, erhält dieser Spieler eine starke Fähigkeit.",
+    ability:
+      'Der Spielleiter weist 1 oder mehr Spielern Aufgaben zu. Wenn sie erfüllt werden, erhält dieser Spieler eine starke Fähigkeit.',
   },
   stormcatcher: {
-    ability: "Nenne einen guten Charakter. Falls im Spiel, kann er nur durch Hinrichtung sterben, aber böse Spieler erfahren, welcher Spieler es ist.",
-    firstNightReminder: "Verkünde zu Beginn der Nacht, welcher Charakter sturmgefangen ist. Falls im Spiel, markiere diesen Spieler als STURMGEFANGEN. Wecke jeden bösen Spieler und zeige den Charakter-Marker, dann den markierten Spieler. Falls nicht im Spiel, wecke jeden bösen Spieler, zeige 'Diese Charaktere sind nicht im Spiel' und den relevanten Charakter-Marker.",
+    ability:
+      'Nenne einen guten Charakter. Falls im Spiel, kann er nur durch Hinrichtung sterben, aber böse Spieler erfahren, welcher Spieler es ist.',
+    firstNightReminder:
+      "Verkünde zu Beginn der Nacht, welcher Charakter sturmgefangen ist. Falls im Spiel, markiere diesen Spieler als STURMGEFANGEN. Wecke jeden bösen Spieler und zeige den Charakter-Marker, dann den markierten Spieler. Falls nicht im Spiel, wecke jeden bösen Spieler, zeige 'Diese Charaktere sind nicht im Spiel' und den relevanten Charakter-Marker.",
   },
   zenomancer: {
-    ability: "Ein oder mehrere Spieler haben jeweils ein Ziel. Wenn erreicht, erfährt dieser Spieler eine wahre Information.",
+    ability:
+      'Ein oder mehrere Spieler haben jeweils ein Ziel. Wenn erreicht, erfährt dieser Spieler eine wahre Information.',
   },
   doomsayer: {
-    ability: "Falls 4 oder mehr Spieler leben, kann jeder lebende Spieler öffentlich wählen (einmal pro Spiel), dass ein Spieler seiner eigenen Gesinnung stirbt.",
+    ability:
+      'Falls 4 oder mehr Spieler leben, kann jeder lebende Spieler öffentlich wählen (einmal pro Spiel), dass ein Spieler seiner eigenen Gesinnung stirbt.',
   },
   angel: {
-    ability: "Demjenigen, der am meisten für den Tod eines neuen Spielers verantwortlich ist, könnte etwas Schlimmes passieren.",
-    reminders: ["Schütze","Etwas Schlimmes"],
+    ability:
+      'Demjenigen, der am meisten für den Tod eines neuen Spielers verantwortlich ist, könnte etwas Schlimmes passieren.',
+    reminders: ['Schütze', 'Etwas Schlimmes'],
   },
   buddhist: {
-    ability: "In den ersten 2 Minuten jeden Tages dürfen erfahrene Spieler nicht sprechen.",
+    ability:
+      'In den ersten 2 Minuten jeden Tages dürfen erfahrene Spieler nicht sprechen.',
   },
   hellslibrarian: {
-    ability: "Demjenigen, der spricht, wenn der Spielleiter um Ruhe gebeten hat, könnte etwas Schlimmes passieren.",
-    reminders: ["Etwas Schlimmes"],
+    ability:
+      'Demjenigen, der spricht, wenn der Spielleiter um Ruhe gebeten hat, könnte etwas Schlimmes passieren.',
+    reminders: ['Etwas Schlimmes'],
   },
   revolutionary: {
-    ability: "2 benachbarte Spieler sind bekanntermaßen von derselben Gesinnung. Einmal pro Spiel zählt einer von ihnen falsch.",
-    reminders: ["Verwendet"],
+    ability:
+      '2 benachbarte Spieler sind bekanntermaßen von derselben Gesinnung. Einmal pro Spiel zählt einer von ihnen falsch.',
+    reminders: ['Verwendet'],
   },
   fiddler: {
-    ability: "Einmal pro Spiel wählt der Dämon heimlich einen gegnerischen Spieler: Alle Spieler wählen, welcher dieser 2 Spieler gewinnt.",
+    ability:
+      'Einmal pro Spiel wählt der Dämon heimlich einen gegnerischen Spieler: Alle Spieler wählen, welcher dieser 2 Spieler gewinnt.',
   },
   toymaker: {
-    ability: "Der Dämon kann wählen, nicht anzugreifen und muss dies mindestens einmal pro Spiel tun. Böse Spieler erhalten normale Startinfo.",
-    reminders: ["Letzte Nacht: Kein Angriff"],
-    otherNightReminder: "Falls es eine Nacht ist, in der ein Dämon-Angriff das Spiel beenden könnte, und der Dämon mit 'Letzte Nacht: Kein Angriff' markiert ist, handelt der Dämon heute Nacht nicht.",
+    ability:
+      'Der Dämon kann wählen, nicht anzugreifen und muss dies mindestens einmal pro Spiel tun. Böse Spieler erhalten normale Startinfo.',
+    reminders: ['Letzte Nacht: Kein Angriff'],
+    otherNightReminder:
+      "Falls es eine Nacht ist, in der ein Dämon-Angriff das Spiel beenden könnte, und der Dämon mit 'Letzte Nacht: Kein Angriff' markiert ist, handelt der Dämon heute Nacht nicht.",
   },
   fibbin: {
-    ability: "Einmal pro Spiel könnte 1 guter Spieler falsche Information erhalten.",
-    reminders: ["Verwendet"],
+    ability:
+      'Einmal pro Spiel könnte 1 guter Spieler falsche Information erhalten.',
+    reminders: ['Verwendet'],
   },
   duchess: {
-    ability: "Jeden Tag können 3 Spieler wählen, dich zu besuchen. Nachts* erfährt jeder Besucher, wie viele Besucher böse sind, aber 1 erhält falsche Info.",
-    reminders: ["Besucher","Falsche Info"],
-    otherNightReminder: "Wecke jeden mit 'Besucher' oder 'Falsche Info' markierten Spieler einzeln. Zeige den Duchess-Marker, dann Finger (1, 2, 3) gleich der Anzahl böser Spieler mit 'Besucher' oder, falls 'Falsche Info', zeige eine andere Fingerzahl.",
+    ability:
+      'Jeden Tag können 3 Spieler wählen, dich zu besuchen. Nachts* erfährt jeder Besucher, wie viele Besucher böse sind, aber 1 erhält falsche Info.',
+    reminders: ['Besucher', 'Falsche Info'],
+    otherNightReminder:
+      "Wecke jeden mit 'Besucher' oder 'Falsche Info' markierten Spieler einzeln. Zeige den Duchess-Marker, dann Finger (1, 2, 3) gleich der Anzahl böser Spieler mit 'Besucher' oder, falls 'Falsche Info', zeige eine andere Fingerzahl.",
   },
   sentinel: {
-    ability: "Es könnte 1 Außenseiter mehr oder weniger im Spiel sein.",
+    ability: 'Es könnte 1 Außenseiter mehr oder weniger im Spiel sein.',
   },
   spiritofivory: {
-    ability: "Es kann keine zusätzlichen bösen Spieler geben.",
-    reminders: ["Kein extra Böse"],
+    ability: 'Es kann keine zusätzlichen bösen Spieler geben.',
+    reminders: ['Kein extra Böse'],
   },
   djinn: {
-    ability: "Verwende die Djinn-Fähigkeit.",
+    ability: 'Verwende die Djinn-Fähigkeit.',
   },
   deusexfiasco: {
-    ability: "Mindestens einmal pro Spiel wird der Spielleiter einen Fehler machen, ihn korrigieren und öffentlich zugeben.",
+    ability:
+      'Mindestens einmal pro Spiel wird der Spielleiter einen Fehler machen, ihn korrigieren und öffentlich zugeben.',
   },
   ferryman: {
-    ability: "Am letzten Tag erhalten alle toten Spieler ihren Abstimmungsmarker zurück.",
+    ability:
+      'Am letzten Tag erhalten alle toten Spieler ihren Abstimmungsmarker zurück.',
+  },
+  hindu: {
+    name: 'Hindu',
+    ability:
+      'Die ersten 4 Spieler, die sterben, werden sofort als Reisende derselben Gesinnung reinkarniert.',
   },
 }

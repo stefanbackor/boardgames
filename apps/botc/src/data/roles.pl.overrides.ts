@@ -540,7 +540,8 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
   },
   buddhist: {
     name: 'Budda',
-    ability: 'Przez pierwsze 2 minuty każdego dnia doświadczeni gracze nie mogą mówić.',
+    ability:
+      'Przez pierwsze 2 minuty każdego dnia doświadczeni gracze nie mogą mówić.',
   },
   deusexfiasco: {
     name: 'Deus ex Fiasco',
@@ -566,7 +567,8 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
   },
   ferryman: {
     name: 'Przewoźnik',
-    ability: 'Ostatniego dnia wszyscy martwi gracze odzyskują swój żeton głosowania.',
+    ability:
+      'Ostatniego dnia wszyscy martwi gracze odzyskują swój żeton głosowania.',
   },
   fibbin: {
     name: 'Kłamca',
@@ -635,6 +637,11 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
       'Jeden lub więcej graczy ma cel. Gdy zostanie osiągnięty, ten gracz dowiaduje się kawałka prawdziwej informacji.',
     flavor:
       'The universe is a verb not a noun, they say, and it is turtles, turtles all the way down. Turtles all the way down, my friend, turtles all the way down.',
+  },
+  hindu: {
+    name: 'Hindu',
+    ability:
+      'Pierwsi 4 gracze, którzy umrą, są natychmiast reinkarnowani jako Podróżnicy tej samej przynależności.',
   },
 }
 
