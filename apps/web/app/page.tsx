@@ -44,6 +44,26 @@ export default function Home(): React.JSX.Element {
       </Text>
       <Separator size="4" my="2" />
       <Flex direction="column" justify="center" gap="3">
+      <Link href="https://botcscript.app" target="_blank" color="purple">
+          <Card>
+            <Flex gap="3" align="center">
+              <Avatar
+                size="6"
+                src="https://botc.app/static/apple-touch-icon.png"
+                fallback="BOTC"
+                radius="full"
+              />
+              <Flex direction="column">
+                <Text as="div" size="5" weight="bold">
+                  BOTC Script Tool
+                </Text>
+                <Text as="div" size="2" color="gray">
+                 Compose and print Blood on the Clocktower scripts for IRL games.
+                </Text>
+              </Flex>
+            </Flex>
+          </Card>
+        </Link>
         <Link href="https://ironwood.backor.sk" target="_blank" color="green">
           <Card>
             <Flex gap="3" align="center">
