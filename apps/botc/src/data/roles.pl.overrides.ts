@@ -643,6 +643,11 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
     ability:
       'Pierwsi 4 gracze, którzy umrą, są natychmiast reinkarnowani jako Podróżnicy tej samej przynależności.',
   },
+  pope: {
+    name: 'Papież',
+    ability:
+      'W grze są zduplikowane dobre postacie. Mogą być również blefami.',
+  },
 }
 
 export default roleTranslationsPl

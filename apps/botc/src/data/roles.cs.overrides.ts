@@ -1539,6 +1539,11 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     ability:
       'První 4 hráči, kteří zemřou, jsou okamžitě reinkarnováni jako Pocestní stejné příslušnosti.',
   },
+  pope: {
+    name: 'Papež',
+    ability:
+      'Ve hře jsou duplicitní dobré postavy. Mohou být také blafy.',
+  },
 }
 
 export default roleTranslationsCs

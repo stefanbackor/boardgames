@@ -642,6 +642,11 @@ export const roleTranslationsHu: Record<string, RoleTranslation> = {
     ability:
       'Az első 4 játékos, aki meghal, azonnal újjászületik ugyanolyan hovatartozású Utazóként.',
   },
+  pope: {
+    name: 'Pápa',
+    ability:
+      'Duplikált jó karakterek vannak játékban. Lehet, hogy blöffök is.',
+  },
 }
 
 export default roleTranslationsHu

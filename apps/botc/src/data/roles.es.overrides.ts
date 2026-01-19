@@ -11,4 +11,9 @@ export const roleTranslationsEs: Record<string, RoleTranslation> = {
     ability:
       'Los primeros 4 jugadores que mueran son inmediatamente reencarnados como Viajeros del mismo bando.',
   },
+  pope: {
+    name: 'Papa',
+    ability:
+      'Hay personajes buenos duplicados en juego. También podrían ser faroleo.',
+  },
 }

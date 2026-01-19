@@ -1207,4 +1207,9 @@ export const roleTranslationsDe: Record<string, RoleTranslation> = {
     ability:
       'Die ersten 4 Spieler, die sterben, werden sofort als Reisende derselben Gesinnung reinkarniert.',
   },
+  pope: {
+    name: 'Papst',
+    ability:
+      'Es gibt doppelte gute Charaktere im Spiel. Sie könnten auch Bluffs sein.',
+  },
 }
