@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Flex, Text, Button, Link, Tooltip, Separator } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
 import { getScriptMeta, parseScript } from '@/utils/parseScript'
-import { getImageScale, getProxiedImageUrl } from '@/utils/imageUrl'
+import { getImageScale, getProxiedImageUrl, applyIconStyle } from '@/utils/imageUrl'
+import { useIconStyle } from '@/hooks/useIconStyle'
 import type { CarouselScript } from '@/hooks/useCarouselScripts'
 import type { SavedScript } from '@/types'
 import { useLanguage } from '@/hooks/useLanguage'
@@ -56,7 +57,10 @@ export function EmptyState({
 }: EmptyStateProps) {
   const { t } = useTranslation()
   const { language } = useLanguage()
-  const roles = useTranslatedRoles(language)
+  const { iconStyle } = useIconStyle()
+  const translatedRoles = useTranslatedRoles(language)
+  // Memoized to avoid re-creating ~178 role objects on every render in kickstarter mode
+  const roles = useMemo(() => applyIconStyle(translatedRoles, iconStyle), [translatedRoles, iconStyle])
   const [showExperimentalScripts, setShowExperimentalScripts] = useState(false)
 
   // Helper to extract demon images from a saved script

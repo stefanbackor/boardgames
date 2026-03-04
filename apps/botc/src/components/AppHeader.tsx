@@ -1,6 +1,7 @@
 import { Box, Flex, Select, Heading, Container } from '@radix-ui/themes'
-import { Languages } from 'lucide-react'
+import { Languages, Image } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useIconStyle } from '@/hooks/useIconStyle'
 
 interface AppHeaderProps {
   language: string
@@ -9,6 +10,7 @@ interface AppHeaderProps {
 
 export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
   const { t } = useTranslation()
+  const { iconStyle, setIconStyle } = useIconStyle()
 
   return (
     <Box
@@ -62,20 +64,34 @@ export function AppHeader({ language, onLanguageChange }: AppHeaderProps) {
             <Heading size="2">{t('Script Tool')}</Heading>
           </Flex>
 
-          <Flex gap="2" align="center">
-            <Languages size={16} color="white" />
-            <Select.Root value={language} onValueChange={onLanguageChange}>
-              <Select.Trigger />
-              <Select.Content position="popper" sideOffset={5}>
-                <Select.Group>
-                  <Select.Item value="cs">Čeština</Select.Item>
-                  <Select.Item value="de">Deutsch</Select.Item>
-                  <Select.Item value="en">English</Select.Item>
-                  <Select.Item value="hu">Magyar</Select.Item>
-                  <Select.Item value="pl">Polski</Select.Item>
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
+          <Flex gap="4" align="center">
+            <Flex gap="2" align="center">
+              <Image size={16} color="white" />
+              <Select.Root value={iconStyle} onValueChange={(value) => setIconStyle(value as 'wiki' | 'kickstarter')}>
+                <Select.Trigger />
+                <Select.Content position="popper" sideOffset={5}>
+                  <Select.Group>
+                    <Select.Item value="wiki">Wiki</Select.Item>
+                    <Select.Item value="kickstarter">Kickstarter</Select.Item>
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            </Flex>
+            <Flex gap="2" align="center">
+              <Languages size={16} color="white" />
+              <Select.Root value={language} onValueChange={onLanguageChange}>
+                <Select.Trigger />
+                <Select.Content position="popper" sideOffset={5}>
+                  <Select.Group>
+                    <Select.Item value="cs">Čeština</Select.Item>
+                    <Select.Item value="de">Deutsch</Select.Item>
+                    <Select.Item value="en">English</Select.Item>
+                    <Select.Item value="hu">Magyar</Select.Item>
+                    <Select.Item value="pl">Polski</Select.Item>
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            </Flex>
           </Flex>
         </Flex>
       </Container>

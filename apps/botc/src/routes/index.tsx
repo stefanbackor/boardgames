@@ -18,6 +18,8 @@ import { useMetaTags } from '@/hooks/useMetaTags'
 import { useLanguage } from '@/hooks/useLanguage'
 import { useScript } from '@/hooks/useScript'
 import { useTranslatedRoles } from '@/hooks/useTranslatedRoles'
+import { useIconStyle } from '@/hooks/useIconStyle'
+import { applyIconStyle } from '@/utils/imageUrl'
 import { useActiveJinxes } from '@/hooks/useActiveJinxes'
 import { useScriptModification } from '@/hooks/useScriptModification'
 import { useScriptCommit } from '@/hooks/useScriptCommit'
@@ -88,7 +90,10 @@ function App() {
 
   // ==================== DERIVED DATA ====================
   // Get translated roles and active jinxes for current language (lazy-loaded)
-  const roles = useTranslatedRoles(language)
+  const { iconStyle } = useIconStyle()
+  const translatedRoles = useTranslatedRoles(language)
+  // Memoized to avoid re-creating ~178 role objects on every render in kickstarter mode
+  const roles = useMemo(() => applyIconStyle(translatedRoles, iconStyle), [translatedRoles, iconStyle])
   const activeJinxes = useActiveJinxes(language)
 
   // Parse script and apply auto-roles
