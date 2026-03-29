@@ -16,7 +16,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 11,
     firstNightReminder:
-      'Show the *YOU ARE* info token and a Minion token.',
+      'Show the YOU ARE info token and a Minion token.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
@@ -100,10 +100,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 61,
     firstNightReminder:
-      "Point to any player. :reminder:",
+      "Point to any player. ⏺",
     otherNight: 82,
     otherNightReminder:
-      "Point to a player with a different character type to the previously shown player. :reminder:",
+      "Point to a player with a different character type to the previously shown player. ⏺",
     reminders: [
       'Seen Townsfolk',
       'Seen Outsider',
@@ -124,10 +124,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 64,
     firstNightReminder:
-      "Point to the player marked *KNOW*. ",
+      "Point to the player marked KNOW. ",
     otherNight: 85,
     otherNightReminder:
-      'If the player marked *KNOW* died today or tonight, point to the new player marked *KNOW*.',
+      'If the player marked KNOW died today or tonight, point to the new player marked KNOW.',
     reminders: ['Known'],
     setup: true,
     ability:
@@ -225,10 +225,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 30,
     firstNightReminder:
-      "The Courtier might choose a character. :reminder: :reminder:",
+      "The Courtier might choose a character. ⏺ ⏺",
     otherNight: 16,
     otherNightReminder:
-      "The Courtier might choose a character. :reminder: :reminder:",
+      "The Courtier might choose a character. ⏺ ⏺",
     reminders: ['Drunk 3', 'Drunk 2', 'Drunk 1', 'No ability'],
     setup: false,
     ability:
@@ -243,10 +243,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 66,
     firstNightReminder:
-      'The Cult Leader might change alignment. If so, show the *YOU ARE* info token & give a thumb signal.',
+      'The Cult Leader might change alignment. If so, show the YOU ARE info token & give a thumb signal.',
     otherNight: 87,
     otherNightReminder:
-      'The Cult Leader might change alignment. If so, show the *YOU ARE* info token & give a thumb signal.',
+      'The Cult Leader might change alignment. If so, show the YOU ARE info token & give a thumb signal.',
     reminders: [],
     setup: false,
     ability:
@@ -295,10 +295,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 23,
     firstNightReminder:
-      "The Engineer might choose Minions or Demons. Put the Engineer to sleep. Wake the target(s) one at a time. Show the *YOU ARE* info token & their new character token. :reminder:",
+      "The Engineer might choose Minions or Demons. Put the Engineer to sleep. Wake the target(s) one at a time. Show the YOU ARE info token & their new character token. ⏺",
     otherNight: 12,
     otherNightReminder:
-      "The Engineer might choose Minions or Demons. Put the Engineer to sleep. Wake the target(s) one at a time. Show the *YOU ARE* info token & their new character token. :reminder:",
+      "The Engineer might choose Minions or Demons. Put the Engineer to sleep. Wake the target(s) one at a time. Show the YOU ARE info token & their new character token. ⏺",
     reminders: ['No ability'],
     setup: false,
     ability:
@@ -315,7 +315,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 34,
     otherNightReminder:
-      'The Exorcist chooses a player. :reminder: Put the Exorcist to sleep. If the Exorcist chose the Demon: Wake the Demon. Show the *THIS CHARACTER SELECTED YOU* & Exorcist tokens. Point to the Exorcist.',
+      'The Exorcist chooses a player. ⏺ Put the Exorcist to sleep. If the Exorcist chose the Demon: Wake the Demon. Show the THIS CHARACTER SELECTED YOU & Exorcist tokens. Point to the Exorcist.',
     reminders: ['Chosen'],
     setup: false,
     ability:
@@ -331,7 +331,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 68,
     otherNightReminder:
-      "If the Farmer died tonight, wake a living good player. Show the *YOU ARE* info token and a Farmer token.",
+      "If the Farmer died tonight, wake a living good player. Show the YOU ARE info token and a Farmer token.",
     reminders: [],
     setup: false,
     ability: 'When you die at night, an alive good player becomes a Farmer.',
@@ -391,10 +391,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 52,
     firstNightReminder:
-      'The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).',
+      'The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING).',
     otherNight: 74,
     otherNightReminder:
-      "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).",
+      "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING).",
     reminders: ['Red herring'],
     setup: false,
     ability:
@@ -410,7 +410,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 19,
     otherNightReminder:
-      'The Gambler chooses a player & a character. :reminder:',
+      'The Gambler chooses a player & a character. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -443,7 +443,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 56,
     otherNightReminder:
-      'If the Gossip is due to kill a player, they die. :reminder:',
+      'If the Gossip is due to kill a player, they die. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -461,7 +461,7 @@ export const roles = [
       'Point to the grandchild player & show their character token.',
     otherNight: 71,
     otherNightReminder:
-      'If the grandchild was killed by the Demon, the Grandmother dies too. :reminder:',
+      'If the grandchild was killed by the Demon, the Grandmother dies too. ⏺',
     reminders: ['Grandchild'],
     setup: false,
     ability:
@@ -476,10 +476,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 44,
     firstNightReminder:
-      "The Huntsman might choose a player. :reminder: If they chose the Damsel: Put the Huntsman to sleep. Wake the target. Show the *YOU ARE* info token & their new character token.",
+      "The Huntsman might choose a player. ⏺ If they chose the Damsel: Put the Huntsman to sleep. Wake the target. Show the YOU ARE info token & their new character token.",
     otherNight: 65,
     otherNightReminder:
-      "The Huntsman might choose a player. :reminder: If they chose the Damsel: Put the Huntsman to sleep. Wake the target. Show the *YOU ARE* info token & their new character token.",
+      "The Huntsman might choose a player. ⏺ If they chose the Damsel: Put the Huntsman to sleep. Wake the target. Show the YOU ARE info token & their new character token.",
     reminders: ['No ability'],
     setup: true,
     ability:
@@ -496,7 +496,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 17,
     otherNightReminder:
-      'The Innkeeper chooses 2 players. :reminder: :reminder: :reminder:',
+      'The Innkeeper chooses 2 players. ⏺ ⏺ ⏺',
     reminders: ['Protected', 'Drunk'],
     setup: false,
     ability:
@@ -511,7 +511,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 49,
     firstNightReminder:
-      'Show the Minion character token. Point to both the *MINION* and *WRONG* players.',
+      'Show the Minion character token. Point to both the MINION and WRONG players.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Minion', 'Wrong'],
@@ -542,7 +542,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 20,
     firstNightReminder:
-      "Wake the Demon: Show the *THIS PLAYER IS* & King tokens, then point to the King.",
+      "Wake the Demon: Show the THIS PLAYER IS & King tokens, then point to the King.",
     otherNight: 84,
     otherNightReminder:
       'If the dead equal or outnumber the living, show the character token of a living player.',
@@ -560,7 +560,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 48,
     firstNightReminder:
-      'Show the Outsider character token. Point to both the *OUTSIDER* and *WRONG* players.',
+      'Show the Outsider character token. Point to both the OUTSIDER and WRONG players.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Outsider', 'Wrong'],
@@ -579,7 +579,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 35,
     otherNightReminder:
-      'The Lycanthrope chooses a player. :reminder:',
+      'The Lycanthrope chooses a player. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -660,7 +660,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 22,
     otherNightReminder:
-      "The Monk chooses a player. :reminder:",
+      "The Monk chooses a player. ⏺",
     reminders: ['Protected'],
     setup: false,
     ability:
@@ -675,10 +675,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 65,
     firstNightReminder:
-      "The Nightwatchman might choose a player. Put the Nightwatchman to sleep. Wake the target. Show the *THIS PLAYER IS* & Nightwatchman tokens, then point to the Nightwatchman. :reminder:",
+      "The Nightwatchman might choose a player. Put the Nightwatchman to sleep. Wake the target. Show the THIS PLAYER IS & Nightwatchman tokens, then point to the Nightwatchman. ⏺",
     otherNight: 86,
     otherNightReminder:
-      "The Nightwatchman might choose a player. Put the Nightwatchman to sleep. Wake the target. Show the *THIS PLAYER IS* & Nightwatchman tokens, then point to the Nightwatchman. :reminder:",
+      "The Nightwatchman might choose a player. Put the Nightwatchman to sleep. Wake the target. Show the THIS PLAYER IS & Nightwatchman tokens, then point to the Nightwatchman. ⏺",
     reminders: ['No ability'],
     setup: false,
     ability:
@@ -692,7 +692,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 60,
     firstNightReminder:
-      'Point to the 3 players marked *KNOW*.',
+      'Point to the 3 players marked KNOW.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Seen'],
@@ -738,10 +738,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 10,
     firstNightReminder:
-      "The Philosopher might choose a character. If necessary, swap their character token. :reminder:",
+      "The Philosopher might choose a character. If necessary, swap their character token. ⏺",
     otherNight: 9,
     otherNightReminder:
-      "The Philosopher might choose a character. If necessary, swap their character token. :reminder:",
+      "The Philosopher might choose a character. If necessary, swap their character token. ⏺",
     reminders: ['Drunk', 'Is the Philosopher'],
     setup: false,
     ability:
@@ -754,7 +754,7 @@ export const roles = [
     edition: '',
     team: 'townsfolk',
     firstNight: 43,
-    firstNightReminder: 'Show the Townsfolk character token marked *MAD*.',
+    firstNightReminder: 'Show the Townsfolk character token marked MAD.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Mad', 'Has ability'],
@@ -770,10 +770,10 @@ export const roles = [
     edition: '',
     team: 'townsfolk',
     firstNight: 12,
-    firstNightReminder: 'Skip Minion Info and Demon Info. Wake the Demon. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.',
+    firstNightReminder: 'Skip Minion Info and Demon Info. Wake the Demon. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.',
     otherNight: 10,
     otherNightReminder:
-      'If the Poppy Grower died today or tonight, wake all Minions. Show the *THIS IS THE DEMON* token. Point to the Demon. Put the Minions to sleep. Wake the Demon. Show the *THESE ARE YOUR MINIONS* token. Point to the Minions.',
+      'If the Poppy Grower died today or tonight, wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon. Put the Minions to sleep. Wake the Demon. Show the THESE ARE YOUR MINIONS token. Point to the Minions.',
     reminders: ['Evil wakes'],
     setup: false,
     ability:
@@ -788,10 +788,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 24,
     firstNightReminder:
-      "The Preacher chooses a player. :reminder: If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the *THIS CHARACTER SELECTED YOU* & Preacher tokens.",
+      "The Preacher chooses a player. ⏺ If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU & Preacher tokens.",
     otherNight: 13,
     otherNightReminder:
-      "The Preacher chooses a player. :reminder: If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the *THIS CHARACTER SELECTED YOU* & Preacher tokens.",
+      "The Preacher chooses a player. ⏺ If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU & Preacher tokens.",
     reminders: ['At a sermon'],
     setup: false,
     ability:
@@ -804,7 +804,7 @@ export const roles = [
     team: 'townsfolk',
     firstNightReminder: '',
     otherNightReminder:
-      "If the Princess nominated the player who was executed today, wake the Demon as normal, but no one dies to the Demon's ability. :reminder:",
+      "If the Princess nominated the player who was executed today, wake the Demon as normal, but no one dies to the Demon's ability. ⏺",
     reminders: ["Doesn't Kill"],
     setup: false,
     ability:
@@ -826,7 +826,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 63,
     otherNightReminder:
-      'The Professor might choose a dead player. :reminder: :reminder:',
+      'The Professor might choose a dead player. ⏺ ⏺',
     reminders: ['Alive', 'No ability'],
     setup: false,
     ability:
@@ -854,7 +854,7 @@ export const roles = [
     name: 'Knight',
     edition: '',
     team: 'townsfolk',
-    firstNightReminder: 'Point to the 2 players marked *KNOW*.',
+    firstNightReminder: 'Point to the 2 players marked KNOW.',
     otherNightReminder: '',
     reminders: ['Know', 'Know'],
     setup: false,
@@ -888,10 +888,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 21,
     firstNightReminder:
-      'The Sailor chooses a living player. :reminder:',
+      'The Sailor chooses a living player. ⏺',
     otherNight: 11,
     otherNightReminder:
-      'The Sailor chooses a living player. :reminder:',
+      'The Sailor chooses a living player. ⏺',
     reminders: ['Drunk'],
     setup: false,
     ability:
@@ -921,10 +921,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 57,
     firstNightReminder:
-      "The Seamstress might choose 2 players. Nod or shake your head. :reminder:",
+      "The Seamstress might choose 2 players. Nod or shake your head. ⏺",
     otherNight: 80,
     otherNightReminder:
-      "The Seamstress might choose 2 players. Nod or shake your head. :reminder:",
+      "The Seamstress might choose 2 players. Nod or shake your head. ⏺",
     reminders: ['No ability'],
     setup: false,
     ability:
@@ -971,7 +971,7 @@ export const roles = [
     team: 'townsfolk',
     firstNightReminder: '',
     otherNightReminder:
-      'If the Banshee was killed by the Demon tonight, announce that the Banshee has died. :reminder:',
+      'If the Banshee was killed by the Demon tonight, announce that the Banshee has died. ⏺',
     reminders: ['Has Ability'],
     setup: false,
     ability:
@@ -992,10 +992,10 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 32,
     firstNightReminder:
-      'The Snake Charmer chooses a player. If they chose the Demon: Show the *YOU ARE* & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the *YOU ARE* and Snake Charmer tokens & give a thumbs up. :reminder:',
+      'The Snake Charmer chooses a player. If they chose the Demon: Show the YOU ARE & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the YOU ARE and Snake Charmer tokens & give a thumbs up. ⏺',
     otherNight: 21,
     otherNightReminder:
-      'The Snake Charmer chooses a player. If they chose the Demon: Show the *YOU ARE* & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the *YOU ARE* and Snake Charmer tokens & give a thumbs up. :reminder:',
+      'The Snake Charmer chooses a player. If they chose the Demon: Show the YOU ARE & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the YOU ARE and Snake Charmer tokens & give a thumbs up. ⏺',
     reminders: ['Poisoned'],
     setup: false,
     ability:
@@ -1020,7 +1020,7 @@ export const roles = [
     name: 'Steward',
     edition: '',
     team: 'townsfolk',
-    firstNightReminder: 'Point to the player marked *KNOW*.',
+    firstNightReminder: 'Point to the player marked KNOW.',
     otherNightReminder: '',
     reminders: ['Know'],
     setup: false,
@@ -1103,7 +1103,7 @@ export const roles = [
     edition: '',
     team: 'townsfolk',
     firstNightReminder:
-      'If there are multiple Village Idiots, mark one as *DRUNK*. :reminder: Wake the Village Idiots one at a time to choose a player. Give a thumb signal.',
+      'If there are multiple Village Idiots, mark one as DRUNK. ⏺ Wake the Village Idiots one at a time to choose a player. Give a thumb signal.',
     otherNightReminder:
       'Wake the Village Idiots one at a time to choose a player. Give a thumb signal.',
     reminders: ['Drunk'],
@@ -1148,7 +1148,7 @@ export const roles = [
     team: 'townsfolk',
     firstNight: 47,
     firstNightReminder:
-      'Show the Townsfolk character token. Point to both the *TOWNSFOLK* and *WRONG* players.',
+      'Show the Townsfolk character token. Point to both the TOWNSFOLK and WRONG players.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Townsfolk', 'Wrong'],
@@ -1165,7 +1165,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 20,
     otherNightReminder:
-      'The Acrobat chooses a player. :reminder:',
+      'The Acrobat chooses a player. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -1181,7 +1181,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 58,
     otherNightReminder:
-      "If the Barber died today or tonight, show the Demon the *THIS CHARACTER SELECTED YOU* & Barber tokens. If the Demon chose 2 players, wake one at a time. Show the *YOU ARE* token & their new character token.",
+      "If the Barber died today or tonight, show the Demon the THIS CHARACTER SELECTED YOU & Barber tokens. If the Demon chose 2 players, wake one at a time. Show the YOU ARE token & their new character token.",
     reminders: ['Haircuts tonight'],
     setup: false,
     ability:
@@ -1195,10 +1195,10 @@ export const roles = [
     team: 'outsider',
     firstNight: 53,
     firstNightReminder:
-      "The Butler chooses a player. :reminder:",
+      "The Butler chooses a player. ⏺",
     otherNight: 88,
     otherNightReminder:
-      "The Butler chooses a player. :reminder:",
+      "The Butler chooses a player. ⏺",
     reminders: ['Master'],
     setup: false,
     ability:
@@ -1212,10 +1212,10 @@ export const roles = [
     team: 'outsider',
     firstNight: 45,
     firstNightReminder:
-      "During Minion Info, show the Minions the Damsel token. If you haven't done this yet, do so now. If the Damsel was chosen by the Huntsman, show the *YOU ARE* info token & their new character token.",
+      "During Minion Info, show the Minions the Damsel token. If you haven't done this yet, do so now. If the Damsel was chosen by the Huntsman, show the YOU ARE info token & their new character token.",
     otherNight: 66,
     otherNightReminder:
-      "If the Damsel was chosen by the Huntsman, show the *YOU ARE* info token & their new character token.",
+      "If the Damsel was chosen by the Huntsman, show the YOU ARE info token & their new character token.",
     reminders: ['Guess used'],
     setup: false,
     ability:
@@ -1274,7 +1274,7 @@ export const roles = [
     team: 'outsider',
     firstNightReminder: '',
     otherNightReminder:
-      'If the Hatter died, wake the Minions & Demons. Each may choose a new character. If they do, show the *YOU ARE* token & their new character token.',
+      'If the Hatter died, wake the Minions & Demons. Each may choose a new character. If they do, show the YOU ARE token & their new character token.',
     reminders: ['Tea Party Tonight'],
     setup: false,
     ability:
@@ -1323,7 +1323,7 @@ export const roles = [
     team: 'outsider',
     firstNight: 17,
     firstNightReminder:
-      "If there are 7 or more players, wake the Lunatic: Show the *THESE ARE YOUR MINIONS* token. Point to any players. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 good character tokens. Put the Lunatic to sleep. Wake the Demon. Show the *YOU ARE* info token and the Demon token. Show the *THIS PLAYER IS* info token and the Lunatic token, then point to the Lunatic.",
+      "If there are 7 or more players, wake the Lunatic: Show the THESE ARE YOUR MINIONS token. Point to any players. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 good character tokens. Put the Lunatic to sleep. Wake the Demon. Show the YOU ARE info token and the Demon token. Show the THIS PLAYER IS info token and the Lunatic token, then point to the Lunatic.",
     otherNight: 33,
     otherNightReminder:
       "Do whatever needs to be done to simulate the Demon acting. Put the Lunatic to sleep. Wake the Demon. Show the Lunatic token & point to them, then their target(s).",
@@ -1343,7 +1343,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 70,
     otherNightReminder:
-      'If the Moonchild is due to kill a good player, they die. :reminder:',
+      'If the Moonchild is due to kill a good player, they die. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -1355,7 +1355,7 @@ export const roles = [
     edition: '',
     team: 'outsider',
     firstNightReminder: '',
-    otherNightReminder: 'If the Plague Doctor died, the Storyteller gained a Minion ability. If you haven’t done this yet, do so now. :reminder:',
+    otherNightReminder: 'If the Plague Doctor died, the Storyteller gained a Minion ability. If you haven’t done this yet, do so now. ⏺',
     reminders: ['Storyteller Ability'],
     setup: false,
     ability: 'When you die, the Storyteller gains a Minion ability.',
@@ -1463,7 +1463,7 @@ export const roles = [
     team: 'outsider',
     firstNight: 16,
     firstNightReminder:
-      'Wake each Minion. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play character tokens.',
+      'Wake each Minion. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play character tokens.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
@@ -1480,7 +1480,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 59,
-    otherNightReminder: 'If the Sweetheart died, a player became drunk immediately. If you haven\'t done this yet, do so now. :reminder:',
+    otherNightReminder: 'If the Sweetheart died, a player became drunk immediately. If you haven\'t done this yet, do so now. ⏺',
     reminders: ['Drunk'],
     setup: false,
     ability: 'When you die, 1 player is drunk from now on.',
@@ -1494,7 +1494,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 69,
-    otherNightReminder: 'The Tinker might die. :reminder:',
+    otherNightReminder: 'The Tinker might die. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability: 'You might die at any time.',
@@ -1523,7 +1523,7 @@ export const roles = [
     edition: '',
     team: 'outsider',
     firstNightReminder:
-      'The Ogre chooses a player. :reminder:',
+      'The Ogre chooses a player. ⏺',
     otherNightReminder: '',
     reminders: ['Friend'],
     setup: false,
@@ -1546,7 +1546,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 54,
     otherNightReminder:
-      "The Assassin might choose a player. :reminder: :reminder:",
+      "The Assassin might choose a player. ⏺ ⏺",
     reminders: ['Dead', 'No ability'],
     setup: false,
     ability:
@@ -1572,7 +1572,7 @@ export const roles = [
     edition: '',
     team: 'minion',
     firstNightReminder:
-      'Wake the Boffin and the Demon. Show the *THIS CHARACTER SELECTED YOU* & Boffin tokens, then the not-in-play good character token.',
+      'Wake the Boffin and the Demon. Show the THIS CHARACTER SELECTED YOU & Boffin tokens, then the not-in-play good character token.',
     otherNightReminder: '',
     reminders: [],
     setup: false,
@@ -1630,10 +1630,10 @@ export const roles = [
     team: 'minion',
     firstNight: 38,
     firstNightReminder:
-      "The Cerenovus chooses a player & a character. :reminder: Put the Cerenovus to sleep. Wake the target. Show the *THIS CHARACTER SELECTED YOU* token, the Cerenovus token, then the madness-character token.",
+      "The Cerenovus chooses a player & a character. ⏺ Put the Cerenovus to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU token, the Cerenovus token, then the madness-character token.",
     otherNight: 26,
     otherNightReminder:
-      "The Cerenovus chooses a player & a character. :reminder: Put the Cerenovus to sleep. Wake the target. Show the *THIS CHARACTER SELECTED YOU* token, the Cerenovus token, then the madness-character token.",
+      "The Cerenovus chooses a player & a character. ⏺ Put the Cerenovus to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU token, the Cerenovus token, then the madness-character token.",
     reminders: ['Mad'],
     setup: false,
     ability:
@@ -1645,9 +1645,9 @@ export const roles = [
     edition: '',
     team: 'minion',
     firstNightReminder:
-      "The Organ Grinder either nods their head yes to be drunk, or shakes their head no to be sober. :reminder:",
+      "The Organ Grinder either nods their head yes to be drunk, or shakes their head no to be sober. ⏺",
     otherNightReminder:
-      "The Organ Grinder either nods their head yes to be drunk, or shakes their head no to be sober. :reminder:",
+      "The Organ Grinder either nods their head yes to be drunk, or shakes their head no to be sober. ⏺",
     reminders: ['About To Die', 'Drunk'],
     special: [
       {
@@ -1675,10 +1675,10 @@ export const roles = [
     team: 'minion',
     firstNight: 35,
     firstNightReminder:
-      'The Devil\'s Advocate chooses a living player. :reminder:',
+      'The Devil\'s Advocate chooses a living player. ⏺',
     otherNight: 24,
     otherNightReminder:
-      'The Devil\'s Advocate chooses a living player. :reminder:',
+      'The Devil\'s Advocate chooses a living player. ⏺',
     reminders: ['Survives execution'],
     setup: false,
     ability:
@@ -1710,10 +1710,10 @@ export const roles = [
     team: 'minion',
     firstNight: 39,
     firstNightReminder:
-      'The Fearmonger chooses a player. :reminder: Announce that the Fearmonger has chosen a player.',
+      'The Fearmonger chooses a player. ⏺ Announce that the Fearmonger has chosen a player.',
     otherNight: 28,
     otherNightReminder:
-      'The Fearmonger chooses a player. :reminder: If the target is different to last night, announce that the Fearmonger has chosen a player.',
+      'The Fearmonger chooses a player. ⏺ If the target is different to last night, announce that the Fearmonger has chosen a player.',
     reminders: ['Fear'],
     setup: false,
     ability:
@@ -1745,7 +1745,7 @@ export const roles = [
     firstNightReminder: 'Show the character tokens of all in-play Outsiders.',
     otherNight: 55,
     otherNightReminder:
-      'If an Outsider died today, the Godfather chooses a player. :reminder:',
+      'If an Outsider died today, the Godfather chooses a player. ⏺',
     reminders: ['Died today', 'Dead'],
     setup: true,
     ability:
@@ -1757,9 +1757,9 @@ export const roles = [
     edition: '',
     team: 'minion',
     firstNightReminder:
-      "The Harpy chooses 2 players. :reminder: :reminder: Put the Harpy to sleep. Wake the 1st target. Show the *THIS CHARACTER SELECTED YOU* token, the Harpy token, then point to the 2nd target.",
+      "The Harpy chooses 2 players. ⏺ ⏺ Put the Harpy to sleep. Wake the 1st target. Show the THIS CHARACTER SELECTED YOU token, the Harpy token, then point to the 2nd target.",
     otherNightReminder:
-      "The Harpy chooses 2 players. :reminder: :reminder: Put the Harpy to sleep. Wake the 1st target. Show the *THIS CHARACTER SELECTED YOU* token, the Harpy token, then point to the 2nd target.",
+      "The Harpy chooses 2 players. ⏺ ⏺ Put the Harpy to sleep. Wake the 1st target. Show the THIS CHARACTER SELECTED YOU token, the Harpy token, then point to the 2nd target.",
     reminders: ['Mad', '2nd'],
     setup: false,
     ability:
@@ -1780,7 +1780,7 @@ export const roles = [
     team: 'minion',
     firstNight: 22,
     firstNightReminder:
-      'Wake the Demon. Show the *THIS PLAYER IS* & Marionette tokens. Point to the Marionette.',
+      'Wake the Demon. Show the THIS PLAYER IS & Marionette tokens. Point to the Marionette.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
@@ -1816,7 +1816,7 @@ export const roles = [
     firstNightReminder: 'Show the secret word.',
     otherNight: 30,
     otherNightReminder:
-      "If a good player said the secret word, wake the player. Show the *YOU ARE* info token & give a thumbs-down. :reminder: :reminder:",
+      "If a good player said the secret word, wake the player. Show the YOU ARE info token & give a thumbs-down. ⏺ ⏺",
     reminders: ['Turns evil', 'No ability'],
     setup: false,
     ability:
@@ -1832,7 +1832,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 27,
     otherNightReminder:
-      "The Pit-Hag chooses a player & a character. If they chose a character that is not in play: Put the Pit-Hag to sleep. Wake the target. Show the *YOU ARE* token & their new character token.",
+      "The Pit-Hag chooses a player & a character. If they chose a character that is not in play: Put the Pit-Hag to sleep. Wake the target. Show the YOU ARE token & their new character token.",
     reminders: [],
     setup: false,
     ability:
@@ -1847,10 +1847,10 @@ export const roles = [
     team: 'minion',
     firstNight: 28,
     firstNightReminder:
-      'The Poisoner chooses a player. :reminder:',
+      'The Poisoner chooses a player. ⏺',
     otherNight: 15,
     otherNightReminder:
-      'The Poisoner chooses a player. :reminder:',
+      'The Poisoner chooses a player. ⏺',
     reminders: ['Poisoned'],
     setup: false,
     ability:
@@ -1908,7 +1908,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 31,
     otherNightReminder:
-      "If the Scarlet Woman became the Demon today, show them the *YOU ARE* token, then the Demon token.",
+      "If the Scarlet Woman became the Demon today, show them the YOU ARE token, then the Demon token.",
     reminders: ['Demon'],
     setup: false,
     ability:
@@ -1937,9 +1937,9 @@ export const roles = [
     edition: '',
     team: 'minion',
     firstNightReminder:
-      "Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+      "Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.",
     otherNightReminder:
-      'Change the Summoner reminder token to the relevant night. :reminder: If it is night 3, the Summoner chooses a player & a Demon character. Put the Summoner to sleep. Wake the target. Show the *YOU ARE* and Demon tokens & give a thumbs-down.',
+      'Change the Summoner reminder token to the relevant night. ⏺ If it is night 3, the Summoner chooses a player & a Demon character. Put the Summoner to sleep. Wake the target. Show the YOU ARE and Demon tokens & give a thumbs-down.',
     reminders: ['Night 1', 'Night 2', 'Night 3'],
     setup: true,
     ability:
@@ -1978,7 +1978,7 @@ export const roles = [
     team: 'minion',
     firstNight: 29,
     firstNightReminder:
-      "Show the Grimoire for as long as the Widow needs. The Widow chooses a player. :reminder: Put the Widow to sleep. Wake the player marked *KNOW* & show the Widow token. :reminder:",
+      "Show the Grimoire for as long as the Widow needs. The Widow chooses a player. ⏺ Put the Widow to sleep. Wake the player marked KNOW & show the Widow token. ⏺",
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Poisoned'],
@@ -1995,10 +1995,10 @@ export const roles = [
     team: 'minion',
     firstNight: 37,
     firstNightReminder:
-      'The Witch chooses a player. :reminder:',
+      'The Witch chooses a player. ⏺',
     otherNight: 25,
     otherNightReminder:
-      'The Witch chooses a player. :reminder:',
+      'The Witch chooses a player. ⏺',
     reminders: ['Cursed'],
     setup: false,
     ability:
@@ -2010,9 +2010,9 @@ export const roles = [
     edition: '',
     team: 'minion',
     firstNightReminder:
-      "If X is 1, mark the Xaan with the *X* reminder token. :reminder: :reminder:",
+      "If X is 1, mark the Xaan with the *X* reminder token. ⏺ ⏺",
     otherNightReminder:
-      "Change the Xaan reminder token to the relevant night. If it is night X, mark the Xaan with the *X* reminder token. :reminder: :reminder:",
+      "Change the Xaan reminder token to the relevant night. If it is night X, mark the Xaan with the *X* reminder token. ⏺ ⏺",
     reminders: ['Night 1', 'Night 2', 'Night 3', 'X'],
     setup: true,
     ability: 'On night X, all Townsfolk are poisoned until dusk. [X Outsiders]',
@@ -2033,7 +2033,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 49,
     otherNightReminder:
-      'The Al-Hadikhia chooses 3 players. :reminder: :reminder: :reminder: In order, wake each target. They nod or shake their head. Put them to sleep before waking the next target.',
+      'The Al-Hadikhia chooses 3 players. ⏺ ⏺ ⏺ In order, wake each target. They nod or shake their head. Put them to sleep before waking the next target.',
     reminders: ['1', '2', '3', 'Chose death', 'Chose life'],
     setup: false,
     ability:
@@ -2046,7 +2046,7 @@ export const roles = [
     team: 'demon',
     firstNightReminder: 'Show the Yaggababble their secret phrase.',
     otherNightReminder:
-      'For each time the Yaggababble said their phrase today, a player might die. :reminder:',
+      'For each time the Yaggababble said their phrase today, a player might die. ⏺',
     reminders: ['Mrtvý', 'Mrtvý', 'Mrtvý'],
     setup: false,
     ability:
@@ -2069,7 +2069,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 43,
     otherNightReminder:
-      "The Fang Gu chooses a player. :reminder: If they chose an Outsider (once only): Replace the Outsider token with the spare Fang Gu token. Put the Fang Gu to sleep. Wake the target. Show the *YOU ARE* and Fang Gu tokens & give a thumbs-down. :reminder:",
+      "The Fang Gu chooses a player. ⏺ If they chose an Outsider (once only): Replace the Outsider token with the spare Fang Gu token. Put the Fang Gu to sleep. Wake the target. Show the YOU ARE and Fang Gu tokens & give a thumbs-down. ⏺",
     reminders: ['Dead', 'Once'],
     setup: true,
     ability:
@@ -2085,7 +2085,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 38,
     otherNightReminder:
-      "The Imp chooses a player. :reminder: If the Imp chose themselves: Replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the *YOU ARE* token, then show the Imp token.",
+      "The Imp chooses a player. ⏺ If the Imp chose themselves: Replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the YOU ARE token, then show the Imp token.",
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -2097,8 +2097,8 @@ export const roles = [
     edition: '',
     team: 'demon',
     firstNightReminder:
-      "The Kazali chooses which players are which Minions. Wake each target. Show the *YOU ARE* and Minion tokens & give a thumbs-down.",
-    otherNightReminder: 'The Kazali chooses a player. :reminder:',
+      "The Kazali chooses which players are which Minions. Wake each target. Show the YOU ARE and Minion tokens & give a thumbs-down.",
+    otherNightReminder: 'The Kazali chooses a player. ⏺',
     reminders: ['Dead'],
     setup: true,
     ability:
@@ -2119,7 +2119,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 37,
-    otherNightReminder: 'A player might die. :reminder:',
+    otherNightReminder: 'A player might die. ⏺',
     reminders: ['Dead', 'About to die'],
     setup: true,
     ability:
@@ -2134,9 +2134,9 @@ export const roles = [
     team: 'demon',
     firstNight: 74,
     firstNightReminder:
-      "Announce that the Leviathan is in play. :reminder:",
+      "Announce that the Leviathan is in play. ⏺",
     otherNight: 95,
-    otherNightReminder: 'Change the Leviathan reminder token to the relevant day. :reminder: You may announce that the Leviathan is in play.',
+    otherNightReminder: 'Change the Leviathan reminder token to the relevant day. ⏺ You may announce that the Leviathan is in play.',
     reminders: [
       'Day 1',
       'Day 2',
@@ -2158,10 +2158,10 @@ export const roles = [
     team: 'demon',
     firstNight: 25,
     firstNightReminder:
-      "Wake the Minions. They choose a player. :reminder: Put the Minions to sleep. Wake the target. Show the *YOU ARE* & Lil' Monsta tokens.",
+      "Wake the Minions. They choose a player. ⏺ Put the Minions to sleep. Wake the target. Show the YOU ARE & Lil' Monsta tokens.",
     otherNight: 51,
     otherNightReminder:
-      "Wake the Minions. They choose a player. :reminder: Put the Minions to sleep. Wake the target. Show the *YOU ARE* & Lil' Monsta tokens. A player might die. :reminder:",
+      "Wake the Minions. They choose a player. ⏺ Put the Minions to sleep. Wake the target. Show the YOU ARE & Lil' Monsta tokens. A player might die. ⏺",
     reminders: [],
     remindersGlobal: ['Is the Demon', 'Dead'],
     setup: true,
@@ -2176,9 +2176,9 @@ export const roles = [
     team: 'demon',
     firstNight: 26,
     firstNightReminder:
-      'The Lleech chooses a player. :reminder:',
+      'The Lleech chooses a player. ⏺',
     otherNight: 50,
-    otherNightReminder: 'The Lleech chooses a player. :reminder:',
+    otherNightReminder: 'The Lleech chooses a player. ⏺',
     reminders: ['Dead', 'Poisoned'],
     setup: false,
     ability:
@@ -2194,7 +2194,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 44,
-    otherNightReminder: 'The No Dashii chooses a player. :reminder:',
+    otherNightReminder: 'The No Dashii chooses a player. ⏺',
     reminders: ['Dead', 'Poisoned'],
     setup: false,
     ability:
@@ -2207,7 +2207,7 @@ export const roles = [
     team: 'demon',
     firstNightReminder: '',
     otherNightReminder:
-      'The Ojo chooses a character. :reminder:',
+      'The Ojo chooses a character. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -2224,9 +2224,9 @@ export const roles = [
     edition: '',
     team: 'demon',
     firstNightReminder:
-      "Wake the Lord of Typhon's neighbors. Show the *YOU ARE* and Minion tokens & give a thumbs-down.",
+      "Wake the Lord of Typhon's neighbors. Show the YOU ARE and Minion tokens & give a thumbs-down.",
     otherNightReminder:
-      'The Lord of Typhon chooses a player. :reminder:',
+      'The Lord of Typhon chooses a player. ⏺',
     reminders: ['Dead'],
     setup: true,
     ability:
@@ -2249,7 +2249,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 42,
     otherNightReminder:
-      "The Po may choose a player OR chooses 3 players if they chose no-one last night. :reminder: or :reminder: :reminder: :reminder:",
+      "The Po may choose a player OR chooses 3 players if they chose no-one last night. ⏺ or ⏺ ⏺ ⏺",
     reminders: ['Dead', '3 attacks'],
     setup: false,
     ability:
@@ -2263,10 +2263,10 @@ export const roles = [
     team: 'demon',
     firstNight: 42,
     firstNightReminder:
-      'The Pukka chooses a player. :reminder:',
+      'The Pukka chooses a player. ⏺',
     otherNight: 40,
     otherNightReminder:
-      'The Pukka chooses a player. :reminder: The previously poisoned player dies then becomes healthy. :reminder:',
+      'The Pukka chooses a player. ⏺ The previously poisoned player dies then becomes healthy. ⏺',
     reminders: ['Poisoned', 'Dead'],
     setup: false,
     ability:
@@ -2281,7 +2281,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 0,
-    otherNightReminder: 'Change the Riot reminder token to the relevant day. :reminder: If it is night 3, you may wake the Minions. Show the *YOU ARE* & Riot tokens.',
+    otherNightReminder: 'Change the Riot reminder token to the relevant day. ⏺ If it is night 3, you may wake the Minions. Show the YOU ARE & Riot tokens.',
     reminders: [],
     setup: false,
     ability:
@@ -2298,7 +2298,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 41,
     otherNightReminder:
-      'A previously chosen player might be resurrected. :reminder: The Shabaloth chooses 2 players. :reminder: :reminder:',
+      'A previously chosen player might be resurrected. ⏺ The Shabaloth chooses 2 players. ⏺ ⏺',
     reminders: ['Dead', 'Alive'],
     setup: false,
     ability:
@@ -2315,7 +2315,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 47,
     otherNightReminder:
-      'The Vigormortis chooses a player. :reminder: If that player is a Minion, poison a neighboring Townsfolk. :reminder: :reminder:',
+      'The Vigormortis chooses a player. ⏺ If that player is a Minion, poison a neighboring Townsfolk. ⏺ ⏺',
     reminders: ['Dead', 'Has ability', 'Poisoned'],
     setup: true,
     ability:
@@ -2330,7 +2330,7 @@ export const roles = [
     firstNight: 0,
     firstNightReminder: '',
     otherNight: 45,
-    otherNightReminder: 'The Vortox chooses a player. :reminder:',
+    otherNightReminder: 'The Vortox chooses a player. ⏺',
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -2346,7 +2346,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 39,
     otherNightReminder:
-      'If no one died today, the Zombuul chooses a player. :reminder:',
+      'If no one died today, the Zombuul chooses a player. ⏺',
     reminders: ['Died today', 'Dead'],
     setup: false,
     ability:
@@ -2361,7 +2361,7 @@ export const roles = [
     team: 'traveler',
     firstNight: 5,
     firstNightReminder:
-      "Show the *YOU ARE* info token, then a Townsfolk or Minion token. Swap the Apprentice & Townsfolk or Minion tokens. :reminder:",
+      "Show the YOU ARE info token, then a Townsfolk or Minion token. Swap the Apprentice & Townsfolk or Minion tokens. ⏺",
     otherNight: 0,
     otherNightReminder: '',
     reminders: ['Is the Apprentice'],
@@ -2377,10 +2377,10 @@ export const roles = [
     team: 'traveler',
     firstNight: 6,
     firstNightReminder:
-      'Choose a player. Wake them, show the *THIS CHARACTER SELECTED YOU* & Barista tokens, then give a finger signal. :reminder:',
+      'Choose a player. Wake them, show the THIS CHARACTER SELECTED YOU & Barista tokens, then give a finger signal. ⏺',
     otherNight: 4,
     otherNightReminder:
-      'Choose a player. Wake them, show the *THIS CHARACTER SELECTED YOU* & Barista tokens, then give a finger signal. :reminder:',
+      'Choose a player. Wake them, show the THIS CHARACTER SELECTED YOU & Barista tokens, then give a finger signal. ⏺',
     reminders: ['Sober & Healthy', 'Ability twice'],
     setup: false,
     ability:
@@ -2427,7 +2427,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 8,
     otherNightReminder:
-      "The Bone Collector might choose a dead player. :reminder: If necessary, wake the chosen player to use their ability.",
+      "The Bone Collector might choose a dead player. ⏺ If necessary, wake the chosen player to use their ability.",
     reminders: ['No ability', 'Has ability'],
     setup: false,
     ability:
@@ -2442,10 +2442,10 @@ export const roles = [
     team: 'traveler',
     firstNight: 7,
     firstNightReminder:
-      "The Bureaucrat chooses a player. :reminder:",
+      "The Bureaucrat chooses a player. ⏺",
     otherNight: 5,
     otherNightReminder:
-      "The Bureaucrat chooses a player. :reminder:",
+      "The Bureaucrat chooses a player. ⏺",
     reminders: ['3 votes'],
     setup: false,
     ability:
@@ -2472,7 +2472,7 @@ export const roles = [
     team: 'traveler',
     firstNightReminder: '',
     otherNightReminder:
-      "Before dawn, choose a player not marked *NOT ME*. Wake the target. Show the *YOU ARE* info token & their new character token.",
+      "Before dawn, choose a player not marked NOT ME. Wake the target. Show the YOU ARE info token & their new character token.",
     reminders: ['Not Me'],
     setup: false,
     ability:
@@ -2557,7 +2557,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 7,
     otherNightReminder:
-      "The Harlot chooses a living player. Put the Harlot to sleep. Wake the chosen player, show them the *THIS CHARACTER SELECTED YOU* token, then the Harlot token. If that player nods their head, wake the Harlot and show them the chosen player's character token. Both players might die. :reminder: :reminder:",
+      "The Harlot chooses a living player. Put the Harlot to sleep. Wake the chosen player, show them the THIS CHARACTER SELECTED YOU token, then the Harlot token. If that player nods their head, wake the Harlot and show them the chosen player's character token. Both players might die. ⏺ ⏺",
     reminders: ['Dead'],
     setup: false,
     ability:
@@ -2617,10 +2617,10 @@ export const roles = [
     team: 'traveler',
     firstNight: 8,
     firstNightReminder:
-      "The Thief chooses a player. :reminder:",
+      "The Thief chooses a player. ⏺",
     otherNight: 6,
     otherNightReminder:
-      "The Thief chooses a player. :reminder:",
+      "The Thief chooses a player. ⏺",
     reminders: ['Negative vote'],
     setup: false,
     ability:
@@ -2648,7 +2648,7 @@ export const roles = [
     team: 'loric',
     firstNightReminder: '',
     otherNightReminder:
-      'If a player died tonight, show the *YOU ARE* info token, their character token, & a thumbs up or thumbs down.',
+      'If a player died tonight, show the YOU ARE info token, their character token, & a thumbs up or thumbs down.',
     reminders: [],
     setup: true,
     ability:
@@ -2719,7 +2719,7 @@ export const roles = [
     team: 'loric',
     firstNight: 14,
     firstNightReminder:
-      'Announce which character is stormcaught. If that character is in play, mark that player as *STORMCAUGHT*. Wake each evil player and show them the character token, then the marked player.  If not in play, wake each evil player, show them the *THESE CHARACTERS ARE NOT IN PLAY* token & the relevant character token.',
+      'Announce which character is stormcaught. If that character is in play, mark that player as STORMCAUGHT. Wake each evil player and show them the character token, then the marked player.  If not in play, wake each evil player, show them the THESE CHARACTERS ARE NOT IN PLAY token & the relevant character token.',
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
@@ -2799,7 +2799,7 @@ export const roles = [
   },
   {
     id: 'angel',
-    firstNightReminder: 'Announce which players are protected by the Angel. :reminder:',
+    firstNightReminder: 'Announce which players are protected by the Angel. ⏺',
     otherNightReminder: '',
     reminders: ['Protect', 'Something Bad'],
     setup: false,
@@ -2911,7 +2911,7 @@ export const roles = [
     firstNightReminder: '',
     otherNight: 1,
     otherNightReminder:
-      'One at a time: Wake each player marked *VISITOR* or *FALSE INFO*. Show the *THIS CHARACTER SELECTED YOU* & Duchess tokens, then give a finger signal.',
+      'One at a time: Wake each player marked VISITOR or FALSE INFO. Show the THIS CHARACTER SELECTED YOU & Duchess tokens, then give a finger signal.',
     reminders: ['Visitor', 'False Info'],
     setup: false,
     name: 'Duchess',
