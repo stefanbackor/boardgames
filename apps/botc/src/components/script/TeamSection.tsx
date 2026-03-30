@@ -168,7 +168,7 @@ export function TeamSection({
     return applicableJinxes
   }, [scriptRoles, jinxes])
 
-  // Compute "hated by" information for each role
+  // Compute jinx icon map: show the target's icon on the jinx entry's role card
   const hatedByMap = useMemo(() => {
     if (!scriptRoles) return new Map()
 
@@ -178,22 +178,20 @@ export function TeamSection({
     >()
     const scriptRoleIds = new Set(scriptRoles.map((r) => r.id))
 
-    // For each jinx entry, if both roles are in the script, add the "hater" to the "hated" role's list
     for (const jinxEntry of jinxes) {
       if (scriptRoleIds.has(jinxEntry.id)) {
-        const haterRole = scriptRoles.find((r) => r.id === jinxEntry.id)
-        if (!haterRole) continue
-
         for (const hatred of jinxEntry.hatred) {
           if (scriptRoleIds.has(hatred.id)) {
-            // hatred.id is hated by jinxEntry.id
-            if (!map.has(hatred.id)) {
-              map.set(hatred.id, [])
+            const hatedRole = scriptRoles.find((r) => r.id === hatred.id)
+            if (!hatedRole) continue
+
+            if (!map.has(jinxEntry.id)) {
+              map.set(jinxEntry.id, [])
             }
-            map.get(hatred.id)!.push({
-              id: haterRole.id,
-              name: haterRole.name,
-              image: haterRole.image,
+            map.get(jinxEntry.id)!.push({
+              id: hatedRole.id,
+              name: hatedRole.name,
+              image: hatedRole.image,
             })
           }
         }
