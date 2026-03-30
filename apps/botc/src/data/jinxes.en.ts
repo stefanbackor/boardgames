@@ -2,12 +2,98 @@ import { Jinx } from '@/types/jinx'
 
 export const jinxes: Array<Jinx> = [
   {
-    id: 'chambermaid',
+    id: 'alchemist',
     hatred: [
       {
-        id: 'mathematician',
-        reason:
-          'The Chambermaid learns if the Mathematician wakes tonight or not, even though the Chambermaid wakes first.',
+        id: 'boffin',
+        reason: 'If the Alchemist has the Boffin ability, the Alchemist does not learn what ability the Demon has.',
+      },
+      {
+        id: 'marionette',
+        reason: 'An Alchemist-Marionette has no Marionette ability & the Marionette is in play.',
+      },
+      {
+        id: 'mastermind',
+        reason: 'An Alchemist-Mastermind has no Mastermind ability & the Mastermind is not-in-play.',
+      },
+      {
+        id: 'organgrinder',
+        reason: 'If the Alchemist has the Organ Grinder ability, the Organ Grinder is in play. If both are sober, both are drunk.',
+      },
+      {
+        id: 'spy',
+        reason: 'An Alchemist-Spy has no Spy ability & a Spy is in play. After each execution, a living Alchemist-Spy may publicly guess a living player as the Spy. If correct, the Demon must choose the Spy tonight.',
+      },
+      {
+        id: 'summoner',
+        reason: 'The Alchemist-Summoner does not get bluffs, and chooses which Demon but not which player. If they die before this happens, evil wins. [No Demon]',
+      },
+      {
+        id: 'widow',
+        reason: 'An Alchemist-Widow has no Widow ability & a Widow is in play. After each execution, a living Alchemist-Widow may publicly guess a living player as the Widow. If correct, the Demon must choose the Widow tonight.',
+      },
+      {
+        id: 'wraith',
+        reason: 'An Alchemist-Wraith has no Wraith ability & a Wraith is in play. After each execution, a living Alchemist-Wraith may publicly guess a living player as the Wraith. If correct, the Demon must choose the Wraith tonight.',
+      },
+    ],
+  },
+  {
+    id: 'alhadikhia',
+    hatred: [
+      {
+        id: 'mastermind',
+        reason: 'If the Al-Hadikhia dies by execution, and the Mastermind is alive, the Al-Hadikhia chooses 3 good players tonight: if all 3 choose to live, evil wins. Otherwise, good wins.',
+      },
+      {
+        id: 'princess',
+        reason: 'If the Princess nominated & executed a player on their 1st day, no one dies to the Al-Hadikhia tonight.',
+      },
+    ],
+  },
+  {
+    id: 'boffin',
+    hatred: [
+      {
+        id: 'cultleader',
+        reason: "If the Demon has the Cult Leader ability, they can't turn good due to this ability.",
+      },
+      {
+        id: 'drunk',
+        reason: 'The Demon cannot have the Drunk ability.',
+      },
+      {
+        id: 'goon',
+        reason: "If the Demon has the Goon ability, they can't turn good due to this ability.",
+      },
+      {
+        id: 'heretic',
+        reason: 'The Demon cannot have the Heretic ability.',
+      },
+      {
+        id: 'ogre',
+        reason: 'The Demon cannot have the Ogre ability.',
+      },
+      {
+        id: 'politician',
+        reason: 'The Demon cannot have the Politician ability.',
+      },
+      {
+        id: 'villageidiot',
+        reason: 'If there is a spare token, the Boffin can give the Demon the Village Idiot ability.',
+      },
+    ],
+  },
+  {
+    id: 'bountyhunter',
+    hatred: [
+      {
+        id: 'kazali',
+        reason: 'If the Kazali turns the Bounty Hunter into a Minion, an evil Townsfolk is not created.',
+      },
+      {
+        id: 'philosopher',
+        reason: 'If the Philosopher gains the Bounty Hunter ability, a Townsfolk might turn evil.',
       },
     ],
   },
@@ -15,37 +101,29 @@ export const jinxes: Array<Jinx> = [
     id: 'butler',
     hatred: [
       {
-        id: 'cannibal',
-        reason:
-          'If the Cannibal gains the Butler ability, the Cannibal learns this.',
+        id: 'organgrinder',
+        reason: 'If the Organ Grinder is causing eyes closed voting, the Butler may raise their hand to vote but their vote is only counted if their master voted too.',
       },
     ],
   },
   {
-    id: 'lunatic',
+    id: 'cannibal',
     hatred: [
       {
-        id: 'mathematician',
-        reason:
-          'The Mathematician learns if the Lunatic attacks a different player(s) than the real Demon attacked.',
-      },
-    ],
-  },
-  {
-    id: 'pithag',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'A Pit-Hag can not create a Heretic. ',
+        id: 'butler',
+        reason: 'If the Cannibal gains the Butler ability, the Cannibal learns this.',
       },
       {
-        id: 'damsel',
-        reason:
-          'If a Pit-Hag creates a Damsel, the Storyteller chooses which player it is.',
+        id: 'juggler',
+        reason: 'If the Juggler guesses on their first day and dies by execution, tonight the living Cannibal learns how many guesses the Juggler got correct.',
       },
       {
-        id: 'politician',
-        reason: 'A Pit-hag can not create an evil Politician.',
+        id: 'princess',
+        reason: "If the Cannibal nominated, executed, & killed the Princess today, the Demon doesn't kill tonight.",
+      },
+      {
+        id: 'zealot',
+        reason: 'If the Cannibal gains the Zealot ability, the Cannibal learns this.',
       },
     ],
   },
@@ -54,92 +132,36 @@ export const jinxes: Array<Jinx> = [
     hatred: [
       {
         id: 'goblin',
-        reason:
-          'The Cerenovus may choose to make a player mad that they are the Goblin.',
+        reason: 'The Cerenovus may choose to make a player mad that they are the Goblin.',
       },
     ],
   },
   {
-    id: 'leviathan',
+    id: 'heretic',
     hatred: [
       {
-        id: 'soldier',
-        reason:
-          'If Leviathan nominates and executes the Soldier, the Soldier does not die.',
+        id: 'baron',
+        reason: 'Only 1 jinxed character can be in play.',
       },
       {
-        id: 'monk',
-        reason:
-          'If Leviathan nominates and executes the player the Monk chose, that player does not die.',
+        id: 'godfather',
+        reason: 'Only 1 jinxed character can be in play.',
       },
       {
-        id: 'innkeeper',
-        reason:
-          'If Leviathan nominates and executes a player the Innkeeper chose, that player does not die.',
+        id: 'lleech',
+        reason: 'Only 1 jinxed character can be in play.',
       },
       {
-        id: 'ravenkeeper',
-        reason:
-          'If Leviathan is in play & the Ravenkeeper dies by execution, they wake that night to use their ability.',
+        id: 'pithag',
+        reason: 'Only 1 jinxed character can be in play.',
       },
       {
-        id: 'sage',
-        reason:
-          'If Leviathan is in play & the Sage dies by execution, they wake that night to use their ability.',
+        id: 'spy',
+        reason: 'Only 1 jinxed character can be in play.',
       },
       {
-        id: 'farmer',
-        reason:
-          'If Leviathan is in play & a Farmer dies by execution, a good player becomes a Farmer that night.',
-      },
-      {
-        id: 'mayor',
-        reason:
-          'If Leviathan is in play & no execution occurs on day 5, good wins.',
-      },
-    ],
-  },
-  {
-    id: 'alhadikhia',
-    hatred: [
-      {
-        id: 'scarlet woman',
-        reason:
-          'If there are two living Al-Hadikhias, the Scarlet Woman Al-Hadikhia becomes the Scarlet Woman again.',
-      },
-      {
-        id: 'mastermind',
-        reason:
-          'Only 1 jinxed character can be in play. Evil players start knowing which player and character it is.',
-      },
-    ],
-  },
-  {
-    id: 'lilmonsta',
-    hatred: [
-      {
-        id: 'poppygrower',
-        reason:
-          "If the Poppy Grower is in play, Minions don't wake together. They are woken one by one, until one of them chooses to take the Lil' Monsta token.",
-      },
-      {
-        id: 'magician',
-        reason: 'Only 1 jinxed character can be in play. ',
-      },
-      {
-        id: 'scarletwoman',
-        reason:
-          "If there are 5 or more players alive and the player holding the Lil' Monsta token dies, the Scarlet Woman is given the Lil' Monsta token tonight.",
-      },
-    ],
-  },
-  {
-    id: 'lycanthrope',
-    hatred: [
-      {
-        id: 'gambler',
-        reason:
-          'If the Lycanthrope is alive and the Gambler kills themself at night, no other players can die tonight.',
+        id: 'widow',
+        reason: 'Only 1 jinxed character can be in play.',
       },
     ],
   },
@@ -148,258 +170,117 @@ export const jinxes: Array<Jinx> = [
     hatred: [
       {
         id: 'engineer',
-        reason:
-          'Legion and the Engineer can not both be in play at the start of the game. If the Engineer creates Legion, most players (including all evil players) become evil Legion.',
+        reason: 'If Legion is created, all evil players become Legion. If Legion is in play, the Engineer starts knowing this but has no ability.',
       },
       {
-        id: 'preacher',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-    ],
-  },
-  {
-    id: 'fanggu',
-    hatred: [
-      {
-        id: 'scarletwoman',
-        reason:
-          'If the Fang Gu chooses an Outsider and dies, the Scarlet Woman does not become the Fang Gu.',
-      },
-    ],
-  },
-  {
-    id: 'spy',
-    hatred: [
-      {
-        id: 'magician',
-        reason:
-          "When the Spy sees the Grimoire, the Demon and Magician's character tokens are removed.",
-      },
-      {
-        id: 'alchemist',
-        reason: 'The Alchemist can not have the Spy ability.',
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'If the Poppy Grower is in play, the Spy does not see the Grimoire until the Poppy Grower dies.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Only 1 jinxed character can be in play. ',
-      },
-      {
-        id: 'heretic',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-    ],
-  },
-  {
-    id: 'widow',
-    hatred: [
-      {
-        id: 'magician',
-        reason:
-          "When the Widow sees the Grimoire, the Demon and Magician's character tokens are removed.",
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'If the Poppy Grower is in play, the Widow does not see the Grimoire until the Poppy Grower dies.',
-      },
-      {
-        id: 'alchemist',
-        reason: 'The Alchemist can not have the Widow ability.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-      {
-        id: 'heretic',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-    ],
-  },
-  {
-    id: 'godfather',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-    ],
-  },
-  {
-    id: 'baron',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'The Baron might only add 1 Outsider, not 2.',
-      },
-    ],
-  },
-  {
-    id: 'marionette',
-    hatred: [
-      {
-        id: 'lilmonsta',
-        reason:
-          "The Marionette neighbors a Minion, not the Demon. The Marionette is not woken to choose who takes the Lil' Monsta token.",
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'When the Poppy Grower dies, the Demon learns the Marionette but the Marionette learns nothing.',
-      },
-      {
-        id: 'snitch',
-        reason:
-          'The Marionette does not learn 3 not in-play characters. The Demon learns an extra 3 instead.',
-      },
-      {
-        id: 'balloonist',
-        reason:
-          'If the Marionette thinks that they are the Balloonist, +1 Outsider was added.',
-      },
-      {
-        id: 'damsel',
-        reason: 'The Marionette does not learn that a Damsel is in play.',
-      },
-      {
-        id: 'huntsman',
-        reason:
-          'If the Marionette thinks that they are the Huntsman, the Damsel was added.',
-      },
-    ],
-  },
-  {
-    id: 'riot',
-    hatred: [
-      {
-        id: 'engineer',
-        reason:
-          'Riot and the Engineer can not both be in play at the start of the game. \nIf the Engineer creates Riot, the evil players become Riot.',
-      },
-      {
-        id: 'golem',
-        reason: 'If The Golem nominates Riot, the Riot player does not die.',
-      },
-      {
-        id: 'snitch',
-        reason:
-          'If the Snitch is in play, each Riot player gets an extra 3 bluffs.',
-      },
-      {
-        id: 'saint',
-        reason:
-          "If a good player nominates and kills the Saint, the Saint's team loses.",
-      },
-      {
-        id: 'butler',
-        reason: 'The Butler can not nominate their master.',
-      },
-      {
-        id: 'pithag',
-        reason:
-          'If the Pit-Hag creates Riot, all evil players become Riot. \nIf the Pit-Hag creates Riot after day 3, the game continues for one more day.',
-      },
-      {
-        id: 'mayor',
-        reason:
-          "If the 3rd day begins with just three players alive, the players may choose (as a group) not to nominate at all. If so (and a Mayor is alive) then the Mayor's team wins.",
-      },
-      {
-        id: 'monk',
-        reason:
-          'If a Riot player nominates and kills the Monk-protected-player, the Monk-protected-player does not die.',
-      },
-      {
-        id: 'farmer',
-        reason:
-          'If a Riot player nominates and kills a Farmer, the Farmer uses their ability tonight.',
-      },
-      {
-        id: 'innkeeper',
-        reason:
-          'If a Riot player nominates an Innkeeper-protected-player, the Innkeeper-protected-player does not die.',
-      },
-      {
-        id: 'sage',
-        reason:
-          'If a Riot player nominates and kills a Sage, the Sage uses their ability tonight.',
-      },
-      {
-        id: 'ravenkeeper',
-        reason:
-          'If a Riot player nominates and kills the Ravenkeeper, the Ravenkeeper uses their ability tonight.',
-      },
-      {
-        id: 'soldier',
-        reason:
-          'If a Riot player nominates the Soldier, the Soldier does not die.',
-      },
-      {
-        id: 'grandmother',
-        reason:
-          'If a Riot player nominates and kills the Grandchild, the Grandmother dies too.',
-      },
-      {
-        id: 'king',
-        reason:
-          'If a Riot player nominates and kills the King and the Choirboy is alive, the Choirboy uses their ability tonight.',
-      },
-      {
-        id: 'exorcist',
-        reason: 'Only 1 jinxed character can be in play.',
+        id: 'hatter',
+        reason: 'If Legion is created, all evil players become Legion. If Legion is in play, the Hatter has no ability.',
       },
       {
         id: 'minstrel',
-        reason: 'Only 1 jinxed character can be in play.',
+        reason: 'If Legion died by execution today, Legion keeps their ability, but the Minstrel might learn they are Legion.',
       },
       {
-        id: 'flowergirl',
-        reason: 'Only 1 jinxed character can be in play.',
-      },
-      {
-        id: 'undertaker',
-        reason:
-          'Players that die by nomination register as being executed to the Undertaker.',
-      },
-      {
-        id: 'cannibal',
-        reason:
-          'Players that die by nomination register as being executed to the Cannibal.',
-      },
-      {
-        id: 'pacifist',
-        reason:
-          'Players that die by nomination register as being executed to the Pacifist.',
-      },
-      {
-        id: 'devilsadvocate',
-        reason:
-          "Players that die by nomination register as being executed to the Devil's Advocate.",
-      },
-      {
-        id: 'investigator',
-        reason: 'Riot registers as a Minion to the Investigator.',
-      },
-      {
-        id: 'clockmaker',
-        reason: 'Riot registers as a Minion to the Clockmaker.',
-      },
-      {
-        id: 'towncrier',
-        reason: 'Riot registers as a Minion to the Town Crier.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Riot registers as a Minion to the Damsel.',
+        id: 'politician',
+        reason: 'The Politician might register as evil to Legion.',
       },
       {
         id: 'preacher',
-        reason: 'Riot registers as a Minion to the Preacher.',
+        reason: 'If the Preacher chooses Legion, Legion keeps their ability, but the Preacher might learn they are Legion.',
+      },
+      {
+        id: 'summoner',
+        reason: 'If Legion is summoned, all evil players become Legion.',
+      },
+      {
+        id: 'zealot',
+        reason: 'The Zealot might register as evil to Legion.',
+      },
+    ],
+  },
+  {
+    id: 'leviathan',
+    hatred: [
+      {
+        id: 'banshee',
+        reason: 'Each night*, the Leviathan chooses an alive good player (different to previous nights): a chosen Banshee dies & gains their ability.',
+      },
+      {
+        id: 'exorcist',
+        reason: 'If the Leviathan nominates and executes the Exorcist-chosen player, good wins.',
+      },
+      {
+        id: 'farmer',
+        reason: 'Each night*, the Leviathan chooses an alive good player (different to previous nights): a chosen Farmer uses their ability but does not die.',
+      },
+      {
+        id: 'grandmother',
+        reason: 'If the Leviathan is in play and the Grandchild dies by execution, evil wins.',
+      },
+      {
+        id: 'hatter',
+        reason: 'The Leviathan cannot enter play after day 5.',
+      },
+      {
+        id: 'innkeeper',
+        reason: 'If the Leviathan nominates and executes an Innkeeper-protected player, good wins.',
+      },
+      {
+        id: 'king',
+        reason: 'If the Leviathan is in play, and at least 1 player is dead, the King learns an alive character each night.',
+      },
+      {
+        id: 'mayor',
+        reason: 'If the Leviathan and the Mayor are alive on day 5 & no execution occurs, good wins.',
+      },
+      {
+        id: 'monk',
+        reason: 'If the Leviathan nominates and executes the Monk-protected player, good wins.',
+      },
+      {
+        id: 'pithag',
+        reason: 'The Leviathan cannot enter play after day 5.',
+      },
+      {
+        id: 'ravenkeeper',
+        reason: 'Each night*, the Leviathan chooses an alive player (different to previous nights): a chosen Ravenkeeper uses their ability but does not die.',
+      },
+      {
+        id: 'sage',
+        reason: 'Each night*, the Leviathan chooses an alive good player (different to previous nights): a chosen Sage uses their ability but does not die.',
+      },
+      {
+        id: 'soldier',
+        reason: 'If the Leviathan nominates and executes the Soldier, good wins.',
+      },
+    ],
+  },
+  {
+    id: 'lilmonsta',
+    hatred: [
+      {
+        id: 'hatter',
+        reason: "If the Hatter dies & the Demon chooses Lil' Monsta, they also choose a Minion to become.",
+      },
+      {
+        id: 'magician',
+        reason: "If the Magician is alive, the Storyteller chooses which Minion babysits Lil' Monsta.",
+      },
+      {
+        id: 'poppygrower',
+        reason: "If Lil' Monsta & the Poppy Grower are alive, Minions wake one by one, until one of them chooses to take the Lil' Monsta token.",
+      },
+      {
+        id: 'psychopath',
+        reason: "If the Psychopath is babysitting Lil' Monsta, they die when executed.",
+      },
+      {
+        id: 'scarletwoman',
+        reason: "If Lil' Monsta dies with 5 or more players alive, the Scarlet Woman babysits Lil' Monsta for the rest of the game.",
+      },
+      {
+        id: 'vizier',
+        reason: "If the Vizier is babysitting Lil' Monsta, they die when executed.",
       },
     ],
   },
@@ -408,17 +289,374 @@ export const jinxes: Array<Jinx> = [
     hatred: [
       {
         id: 'mastermind',
-        reason:
-          "If the Mastermind is alive and the Lleech's host dies by execution, the Lleech lives but loses their ability. ",
+        reason: 'If the Mastermind is alive and the Lleech host dies by execution, the Lleech lives but loses their ability.',
       },
       {
         id: 'slayer',
-        reason: "If the Slayer slays the Lleech's host, the host dies. ",
+        reason: 'If the Slayer slays the Lleech host, the host dies.',
+      },
+    ],
+  },
+  {
+    id: 'magician',
+    hatred: [
+      {
+        id: 'legion',
+        reason: 'The Magician wakes with Legion and might register as evil. Legion knows if a Magician is in play, but not which player it is.',
       },
       {
-        id: 'heretic',
-        reason:
-          'If the Lleech has poisoned the Heretic then the Lleech dies, the Heretic remains poisoned.',
+        id: 'marionette',
+        reason: "If the Magician is alive, the Demon doesn't know which neighbor is the Marionette.",
+      },
+      {
+        id: 'spy',
+        reason: "When the Spy sees the Grimoire, the Demon and Magician's character tokens are removed.",
+      },
+      {
+        id: 'vizier',
+        reason: "If the Vizier is in play, the Magician has no ability but is immune to the Vizier's ability.",
+      },
+      {
+        id: 'widow',
+        reason: "When the Widow sees the Grimoire, the Demon and Magician's character tokens are removed.",
+      },
+      {
+        id: 'wraith',
+        reason: 'After each execution, the living Magician may publicly guess a living player as the Wraith. If correct, the Demon must choose the Wraith tonight.',
+      },
+    ],
+  },
+  {
+    id: 'marionette',
+    hatred: [
+      {
+        id: 'balloonist',
+        reason: 'If the Marionette thinks that they are the Balloonist, an Outsider might have been added during setup.',
+      },
+      {
+        id: 'huntsman',
+        reason: 'If the Marionette thinks that they are the Huntsman, the Damsel was added during setup.',
+      },
+      {
+        id: 'kazali',
+        reason: 'If there would be a Marionette in play, they enter play after the Demon & must start as their neighbor.',
+      },
+      {
+        id: 'lilmonsta',
+        reason: 'If there would be a Marionette in play, they enter play after the Demon & must start as their neighbor.',
+      },
+      {
+        id: 'summoner',
+        reason: 'If there would be a Marionette in play, they enter play after the Demon & must start as their neighbor.',
+      },
+    ],
+  },
+  {
+    id: 'mastermind',
+    hatred: [
+      {
+        id: 'vigormortis',
+        reason: 'A Mastermind that has their ability keeps it if the Vigormortis dies.',
+      },
+    ],
+  },
+  {
+    id: 'mathematician',
+    hatred: [
+      {
+        id: 'chambermaid',
+        reason: 'The Chambermaid can detect if the Mathematician will wake tonight.',
+      },
+      {
+        id: 'drunk',
+        reason: "The Mathematician might learn if the Drunk's ability yielded false info or failed to work properly.",
+      },
+      {
+        id: 'lunatic',
+        reason: 'The Mathematician might learn if the Lunatic attacks a different player than the real Demon attacked.',
+      },
+      {
+        id: 'marionette',
+        reason: "The Mathematician might learn if the Marionette's ability yielded false info or failed to work properly.",
+      },
+    ],
+  },
+  {
+    id: 'pithag',
+    hatred: [
+      {
+        id: 'cultleader',
+        reason: "If the Pit-Hag turns an evil player into the Cult Leader, they can't turn good due to their own ability.",
+      },
+      {
+        id: 'damsel',
+        reason: 'If a Pit-Hag creates a Damsel, the Storyteller chooses which player it is.',
+      },
+      {
+        id: 'goon',
+        reason: "If the Pit-Hag turns an evil player into the Goon, they can't turn good due to their own ability.",
+      },
+      {
+        id: 'ogre',
+        reason: "If the Pit-Hag turns an evil player into the Ogre, they can't turn good due to their own ability.",
+      },
+      {
+        id: 'politician',
+        reason: "If the Pit-Hag turns an evil player into the Politician, they can't turn good due to their own ability.",
+      },
+      {
+        id: 'villageidiot',
+        reason: 'If there is a spare token, the Pit-Hag can create an extra Village Idiot. If so, the drunk Village Idiot might change.',
+      },
+    ],
+  },
+  {
+    id: 'plaguedoctor',
+    hatred: [
+      {
+        id: 'baron',
+        reason: 'If the Storyteller would gain the Baron ability, up to two players become Outsiders.',
+      },
+      {
+        id: 'boomdandy',
+        reason: 'If the Storyteller would gain the Boomdandy ability, a player becomes the Boomdandy.',
+      },
+      {
+        id: 'eviltwin',
+        reason: 'If the Storyteller would gain the Evil Twin ability, a player becomes the Evil Twin.',
+      },
+      {
+        id: 'fearmonger',
+        reason: 'If the Storyteller would gain the Fearmonger ability, a Minion gains it, and learns this.',
+      },
+      {
+        id: 'goblin',
+        reason: 'If the Storyteller would gain the Goblin ability, a Minion gains it, and learns this.',
+      },
+      {
+        id: 'marionette',
+        reason: "If the Storyteller would gain the Marionette ability, one of the Demon's good neighbors becomes the Marionette.",
+      },
+      {
+        id: 'scarletwoman',
+        reason: 'If the Storyteller would gain the Scarlet Woman ability, a Minion gains it, and learns this.',
+      },
+      {
+        id: 'spy',
+        reason: 'If the Storyteller would gain the Spy ability, a Minion gains it, and learns this.',
+      },
+      {
+        id: 'wraith',
+        reason: 'If the Storyteller would gain the Wraith ability, a Minion gains it, and learns this.',
+      },
+    ],
+  },
+  {
+    id: 'recluse',
+    hatred: [
+      {
+        id: 'ogre',
+        reason: 'If the Recluse registers as evil to the Ogre, the Ogre learns that they are evil.',
+      },
+      {
+        id: 'sage',
+        reason: 'The Recluse might register as the Demon to the Sage.',
+      },
+    ],
+  },
+  {
+    id: 'riot',
+    hatred: [
+      {
+        id: 'atheist',
+        reason: 'During a riot, if the Storyteller is nominated, players vote. If they are executed, good wins.',
+      },
+      {
+        id: 'banshee',
+        reason: 'Each night*, Riot chooses an alive good player (different to previous nights): a chosen Banshee dies & gains their ability.',
+      },
+      {
+        id: 'exorcist',
+        reason: 'If Riot nominates and executes the Exorcist-chosen player, good wins.',
+      },
+      {
+        id: 'farmer',
+        reason: 'Each night*, Riot chooses an alive good player (different to previous nights): a chosen Farmer uses their ability but does not die.',
+      },
+      {
+        id: 'grandmother',
+        reason: 'If Riot is in play and the Grandchild dies by execution, evil wins.',
+      },
+      {
+        id: 'innkeeper',
+        reason: 'If Riot nominates and executes an Innkeeper-protected player, good wins.',
+      },
+      {
+        id: 'king',
+        reason: 'If Riot is in play, and at least 1 player is dead, the King learns an alive character each night.',
+      },
+      {
+        id: 'mayor',
+        reason: 'The Mayor may choose to stop the riot. If they do so when only 1 Riot is alive, good wins. Otherwise, evil wins.',
+      },
+      {
+        id: 'monk',
+        reason: 'If Riot nominates and executes the Monk-protected player, good wins.',
+      },
+      {
+        id: 'ravenkeeper',
+        reason: 'Each night*, Riot chooses an alive good player (different to previous nights): a chosen Ravenkeeper uses their ability but does not die.',
+      },
+      {
+        id: 'sage',
+        reason: 'Each night*, Riot chooses an alive good player (different to previous nights): a chosen Sage uses their ability but does not die.',
+      },
+      {
+        id: 'soldier',
+        reason: 'If Riot nominates and executes the Soldier, good wins.',
+      },
+    ],
+  },
+  {
+    id: 'scarletwoman',
+    hatred: [
+      {
+        id: 'alhadikhia',
+        reason: 'If there would be two Demons, one of which was the Scarlet Woman, the Scarlet Woman becomes the Scarlet Woman again.',
+      },
+      {
+        id: 'fanggu',
+        reason: 'If there would be two Demons, one of which was the Scarlet Woman, the Scarlet Woman remains the Scarlet Woman.',
+      },
+    ],
+  },
+  {
+    id: 'spy',
+    hatred: [
+      {
+        id: 'damsel',
+        reason: 'If the Spy is (or has been) in play, the Damsel is poisoned.',
+      },
+      {
+        id: 'ogre',
+        reason: 'The Spy registers as evil to the Ogre.',
+      },
+      {
+        id: 'poppygrower',
+        reason: 'If the Poppy Grower has their ability, the Spy does not see the Grimoire.',
+      },
+    ],
+  },
+  {
+    id: 'summoner',
+    hatred: [
+      {
+        id: 'clockmaker',
+        reason: 'The Summoner registers as the Demon to the Clockmaker.',
+      },
+      {
+        id: 'courtier',
+        reason: 'If the living Summoner has no ability, the Storyteller has the Summoner ability.',
+      },
+      {
+        id: 'engineer',
+        reason: 'If the living Summoner is removed from play, the Storyteller has the Summoner ability.',
+      },
+      {
+        id: 'hatter',
+        reason: 'If the Summoner creates a second living Demon, deaths tonight are arbitrary.',
+      },
+      {
+        id: 'kazali',
+        reason: 'If the Summoner creates a second living Demon, deaths tonight are arbitrary.',
+      },
+      {
+        id: 'lordoftyphon',
+        reason: 'If a Lord of Typhon is summoned, they must neighbor a Minion & their other neighbor becomes an evil Minion.',
+      },
+      {
+        id: 'pithag',
+        reason: 'If the Summoner creates a second living Demon, deaths tonight are arbitrary.',
+      },
+      {
+        id: 'poppygrower',
+        reason: 'If the Poppy Grower is alive on the 3rd night, the Summoner chooses which Demon but not which player.',
+      },
+      {
+        id: 'preacher',
+        reason: 'If the living Summoner has no ability, the Storyteller has the Summoner ability.',
+      },
+      {
+        id: 'pukka',
+        reason: 'The Summoner may summon a Pukka on the 2nd night instead of the 3rd.',
+      },
+      {
+        id: 'zombuul',
+        reason: "If the Summoner summons a dead player into the Zombuul, the Zombuul has already 'died' once.",
+      },
+    ],
+  },
+  {
+    id: 'vizier',
+    hatred: [
+      {
+        id: 'alsaahir',
+        reason: "The Storyteller doesn't declare the Vizier is in play.",
+      },
+      {
+        id: 'courtier',
+        reason: 'If the Vizier loses their ability, they learn this, and cannot die during the day.',
+      },
+      {
+        id: 'fearmonger',
+        reason: 'The Vizier wakes with the Fearmonger, learns who they choose and cannot choose to immediately execute that player.',
+      },
+      {
+        id: 'investigator',
+        reason: "The Storyteller doesn't declare the Vizier is in play.",
+      },
+      {
+        id: 'politician',
+        reason: 'The Politician might register as evil to the Vizier.',
+      },
+      {
+        id: 'preacher',
+        reason: 'If the Vizier loses their ability, they learn this, and cannot die during the day.',
+      },
+      {
+        id: 'zealot',
+        reason: 'The Zealot might register as evil to the Vizier.',
+      },
+    ],
+  },
+  {
+    id: 'vortox',
+    hatred: [
+      {
+        id: 'banshee',
+        reason: 'If the Vortox kills the Banshee, all players learn that the Banshee has died.',
+      },
+    ],
+  },
+  {
+    id: 'widow',
+    hatred: [
+      {
+        id: 'damsel',
+        reason: 'If the Widow is (or has been) in play, the Damsel is poisoned.',
+      },
+      {
+        id: 'poppygrower',
+        reason: 'If the Poppy Grower has their ability, the Widow does not see the Grimoire.',
+      },
+    ],
+  },
+  {
+    id: 'yaggababble',
+    hatred: [
+      {
+        id: 'exorcist',
+        reason: 'If the Exorcist chooses the Yaggababble, the Yaggababble does not kill tonight.',
       },
     ],
   },
