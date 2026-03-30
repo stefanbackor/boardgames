@@ -34,7 +34,7 @@ export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
     id: 'dawn',
     name: tContent('Dawn'),
     firstNight: 53,
-    otherNight: 94,
+    otherNight: 98,
     image: (
       <Avatar
         fallback={<Sun size={24} />}
