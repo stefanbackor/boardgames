@@ -2782,6 +2782,59 @@ export const roles = [
     image: 'https://wiki.bloodontheclocktower.com/images/1/14/Icon_pope.png',
   },
   {
+    id: 'godofug',
+    name: 'God of Ug',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability:
+      'One Ug hat. When wear Ug hat, must speak one sound at a time but vote twice. If fail, pass Ug hat.',
+    flavor:
+      'Blessed are my children, for they see the beauty in simple things.',
+    image:
+      'https://wiki.bloodontheclocktower.com/images/4/4c/Icon_godofug.png',
+  },
+  {
+    id: 'knaves',
+    name: 'Knaves',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    ability:
+      'There are 2 Storytellers: one lies & one tells the truth. Once per game, at dusk, they might switch.',
+    flavor: 'Every wall is a door. Every meal is a feast.',
+    image:
+      'https://wiki.bloodontheclocktower.com/images/2/2a/Icon_knaves.png',
+  },
+  {
+    id: 'ventriloquist',
+    name: 'Ventriloquist',
+    edition: '',
+    team: 'loric',
+    firstNight: 0,
+    firstNightReminder: '',
+    otherNight: 0,
+    otherNightReminder: '',
+    reminders: ['Mad'],
+    setup: false,
+    ability:
+      'If a player is mad as a fresh character during their nomination, they might not die if executed today.',
+    flavor:
+      "Well, folks, gather 'round! This here's my pal Charlie, and he's got a mouth on him that'd make a mule blush. But don't worry folks, I do all the talkin'... or do I?",
+    image:
+      'https://wiki.bloodontheclocktower.com/images/0/09/Icon_ventriloquist.png',
+  },
+  {
     id: 'doomsayer',
     firstNightReminder: '',
     otherNightReminder: '',
