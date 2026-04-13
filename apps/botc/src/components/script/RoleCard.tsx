@@ -296,6 +296,9 @@ export function RoleCard({
                         tb: t('Trouble Brewing', { ns: 'content' }),
                         snv: t('Sects and Violets', { ns: 'content' }),
                         bmr: t('Bad Moon Rising', { ns: 'content' }),
+                        carousel: t('Carousel', { ns: 'content' }),
+                        fabled: '',
+                        loric: '',
                       }[role.edition]
                     : t('Carousel', { ns: 'content' }),
                 })}

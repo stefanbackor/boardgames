@@ -31,7 +31,7 @@ export function NightFirstSetup({ roles, scriptName }: NightFirstSetupProps) {
   const dawn = {
     id: 'dawn',
     name: tContent('Dawn'),
-    firstNight: 73,
+    firstNight: 77,
     image: (
       <Avatar
         fallback={<Sun size={24} />}
@@ -46,7 +46,7 @@ export function NightFirstSetup({ roles, scriptName }: NightFirstSetupProps) {
   const minionInfo = {
     id: 'minion-info',
     name: tContent('Info for Minion'),
-    firstNight: 15,
+    firstNight: 19,
     image: <Avatar fallback="M" size="4" radius="full" />,
     reminder: tContent(
       'If there are 7 or more players, wake all Minions: Show the THIS IS THE DEMON token. Point to the Demon. Show the THESE ARE YOUR MINIONS token. Point to the other Minions.',
@@ -56,7 +56,7 @@ export function NightFirstSetup({ roles, scriptName }: NightFirstSetupProps) {
   const demonInfo = {
     id: 'demon-info',
     name: tContent('Info for Demon'),
-    firstNight: 19,
+    firstNight: 23,
     image: <Avatar fallback="D" size="4" radius="full" />,
     reminder: tContent(
       'If there are 7 or more players, wake the Demon: Show the THESE ARE YOUR MINIONS token. Point to all Minions. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play good character tokens.',

@@ -12,7 +12,7 @@ export type Role = {
   id: RoleName
   image: string
   name: string
-  edition: 'tb' | 'snv' | 'bmr' | ''
+  edition: 'tb' | 'snv' | 'bmr' | 'carousel' | 'fabled' | 'loric' | ''
   team: Team | `${Team}`
   firstNight: number
   firstNightReminder: string
