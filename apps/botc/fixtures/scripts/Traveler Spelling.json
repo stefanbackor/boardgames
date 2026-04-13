@@ -1,0 +1,21 @@
+[
+  {
+    "id": "_meta",
+    "name": "Traveler Spelling",
+    "author": "Test"
+  },
+  "washerwoman",
+  "librarian",
+  {
+    "id": "customtraveler",
+    "name": "Custom Traveler",
+    "team": "traveler",
+    "ability": "Each night, do something."
+  },
+  {
+    "id": "customtraveller",
+    "name": "Custom Traveller",
+    "team": "traveller",
+    "ability": "Each night, do something else."
+  }
+]

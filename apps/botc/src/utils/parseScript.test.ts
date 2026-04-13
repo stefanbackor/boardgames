@@ -265,6 +265,61 @@ describe('parseScript', () => {
     })
   })
 
+  describe('traveler/traveller spelling', () => {
+    it('should normalize legacy "traveler" spelling to "traveller"', () => {
+      const scriptData = [
+        {
+          id: 'customtraveler',
+          name: 'Custom Traveler',
+          team: 'traveler' as const,
+          ability: 'Do something',
+        },
+      ]
+
+      const result = parseScript(scriptData as any, baseRoles)
+
+      expect(result.roles).toHaveLength(1)
+      expect(result.roles[0].team).toBe('traveller')
+    })
+
+    it('should preserve "traveller" spelling as-is', () => {
+      const scriptData = [
+        {
+          id: 'customtraveller',
+          name: 'Custom Traveller',
+          team: 'traveller' as const,
+          ability: 'Do something else',
+        },
+      ]
+
+      const result = parseScript(scriptData as any, baseRoles)
+
+      expect(result.roles).toHaveLength(1)
+      expect(result.roles[0].team).toBe('traveller')
+    })
+
+    it('should normalize both spellings in the same script', () => {
+      const scriptData = [
+        { id: '_meta', name: 'Mixed', author: 'Test' },
+        {
+          id: 'a',
+          name: 'A',
+          team: 'traveler' as const,
+        },
+        {
+          id: 'b',
+          name: 'B',
+          team: 'traveller' as const,
+        },
+      ]
+
+      const result = parseScript(scriptData as any, baseRoles)
+
+      expect(result.roles).toHaveLength(2)
+      expect(result.roles.every((r) => r.team === 'traveller')).toBe(true)
+    })
+  })
+
   describe('edge cases', () => {
     it('should handle empty script data', () => {
       const result = parseScript([], baseRoles)

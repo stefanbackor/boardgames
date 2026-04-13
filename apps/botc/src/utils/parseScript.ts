@@ -77,11 +77,17 @@ export function parseScript(
 
       // If not found in base roles, check if the script has full role data
       if (scriptRole.name && scriptRole.team) {
+        // Normalize legacy "traveler" spelling to preferred "traveller"
+        const team =
+          (scriptRole.team as string) === 'traveler'
+            ? 'traveller'
+            : scriptRole.team
+
         // Convert script role to Role type with defaults for required fields
         return {
           id: scriptRole.id,
           name: scriptRole.name,
-          team: scriptRole.team,
+          team,
           edition: scriptRole.edition || '',
           ability: scriptRole.ability || '',
           firstNight: scriptRole.firstNight || 0,
