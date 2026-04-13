@@ -37,7 +37,7 @@ interface ScriptMeta {
   outsider: number
   minion: number
   demon: number
-  traveler: number
+  traveller: number
   loric: number
   totalRoles: number
 }
@@ -104,7 +104,7 @@ function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
     let outsider = 0
     let minion = 0
     let demon = 0
-    let traveler = 0
+    let traveller = 0
     let loric = 0
 
     roles.forEach((role: unknown) => {
@@ -123,8 +123,8 @@ function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
           case 'demon':
             demon++
             break
-          case 'traveler':
-            traveler++
+          case 'traveller':
+            traveller++
             break
           case 'loric':
             loric++
@@ -140,7 +140,7 @@ function parseScriptFromUrl(encodedScript: string): ScriptMeta | null {
       outsider,
       minion,
       demon,
-      traveler,
+      traveller,
       loric,
       totalRoles: roles.length,
     }
@@ -173,7 +173,7 @@ function generateOGHTML(
     outsider,
     minion,
     demon,
-    traveler,
+    traveller,
     loric,
     totalRoles,
   } = scriptMeta
@@ -185,8 +185,8 @@ function generateOGHTML(
     parts.push(`${outsider} Outsider${outsider !== 1 ? 's' : ''}`)
   if (minion > 0) parts.push(`${minion} Minion${minion !== 1 ? 's' : ''}`)
   if (demon > 0) parts.push(`${demon} Demon${demon !== 1 ? 's' : ''}`)
-  if (traveler > 0)
-    parts.push(`${traveler} Traveler${traveler !== 1 ? 's' : ''}`)
+  if (traveller > 0)
+    parts.push(`${traveller} Traveler${traveller !== 1 ? 's' : ''}`)
   if (loric > 0) parts.push(`${loric} Loric${loric !== 1 ? 's' : ''}`)
 
   // If no team info available, just show total roles

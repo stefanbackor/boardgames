@@ -201,7 +201,7 @@ describe('parseScript', () => {
               'outsider',
               'minion',
               'demon',
-              'traveler',
+              'traveller',
               'fabled',
               'loric',
             ]).toContain(role.team)

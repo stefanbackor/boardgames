@@ -252,7 +252,7 @@ describe('Share API Handler', () => {
         { id: 'role7', team: 'minion' },
         { id: 'role8', team: 'minion' },
         { id: 'role9', team: 'demon' },
-        { id: 'role10', team: 'traveler' },
+        { id: 'role10', team: 'traveller' },
       ]
 
       const encoded = await compressForUrl(JSON.stringify(script))

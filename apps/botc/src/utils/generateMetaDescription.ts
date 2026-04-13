@@ -35,7 +35,7 @@ export function generateMetaDescription(
   const outsider = scriptRoles.filter((r) => r.team === Team.Outsider).length
   const minion = scriptRoles.filter((r) => r.team === Team.Minion).length
   const demon = scriptRoles.filter((r) => r.team === Team.Demon).length
-  const traveler = scriptRoles.filter((r) => r.team === Team.Traveler).length
+  const traveller = scriptRoles.filter((r) => r.team === Team.Traveler).length
 
   // Build role summary parts with proper pluralization
   const parts = [
@@ -45,9 +45,9 @@ export function generateMetaDescription(
     `${demon} Demon${demon !== 1 ? 's' : ''}`,
   ]
 
-  // Add traveler count if any travelers are present
-  if (traveler > 0) {
-    parts.push(`${traveler} Traveler${traveler !== 1 ? 's' : ''}`)
+  // Add traveller count if any travellers are present
+  if (traveller > 0) {
+    parts.push(`${traveller} Traveler${traveller !== 1 ? 's' : ''}`)
   }
 
   const rolesSummary = parts.join(', ')

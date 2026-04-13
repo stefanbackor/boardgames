@@ -8,7 +8,7 @@ describe('teams constants', () => {
       expect(Team.Outsider).toBe('outsider')
       expect(Team.Minion).toBe('minion')
       expect(Team.Demon).toBe('demon')
-      expect(Team.Traveler).toBe('traveler')
+      expect(Team.Traveler).toBe('traveller')
       expect(Team.Fabled).toBe('fabled')
       expect(Team.Loric).toBe('loric')
     })

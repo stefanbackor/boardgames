@@ -10,7 +10,7 @@ export enum Team {
   Outsider = 'outsider',
   Minion = 'minion',
   Demon = 'demon',
-  Traveler = 'traveler',
+  Traveler = 'traveller',
   Fabled = 'fabled',
   Loric = 'loric',
 }

@@ -279,7 +279,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     reminders: ['Chráněný', 'Opilý'],
     otherNightReminder: 'Hostinský vybere 2 hráče.',
     flavor:
-      'Come inside, fair traveler, and rest your weary bones. Drink and be merry, for the legions of the Dark One shall not harass thee tonight.',
+      'Come inside, fair traveller, and rest your weary bones. Drink and be merry, for the legions of the Dark One shall not harass thee tonight.',
   },
   gambler: {
     name: 'Gambler',
@@ -848,7 +848,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
       'Seen Outsider',
       'Seen Minion',
       'Seen Demon',
-      'Seen traveler',
+      'Seen traveller',
     ],
     firstNightReminder:
       'Vyberte typ postavy. Ukažte na hráče, jehož postava je tohoto typu. Položte Balonářův žeton VIDĚN na žeton této postavy.',
