@@ -14,3 +14,4 @@ todos.json
 .vercel
 test-results
 playwright-report
+scripts/output
