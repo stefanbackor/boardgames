@@ -37,6 +37,9 @@ async function loadRoleTranslations(
       case 'hu':
         module = await import('@/data/roles.hu.overrides')
         break
+      case 'nl':
+        module = await import('@/data/roles.nl.overrides')
+        break
       case 'pl':
         module = await import('@/data/roles.pl.overrides')
         break

@@ -30,6 +30,9 @@ async function loadJinxTranslations(language: string): Promise<Jinx[] | null> {
       case 'hu':
         module = await import('@/data/jinxes.hu.overrides')
         break
+      case 'nl':
+        module = await import('@/data/jinxes.nl.overrides')
+        break
       case 'pl':
         module = await import('@/data/jinxes.pl.overrides')
         break
