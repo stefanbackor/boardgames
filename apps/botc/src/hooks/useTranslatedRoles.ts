@@ -37,6 +37,9 @@ async function loadRoleTranslations(
       case 'hu':
         module = await import('@/data/roles.hu.overrides')
         break
+      case 'nl':
+        module = await import('@/data/roles.nl.overrides')
+        break
       case 'pl':
         module = await import('@/data/roles.pl.overrides')
         break
@@ -90,7 +93,7 @@ function applyTranslations(
  * Supports Czech (cs), German (de), Hungarian (hu), and Polish (pl) with fallback to English.
  * Translations are lazy-loaded to minimize initial bundle size.
  *
- * @param language - The current language code (e.g., 'cs', 'de', 'hu', 'pl')
+ * @param language - The current language code (e.g., 'cs', 'de', 'hu', 'nl', 'pl')
  * @returns Array of roles with translations applied for the specified language
  *
  * @example
