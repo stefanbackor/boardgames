@@ -33,7 +33,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   atheist: {
     ability:
-      'The Verteller kan de regels van het spel breken & als die geëxecuteerd wordt, win0 thet goed team, zelfs als je dood bent. [Geen kwaadaardige personages]',
+      'The Verteller kan de regels van het spel breken & als die geëxecuteerd wordt, wint het goed team, zelfs als je dood bent. [Geen kwaadaardige personages]',
   },
   balloonist: {
     name: 'Ballonvaarder',
@@ -56,7 +56,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
     firstNightReminder:
       "Wijs 1 kwaadaardige speler aan. Wek de Dorpsbewoner die kwaadaardig is en toon de 'Jij bent' kaart, gevolgd door een duim naar beneden om 'kwaadaardig' aan te geven.",
     otherNightReminder:
-      'Als de gekende kwaadaardige speler dood is, wijst een andere kwaadaardige speler aan.',
+      'Als de gekende kwaadaardige speler dood is, wijs een andere kwaadaardige speler aan.',
     reminders: ['Gekend'],
     ability:
       'Je leert in je eerste nacht 1 kwaadaardige speler. Als die speler dood gaat, leer je vannacht een andere kwaadaardige speler. [1 Dorpsbewoner is kwaadaardig]',
@@ -118,9 +118,9 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   dreamer: {
     name: 'Dromer',
     firstNightReminder:
-      'De Dromer wijst een speler aan. Toon 1 goed en 1 kwaadaardig personagefiche; een ervan moet correct zijn.',
+      'De Dromer wijst een speler aan. Toon 1 goed en 1 kwaadaardig personagefiche; 1 ervan moet correct zijn.',
     otherNightReminder:
-      'De Dromer wijst een speler aan. Toon 1 goed en 1 kwaadaardig personagefiche; een ervan moet correct zijn.',
+      'De Dromer wijst een speler aan. Toon 1 goed en 1 kwaadaardig personagefiche; 1 ervan moet correct zijn.',
     ability:
       'Kies elke nacht een speler (niet jezelf en geen Reizigers): je leert 1 goed en 1 kwaadaardig personage, 1 ervan is correct.',
   },
@@ -136,9 +136,9 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   engineer: {
     name: 'Ingenieur',
     firstNightReminder:
-      "De Ingenieur shudt ofwel 'nee', of wijst een Demon aan, of wijst het juiste aantal Volgelingen aan. Als de Ingenieur personages koos, vervang de Demon of Volgeling personagefiches met de gemaakte keuzes. Wek de relevante spelers en toon hen de 'Jij bent' kaart en de relevante personagefiches.",
+      "De Ingenieur schudt ofwel 'nee', of wijst een Demon aan, of wijst het juiste aantal Volgelingen aan. Als de Ingenieur personages koos, vervang de Demon of Volgeling personagefiches met de gemaakte keuzes. Wek de relevante spelers en toon hen de 'Jij bent' kaart en de relevante personagefiches.",
     otherNightReminder:
-      "De Ingenieur shudt ofwel 'nee', of wijst een Demon aan, of wijst het juiste aantal Volgelingen aan. Als de Ingenieur personages koos, vervang de Demon of Volgeling personagefiches met de gemaakte keuzes. Wek de relevante spelers en toon hen de 'Jij bent' kaart en de relevante personagefiches.",
+      "De Ingenieur schudt ofwel 'nee', of wijst een Demon aan, of wijst het juiste aantal Volgelingen aan. Als de Ingenieur personages koos, vervang de Demon of Volgeling personagefiches met de gemaakte keuzes. Wek de relevante spelers en toon hen de 'Jij bent' kaart en de relevante personagefiches.",
     reminders: ['Geen eigenschap'],
     ability:
       'Kies één keer per spel, tijdens de nacht, welke Volgelingen OF welke Demon in het spel zitten.',
@@ -223,9 +223,9 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   huntsman: {
     name: 'Jager',
     firstNightReminder:
-      "De Jager schudt ofwel 'nee', of wijst een speler aan. Als de Jongedame gekozen woordt, wek die speler, toon de 'Jij bent' kaart en een Dorpsbewoner personagefiche dat niet in het spel zit.",
+      "De Jager schudt ofwel 'nee', of wijst een speler aan. Als de Jongedame gekozen wordt, wek die speler, toon de 'Jij bent' kaart en een Dorpsbewoner personagefiche dat niet in het spel zit.",
     otherNightReminder:
-      "De Jager schudt ofwel 'nee', of wijst een speler aan. Als de Jongedame gekozen woordt, wek die speler, toon de 'Jij bent' kaart en een Dorpsbewoner personagefiche dat niet in het spel zit.",
+      "De Jager schudt ofwel 'nee', of wijst een speler aan. Als de Jongedame gekozen wordt, wek die speler, toon de 'Jij bent' kaart en een Dorpsbewoner personagefiche dat niet in het spel zit.",
     reminders: ['Geen eigenschap'],
     ability:
       'Kies één keer per spel, in de nacht, een levende speler: de Jongedame, indien gekozen, wordt een Dorspsbewoner die niet in het spel zit. [+de Jongedame]',
@@ -233,7 +233,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   innkeeper: {
     name: 'Herbergier',
     otherNightReminder:
-      'Verwijder de markeerfiches van de eerder beschermde and dronken spelers. De Herbergier wijst 2 spelers aan. Die spelers zijn beschermd. Een van hen is dronken.',
+      'Verwijder de markeerfiches van de eerder beschermde en dronken spelers. De Herbergier wijst 2 spelers aan. Die spelers zijn beschermd. Een van hen is dronken.',
     reminders: ['Beschermd', 'Dronken'],
     ability:
       "Kies elk nacht* 2 spelers: die kunnen vannacht niet sterven, maar 1 ervan is dronken tot zonsondergang.",
@@ -273,7 +273,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   lycanthrope: {
     name: 'Weerwolf',
     otherNightReminder:
-      'The Lycanthrope points to a living player: if good, they die and no one else can die tonight.',
+      'De Weerwolf wijst een levende speler aan: als die goed is, sterft die speler en kan er niemand anders dood gaan vannacht.',
     reminders: ['Dood'],
     ability:
       'Kies elke nacht* een levende speler: indien goed, dan gaat die speler dood, maar dat is ook de enigste speler die kan dood gaan vannacht.',
@@ -286,12 +286,12 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   mathematician: {
     name: 'Wiskundige',
     firstNightReminder:
-      'Toon het aantal vingers (0, 1, 2, etc.) om het aantal spelers aan te duiden waarvan hun eigenschap abnormaal gewerkt als gevogl van andere eigenschappen.',
+      'Toon het aantal vingers (0, 1, 2, etc.) om het aantal spelers aan te duiden waarvan hun eigenschap abnormaal gewerkt heeft als gevolg van andere eigenschappen.',
     otherNightReminder:
-      'Toon het aantal vingers (0, 1, 2, etc.) om het aantal spelers aan te duiden waarvan hun eigenschap abnormaal gewerkt als gevogl van andere eigenschappen.',
+      'Toon het aantal vingers (0, 1, 2, etc.) om het aantal spelers aan te duiden waarvan hun eigenschap abnormaal gewerkt heeft als gevolg van andere eigenschappen.',
     reminders: ['Abnormaal'],
     ability:
-      "Je leert elke nacht hoeveel spelers hun eigenschap abnormaal gewerkt hebben (sinds zonsopgang) als gevolg van een andere personage hun eigenschap.",
+      "Je leert elke nacht hoeveel spelers hun eigenschap abnormaal gewerkt heeft (sinds zonsopgang) als gevolg van een andere personage hun eigenschap.",
   },
   mayor: {
     name: 'Burgemeester',
@@ -325,7 +325,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   noble: {
     name: 'Edele',
     firstNightReminder:
-      'Point to 3 players including one evil player, in no particular order.',
+      'Wijs 3 spelers aan, inclusief 1 kwaadaardige speler, in willekeurige volgorde.',
     reminders: ['Gezien'],
     ability: 'Je leert in je eerste nacht 3 spelers, Één, en enkel één van hen is kwaadaardig.',
   },
@@ -350,8 +350,8 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   pixie: {
     name: 'Fee',
-    firstNightReminder: 'Show the Pixie 1 in-play Townsfolk character token.',
-    reminders: ['Mad', 'Heeft eigenschap'],
+    firstNightReminder: 'Toon de Fee 1 Dorpsbewoner personagefiche dat in het spel zit.',
+    reminders: ['Verkondigingsdwang', 'Heeft eigenschap'],
     ability:
       'Je leert in je eerste nacht 1 Dorpsbewoner-personage dat in het spel zit. Als je verkondigde dat personage te zijn, dan krijg je de eigenschap van dat personage waneer die dood gaat.',
   },
@@ -367,15 +367,15 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   preacher: {
     name: 'Preker',
     firstNightReminder:
-      "De Preker wijst een speler aan. Als een Volgeling gekozen wordt, wek die Volgeling en toon de 'Dit personage heeft jou geslecteerd'-kaart en dan het personagefiche van de Preker.",
+      "De Preker wijst een speler aan. Als een Volgeling gekozen wordt, wek die Volgeling en toon de 'Dit personage heeft jou geselecteerd'-kaart en dan het personagefiche van de Preker.",
     otherNightReminder:
-      "De Preker wijst een speler aan. Als een Volgeling gekozen wordt, wek die Volgeling en toon de 'Dit personage heeft jou geslecteerd'-kaart en dan het personagefiche van de Preker.",
-    reminders: ['At a sermon'],
+      "De Preker wijst een speler aan. Als een Volgeling gekozen wordt, wek die Volgeling en toon de 'Dit personage heeft jou geselecteerd'-kaart en dan het personagefiche van de Preker.",
+    reminders: ['Bij een preek'],
     ability:
       'Kies elke nacht een speler: een Volgeling, indien gekozen, komt dit te weten. Alle gekozen Volgelingen hebben geen eigenschap meer.',
   },
   princess: {
-    name: 'Princes',
+    name: 'Prinses',
     otherNightReminder:
       "Als het vandaag de Prinses haar eerste dag was, en die Prinses nomineerde en executeerde een speler, dan doodt de Demon niet vannacht.",
     reminders: ["Doodt niet"],
@@ -407,7 +407,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
     name: 'Wijsgeer',
     otherNightReminder:
       'Als de Wijsgeer gedood werd door een Demon: Wijs 2 spelers aan, 1 er van is de Demon.',
-    ability: 'Als de Demon jou doodt, leer je dat het 1 van 2 speler was.',
+    ability: 'Als de Demon jou doodt, leer je dat het 1 van 2 spelers was.',
   },
   sailor: {
     name: 'Zeeman',
@@ -436,7 +436,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   shugenja: {
     firstNightReminder:
-      'If the closest evil player is in a clockwise direction, point your finger horizontally in that direction. If the closest evil player is in an anti-clockwise direction, point your finger horizontally in that direction. If the two closest evil players are equidistant, point your finger horizontally in either direction.',
+      'Toon met een horizontale vinger de richting van de dichtstbijzijnde kwaadaardige speler. Als ze op gelijk afstand zitten, kies een richting.',
     ability:
       'Je leert in je eerste nacht in welke richting jouw dichtstbijzijnde kwaadaardige speler zit. Deze info is willekeurig indien op gelijke afstand.',
   },
@@ -448,7 +448,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   banshee: {
     otherNightReminder:
-      'Als de Banshee gedood werd door de Demon, verklaar publiek dat de Banshee dood is.',
+      'Als de Banshee gedood werd door de Demon, verkondig publiek dat de Banshee dood is.',
     reminders: ['Heeft eigenschap'],
     ability:
       'Als de Demon jou doodt, komen alle spelers dit te weten. Vanaf nu, mag je 2 keer per dag nomineren en 2 keer stemmen per nominatie.',
@@ -461,7 +461,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
       'De Slangenbezweerder wijst een speler aan. Als die speler de Demon is: wissel de Demon en de Slangenbezweerder hun personage en team. Wek beide spelers om hen te informeren over hun nieuwe personage en team. De nieuwe Slangenbezweerder is vergiftigd.',
     reminders: ['Vergiftigd'],
     ability:
-      'Kies elk nacht een levende speler: als je de Demon kiest wisselt die van personage en team met jou & is dan vergiftigd.',
+      'Kies elk nacht een levende speler: als je de Demon kiest wisselt die van personage en van team met jou & is dan vergiftigd.',
   },
   soldier: {
     name: 'Soldaat',
@@ -497,14 +497,14 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
     firstNightReminder: 'Wijs een speler aan.',
     otherNightReminder: 'Wijs een speler aan.',
     ability:
-      'Je leert elke nacht met welke speler de Verteller denkt dat je het beste mee zou praten.',
+      'Je leert elke nacht met welke speler de Verteller denkt dat je het beste zou praten.',
   },
   villageidiot: {
     name: 'Dorpsgek',
     firstNightReminder:
-      'De Dorpsgek wijst een speler aan; geen een duim naar boven als die speler goed is, of een duim naar beneden indien kwaadaardig.',
+      'De Dorpsgek wijst een speler aan; toon een duim naar boven als die speler goed is, of een duim naar beneden indien kwaadaardig.',
     otherNightReminder:
-      'De Dorpsgek wijst een speler aan; geen een duim naar boven als die speler goed is, of een duim naar beneden indien kwaadaardig.',
+      'De Dorpsgek wijst een speler aan; toon een duim naar boven als die speler goed is, of een duim naar beneden indien kwaadaardig.',
     reminders: ['Dronken'],
     ability:
       "Kies elke nacht een speler: je leer hun team. [+0 tot +2 Dorpsgekken. 1 van de extra's is dronken]",
@@ -620,7 +620,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   politician: {
     name: 'Politicus',
     ability:
-      'Als je de speler was die het meest verantwoordelijk was voor het verlies van jouw team, dan verander je van team & win je, zelfs als je dood bent.',
+      'Als je de speler bent die het meest verantwoordelijk was voor het verlies van jouw team, dan verander je van team & win je, zelfs als je dood bent.',
   },
   hermit: {
     name: 'Heremiet',
@@ -691,16 +691,16 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   boomdandy: {
     ability:
-      'Als je wordt geëxecuteerd, sterven alle speler, behalve 3. Één minuut later sterft de speler naar wie de meeste spelers wijzen.',
+      'Als je wordt geëxecuteerd, sterven alle spelers, behalve 3. Één minuut later sterft de speler naar wie de meeste spelers wijzen.',
   },
   wizard: {
     name: 'Tovenaar',
     firstNightReminder:
-      "If the Wizard's wish requires actions at night, run these.",
+      "Als de Tovenaar zijn wens vannacht actie vereist, voer ze uit.",
     otherNightReminder:
-      "If the Wizard's wish requires actions at night, run these.",
+      "Als de Tovenaar zijn wens vannacht actie vereist, voer ze uit.",
     ability:
-      'Je mag één keer per spel een wens maken. Als die wordt ingewilligd, kan er een gevolg aan vasthangen en een tip achterlaten over de aard ervan.',
+      'Je mag één keer per spel een wens maken. Als die wordt ingewilligd, kan er een gevolg aan vasthangen en een tip worden achtergelaten over de aard ervan.',
   },
   cerenovus: {
     firstNightReminder:
@@ -752,7 +752,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   goblin: {
     reminders: ['Claimed'],
     ability:
-      'Als je publiek verklaart dat je de Goblin wanneer je genomineerd & geëxecuteerd wordt, dan wint je team.',
+      'Als je publiek verklaart dat je de Goblin bent wanneer je genomineerd & geëxecuteerd wordt, dan wint je team.',
   },
   godfather: {
     name: 'Peetvader',
@@ -788,7 +788,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   mezepheles: {
     otherNightReminder:
-      "Wek de 1ste goede speler die het geheime woord van de Mezepheles gebruikte en toon de 'Jij bent' kaart en een duim naar beneden om 'kwaadaardig' aan te geven.",
+      "Wek de 1ste goede speler die het geheime woord van de Mezepheles gebruikte en toon de 'JIJ BENT' kaart en een duim naar beneden om 'kwaadaardig' aan te geven.",
     reminders: ['Wordt kwaadaardig', 'Geen eigenschap'],
     ability:
       'Je leert in je eerste nacht een geheim woord. De 1ste goede speler die dit woord gebruikt wordt kwaadaardig vannacht.',
@@ -796,7 +796,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   pithag: {
     name: 'Feeks',
     otherNightReminder:
-      "The Pit-Hag points to a player and a character on the sheet. If this character is not in play, wake that player and show them the 'You are' card and the relevant character token. If the character is in play, nothing happens.",
+      "De Feeks wijst een speler en een personage aan op het script. Als dit personage niet in het spel zit, wek die speler en toon de 'JIJ BENT'-kaart en het relevante personagefiche. Als het personage niet in het spel zit, dan gebeurt er niets.",
     ability:
       'Kies elk nacht* een speler & een personage waarin die speler verandert (indien niet in het spel). Als er zo een Demon wordt gemaakt, wordt er willekeurig bepaald wie er vannacht dood gaat.',
   },
@@ -863,14 +863,14 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
     reminders: ['Vergiftigd'],
     remindersGlobal: ['Gekend'],
     ability:
-      'Tijdens je 1ste nacht bekijk je de Grimoire en kies je een speler: die is vergiftigd. 1 goede spelers weet dat er een Weduwe in het spel zit.',
+      'Tijdens je 1ste nacht bekijk je de Grimoire en kies je een speler: die is vergiftigd. 1 goede speler weet dat er een Weduwe in het spel zit.',
   },
   witch: {
     name: 'Heks',
     firstNightReminder:
-      'De Heks wijst een speler aan. Als die speler morgen nomineert dan gaat dit meteen dood.',
+      'De Heks wijst een speler aan. Als die speler morgen nomineert dan gaat die meteen dood.',
     otherNightReminder:
-      'Als er 4 of meer spelers in leven zijn: De Heks wijst een speler aan. Als die speler morgen nomineert dan gaat dit meteen dood.',
+      'Als er 4 of meer spelers in leven zijn: De Heks wijst een speler aan. Als die speler morgen nomineert dan gaat die meteen dood.',
     reminders: ['Vervloekt'],
     ability:
       'Kies elke nacht een speler: als die morgen nomineert, dan gaat die dood. Als er nog maar 3 spelers in leven zijn, verlies je deze eigenschap.',
@@ -885,14 +885,14 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   },
   alhadikhia: {
     otherNightReminder:
-      'The Al-Hadikhia chooses 3 players. Announce the first player, wake them to nod yes to live or shake head no to die, kill or resurrect accordingly, then put to sleep and announce the next player. If all 3 are alive after this, all 3 die.',
+      'De Al-Hadikhia kiest 3 spelers. Verkondig de eerste speler, wek hen om ja te knikken om te blijven leven, of nee om te sterven, dood of breng de speler terug tot leven op die manier, en leg ze terug te slapen voor de volgende speler te verkondigen. Als alle 3 spelers hierna leven, dan sterven ze alle 3.',
     reminders: ['1', '2', '3', 'Kies dood', 'Kies leven'],
     ability:
       'Kies elk nacht* 3 spelers (alle spelers leren wie): elke speler kiest in het geheim om te leven of dood te gaan, maar als alle spelers kiezen om te leven, gaan ze allemaal dood.',
   },
   yaggababble: {
     name: 'Yaggababble',
-    firstNightReminder: 'Toon de Yaggababble hun geheime uitspraak.',
+    firstNightReminder: 'Toon de Yaggababble de geheime uitspraak.',
     otherNightReminder:
       'Kies een aantal spelers kleiner of gelijk aan het aantal keer dat de Yaggababble zijn geheime uitspraak vandaag gebruikte, die spelers gaan dood.',
     reminders: ['Dood', 'Dood', 'Dood'],
@@ -904,7 +904,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
       "De Fang Gu wijst een speler aan. Die speler gaat dood. Of, als die speler een Buitenstaander was en er is geen andere Fang Gu in het spel: De Fang Gu steft in de plaats van de gekozen speler. De gekozen speler is nu een kwaadaardige Fang Gu. Wek de nieuwe Fang Gu. Toon de 'Jij bent' kaart, en dan het personagefiche van de Fang Gu. Toon de 'Jij bent' card, dan een duim naar beneden om 'kwaadaardig' aan te geven.",
     reminders: ['Dood', 'Eenmalig'],
     ability:
-      'Kies elke nacht* een speler: die gaat dood. De 1ste Buitenstaander die zo doodt wordt een kwaadaardige Fang Gu & jij sterft in de plaats. [+1 Buitenstaander]',
+      'Kies elke nacht* een speler: die gaat dood. De 1ste Buitenstaander die zo dood gaat wordt een kwaadaardige Fang Gu & jij sterft in de plaats. [+1 Buitenstaander]',
   },
   imp: {
     otherNightReminder:
@@ -1069,9 +1069,9 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   bureaucrat: {
     name: 'Bureaucraat',
     firstNightReminder:
-      "The Bureaucrat wijst een speler aan. Leg het 3 stemmen-herinneringsfiche van de Bureaucraat bij het personagefiche van de gekozen speler.",
+      "De Bureaucraat wijst een speler aan. Leg het 3 stemmen-herinneringsfiche van de Bureaucraat bij het personagefiche van de gekozen speler.",
     otherNightReminder:
-      "The Bureaucrat wijst een speler aan. Leg het 3 stemmen-herinneringsfiche van de Bureaucraat bij het personagefiche van de gekozen speler.",
+      "De Bureaucraat wijst een speler aan. Leg het 3 stemmen-herinneringsfiche van de Bureaucraat bij het personagefiche van de gekozen speler.",
     reminders: ['3 stemmen'],
     ability:
       'Je kiest elke nacht een speler (niet jezelf): hun stem telt de volgende dag als 3 stemmen.',
