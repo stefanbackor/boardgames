@@ -1163,7 +1163,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
   stormcatcher: {
     name: "Stormjager",
     firstNightReminder:
-      "In het begin van de nacht, verkondig het personage dat de stormjager verkiest. Als dat personage in het spel zit, markeer die speler als 'Beschermd'. Wek elke kwaadaardige speler om beurt. Als het gekozen personage in het spel zit, toon hen het personagefiche en wijs de gemarkeerde speler aan. Zo niet, toon hen de 'Deze personages zitten niet in het spel' kaart en het gekozen personagefiche.",
+      "In het begin van de nacht, verkondig het personage dat de Stormjager verkiest. Als dat personage in het spel zit, markeer die speler als 'Beschermd'. Wek elke kwaadaardige speler om beurt. Als het gekozen personage in het spel zit, toon hen het personagefiche en wijs de gemarkeerde speler aan. Zo niet, toon hen de 'Deze personages zitten niet in het spel' kaart en het gekozen personagefiche.",
     ability:
       'Verkondig een goed personage. Als dat in het spel zit, kan die enkel dood gaan door executie, maar kwaadaardige spelers leren welke speler dat is.',
   },
