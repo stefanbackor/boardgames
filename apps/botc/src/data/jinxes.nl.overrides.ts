@@ -44,7 +44,7 @@ export const jinxesNl: Array<Jinx> = [
     hatred: [
       {
         id: 'heretic',
-        reason: 'Een Feeks kan geen Ketter maken. ',
+        reason: 'Een Feeks kan geen Ketter maken.',
       },
       {
         id: 'damsel',
@@ -147,7 +147,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'gambler',
         reason:
-          "Als de Weerwolf nog leeft en de Gokker doodt zichzelf 's nachts, dan kunnen geen andere speler vannacht dood gaan.",
+          "Als de Weerwolf nog leeft en de Gokker zichzelf 's nachts doodt, dan kunnen geen andere speler vannacht dood gaan.",
       },
     ],
   },
@@ -157,7 +157,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'engineer',
         reason:
-          'Legion en de Ingenieur kunnen niet samen in het spel zitten aan het begin van het spel. Als de Ingenieur een Legion maakt, dan wordt de meerderheid van de spelers (inclusief all kwaadaardige spelers) kwaadaardig Legion.',
+          'Legion en de Ingenieur kunnen niet samen in het spel zitten aan het begin van het spel. Als de Ingenieur een Legion maakt, dan wordt de meerderheid van de spelers (inclusief alle kwaadaardige spelers) kwaadaardig Legion.',
       },
       {
         id: 'preacher',
@@ -171,7 +171,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'scarletwoman',
         reason:
-          'Als de Fang Gu een Buitenstaander kiest en doodt gaat, dan wordt de Verleidster niet de Fang Gu.',
+          'Als de Fang Gu een Buitenstaander kiest en dood gaat, dan wordt de Verleidster niet de Fang Gu.',
       },
     ],
   },
@@ -320,7 +320,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'monk',
         reason:
-          'Als een Riot speler de door de Monnik beschermde speler nomineert en doodt, dan gaat die speler niet doodt.',
+          'Als een Riot speler de door de Monnik beschermde speler nomineert en doodt, dan gaat die speler niet dood.',
       },
       {
         id: 'farmer',
@@ -330,7 +330,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'innkeeper',
         reason:
-          'Als een Riot speler de door de Herbergier beschermde speler nomineert en doodt, dan gaat die speler niet doodt.',
+          'Als een Riot speler de door de Herbergier beschermde speler nomineert en doodt, dan gaat die speler niet dood.',
       },
       {
         id: 'sage',
@@ -417,7 +417,7 @@ export const jinxesNl: Array<Jinx> = [
       {
         id: 'mastermind',
         reason:
-          "Als het Meesterbrein in leven is en de gastheer van de Lleech sterft door executie, dan blijft de Lleech in leven, maar verliest zijn eigenschap. ",
+          "Als het Meesterbrein in leven is en de gastheer van de Lleech sterft door executie, dan blijft de Lleech in leven, maar verliest zijn eigenschap.",
       },
       {
         id: 'slayer',
