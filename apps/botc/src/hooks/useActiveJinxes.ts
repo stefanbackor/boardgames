@@ -33,6 +33,9 @@ async function loadJinxTranslations(language: string): Promise<Jinx[] | null> {
       case 'pl':
         module = await import('@/data/jinxes.pl.overrides')
         break
+      case 'nl':
+        module = await import('@/data/jinxes.nl.overrides')
+        break
       default:
         // Return null for unsupported languages
         return null
@@ -58,7 +61,7 @@ async function loadJinxTranslations(language: string): Promise<Jinx[] | null> {
  * Jinx translations are lazy-loaded to minimize initial bundle size.
  * Falls back to English jinxes if the language is not supported.
  *
- * @param language - The current language code (e.g., 'cs', 'de', 'hu', 'pl')
+ * @param language - The current language code (e.g., 'cs', 'de', 'hu', 'nl', 'pl')
  * @returns Array of jinx data for the specified language
  *
  * @example
