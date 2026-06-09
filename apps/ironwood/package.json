@@ -26,7 +26,7 @@
     "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.13.1",
     "@repo/decker": "*",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -63,9 +63,9 @@
     "jsdom": "^25.0.1",
     "storybook": "^8.4.4",
     "typescript": "^5.1.6",
-    "vite": "^5.1.0",
+    "vite": "^6.4.2",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "^2.1.4"
+    "vitest": "^4.1.8"
   },
   "lint-staged": {
     "**/*.{js,ts,jsx,tsx}": [
