@@ -7,9 +7,9 @@ import {
   Strong,
   Text,
 } from '@radix-ui/themes'
-import type { MetaFunction } from '@remix-run/node'
-import { useNavigate } from '@remix-run/react'
 import { useCallback, useState } from 'react'
+import type { MetaFunction } from 'react-router'
+import { useNavigate } from 'react-router'
 
 import { Bot } from '~/utils/state/types'
 

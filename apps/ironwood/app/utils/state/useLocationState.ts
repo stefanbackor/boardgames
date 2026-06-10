@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from '@remix-run/react'
 import { useCallback, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
 import { initialState } from './initialState'
 import { LocationState } from './types'

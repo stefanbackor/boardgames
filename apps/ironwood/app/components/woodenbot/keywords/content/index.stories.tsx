@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react-vite'
 
 import { WWWarriorType } from '~/constants/woodenbot'
 import { WagerCardPurpose } from '~/hooks/woodenbot/useWagerCard'

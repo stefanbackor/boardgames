@@ -2,15 +2,9 @@ import '@radix-ui/themes/styles.css'
 import './overrides.css'
 
 import { Box, Container, Theme } from '@radix-ui/themes'
-import type { LinksFunction } from '@remix-run/node'
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from '@remix-run/react'
 import { type PropsWithChildren, useLayoutEffect } from 'react'
+import type { LinksFunction } from 'react-router'
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 
 import { Footer } from './components/Footer'
 import { IS_PRODUCTION, IS_STORYBOOK } from './constants/environment'

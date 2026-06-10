@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { Separator } from '@radix-ui/themes'
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router'
 
 import { LinkWithPreservedState } from '~/utils/state/LinkWithPreservedState'
 

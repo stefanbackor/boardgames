@@ -1,6 +1,7 @@
-import type { Preview } from '@storybook/react'
-import { withRadixTheme } from './decorators/withRadixTheme'
+import type { Preview } from '@storybook/react-vite'
+
 import { withMemoryRouter } from './decorators/withMemoryRouter'
+import { withRadixTheme } from './decorators/withRadixTheme'
 
 const preview: Preview = {
   decorators: [withMemoryRouter, withRadixTheme],

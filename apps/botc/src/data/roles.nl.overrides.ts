@@ -595,7 +595,7 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
     name: 'Krankzinnige',
     firstNightReminder:
       "Als er 7 of meer spelers zijn: Toon de Krankzinnige een aantal willekeurige 'Volgelingen' gelijk aan het aantal Volgelingen in het spel. Toon 3 personagefiches van willekeurige goede personages. Als het personagefiche van de Krankzinnige een Demon is die vannacht wakker wordt: Laat de Krankzinnige de Demon acties doen. Plaats hun 'aanval'-markeerfiches. Wek de Demon. Toon de Demon zijn echte personagefiche & wijs de Krankzinnige speler aan. Als de Krankzinnige spelers aanviel: Toon de echte Demon elke gemarkeerde speler. Verwijder daarna alle 'aanval'-markeerfiches.",
-    otherReminder:
+    otherNightReminder:
       "Laat de Krankzinnige de acties van de Demon doen. Plaats hun 'aanval'-markeerfiches. Als de Krankzinnige spelers selecteerde: Wek de Demon. Toon de 'aanval'-markeerfiches en wijst de gemarkeerde spelers aan. Verwijder daarna de markeerfiches.",
     reminders: ['Aanval 1', 'Aanval 2', 'Aanval 3'],
     ability:
@@ -1186,7 +1186,6 @@ export const roleTranslationsNl: Record<string, RoleTranslation> = {
       'Zolang er 4 of meer spelers leven, mag elke levende speler (één keer per spel) publiek kiezen dat een speler van hun team dood gaat.',
   },
   angel: {
-    id: 'angel',
     name: 'Engel',
     reminders: ['Beschermd', 'Iets Slecht'],
     ability:
