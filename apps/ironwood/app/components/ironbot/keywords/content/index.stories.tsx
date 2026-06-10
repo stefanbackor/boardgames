@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { userEvent, within } from '@storybook/test'
+import { Meta, StoryObj } from '@storybook/react-vite'
+import { userEvent, within } from 'storybook/test'
 
 import { WW_VISION_CARDS } from '~/constants/woodenbot'
 import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'

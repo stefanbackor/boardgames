@@ -70,6 +70,7 @@ export interface RoleTranslation {
   ability?: string
   flavor?: string
   reminders?: string[]
+  remindersGlobal?: string[]
   firstNightReminder?: string
   otherNightReminder?: string
 }

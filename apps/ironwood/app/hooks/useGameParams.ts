@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from '@remix-run/react'
+import { useParams, useSearchParams } from 'react-router'
 
 /**
  * Return game params like botId, gameId, roundId in a convenient object.

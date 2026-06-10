@@ -1,5 +1,4 @@
-import { vitePlugin as remix } from '@remix-run/dev'
-import { vercelPreset } from '@vercel/remix/vite'
+import { reactRouter } from '@react-router/dev/vite'
 import { defineConfig as defineViteConfig, mergeConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { defineConfig as defineVitestConfig } from 'vitest/config'
@@ -7,16 +6,9 @@ import { defineConfig as defineVitestConfig } from 'vitest/config'
 export default mergeConfig(
   defineViteConfig({
     plugins: [
-      !process.env.VITEST &&
-        remix({
-          presets: [vercelPreset()],
-          ssr: false,
-          future: {
-            v3_fetcherPersist: true,
-            v3_relativeSplatPath: true,
-            v3_throwAbortReason: true,
-          },
-        }),
+      // The React Router framework plugin is incompatible with Vitest, so it is
+      // only enabled outside of the test runner.
+      !process.env.VITEST && reactRouter(),
       tsconfigPaths(),
     ],
     define: {

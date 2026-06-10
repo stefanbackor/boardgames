@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { WBAction, WBStance, WW_CARDS } from '~/constants/woodenbot'
 import { memoryRouterParameters } from '~/utils/testing/storybook/memoryRouterParameters'

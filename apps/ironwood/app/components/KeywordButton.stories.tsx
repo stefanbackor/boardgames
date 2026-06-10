@@ -1,6 +1,6 @@
 import { Flex } from '@radix-ui/themes'
-import { Meta, StoryObj } from '@storybook/react'
-import { userEvent, within } from '@storybook/test'
+import { Meta, StoryObj } from '@storybook/react-vite'
+import { userEvent, within } from 'storybook/test'
 
 import { Keyword } from './KeywordButton'
 

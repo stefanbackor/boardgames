@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { expect, userEvent, within } from '@storybook/test'
+import { Meta, StoryObj } from '@storybook/react-vite'
+import { expect, userEvent, within } from 'storybook/test'
 
 import { WBStance, WW_CARDS, WW_CARDS_SPECIAL } from '~/constants/woodenbot'
 import { createDeck } from '~/utils/deck/createDeck'

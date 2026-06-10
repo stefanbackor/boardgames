@@ -7,7 +7,7 @@ import {
   IconButton,
   Section,
 } from '@radix-ui/themes'
-import { Link, Outlet } from '@remix-run/react'
+import { Link, Outlet } from 'react-router'
 
 import { DifficultyLevelButton } from '~/components/DifficultyLevelButton'
 import { useGameParams } from '~/hooks/useGameParams'
