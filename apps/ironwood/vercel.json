@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "yarn build",
+  "buildCommand": "yarn turbo build --filter=ironwood",
   "outputDirectory": "build/client",
   "framework": null,
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
