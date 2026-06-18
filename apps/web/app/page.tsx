@@ -44,7 +44,28 @@ export default function Home(): React.JSX.Element {
       </Text>
       <Separator size="4" my="2" />
       <Flex direction="column" justify="center" gap="3">
-      <Link href="https://botcscript.app" target="_blank" color="purple">
+        <Link href="https://pointsalad.app" target="_blank" color="amber">
+          <Card>
+            <Flex gap="3" align="center">
+              <Avatar
+                size="6"
+                src="https://pointsalad.app/_next/image?url=%2Flogo.png&w=256&q=75"
+                fallback="PS"
+                radius="full"
+              />
+              <Flex direction="column">
+                <Text as="div" size="5" weight="bold">
+                  Point/Salad
+                </Text>
+                <Text as="div" size="2" color="gray">
+                  Your game night event organizer and leaderboard Discord bot.
+                  Check out the demo.
+                </Text>
+              </Flex>
+            </Flex>
+          </Card>
+        </Link>
+        <Link href="https://botcscript.app" target="_blank" color="purple">
           <Card>
             <Flex gap="3" align="center">
               <Avatar
@@ -58,7 +79,8 @@ export default function Home(): React.JSX.Element {
                   BOTC Script Tool
                 </Text>
                 <Text as="div" size="2" color="gray">
-                 Compose and print Blood on the Clocktower scripts for IRL games.
+                  Compose and print Blood on the Clocktower scripts for IRL
+                  games.
                 </Text>
               </Flex>
             </Flex>

@@ -9,6 +9,7 @@ Various boardgame solo apps and companions.
 ![Ironwood box art](https://github.com/user-attachments/assets/0acf462e-de82-41ea-895d-aebba017815d)
 
 - `ironwood`: a [Ironwood](https://boardgamegeek.com/boardgame/407343/ironwood) solo AI automa app
+- `botc`: a [Blood on the Clocktower](https://bloodontheclocktower.com/) script tool - upload, modify, translate, and print player script sheets and first/other night order sheets
 - `@repo/decker`: Cards management tool
 
 ---
