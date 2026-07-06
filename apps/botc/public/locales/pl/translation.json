@@ -23,6 +23,7 @@
   "Clear": "Wyczyść",
   "Click to edit": "Kliknij, aby edytować",
   "Close": "Zamknij",
+  "Copied!": "Skopiowano!",
   "Delete": "Usuń",
   "Demons": "Demony",
   "Done": "Gotowe",
@@ -37,6 +38,7 @@
   "Failed to load script from URL: {{error}}": "Nie udało się wczytać skryptu z URL: {{error}}",
   "Failed to parse JSON": "Nie udało się przetworzyć JSON",
   "Failed to parse JSON file": "Nie udało się przetworzyć pliku JSON",
+  "File": "Plik",
   "Find more scripts on <2>botcscripts.com</2>": "Więcej skryptów znajdziesz na <2>botcscripts.com</2>",
   "First Night": "Pierwsza noc",
   "Format": "Formatuj",
@@ -44,6 +46,7 @@
   "Invalid script format: expected an array": "Nieprawidłowy format skryptu: oczekiwano tablicy",
   "Invalid URL": "Nieprawidłowy adres URL",
   "Invalid URL format": "Nieprawidłowy format adresu URL",
+  "JSON": "JSON",
   "Link Copied!": "Skopiowano link!",
   "Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL": "Wczytaj z adresu `script.bloodontheclocktower.com` lub `botcscripts.com`",
   "Load from URL": "Wczytaj z URL",
@@ -55,6 +58,7 @@
   "Open {{roleName}} official wiki": "Otwórz oficjalną wiki postaci {{roleName}}",
   "Other Nights": "Kolejne noce",
   "Outsiders": "Obcy",
+  "Paste": "Wklej",
   "Paste JSON": "Wklej JSON",
   "Paste JSON from your clipboard": "Wklej JSON ze schowka",
   "Paste script JSON here...": "Wklej tutaj JSON skryptu...",
@@ -95,5 +99,6 @@
   "Trouble Brewing": "Trouble Brewing",
   "Unknown error": "Nieznany błąd",
   "Upload a script JSON file": "Prześlij plik JSON skryptu",
-  "Upload a script json or pick one below to get started": "Prześlij JSON skryptu lub wybierz jeden z podstawowych poniżej"
+  "Upload a script json or pick one below to get started": "Prześlij JSON skryptu lub wybierz jeden z podstawowych poniżej",
+  "URL": "URL"
 }

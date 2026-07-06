@@ -1,9 +1,10 @@
 import { useLanguage } from '@/hooks/useLanguage'
 import { Box, Flex, Link, Separator, Text } from '@radix-ui/themes'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 export function Footer() {
   const { language } = useLanguage()
+  const { t } = useTranslation()
 
   const LinkGitHub = () => (
     <Link href="https://github.com/stefanbackor/boardgames" target="_blank">
@@ -48,6 +49,11 @@ export function Footer() {
         <Text size="1" color="gray">
           <Trans i18nKey="This site is not affiliated with The Pandemonium Institute. All roles and characters are the property of Steven Medway and The Pandemonium Institute." />
         </Text>
+        <Flex gap="3" mt="2" align="center">
+          <Link size="1" color="gray" href="/privacy">
+            {t('Privacy & cookies')}
+          </Link>
+        </Flex>
       </Flex>
     </Box>
   )

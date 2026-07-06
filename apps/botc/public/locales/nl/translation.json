@@ -23,6 +23,7 @@
   "Clear": "Wis",
   "Click to edit": "Klik om te bewerken",
   "Close": "Sluiten",
+  "Copied!": "Gekopieerd!",
   "Delete": "Verwijder",
   "Demons": "Demonen",
   "Done": "Klaar",
@@ -37,6 +38,7 @@
   "Failed to load script from URL: {{error}}": "Script kon niet geladen worden via URL: {{error}}",
   "Failed to parse JSON": "JSON kon niet gelezen worden",
   "Failed to parse JSON file": "JSON bestand kon niet gelezen worden",
+  "File": "Bestand",
   "Find more scripts on <2>botcscripts.com</2>": "Vind meer scripts op <2>botcscripts.com</2>",
   "First Night": "Eerste Nacht",
   "Format": "Formatteren",
@@ -44,6 +46,7 @@
   "Invalid script format: expected an array": "Ongeldig scriptformaat: expected an array",
   "Invalid URL": "Ongeldige URL",
   "Invalid URL format": "Ongeldig URL-formaat",
+  "JSON": "JSON",
   "Link Copied!": "Link gekopieerd!",
   "Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL": "Laad via `script.bloodontheclocktower.com` of `botcscripts.com` URL",
   "Load from URL": "Laad via URL",
@@ -55,6 +58,7 @@
   "Open {{roleName}} official wiki": "Open {{roleName}} officiële wiki",
   "Other Nights": "Overige Nachten",
   "Outsiders": "Buitenstaanders",
+  "Paste": "Plakken",
   "Paste JSON": "JSON plakken",
   "Paste JSON from your clipboard": "JSON plakken van klembord",
   "Paste script JSON here...": "Hier JSON script plakken...",
@@ -95,5 +99,6 @@
   "Trouble Brewing": "Trouble Brewing",
   "Unknown error": "Onbekende fout",
   "Upload a script JSON file": "Upload een script als JSON bestand",
-  "Upload a script json or pick one below to get started": "Upload een script als JSON of kies hieronder een basisscript om te beginnen"
+  "Upload a script json or pick one below to get started": "Upload een script als JSON of kies hieronder een basisscript om te beginnen",
+  "URL": "URL"
 }

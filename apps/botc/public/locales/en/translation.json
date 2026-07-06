@@ -23,6 +23,7 @@
   "Clear": "Clear",
   "Click to edit": "Click to edit",
   "Close": "Close",
+  "Copied!": "Copied!",
   "Delete": "Delete",
   "Demons": "Demons",
   "Done": "Done",
@@ -37,6 +38,7 @@
   "Failed to load script from URL: {{error}}": "Failed to load script from URL: {{error}}",
   "Failed to parse JSON": "Failed to parse JSON",
   "Failed to parse JSON file": "Failed to parse JSON file",
+  "File": "File",
   "Find more scripts on <2>botcscripts.com</2>": "Find more scripts on <2>botcscripts.com</2>",
   "First Night": "First Night",
   "Format": "Format",
@@ -44,6 +46,7 @@
   "Invalid script format: expected an array": "Invalid script format: expected an array",
   "Invalid URL": "Invalid URL",
   "Invalid URL format": "Invalid URL format",
+  "JSON": "JSON",
   "Link Copied!": "Link Copied!",
   "Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL": "Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL",
   "Load from URL": "Load from URL",
@@ -55,6 +58,7 @@
   "Open {{roleName}} official wiki": "Open {{roleName}} official wiki",
   "Other Nights": "Other Nights",
   "Outsiders": "Outsiders",
+  "Paste": "Paste",
   "Paste JSON": "Paste JSON",
   "Paste JSON from your clipboard": "Paste JSON from your clipboard",
   "Paste script JSON here...": "Paste script JSON here...",
@@ -95,5 +99,6 @@
   "Trouble Brewing": "Trouble Brewing",
   "Unknown error": "Unknown error",
   "Upload a script JSON file": "Upload a script JSON file",
-  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started"
+  "Upload a script json or pick one below to get started": "Upload a script json or pick one from base scripts below to get started",
+  "URL": "URL"
 }

@@ -28,7 +28,7 @@
     />
     <meta name="twitter:image" content="/android-chrome-512x512.png" />
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) with Consent Mode v2 -->
     <script
       async
       type="text/javascript"
@@ -39,6 +39,24 @@
       function gtag() {
         dataLayer.push(arguments)
       }
+
+      // Deny all storage by default until the user opts in via the consent banner.
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+      })
+
+      // Re-apply a previously granted choice before GA initialises.
+      try {
+        if (localStorage.getItem('botc-cookie-consent') === 'granted') {
+          gtag('consent', 'update', { analytics_storage: 'granted' })
+        }
+      } catch (e) {
+        /* localStorage unavailable — stay denied */
+      }
+
       gtag('js', new Date())
       gtag('config', 'G-F6EHG1F8KP')
     </script>
@@ -48,14 +66,20 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Fonts from Google Fonts -->
+    <!-- Fonts (Inter + Sorts Mill Goudy) are self-hosted via @font-face in src/styles.css -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&display=swap"
+      rel="preload"
+      href="/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/sorts-mill-goudy-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
   </head>
   <body>

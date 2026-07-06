@@ -6,9 +6,9 @@
 declare global {
   interface Window {
     gtag?: (
-      command: 'config' | 'event' | 'js' | 'set',
+      command: 'config' | 'event' | 'js' | 'set' | 'consent',
       targetId: string | Date,
-      config?: Record<string, unknown>
+      config?: Record<string, unknown>,
     ) => void
     dataLayer?: unknown[]
   }
@@ -46,11 +46,15 @@ export function sendPageview(url: string) {
  */
 export function sendEvent(
   eventName: string,
-  eventParams?: Record<string, unknown>
+  eventParams?: Record<string, unknown>,
 ) {
   if (!isAnalyticsEnabled()) {
     if (import.meta.env.DEV) {
-      console.log('[Analytics] Skipped event (dev mode):', eventName, eventParams)
+      console.log(
+        '[Analytics] Skipped event (dev mode):',
+        eventName,
+        eventParams,
+      )
     }
     return
   }

@@ -92,7 +92,8 @@ export function FileUploadControls({
         variant={hasScript ? 'soft' : 'solid'}
       >
         <Link2 size={16} />
-        {t('Load from URL')}
+        <span className="hidden md:inline">{t('Load from URL')}</span>
+        <span className="md:hidden">{t('URL')}</span>
       </Button>
     </Tooltip>
   )
@@ -112,7 +113,8 @@ export function FileUploadControls({
           <Button asChild variant={hasScript ? 'soft' : 'solid'}>
             <span>
               <Upload size={16} />
-              {t('Choose JSON File')}
+              <span className="hidden md:inline">{t('Choose JSON File')}</span>
+              <span className="md:hidden">{t('File')}</span>
             </span>
           </Button>
         </Tooltip>
@@ -134,7 +136,8 @@ export function FileUploadControls({
         variant={hasScript ? 'soft' : 'solid'}
       >
         <FileJson size={16} />
-        {t('Paste JSON')}
+        <span className="hidden md:inline">{t('Paste JSON')}</span>
+        <span className="md:hidden">{t('Paste')}</span>
       </Button>
     </Tooltip>
   )
@@ -174,7 +177,8 @@ export function FileUploadControls({
                   disabled={!hasScript}
                 >
                   <Download size={16} />
-                  {t('Download JSON')}
+                  <span className="hidden md:inline">{t('Download JSON')}</span>
+                  <span className="md:hidden">{t('JSON')}</span>
                 </Button>
               </Tooltip>
               <Tooltip content={t('Share with others')}>
@@ -184,7 +188,12 @@ export function FileUploadControls({
                   disabled={!hasScript}
                 >
                   {linkCopied ? <Check size={16} /> : <LinkIcon size={16} />}
-                  {linkCopied ? t('Link Copied!') : t('Share')}
+                  <span className="hidden md:inline">
+                    {linkCopied ? t('Link Copied!') : t('Share')}
+                  </span>
+                  <span className="md:hidden">
+                    {linkCopied ? t('Copied!') : t('Share')}
+                  </span>
                 </Button>
               </Tooltip>
             </Flex>

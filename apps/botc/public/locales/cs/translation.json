@@ -23,6 +23,7 @@
   "Clear": "Vymazat",
   "Click to edit": "Klikněte pro úpravu",
   "Close": "Zavřít",
+  "Copied!": "Zkopírováno!",
   "Delete": "Smazat",
   "Demons": "Démoni",
   "Done": "Hotovo",
@@ -37,6 +38,7 @@
   "Failed to load script from URL: {{error}}": "Nepodařilo se načíst skript z URL: {{error}}",
   "Failed to parse JSON": "Nepodařilo se zpracovat JSON",
   "Failed to parse JSON file": "Nepodařilo se zpracovat JSON soubor",
+  "File": "Soubor",
   "Find more scripts on <2>botcscripts.com</2>": "Více skriptů naleznete na <2>botcscripts.com</2>",
   "First Night": "První noc",
   "Format": "Formátovat",
@@ -44,6 +46,7 @@
   "Invalid script format: expected an array": "Neplatný formát skriptu: očekáváno pole",
   "Invalid URL": "Neplatná URL adresa",
   "Invalid URL format": "Neplatný formát URL",
+  "JSON": "JSON",
   "Link Copied!": "Odkaz zkopírován!",
   "Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL": "Načíst z URL `script.bloodontheclocktower.com` nebo `botcscripts.com`",
   "Load from URL": "Načíst z URL",
@@ -55,6 +58,7 @@
   "Open {{roleName}} official wiki": "Otevřít oficiální wiki pro {{roleName}}",
   "Other Nights": "Další noci",
   "Outsiders": "Podivíni",
+  "Paste": "Vložit",
   "Paste JSON": "Vložit JSON",
   "Paste JSON from your clipboard": "Vložit JSON ze schránky",
   "Paste script JSON here...": "Sem vložte JSON skriptu...",
@@ -95,5 +99,6 @@
   "Trouble Brewing": "Potíže Přicházejí",
   "Unknown error": "Neznámá chyba",
   "Upload a script JSON file": "Nahrát JSON soubor skriptu",
-  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže"
+  "Upload a script json or pick one below to get started": "Nahrajte JSON skriptu nebo si vyberte jeden ze základních níže",
+  "URL": "URL"
 }

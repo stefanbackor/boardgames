@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Custom Fonts */
 @font-face {
@@ -9,10 +9,146 @@
   font-display: swap;
 }
 
+/*
+ * Self-hosted Google Fonts (Inter + Sorts Mill Goudy).
+ * Previously loaded from fonts.googleapis.com; self-hosting removes the
+ * third-party request/IP transfer to Google. Subsetted to latin + latin-ext
+ * to cover all supported locales (en, cs, de, hu, nl, pl).
+ */
+
+/* Inter — variable weight, normal */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Inter — variable weight, italic */
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-italic-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-italic-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Sorts Mill Goudy — 400, normal */
+@font-face {
+  font-family: 'Sorts Mill Goudy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/sorts-mill-goudy-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sorts Mill Goudy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/sorts-mill-goudy-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Sorts Mill Goudy — 400, italic */
+@font-face {
+  font-family: 'Sorts Mill Goudy';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/sorts-mill-goudy-italic-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sorts Mill Goudy';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/sorts-mill-goudy-italic-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 /* Radix UI Themes: Proper font configuration using official CSS custom properties */
 .radix-themes {
-  --default-font-family: "Inter", sans-serif;
-  --heading-font-family: "Sorts Mill Goudy", serif;
+  --default-font-family: 'Inter', sans-serif;
+  --heading-font-family: 'Sorts Mill Goudy', serif;
+}
+
+/* Cookie consent banner */
+@keyframes cookie-consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cookie-consent {
+  animation: cookie-consent-in 0.35s ease-out both;
+}
+
+/* Consent actions: equal visual weight (reject as easy/prominent as accept) */
+.cookie-consent-btn {
+  background-color: #f1ead8 !important;
+  color: #2b1b40 !important;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cookie-consent-btn:hover {
+  background-color: #fffaf0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-consent {
+    animation: none;
+  }
 }
 
 /* Background Image - Override Radix dark theme background */
@@ -20,10 +156,9 @@ body {
   background-repeat: repeat !important;
   background-attachment: scroll !important;
   background-color: transparent !important;
-  background-image: url("https://wsrv.nl/?url=https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/bg-light-rough-tile-TJBBJ7QQ.jpg&output=webp&q=41") !important;
+  background-image: url('https://wsrv.nl/?url=https://cdn.shopify.com/oxygen-v2/24098/8185/16590/2521514/build/_assets/bg-light-rough-tile-TJBBJ7QQ.jpg&output=webp&q=41') !important;
   margin: 0 !important;
 }
-
 
 /* A4 Portrait page setup with small margins */
 @page {
@@ -55,7 +190,7 @@ body {
 
   /* Hide all tooltips when printing */
   .rt-Tooltip,
-  [role="tooltip"],
+  [role='tooltip'],
   [data-radix-popper-content-wrapper] {
     display: none !important;
   }
@@ -81,7 +216,7 @@ body {
     width: 100% !important;
   }
 
-  .role-grid>* {
+  .role-grid > * {
     break-inside: avoid !important;
     -webkit-column-break-inside: avoid !important;
     page-break-inside: avoid !important;
@@ -98,7 +233,7 @@ body {
 
   /* Safari fallback: disable columns, use single-column linear layout */
   /* Target Safari specifically using -webkit-hyphens which is Safari-only */
-  @supports (-webkit-hyphens:none) {
+  @supports (-webkit-hyphens: none) {
     .role-grid {
       column-count: 1 !important;
       display: block !important;
@@ -216,7 +351,7 @@ body {
   column-gap: 0.75rem;
 }
 
-.role-grid>* {
+.role-grid > * {
   /* Prevent cards/items from breaking across columns/pages (incl. Safari) */
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
@@ -260,9 +395,11 @@ body {
 }
 
 @media print {
-  .night-page {}
+  .night-page {
+  }
 
-  .night-script-label-text {}
+  .night-script-label-text {
+  }
 }
 
 /* Editable heading placeholder support */
