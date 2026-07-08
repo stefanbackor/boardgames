@@ -3,8 +3,6 @@ import { test, expect } from '@playwright/test'
 test.describe('Homepage', () => {
   test('should render homepage with upload controls', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Check that the main upload text is present (with correct translation key)
     await expect(
       page.getByText(
@@ -12,14 +10,19 @@ test.describe('Homepage', () => {
       ),
     ).toBeVisible()
 
-    // Check that file upload label is present (it's a label, not a button role)
-    await expect(page.getByText('Choose JSON File')).toBeVisible()
+    // Check that file upload control is present (it's a label, not a button
+    // role; the visible text collapses on mobile, so target the label itself)
+    await expect(page.locator('label[for="file-upload"]')).toBeVisible()
 
-    // Check that Load from URL button is present
-    await expect(page.getByRole('button', { name: 'Load from URL' })).toBeVisible()
+    // Check that Load from URL button is present (label is "URL" on mobile)
+    await expect(
+      page.getByRole('button', { name: /^(Load from URL|URL)$/ }),
+    ).toBeVisible()
 
-    // Check that Paste JSON button is present
-    await expect(page.getByRole('button', { name: 'Paste JSON' })).toBeVisible()
+    // Check that Paste JSON button is present (label is "Paste" on mobile)
+    await expect(
+      page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }),
+    ).toBeVisible()
 
     // Check that sample script buttons are present
     await expect(
@@ -29,8 +32,6 @@ test.describe('Homepage', () => {
 
   test('should have language selector', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Check for language selector - it's a combobox button (the role from debug output)
     const languageSelector = page.getByRole('combobox')
     await expect(languageSelector).toBeVisible()
@@ -41,8 +42,6 @@ test.describe('Homepage', () => {
 
   test('should display footer with attribution', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Check that footer is present with trademark text (using .first() for multiple matches)
     await expect(
       page.getByText(/Steven Medway and The Pandemonium Institute/i).first(),
@@ -60,8 +59,6 @@ test.describe('Homepage', () => {
     await page.goto('/')
 
     // Wait for the page to be fully loaded
-    await page.waitForLoadState('networkidle')
-
     // Click on "Trouble Brewing" sample script button
     await page.getByRole('button', { name: 'Trouble Brewing' }).click()
 
@@ -86,8 +83,6 @@ test.describe('Homepage', () => {
     page,
   }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Load a sample script
     await page.getByRole('button', { name: 'Trouble Brewing' }).click()
 
@@ -107,8 +102,6 @@ test.describe('Homepage', () => {
     page,
   }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Load a sample script
     await page.getByRole('button', { name: 'Trouble Brewing' }).click()
 
@@ -126,8 +119,6 @@ test.describe('Homepage', () => {
     page,
   }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Load a sample script to ensure the night sections are rendered
     await page.getByRole('button', { name: 'Trouble Brewing' }).click()
     await expect(page.getByText('Trouble Brewing').first()).toBeVisible({

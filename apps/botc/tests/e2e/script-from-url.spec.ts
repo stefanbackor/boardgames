@@ -29,8 +29,6 @@ test.describe('Script from URL', () => {
 
     // Navigate with script parameter
     await page.goto(`/?script=${encodeURIComponent(compressed)}`)
-    await page.waitForLoadState('networkidle')
-
     // Wait for script to load - check for script header
     await expect(page.getByText('Just a TB').first()).toBeVisible({
       timeout: 10000,
@@ -56,8 +54,6 @@ test.describe('Script from URL', () => {
 
     const compressed = await compressScriptForUrl(scriptData)
     await page.goto(`/?script=${encodeURIComponent(compressed)}`)
-    await page.waitForLoadState('networkidle')
-
     // Check that metadata is displayed
     await expect(page.getByText('Test Script').first()).toBeVisible({
       timeout: 10000,
@@ -69,10 +65,10 @@ test.describe('Script from URL', () => {
     page,
   }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Check that "Load from URL" button exists
-    const loadButton = page.getByRole('button', { name: 'Load from URL' })
+    const loadButton = page.getByRole('button', {
+      name: /^(Load from URL|URL)$/,
+    })
     await expect(loadButton).toBeVisible()
 
     // Click to open modal
@@ -100,7 +96,6 @@ test.describe('Script from URL', () => {
   }) => {
     // Navigate with invalid script parameter
     await page.goto('/?script=invalid-base64')
-    await page.waitForLoadState('networkidle')
 
     // Should show error message or fall back to homepage
     const errorMessage = page.getByText(/error|failed|invalid/i)
@@ -108,16 +103,15 @@ test.describe('Script from URL', () => {
       /Upload a script json or pick one from base scripts below/i,
     )
 
-    // Either an error message or the default upload screen should be visible
-    const hasError = (await errorMessage.count()) > 0
-    const hasUploadText = (await uploadText.count()) > 0
-    expect(hasError || hasUploadText).toBeTruthy()
+    // The app renders asynchronously, so wait for it to settle into either an
+    // error message or the default upload screen (auto-retrying assertion).
+    await expect(errorMessage.or(uploadText).first()).toBeVisible({
+      timeout: 10000,
+    })
   })
 
   test('should update URL when committing script changes', async ({ page }) => {
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Load a sample script
     await page.getByRole('button', { name: 'Trouble Brewing' }).click()
     await expect(page.getByText('Trouble Brewing').first()).toBeVisible({
@@ -159,7 +153,6 @@ test.describe('Script from URL', () => {
     const compressed = await compressScriptForUrl(scriptData)
 
     await page.goto(`/?script=${encodeURIComponent(compressed)}`)
-    await page.waitForLoadState('networkidle')
     await expect(page.getByText('Just a TB').first()).toBeVisible({
       timeout: 10000,
     })
@@ -176,9 +169,9 @@ test.describe('Script from URL', () => {
       // Click share button
       await shareButton.click()
 
-      // Wait for the button text to change to "Link Copied!"
+      // Wait for the button text to change (label is "Copied!" on mobile)
       await expect(
-        page.getByRole('button', { name: 'Link Copied!' }),
+        page.getByRole('button', { name: /^(Link Copied!|Copied!)$/ }),
       ).toBeVisible({ timeout: 3000 })
     } else {
       // For other browsers, just verify the button is clickable
@@ -206,8 +199,6 @@ test.describe('Script from URL', () => {
 
     const compressed = await compressScriptForUrl(scriptData)
     await page.goto(`/?script=${encodeURIComponent(compressed)}`)
-    await page.waitForLoadState('networkidle')
-
     await expect(page.getByText('Mini Script').first()).toBeVisible({
       timeout: 10000,
     })
@@ -232,7 +223,6 @@ test.describe('Script from URL', () => {
     const compressed = await compressScriptForUrl(scriptData)
 
     await page.goto(`/?script=${encodeURIComponent(compressed)}`)
-    await page.waitForLoadState('networkidle')
     await expect(page.getByText('Just a TB').first()).toBeVisible({
       timeout: 10000,
     })
@@ -277,10 +267,10 @@ test.describe('Script from URL', () => {
 
     // Go to the app
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Click the "Load from URL" button to open modal
-    const loadButton = page.getByRole('button', { name: 'Load from URL' })
+    const loadButton = page.getByRole('button', {
+      name: /^(Load from URL|URL)$/,
+    })
     await loadButton.click()
 
     // Wait for modal to open
@@ -327,10 +317,10 @@ test.describe('Script from URL', () => {
 
     // Go to the app
     await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
     // Click the "Load from URL" button to open modal
-    const loadButton = page.getByRole('button', { name: 'Load from URL' })
+    const loadButton = page.getByRole('button', {
+      name: /^(Load from URL|URL)$/,
+    })
     await loadButton.click()
 
     // Wait for modal to open
