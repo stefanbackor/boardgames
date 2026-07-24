@@ -98,7 +98,7 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
   },
   soldier: {
     name: 'Żołnierz',
-    ability: 'Nie możesz zostać zabity przez Demona.',
+    ability: 'Jesteś niewrażliwy na efekty Demona.',
   },
   mayor: {
     name: 'Burmistrz',
@@ -447,7 +447,7 @@ export const roleTranslationsPl: Record<string, RoleTranslation> = {
   tealady: {
     name: 'Herbaciarka',
     ability:
-      'Jeśli obaj twoi żyjący sąsiedzi są dobrzy, żaden z was nie może umrzeć.',
+      'Jeśli obaj twoi żyjący sąsiedzi są dobrzy, żaden z nich nie może umrzeć.',
     reminders: ['Nie może umrzeć'],
   },
   pacifist: {
