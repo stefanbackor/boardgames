@@ -3,18 +3,120 @@ import { Jinx } from '@/types/jinx'
 /**
  * Polish translations for jinx reasons from `jinxes.en.ts`.
  *
- * Structure mirrors the base `jinxes` array but only the `reason` texts
- * are localized. Role ids stay the same as in the base data.
+ * Structure mirrors the base `jinxes` array (same order, same pairs) but
+ * only the `reason` texts are localized. Role ids stay the same as in the
+ * base data.
  */
 
 export const jinxesPl: Array<Jinx> = [
   {
-    id: 'chambermaid',
+    id: 'alchemist',
     hatred: [
       {
-        id: 'mathematician',
+        id: 'boffin',
         reason:
-          'Chambermaid dowiaduje się, czy Mathematician budzi się tej nocy, mimo że Chambermaid budzi się pierwsza.',
+          'Jeśli Alchemist ma zdolność Boffina, Alchemist nie dowiaduje się, jaką zdolność ma Demon.',
+      },
+      {
+        id: 'marionette',
+        reason:
+          'Alchemist-Marionette nie ma zdolności Marionette, a Marionette jest w grze.',
+      },
+      {
+        id: 'mastermind',
+        reason:
+          'Alchemist-Geniusz zła nie ma zdolności Geniusza zła, a Geniusz zła nie jest w grze.',
+      },
+      {
+        id: 'organgrinder',
+        reason:
+          'Jeśli Alchemist ma zdolność Organ Grindera, Organ Grinder jest w grze. Jeśli oboje są trzeźwi, oboje są pijani.',
+      },
+      {
+        id: 'spy',
+        reason:
+          'Alchemist-Szpieg nie ma zdolności Szpiega, a Szpieg jest w grze. Po każdej egzekucji żywy Alchemist-Szpieg może publicznie wskazać żywego gracza jako Szpiega. Jeśli ma rację, Demon musi tej nocy wybrać Szpiega.',
+      },
+      {
+        id: 'summoner',
+        reason:
+          'Alchemist-Summoner nie otrzymuje blefów i wybiera, który Demon, ale nie którego gracza. Jeśli umrze wcześniej, zło wygrywa. [Bez Demona]',
+      },
+      {
+        id: 'widow',
+        reason:
+          'Alchemist-Wdowa nie ma zdolności Wdowy, a Wdowa jest w grze. Po każdej egzekucji żywy Alchemist-Wdowa może publicznie wskazać żywego gracza jako Wdowę. Jeśli ma rację, Demon musi tej nocy wybrać Wdowę.',
+      },
+      {
+        id: 'wraith',
+        reason:
+          'Alchemist-Wraith nie ma zdolności Wraitha, a Wraith jest w grze. Po każdej egzekucji żywy Alchemist-Wraith może publicznie wskazać żywego gracza jako Wraitha. Jeśli ma rację, Demon musi tej nocy wybrać Wraitha.',
+      },
+    ],
+  },
+  {
+    id: 'alhadikhia',
+    hatred: [
+      {
+        id: 'mastermind',
+        reason:
+          'Jeśli Al-Hadikhia umrze przez egzekucję, a Geniusz zła żyje, Al-Hadikhia wybiera tej nocy 3 dobrych graczy: jeśli wszyscy 3 wybiorą życie, zło wygrywa. W przeciwnym razie dobro wygrywa.',
+      },
+      {
+        id: 'princess',
+        reason:
+          'Jeśli Princess w swoim 1. dniu nominowała gracza, który został stracony, tej nocy nikt nie umiera od Al-Hadikhii.',
+      },
+    ],
+  },
+  {
+    id: 'boffin',
+    hatred: [
+      {
+        id: 'cultleader',
+        reason:
+          'Jeśli Demon ma zdolność Cult Leadera, nie może stać się dobry z powodu tej zdolności.',
+      },
+      {
+        id: 'drunk',
+        reason: 'Demon nie może mieć zdolności Pijaka.',
+      },
+      {
+        id: 'goon',
+        reason:
+          'Jeśli Demon ma zdolność Zbira, nie może stać się dobry z powodu tej zdolności.',
+      },
+      {
+        id: 'heretic',
+        reason: 'Demon nie może mieć zdolności Heretica.',
+      },
+      {
+        id: 'ogre',
+        reason: "Demon nie może mieć zdolności Ogre'a.",
+      },
+      {
+        id: 'politician',
+        reason: 'Demon nie może mieć zdolności Politiciana.',
+      },
+      {
+        id: 'villageidiot',
+        reason:
+          'Jeśli jest wolny żeton, Boffin może dać Demonowi zdolność Village Idiota.',
+      },
+    ],
+  },
+  {
+    id: 'bountyhunter',
+    hatred: [
+      {
+        id: 'kazali',
+        reason:
+          'Jeśli Kazali zmieni Bounty Huntera w Sługusa, zły Mieszczanin nie zostaje utworzony.',
+      },
+      {
+        id: 'philosopher',
+        reason:
+          'Jeśli Filozof otrzyma zdolność Bounty Huntera, jakiś Mieszczanin może stać się zły.',
       },
     ],
   },
@@ -22,37 +124,34 @@ export const jinxesPl: Array<Jinx> = [
     id: 'butler',
     hatred: [
       {
-        id: 'cannibal',
+        id: 'organgrinder',
         reason:
-          'Jeśli Cannibal otrzyma zdolność Butlera, Cannibal dowiaduje się o tym.',
+          'Jeśli Organ Grinder powoduje głosowanie z zamkniętymi oczami, Lokaj może podnieść rękę, ale jego głos liczy się tylko wtedy, gdy jego pan również głosował.',
       },
     ],
   },
   {
-    id: 'lunatic',
+    id: 'cannibal',
     hatred: [
       {
-        id: 'mathematician',
+        id: 'butler',
         reason:
-          'Mathematician dowiaduje się, czy Lunatic atakuje innego gracza niż prawdziwy Demon.',
-      },
-    ],
-  },
-  {
-    id: 'pithag',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'Pit-Hag nie może stworzyć Heretyka.',
+          'Jeśli Cannibal otrzyma zdolność Lokaja, Cannibal dowiaduje się o tym.',
       },
       {
-        id: 'damsel',
+        id: 'juggler',
         reason:
-          'Jeśli Pit-Hag stworzy Damsel, Opowiadacz wybiera, który gracz nią jest.',
+          'Jeśli Żongler zgaduje w swoim pierwszym dniu i umiera przez egzekucję, tej nocy żywy Cannibal dowiaduje się, ile trafień miał Żongler.',
       },
       {
-        id: 'politician',
-        reason: 'Pit-Hag nie może stworzyć złego Politiciana.',
+        id: 'princess',
+        reason:
+          'Jeśli Cannibal nominował dziś Princess, która została stracona i umarła, Demon nie zabija tej nocy.',
+      },
+      {
+        id: 'zealot',
+        reason:
+          'Jeśli Cannibal otrzyma zdolność Zealota, Cannibal dowiaduje się o tym.',
       },
     ],
   },
@@ -67,86 +166,31 @@ export const jinxesPl: Array<Jinx> = [
     ],
   },
   {
-    id: 'leviathan',
+    id: 'heretic',
     hatred: [
       {
-        id: 'soldier',
-        reason:
-          'Jeśli Leviathan nominuje i egzekwuje Żołnierza, Żołnierz nie umiera.',
-      },
-      {
-        id: 'monk',
-        reason:
-          'Jeśli Leviathan nominuje i egzekwuje gracza wybranego przez Mnicha, ten gracz nie umiera.',
-      },
-      {
-        id: 'innkeeper',
-        reason:
-          'Jeśli Leviathan nominuje i egzekwuje gracza wybranego przez Oberżystę, ten gracz nie umiera.',
-      },
-      {
-        id: 'ravenkeeper',
-        reason:
-          'Jeśli Leviathan jest w grze i Ravenkeeper umiera przez egzekucję, budzi się tej nocy, aby użyć swojej zdolności.',
-      },
-      {
-        id: 'sage',
-        reason:
-          'Jeśli Leviathan jest w grze i Sage umiera przez egzekucję, budzi się tej nocy, aby użyć swojej zdolności.',
-      },
-      {
-        id: 'farmer',
-        reason:
-          'Jeśli Leviathan jest w grze i Farmer umiera przez egzekucję, dobry gracz staje się Farmerem tej nocy.',
-      },
-      {
-        id: 'mayor',
-        reason:
-          'Jeśli Leviathan jest w grze i nie ma egzekucji w dniu 5, dobro wygrywa.',
-      },
-    ],
-  },
-  {
-    id: 'alhadikhia',
-    hatred: [
-      {
-        id: 'scarlet woman',
-        reason:
-          'Jeśli są dwaj żywi Al-Hadikhia, Scarlet Woman Al-Hadikhia ponownie staje się Scarlet Woman.',
-      },
-      {
-        id: 'mastermind',
-        reason:
-          'Tylko 1 przeklęta postać może być w grze. Źli gracze na początku wiedzą, który gracz i postać to jest.',
-      },
-    ],
-  },
-  {
-    id: 'lilmonsta',
-    hatred: [
-      {
-        id: 'poppygrower',
-        reason:
-          "Jeśli Poppy Grower jest w grze, Poplecznicy nie budzą się razem. Budzą się pojedynczo, dopóki jeden z nich nie zdecyduje się wziąć żeton Lil' Monsta.",
-      },
-      {
-        id: 'magician',
+        id: 'baron',
         reason: 'Tylko 1 przeklęta postać może być w grze.',
       },
       {
-        id: 'scarletwoman',
-        reason:
-          "Jeśli żyje 5 lub więcej graczy i gracz trzymający żeton Lil' Monsta umiera, Scarlet Woman otrzymuje żeton Lil' Monsta tej nocy.",
+        id: 'godfather',
+        reason: 'Tylko 1 przeklęta postać może być w grze.',
       },
-    ],
-  },
-  {
-    id: 'lycanthrope',
-    hatred: [
       {
-        id: 'gambler',
-        reason:
-          'Jeśli Lycanthrope żyje i Gambler zabija się w nocy, żaden inny gracz nie może umrzeć tej nocy.',
+        id: 'lleech',
+        reason: 'Tylko 1 przeklęta postać może być w grze.',
+      },
+      {
+        id: 'pithag',
+        reason: 'Tylko 1 przeklęta postać może być w grze.',
+      },
+      {
+        id: 'spy',
+        reason: 'Tylko 1 przeklęta postać może być w grze.',
+      },
+      {
+        id: 'widow',
+        reason: 'Tylko 1 przeklęta postać może być w grze.',
       },
     ],
   },
@@ -156,257 +200,138 @@ export const jinxesPl: Array<Jinx> = [
       {
         id: 'engineer',
         reason:
-          'Legion i Engineer nie mogą być jednocześnie w grze na początku. Jeśli Engineer stworzy Legion, większość graczy (w tym wszyscy źli gracze) staje się złym Legionem.',
+          'Jeśli Legion zostanie utworzony, wszyscy źli gracze stają się Legionem. Jeśli Legion jest w grze, Engineer wie o tym od początku, ale nie ma zdolności.',
+      },
+      {
+        id: 'hatter',
+        reason:
+          'Jeśli Legion zostanie utworzony, wszyscy źli gracze stają się Legionem. Jeśli Legion jest w grze, Hatter nie ma zdolności.',
+      },
+      {
+        id: 'minstrel',
+        reason:
+          'Jeśli Legion umarł dziś przez egzekucję, Legion zachowuje swoją zdolność, ale Minstrel może dowiedzieć się, że jest Legionem.',
+      },
+      {
+        id: 'politician',
+        reason: 'Politician może wydawać się Legionowi zły.',
       },
       {
         id: 'preacher',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
+        reason:
+          'Jeśli Preacher wybierze Legion, Legion zachowuje swoją zdolność, ale Preacher może dowiedzieć się, że to Legion.',
+      },
+      {
+        id: 'summoner',
+        reason:
+          'Jeśli Legion zostanie przywołany, wszyscy źli gracze stają się Legionem.',
+      },
+      {
+        id: 'zealot',
+        reason: 'Zealot może wydawać się Legionowi zły.',
       },
     ],
   },
   {
-    id: 'fanggu',
+    id: 'leviathan',
     hatred: [
       {
-        id: 'scarletwoman',
+        id: 'banshee',
         reason:
-          'Jeśli Fang Gu wybierze Outsidera i umiera, Scarlet Woman nie staje się Fang Gu.',
+          'Każdej nocy* Leviathan wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrana Banshee umiera i zyskuje swoją zdolność.',
       },
-    ],
-  },
-  {
-    id: 'spy',
-    hatred: [
       {
-        id: 'magician',
+        id: 'exorcist',
         reason:
-          'Kiedy Szpieg widzi Grimuir, żetony postaci Demona i Maga są usunięte.',
-      },
-      {
-        id: 'alchemist',
-        reason: 'Alchemik nie może mieć zdolności Szpiega.',
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'Jeśli Poppy Grower jest w grze, Szpieg nie widzi Grimuiru, dopóki Poppy Grower nie umrze.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-      {
-        id: 'heretic',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-    ],
-  },
-  {
-    id: 'widow',
-    hatred: [
-      {
-        id: 'magician',
-        reason:
-          'Kiedy Wdowa widzi Grimuir, żetony postaci Demona i Maga są usunięte.',
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'Jeśli Poppy Grower jest w grze, Wdowa nie widzi Grimuiru, dopóki Poppy Grower nie umrze.',
-      },
-      {
-        id: 'alchemist',
-        reason: 'Alchemik nie może mieć zdolności Wdowy.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-      {
-        id: 'heretic',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-    ],
-  },
-  {
-    id: 'godfather',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-    ],
-  },
-  {
-    id: 'baron',
-    hatred: [
-      {
-        id: 'heretic',
-        reason: 'Baron może dodać tylko 1 Outsidera, a nie 2.',
-      },
-    ],
-  },
-  {
-    id: 'marionette',
-    hatred: [
-      {
-        id: 'lilmonsta',
-        reason:
-          "Marionetka sąsiaduje z Poplecznikiem, a nie Demonem. Marionetka nie jest budzona, aby wybrać, kto bierze żeton Lil' Monsta.",
-      },
-      {
-        id: 'poppygrower',
-        reason:
-          'Kiedy Poppy Grower umiera, Demon dowiaduje się o Marionecie, ale Marionetka niczego się nie dowiaduje.',
-      },
-      {
-        id: 'snitch',
-        reason:
-          'Marionetka nie dowiaduje się o 3 postaciach spoza gry. Zamiast tego Demon dowiaduje się o 3 dodatkowych.',
-      },
-      {
-        id: 'balloonist',
-        reason:
-          'Jeśli Marionetka myśli, że jest Ballonistą, dodano +1 Outsidera.',
-      },
-      {
-        id: 'damsel',
-        reason: 'Marionetka nie dowiaduje się, że Damsel jest w grze.',
-      },
-      {
-        id: 'huntsman',
-        reason:
-          'Jeśli Marionetka myśli, że jest Myśliwym, Damsel została dodana.',
-      },
-    ],
-  },
-  {
-    id: 'riot',
-    hatred: [
-      {
-        id: 'engineer',
-        reason:
-          'Riot i Engineer nie mogą być jednocześnie w grze na początku.\nJeśli Engineer stworzy Riot, źli gracze stają się Riot.',
-      },
-      {
-        id: 'golem',
-        reason: 'Jeśli Golem nominuje Riot, gracz Riot nie umiera.',
-      },
-      {
-        id: 'snitch',
-        reason:
-          'Jeśli Snitch jest w grze, każdy gracz Riot otrzymuje 3 dodatkowe blefuje.',
-      },
-      {
-        id: 'saint',
-        reason:
-          'Jeśli dobry gracz nominuje i zabija Świętego, drużyna Świętego przegrywa.',
-      },
-      {
-        id: 'butler',
-        reason: 'Butler nie może nominować swojego pana.',
-      },
-      {
-        id: 'pithag',
-        reason:
-          'Jeśli Pit-Hag stworzy Riot, wszyscy źli gracze stają się Riot.\nJeśli Pit-Hag stworzy Riot po dniu 3, gra trwa jeszcze jeden dzień.',
-      },
-      {
-        id: 'mayor',
-        reason:
-          'Jeśli 3. dzień rozpoczyna się z tylko trzema żywymi graczami, gracze mogą (jako grupa) zdecydować się w ogóle nie nominować. Jeśli tak (i Mayor żyje), drużyna Mayora wygrywa.',
-      },
-      {
-        id: 'monk',
-        reason:
-          'Jeśli gracz Riot nominuje i zabija gracza chronionego przez Mnicha, chroniony gracz nie umiera.',
+          'Jeśli Leviathan nominuje gracza wybranego przez Egzorcystę i zostaje on stracony, dobro wygrywa.',
       },
       {
         id: 'farmer',
         reason:
-          'Jeśli gracz Riot nominuje i zabija Farmera, Farmer używa swojej zdolności tej nocy.',
-      },
-      {
-        id: 'innkeeper',
-        reason:
-          'Jeśli gracz Riot nominuje gracza chronionego przez Oberżystę, chroniony gracz nie umiera.',
-      },
-      {
-        id: 'sage',
-        reason:
-          'Jeśli gracz Riot nominuje i zabija Sage, Sage używa swojej zdolności tej nocy.',
-      },
-      {
-        id: 'ravenkeeper',
-        reason:
-          'Jeśli gracz Riot nominuje i zabija Ravenkeepeera, Ravenkeeper używa swojej zdolności tej nocy.',
-      },
-      {
-        id: 'soldier',
-        reason:
-          'Jeśli gracz Riot nominuje Żołnierza, Żołnierz nie umiera.',
+          'Każdej nocy* Leviathan wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrany Farmer używa swojej zdolności, ale nie umiera.',
       },
       {
         id: 'grandmother',
         reason:
-          'Jeśli gracz Riot nominuje i zabija Wnuka, Babcia również umiera.',
+          'Jeśli Leviathan jest w grze, a wnuczek umiera przez egzekucję, zło wygrywa.',
+      },
+      {
+        id: 'hatter',
+        reason: 'Leviathan nie może wejść do gry po 5. dniu.',
+      },
+      {
+        id: 'innkeeper',
+        reason:
+          'Jeśli Leviathan nominuje gracza chronionego przez Karczmarza i zostaje on stracony, dobro wygrywa.',
       },
       {
         id: 'king',
         reason:
-          'Jeśli gracz Riot nominuje i zabija Króla, a Choirboy żyje, Choirboy używa swojej zdolności tej nocy.',
+          'Jeśli Leviathan jest w grze i co najmniej 1 gracz jest martwy, King dowiaduje się każdej nocy o jednej żywej postaci.',
       },
       {
-        id: 'exorcist',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-      {
-        id: 'minstrel',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-      {
-        id: 'flowergirl',
-        reason: 'Tylko 1 przeklęta postać może być w grze.',
-      },
-      {
-        id: 'undertaker',
+        id: 'mayor',
         reason:
-          'Gracze, którzy umierają przez nominację, są rejestrowane jako egzekwowani dla Undertakera.',
+          'Jeśli Leviathan i Burmistrz żyją w 5. dniu i nie ma egzekucji, dobro wygrywa.',
       },
       {
-        id: 'cannibal',
+        id: 'monk',
         reason:
-          'Gracze, którzy umierają przez nominację, są rejestrowane jako egzekwowani dla Cannibala.',
+          'Jeśli Leviathan nominuje gracza chronionego przez Mnicha i zostaje on stracony, dobro wygrywa.',
       },
       {
-        id: 'pacifist',
+        id: 'pithag',
+        reason: 'Leviathan nie może wejść do gry po 5. dniu.',
+      },
+      {
+        id: 'ravenkeeper',
         reason:
-          'Gracze, którzy umierają przez nominację, są rejestrowane jako egzekwowani dla Pacyfisty.',
+          'Każdej nocy* Leviathan wybiera żywego gracza (innego niż w poprzednich nocach): wybrany Hodowca kruków używa swojej zdolności, ale nie umiera.',
       },
       {
-        id: 'devilsadvocate',
+        id: 'sage',
         reason:
-          "Gracze, którzy umierają przez nominację, są rejestrowane jako egzekwowani dla Devil's Advocate.",
+          'Każdej nocy* Leviathan wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrany Mędrzec używa swojej zdolności, ale nie umiera.',
       },
       {
-        id: 'investigator',
-        reason: 'Riot jest rejestrowany jako Poplecznik dla Investigatora.',
+        id: 'soldier',
+        reason:
+          'Jeśli Leviathan nominuje Żołnierza i zostaje on stracony, dobro wygrywa.',
+      },
+    ],
+  },
+  {
+    id: 'lilmonsta',
+    hatred: [
+      {
+        id: 'hatter',
+        reason:
+          "Jeśli Hatter umrze, a Demon wybierze Lil' Monstę, wybiera też Sługusa, którym się staje.",
       },
       {
-        id: 'clockmaker',
-        reason: 'Riot jest rejestrowany jako Poplecznik dla Zegarmistrza.',
+        id: 'magician',
+        reason:
+          "Jeśli Magician żyje, Opowiadacz wybiera, który Sługus opiekuje się Lil' Monstą.",
       },
       {
-        id: 'towncrier',
-        reason: 'Riot jest rejestrowany jako Poplecznik dla Town Criera.',
+        id: 'poppygrower',
+        reason:
+          "Jeśli Lil' Monsta i Poppy Grower żyją, Sługusi budzą się pojedynczo, dopóki jeden z nich nie zdecyduje się wziąć żetonu Lil' Monsta.",
       },
       {
-        id: 'damsel',
-        reason: 'Riot jest rejestrowany jako Poplecznik dla Damsel.',
+        id: 'psychopath',
+        reason:
+          "Jeśli Psychopath opiekuje się Lil' Monstą, umiera, gdy zostaje stracony.",
       },
       {
-        id: 'preacher',
-        reason: 'Riot jest rejestrowany jako Poplecznik dla Kaznodziei.',
+        id: 'scarletwoman',
+        reason:
+          "Jeśli Lil' Monsta umrze, gdy żyje 5 lub więcej graczy, Kochanica diabła opiekuje się Lil' Monstą do końca gry.",
+      },
+      {
+        id: 'vizier',
+        reason:
+          "Jeśli Vizier opiekuje się Lil' Monstą, umiera, gdy zostaje stracony.",
       },
     ],
   },
@@ -416,16 +341,435 @@ export const jinxesPl: Array<Jinx> = [
       {
         id: 'mastermind',
         reason:
-          'Jeśli Mastermind żyje i gospodarz Lleeecha umiera przez egzekucję, Lleech żyje, ale traci swoją zdolność.',
+          'Jeśli Geniusz zła żyje, a gospodarz Lleecha umiera przez egzekucję, Lleech żyje, ale traci swoją zdolność.',
       },
       {
         id: 'slayer',
-        reason: 'Jeśli Slayer zabija gospodarza Lleeecha, gospodarz umiera.',
+        reason: 'Jeśli Pogromca zabije gospodarza Lleecha, gospodarz umiera.',
+      },
+    ],
+  },
+  {
+    id: 'magician',
+    hatred: [
+      {
+        id: 'legion',
+        reason:
+          'Jeśli Magician jest w grze, podczas informacji dla Demona Legion budzi się w osobnych grupach. Każda grupa dowiaduje się, którzy gracze są dobrzy, ale nie dowiaduje się, kto jest Magicianem.',
       },
       {
-        id: 'heretic',
+        id: 'marionette',
         reason:
-          'Jeśli Lleech otruł Heretyka, a następnie Lleech umiera, Heretyk pozostaje otruty.',
+          'Jeśli Magician żyje, Demon nie wie, który z jego sąsiadów jest Marionette.',
+      },
+      {
+        id: 'spy',
+        reason:
+          'Kiedy Szpieg widzi Grimuir, żetony postaci Demona i Maga są usunięte.',
+      },
+      {
+        id: 'vizier',
+        reason:
+          'Jeśli Vizier jest w grze, Magician nie ma zdolności, ale jest odporny na zdolność Viziera.',
+      },
+      {
+        id: 'widow',
+        reason:
+          'Kiedy Wdowa widzi Grimuir, żetony postaci Demona i Maga są usunięte.',
+      },
+      {
+        id: 'wraith',
+        reason:
+          'Po każdej egzekucji żywy Magician może publicznie wskazać żywego gracza jako Wraitha. Jeśli ma rację, Demon musi tej nocy wybrać Wraitha.',
+      },
+    ],
+  },
+  {
+    id: 'marionette',
+    hatred: [
+      {
+        id: 'balloonist',
+        reason:
+          'Jeśli Marionette myśli, że jest Balloonistem, podczas przygotowania mógł zostać dodany Obcy.',
+      },
+      {
+        id: 'huntsman',
+        reason:
+          'Jeśli Marionette myśli, że jest Huntsmanem, podczas przygotowania została dodana Damsel.',
+      },
+      {
+        id: 'kazali',
+        reason:
+          'Jeśli Marionette miałaby być w grze, wchodzi do gry po Demonie i musi zaczynać jako jego sąsiad.',
+      },
+      {
+        id: 'lilmonsta',
+        reason:
+          'Jeśli Marionette miałaby być w grze, wchodzi do gry po Demonie i musi zaczynać jako jego sąsiad.',
+      },
+      {
+        id: 'summoner',
+        reason:
+          'Jeśli Marionette miałaby być w grze, wchodzi do gry po Demonie i musi zaczynać jako jego sąsiad.',
+      },
+    ],
+  },
+  {
+    id: 'mastermind',
+    hatred: [
+      {
+        id: 'vigormortis',
+        reason:
+          'Geniusz zła, który ma swoją zdolność, zachowuje ją, jeśli Vigormortis umrze.',
+      },
+    ],
+  },
+  {
+    id: 'mathematician',
+    hatred: [
+      {
+        id: 'chambermaid',
+        reason: 'Pokojówka może wykryć, czy Matematyk obudzi się tej nocy.',
+      },
+      {
+        id: 'drunk',
+        reason:
+          'Matematyk dowiaduje się, czy zdolność Pijaka dała fałszywą informację lub nie zadziałała poprawnie.',
+      },
+      {
+        id: 'lunatic',
+        reason:
+          'Matematyk dowiaduje się, czy Szaleniec atakuje innego gracza niż prawdziwy Demon.',
+      },
+      {
+        id: 'marionette',
+        reason:
+          'Matematyk dowiaduje się, czy zdolność Marionette dała fałszywą informację lub nie zadziałała poprawnie.',
+      },
+    ],
+  },
+  {
+    id: 'pithag',
+    hatred: [
+      {
+        id: 'cultleader',
+        reason:
+          'Jeśli Jędza zmieni złego gracza w Cult Leadera, nie może on stać się dobry z powodu swojej własnej zdolności.',
+      },
+      {
+        id: 'damsel',
+        reason:
+          'Jeśli Jędza stworzy Damsel, Opowiadacz wybiera, który gracz nią jest.',
+      },
+      {
+        id: 'goon',
+        reason:
+          'Jeśli Jędza zmieni złego gracza w Zbira, nie może on stać się dobry z powodu swojej własnej zdolności.',
+      },
+      {
+        id: 'ogre',
+        reason:
+          "Jeśli Jędza zmieni złego gracza w Ogre'a, nie może on stać się dobry z powodu swojej własnej zdolności.",
+      },
+      {
+        id: 'politician',
+        reason:
+          'Jeśli Jędza zmieni złego gracza w Politiciana, nie może on stać się dobry z powodu swojej własnej zdolności.',
+      },
+      {
+        id: 'villageidiot',
+        reason:
+          'Jeśli jest wolny żeton, Jędza może stworzyć dodatkowego Village Idiota. Wtedy może się zmienić, który Village Idiot jest pijany.',
+      },
+    ],
+  },
+  {
+    id: 'plaguedoctor',
+    hatred: [
+      {
+        id: 'baron',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Barona, do dwóch graczy staje się Obcymi.',
+      },
+      {
+        id: 'boomdandy',
+        reason:
+          "Jeśli Opowiadacz miałby otrzymać zdolność Boomdandy'ego, jeden gracz staje się Boomdandym.",
+      },
+      {
+        id: 'eviltwin',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Złego bliźniaka, jeden gracz staje się Złym bliźniakiem.',
+      },
+      {
+        id: 'fearmonger',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Fearmongera, otrzymuje ją jeden Sługus i dowiaduje się o tym.',
+      },
+      {
+        id: 'goblin',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Goblina, otrzymuje ją jeden Sługus i dowiaduje się o tym.',
+      },
+      {
+        id: 'marionette',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Marionette, jeden z dobrych sąsiadów Demona staje się Marionette.',
+      },
+      {
+        id: 'scarletwoman',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Kochanicy diabła, otrzymuje ją jeden Sługus i dowiaduje się o tym.',
+      },
+      {
+        id: 'spy',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Szpiega, otrzymuje ją jeden Sługus i dowiaduje się o tym.',
+      },
+      {
+        id: 'wraith',
+        reason:
+          'Jeśli Opowiadacz miałby otrzymać zdolność Wraitha, otrzymuje ją jeden Sługus i dowiaduje się o tym.',
+      },
+    ],
+  },
+  {
+    id: 'recluse',
+    hatred: [
+      {
+        id: 'ogre',
+        reason:
+          "Jeśli Odludek wydaje się Ogre'owi zły, Ogre dowiaduje się, że jest zły.",
+      },
+      {
+        id: 'sage',
+        reason: 'Odludek może wydawać się Mędrcowi Demonem.',
+      },
+    ],
+  },
+  {
+    id: 'riot',
+    hatred: [
+      {
+        id: 'atheist',
+        reason:
+          'Jeśli podczas Riotu zostanie nominowany Opowiadacz, gracze głosują. Jeśli jest „bliski śmierci”, gra się kończy. Jeśli nie, następuje kolejna nominacja.',
+      },
+      {
+        id: 'banshee',
+        reason:
+          'Każdej nocy* Riot wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrana Banshee umiera i zyskuje swoją zdolność.',
+      },
+      {
+        id: 'exorcist',
+        reason:
+          'Jeśli Riot nominuje gracza wybranego przez Egzorcystę i zostaje on stracony, dobro wygrywa.',
+      },
+      {
+        id: 'farmer',
+        reason:
+          'Każdej nocy* Riot wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrany Farmer używa swojej zdolności, ale nie umiera.',
+      },
+      {
+        id: 'grandmother',
+        reason:
+          'Jeśli Riot jest w grze, a wnuczek umiera przez egzekucję, zło wygrywa.',
+      },
+      {
+        id: 'innkeeper',
+        reason:
+          'Jeśli Riot nominuje gracza chronionego przez Karczmarza i zostaje on stracony, dobro wygrywa.',
+      },
+      {
+        id: 'king',
+        reason:
+          'Jeśli Riot jest w grze i co najmniej 1 gracz jest martwy, King dowiaduje się każdej nocy o jednej żywej postaci.',
+      },
+      {
+        id: 'mayor',
+        reason:
+          'Burmistrz może zdecydować o zatrzymaniu Riotu. Jeśli zrobi to, gdy żyje tylko 1 Riot, dobro wygrywa. W przeciwnym razie zło wygrywa.',
+      },
+      {
+        id: 'monk',
+        reason:
+          'Jeśli Riot nominuje gracza chronionego przez Mnicha i zostaje on stracony, dobro wygrywa.',
+      },
+      {
+        id: 'ravenkeeper',
+        reason:
+          'Każdej nocy* Riot wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrany Hodowca kruków używa swojej zdolności, ale nie umiera.',
+      },
+      {
+        id: 'sage',
+        reason:
+          'Każdej nocy* Riot wybiera żywego dobrego gracza (innego niż w poprzednich nocach): wybrany Mędrzec używa swojej zdolności, ale nie umiera.',
+      },
+      {
+        id: 'soldier',
+        reason:
+          'Jeśli Riot nominuje Żołnierza i zostaje on stracony, dobro wygrywa.',
+      },
+    ],
+  },
+  {
+    id: 'scarletwoman',
+    hatred: [
+      {
+        id: 'alhadikhia',
+        reason:
+          'Jeśli miałoby być dwóch Demonów, z których jednym była Kochanica diabła, Kochanica diabła ponownie staje się Kochanicą diabła.',
+      },
+      {
+        id: 'fanggu',
+        reason:
+          'Jeśli miałoby być dwóch Demonów, z których jednym była Kochanica diabła, Kochanica diabła pozostaje Kochanicą diabła.',
+      },
+    ],
+  },
+  {
+    id: 'spy',
+    hatred: [
+      {
+        id: 'damsel',
+        reason: 'Jeśli Szpieg jest (lub był) w grze, Damsel jest zatruta.',
+      },
+      {
+        id: 'ogre',
+        reason: "Szpieg wydaje się Ogre'owi zły.",
+      },
+      {
+        id: 'poppygrower',
+        reason:
+          'Jeśli Poppy Grower ma swoją zdolność, Szpieg nie widzi Grimuiru.',
+      },
+    ],
+  },
+  {
+    id: 'summoner',
+    hatred: [
+      {
+        id: 'clockmaker',
+        reason: 'Summoner wydaje się Zegarmistrzowi Demonem.',
+      },
+      {
+        id: 'courtier',
+        reason:
+          'Jeśli żywy Summoner nie ma zdolności, zdolność Summonera ma Opowiadacz.',
+      },
+      {
+        id: 'engineer',
+        reason:
+          'Jeśli żywy Summoner zostanie usunięty z gry, zdolność Summonera ma Opowiadacz.',
+      },
+      {
+        id: 'hatter',
+        reason:
+          'Jeśli Summoner stworzy drugiego żywego Demona, o zgonach tej nocy decyduje Opowiadacz.',
+      },
+      {
+        id: 'kazali',
+        reason:
+          'Jeśli Summoner stworzy drugiego żywego Demona, o zgonach tej nocy decyduje Opowiadacz.',
+      },
+      {
+        id: 'lordoftyphon',
+        reason:
+          'Jeśli zostanie przywołany Lord of Typhon, musi sąsiadować ze Sługusem, a jego drugi sąsiad staje się złym Sługusem.',
+      },
+      {
+        id: 'pithag',
+        reason:
+          'Jeśli Summoner stworzy drugiego żywego Demona, o zgonach tej nocy decyduje Opowiadacz.',
+      },
+      {
+        id: 'poppygrower',
+        reason:
+          'Jeśli Poppy Grower żyje w 3. nocy, Summoner wybiera, który Demon, ale nie którego gracza.',
+      },
+      {
+        id: 'preacher',
+        reason:
+          'Jeśli żywy Summoner nie ma zdolności, zdolność Summonera ma Opowiadacz.',
+      },
+      {
+        id: 'pukka',
+        reason: 'Summoner może przywołać Pukkę w 2. nocy zamiast w 3.',
+      },
+      {
+        id: 'zombuul',
+        reason:
+          'Jeśli Summoner przywoła martwego gracza jako Zombuula, Zombuul już „raz umarł”.',
+      },
+    ],
+  },
+  {
+    id: 'vizier',
+    hatred: [
+      {
+        id: 'alsaahir',
+        reason: 'Opowiadacz nie ogłasza, że Vizier jest w grze.',
+      },
+      {
+        id: 'courtier',
+        reason:
+          'Jeśli Vizier straci swoją zdolność, dowiaduje się o tym i nie może umrzeć w ciągu dnia.',
+      },
+      {
+        id: 'fearmonger',
+        reason:
+          'Vizier budzi się razem z Fearmongerem, dowiaduje się, kogo ten wybiera, i nie może zdecydować o natychmiastowej egzekucji tego gracza.',
+      },
+      {
+        id: 'investigator',
+        reason: 'Opowiadacz nie ogłasza, że Vizier jest w grze.',
+      },
+      {
+        id: 'politician',
+        reason: 'Politician może wydawać się Vizierowi zły.',
+      },
+      {
+        id: 'preacher',
+        reason:
+          'Jeśli Vizier straci swoją zdolność, dowiaduje się o tym i nie może umrzeć w ciągu dnia.',
+      },
+      {
+        id: 'zealot',
+        reason: 'Zealot może wydawać się Vizierowi zły.',
+      },
+    ],
+  },
+  {
+    id: 'vortox',
+    hatred: [
+      {
+        id: 'banshee',
+        reason:
+          'Jeśli Vortox zabije Banshee, wszyscy gracze dowiadują się, że Banshee umarła.',
+      },
+    ],
+  },
+  {
+    id: 'widow',
+    hatred: [
+      {
+        id: 'damsel',
+        reason: 'Jeśli Wdowa jest (lub była) w grze, Damsel jest zatruta.',
+      },
+      {
+        id: 'poppygrower',
+        reason:
+          'Jeśli Poppy Grower ma swoją zdolność, Wdowa nie widzi Grimuiru.',
+      },
+    ],
+  },
+  {
+    id: 'yaggababble',
+    hatred: [
+      {
+        id: 'exorcist',
+        reason:
+          'Jeśli Egzorcysta wybierze Blabla Jagę, Blabla Jaga nie zabija tej nocy.',
       },
     ],
   },
