@@ -73,7 +73,7 @@ We welcome contributions to this project and are excited to collaborate with dev
 
 ### 6. **Code of Conduct**
 
-By participating in this project, you agree to follow our [Code of Conduct](link-to-code-of-conduct). This ensures that all community members interact in a respectful, collaborative, and constructive manner.
+By participating in this project, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md). This ensures that all community members interact in a respectful, collaborative, and constructive manner.
 
 ### 7. **Licensing**
 
