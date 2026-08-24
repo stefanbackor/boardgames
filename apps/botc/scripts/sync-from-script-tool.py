@@ -57,12 +57,17 @@ def fetch_bundle():
     with urllib.request.urlopen(SCRIPT_TOOL_URL) as resp:
         html = resp.read().decode()
 
-    # Find the module script tag (e.g. <script type=module src=/workspace.3c82003c.js defer>)
-    # Attributes may or may not be quoted
-    match = re.search(r'<script\s+type=(?:")?module(?:")?\s+src=(?:")?(/workspace\.[a-f0-9]+\.js)', html)
-    if not match:
-        # Fallback: src before type
-        match = re.search(r'<script\s+src=(?:")?(/workspace\.[a-f0-9]+\.js)(?:")?\s+type=(?:")?module', html)
+    # Find the module script tag. The filename has changed shape over time
+    # (`/workspace.<hash>.js`, now `/assets/index-<hash>.js`), and attributes may
+    # or may not be quoted and appear in any order, so match any module script
+    # with a local .js src instead of a specific naming convention.
+    match = None
+    for tag in re.findall(r'<script\s[^>]*>', html):
+        if not re.search(r'type=(?:")?module', tag):
+            continue
+        match = re.search(r'src=(?:")?(/[^"\s>]+\.js)', tag)
+        if match:
+            break
     if not match:
         print('ERROR: Could not find module bundle URL in HTML', file=sys.stderr)
         sys.exit(1)
@@ -143,8 +148,17 @@ def extract_jinxes(content):
         hater_id = m.group(1)
         jinx_block = m.group(2)
         targets = []
-        for t in re.finditer(r'\{"id":"([a-z_]+)","reason":"((?:\\.|[^"])*?)"', jinx_block):
-            reason = t.group(2).replace("\\'", "'").replace('\\"', '"')
+        # The bundle embeds this JSON inside a template literal, so escapes are
+        # doubled: an inner quote appears as `\\"`. Excluding backslash from the
+        # negated class and matching `\\\\.` as one unit keeps reasons containing
+        # quotes (e.g. Riot/Atheist) from being truncated at the first escape.
+        for t in re.finditer(r'\{"id":"([a-z_]+)","reason":"((?:\\\\.|[^"\\\\])*)"', jinx_block):
+            reason = (
+                t.group(2)
+                .replace('\\\\"', '"')
+                .replace("\\\\'", "'")
+                .replace('\\\\', '\\')
+            )
             targets.append({'id': t.group(1), 'reason': reason})
         if targets:
             jinxes[hater_id] = targets

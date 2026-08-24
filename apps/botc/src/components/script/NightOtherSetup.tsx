@@ -2,6 +2,8 @@ import { Avatar, Badge, Flex, Heading, Separator } from '@radix-ui/themes'
 import { Moon, Sun } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
+import { formatRoleDisplayName } from '@/utils/roleDisplayName'
+import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
 import { NightRoleItem } from './NightRoleItem'
 
 interface NightOtherSetupProps {
@@ -11,6 +13,9 @@ interface NightOtherSetupProps {
 
 export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
   const { t: tContent } = useTranslation('content')
+  const showEnglishNames = useDisplayOptionsStore(
+    (state) => state.showEnglishNames,
+  )
 
   // Create special role objects for night setup phases
   const dusk = {
@@ -65,7 +70,7 @@ export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
           {otherNightsRoles.map((role) => (
             <NightRoleItem
               key={role.id}
-              name={role.name}
+              name={formatRoleDisplayName(role, showEnglishNames)}
               image={role.image}
               reminder={role.otherNightReminder}
             />

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Flex, Text, Tooltip } from '@radix-ui/themes'
+import { Button, Checkbox, Flex, Text, Tooltip } from '@radix-ui/themes'
 import {
   Upload,
   Link as LinkIcon,
@@ -13,6 +13,7 @@ import { LoadFromUrlModal } from './LoadFromUrlModal'
 import { PasteJsonModal } from './PasteJsonModal'
 import { PrintDropdown, PrintSections } from './PrintDropdown'
 import type { ScriptData } from '@/types/script'
+import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
 import { sendEvent } from '@/utils/analytics'
 
 interface FileUploadControlsProps {
@@ -46,9 +47,33 @@ export function FileUploadControls({
   scriptData,
   scriptName,
 }: FileUploadControlsProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [urlModalOpen, setUrlModalOpen] = useState(false)
   const [pasteModalOpen, setPasteModalOpen] = useState(false)
+  const showEnglishNames = useDisplayOptionsStore(
+    (state) => state.showEnglishNames,
+  )
+  const setShowEnglishNames = useDisplayOptionsStore(
+    (state) => state.setShowEnglishNames,
+  )
+
+  // English names are already the character names, so the option is pointless there.
+  // i18n.language is undefined until i18next finishes detection, so fall back to English.
+  const canShowEnglishNames = !(i18n.language ?? 'en').startsWith('en')
+
+  const handleToggleEnglishNames = (checked: boolean) => {
+    /**
+     * Analytics: Track the English character name option
+     * Purpose: Understand how many storytellers need the original names alongside translations
+     * Key insights: Translation confidence, demand for bilingual sheets per language
+     */
+    sendEvent('toggle_english_names', {
+      enabled: checked,
+      language: i18n.language,
+    })
+
+    setShowEnglishNames(checked)
+  }
 
   const handleDownloadJson = () => {
     if (!scriptData) return
@@ -197,6 +222,27 @@ export function FileUploadControls({
                 </Button>
               </Tooltip>
             </Flex>
+
+            {/* Display options */}
+            {hasScript && canShowEnglishNames && (
+              <Tooltip
+                content={t(
+                  'Adds the English character name in brackets next to the translated one',
+                )}
+              >
+                <Text as="label" size="2" color="gray">
+                  <Flex gap="2" align="center">
+                    <Checkbox
+                      checked={showEnglishNames}
+                      onCheckedChange={(checked) =>
+                        handleToggleEnglishNames(checked === true)
+                      }
+                    />
+                    {t('Show English character names')}
+                  </Flex>
+                </Text>
+              </Tooltip>
+            )}
           </Flex>
 
           {error && (
