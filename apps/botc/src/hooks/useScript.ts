@@ -6,6 +6,7 @@ import { extractMeta } from '@/utils/parseScript'
 import {
   setOriginalScriptCache,
   clearOriginalScriptCache,
+  syncScriptKey,
 } from '@/stores/scriptModificationStore'
 import { sendEvent } from '@/utils/analytics'
 
@@ -69,8 +70,22 @@ export function useScript() {
       // Update source URL if provided, otherwise clear it
       setCurrentScriptUrl(sourceUrl || '')
 
-      // Reset modifications if callback provided
-      if (resetModifications) resetModifications()
+      if (resetModifications) {
+        // A reset picks the key of the URL written above up on its own
+        resetModifications()
+      } else {
+        /**
+         * No reset, so the diff on hand is the one belonging to the script just
+         * loaded - loading a script_url rewrites the URL to the encoded script
+         * without touching the diff, and a stale key would have the next reload
+         * throw it away. Only the key has to follow.
+         *
+         * This runs in the else branch on purpose: re-keying a diff that is
+         * about to be reset would, for a caller that skips the reset, hand the
+         * previous script's diff to the new one instead.
+         */
+        syncScriptKey()
+      }
 
       return true
     },

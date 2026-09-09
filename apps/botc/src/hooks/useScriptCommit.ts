@@ -2,7 +2,9 @@ import { useCallback } from 'react'
 import type { ScriptData } from '@/utils/parseScript'
 import { compressForUrl } from '@/utils/urlCompression'
 import { sendEvent } from '@/utils/analytics'
-import { extractMeta } from '@/utils/parseScript'
+import { extractMeta, getScriptItemId } from '@/utils/parseScript'
+import { buildCommittedScript } from '@/utils/commitScript'
+import type { MetaOverrides, SavedScript } from '@/types'
 
 /**
  * Props for the useScriptCommit hook
@@ -11,7 +13,13 @@ interface UseScriptCommitProps {
   /** The raw script data */
   scriptData: ScriptData | null
   /** Function to get metadata overrides from store */
-  getMetaOverrides: () => { name?: string; author?: string } | null
+  getMetaOverrides: () => MetaOverrides | null
+  /**
+   * Name shown on screen, used to label a script that carries no name of its
+   * own so the library row is not blank. It labels the saved script only - it
+   * is never written into `_meta`, see the `label` in `handleSaveChanges`.
+   */
+  fallbackName: string
   /** Function to update script data state */
   setScriptData: (data: ScriptData) => void
   /** Function to update script name state */
@@ -20,8 +28,17 @@ interface UseScriptCommitProps {
   setCurrentScriptUrl: (url: string) => void
   /** Function to reset modification tracking */
   resetModifications: () => void
-  /** Function to reload script from URL params */
-  loadFromUrlParams: (resetCallback: () => void) => void
+  /**
+   * Function to reload script from URL params. The saved-script lookup has to
+   * be handed on: without it a reload cannot resolve an `id` in the URL and
+   * would treat a saved script as an anonymous shared one.
+   */
+  loadFromUrlParams: (
+    resetCallback: () => void,
+    getSavedScript: (id: string) => SavedScript | null,
+  ) => void
+  /** Function to look a saved script up by id */
+  getSavedScript: (id: string) => SavedScript | null
   /** Current script ID if this is a saved script */
   currentScriptId: string | null
   /** Function to save script to localStorage */
@@ -68,11 +85,13 @@ interface UseScriptCommitReturn {
  * const { handleSaveChanges, handleRevertChanges } = useScriptCommit({
  *   scriptData,
  *   getMetaOverrides,
+ *   fallbackName,
  *   setScriptData,
  *   setScriptName,
  *   setCurrentScriptUrl,
  *   resetModifications,
  *   loadFromUrlParams,
+ *   getSavedScript,
  *   currentScriptId,
  *   saveScript,
  *   setCurrentScriptId,
@@ -81,11 +100,13 @@ interface UseScriptCommitReturn {
 export function useScriptCommit({
   scriptData,
   getMetaOverrides,
+  fallbackName,
   setScriptData,
   setScriptName,
   setCurrentScriptUrl,
   resetModifications,
   loadFromUrlParams,
+  getSavedScript,
   currentScriptId,
   saveScript,
   setCurrentScriptId,
@@ -97,54 +118,38 @@ export function useScriptCommit({
   const handleSaveChanges = useCallback(async () => {
     if (!scriptData) return
 
-    // Get current name/author from scriptData's _meta
-    const currentMeta = scriptData.find(
-      (item) =>
-        typeof item === 'object' &&
-        item !== null &&
-        (item as { id?: string }).id === '_meta',
-    ) as { name?: string; author?: string } | undefined
-
-    // Check if user explicitly overrode name/author
-    const metaOverrides = getMetaOverrides()
-
-    // Use overridden values if they exist, otherwise use current values from scriptData
-    const name =
-      metaOverrides?.name !== undefined
-        ? metaOverrides.name
-        : currentMeta?.name || ''
-    const author =
-      metaOverrides?.author !== undefined
-        ? metaOverrides.author
-        : currentMeta?.author || ''
-
-    // Build committed script: update _meta with name and author, preserve all other role data
-    let hasMetaEntry = false
-    const committed = scriptData.map((item) => {
-      const id = typeof item === 'string' ? item : item.id
-      if (id === '_meta' && typeof item === 'object') {
-        hasMetaEntry = true
-        return { ...item, name, author }
-      }
-      return item
-    })
-
-    if (!hasMetaEntry) {
-      committed.unshift({ id: '_meta', name, author })
-    }
+    // Unsaved _meta edits win over what the script data still carries
+    const {
+      script: committed,
+      name,
+      author,
+    } = buildCommittedScript(scriptData, getMetaOverrides())
 
     if (committed.length === 0) return
 
-    // Encode the committed script to URL with compression (name is stored in _meta)
-    // pako is lazy-loaded here for compression
+    /**
+     * The label this script is filed and shown under.
+     *
+     * It is kept beside the script rather than written into it. The name on
+     * screen for a script that carries none is a localized placeholder
+     * ("Shared Script"), so writing it into `_meta` would give the script a
+     * real name in one user's language - and every share link and JSON download
+     * from then on would carry it, which is exactly what leaving `_meta` alone
+     * on the way out is for. The library row needs something to show, so it
+     * gets the placeholder; the script itself stays nameless.
+     */
+    const label = name || fallbackName
+
+    // Encode the committed script to URL with compression (a name the script
+    // carries is already in its _meta). pako is lazy-loaded here
     const content = JSON.stringify(committed)
     const encoded = await compressForUrl(content)
 
     // Save to localStorage and get/generate UUID
     const scriptId = saveScript(
       currentScriptId,
-      committed as ScriptData,
-      name,
+      committed,
+      label,
       author,
       encoded,
     )
@@ -166,8 +171,8 @@ export function useScriptCommit({
     }
 
     // Update local state to match committed script
-    setScriptData(committed as ScriptData)
-    setScriptName(name)
+    setScriptData(committed)
+    setScriptName(label)
 
     /**
      * Analytics: Track when users save their script changes
@@ -175,10 +180,12 @@ export function useScriptCommit({
      * Key insights: Save frequency, script complexity (role count), new vs update saves
      */
     sendEvent('save_script', {
-      script_name: name,
+      script_name: label,
+      // Entries too malformed to name a role are not roles, so they are not
+      // counted as any - see getScriptItemId
       role_count: committed.filter((item) => {
-        const id = typeof item === 'string' ? item : item.id
-        return id !== '_meta'
+        const id = getScriptItemId(item)
+        return id !== '' && id !== '_meta'
       }).length,
       has_author: !!author,
       is_new: !currentScriptId,
@@ -189,6 +196,7 @@ export function useScriptCommit({
   }, [
     scriptData,
     getMetaOverrides,
+    fallbackName,
     setScriptData,
     setScriptName,
     setCurrentScriptUrl,
@@ -212,9 +220,14 @@ export function useScriptCommit({
       script_name: extractMeta(scriptData || [])?.name || 'unknown',
     })
 
-    // Reload the script from URL params, which will also reset modifications
-    loadFromUrlParams(resetModifications)
-  }, [loadFromUrlParams, resetModifications, scriptData])
+    /**
+     * Reload the script from URL params, which will also reset modifications.
+     * The saved-script lookup goes along: the URL of a saved script carries its
+     * `id`, and a reload that cannot resolve it clears the current id - the
+     * next save would then file a second copy instead of updating this one.
+     */
+    loadFromUrlParams(resetModifications, getSavedScript)
+  }, [loadFromUrlParams, getSavedScript, resetModifications, scriptData])
 
   return {
     handleSaveChanges,

@@ -26,7 +26,6 @@ interface FileUploadControlsProps {
   currentScriptUrl: string
   isLoading: boolean
   onJsonPaste?: (jsonContent: string) => void
-  currentScriptJson?: string
   scriptData?: ScriptData
   scriptName?: string
 }
@@ -42,7 +41,6 @@ export function FileUploadControls({
   currentScriptUrl,
   isLoading,
   onJsonPaste,
-  currentScriptJson,
   scriptData,
   scriptName,
 }: FileUploadControlsProps) {
@@ -81,7 +79,15 @@ export function FileUploadControls({
     URL.revokeObjectURL(url)
   }
 
-  const UrlButton = () => (
+  /**
+   * The controls are elements rather than components declared in here. A
+   * component declared during a render is a new component type on the next
+   * one, so React throws its DOM away and builds it again - and this renders
+   * on every keystroke of a script name, an author or a homebrew rule. The
+   * file input below is the one that cannot take it: rebuilding it drops the
+   * file it is holding.
+   */
+  const urlButton = (
     <Tooltip
       content={t(
         'Load from `script.bloodontheclocktower.com` or `botcscripts.com` URL',
@@ -98,7 +104,7 @@ export function FileUploadControls({
     </Tooltip>
   )
 
-  const FileButton = () => (
+  const fileButton = (
     <>
       <label
         key="file-label"
@@ -129,7 +135,7 @@ export function FileUploadControls({
     </>
   )
 
-  const PasteJsonButton = () => (
+  const pasteJsonButton = (
     <Tooltip content={t('Paste JSON from your clipboard')}>
       <Button
         onClick={() => setPasteModalOpen(true)}
@@ -162,9 +168,9 @@ export function FileUploadControls({
               align="center"
               wrap="wrap"
             >
-              <FileButton />
-              <UrlButton />
-              <PasteJsonButton />
+              {fileButton}
+              {urlButton}
+              {pasteJsonButton}
             </Flex>
 
             {/* Script actions buttons */}
@@ -221,7 +227,20 @@ export function FileUploadControls({
           open={pasteModalOpen}
           onOpenChange={setPasteModalOpen}
           onJsonPaste={onJsonPaste}
-          currentScriptJson={currentScriptJson}
+          /*
+           * Serialized only while the modal is actually showing it. Every
+           * keystroke of a script name, an author or a homebrew rule renders
+           * this tree, and stringifying the whole script each time is work
+           * nobody is looking at - the textarea is filled when the modal opens.
+           *
+           * Equal strings are the same value to the effect that reads this, so
+           * a render that changes nothing re-fills nothing.
+           */
+          currentScriptJson={
+            pasteModalOpen && scriptData
+              ? JSON.stringify(scriptData)
+              : undefined
+          }
         />
       )}
     </>

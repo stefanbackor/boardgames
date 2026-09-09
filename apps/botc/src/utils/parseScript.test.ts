@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { parseScript } from './parseScript'
+import { parseScript, getScriptItemId } from './parseScript'
 import { roles as baseRolesData } from '@/data/roles.en'
 import type { Role } from '@/types'
 import fs from 'fs'
@@ -372,5 +372,68 @@ describe('parseScript', () => {
       expect(result.roles[0].id).toBe('customrole')
       expect(result.roles[0].isCustom).toBe(true)
     })
+  })
+})
+
+describe('getScriptItemId', () => {
+  it('should return a string item as the id', () => {
+    expect(getScriptItemId('washerwoman')).toBe('washerwoman')
+  })
+
+  it('should read the id off an object item', () => {
+    expect(getScriptItemId({ id: 'imp', team: 'demon' })).toBe('imp')
+  })
+
+  it('should answer with no id for null', () => {
+    // typeof null === 'object', so this is the entry that used to throw
+    expect(getScriptItemId(null)).toBe('')
+  })
+
+  it('should answer with no id for values that cannot carry one', () => {
+    expect(getScriptItemId(undefined)).toBe('')
+    expect(getScriptItemId(42)).toBe('')
+    expect(getScriptItemId(true)).toBe('')
+    expect(getScriptItemId([])).toBe('')
+  })
+
+  it('should answer with no id for an object without a string id', () => {
+    expect(getScriptItemId({})).toBe('')
+    expect(getScriptItemId({ name: 'No id' })).toBe('')
+    expect(getScriptItemId({ id: 7 })).toBe('')
+    expect(getScriptItemId({ id: null })).toBe('')
+  })
+})
+
+describe('parseScript with malformed entries', () => {
+  it('should not throw on a null entry', () => {
+    expect(() => parseScript([null] as never, baseRolesData)).not.toThrow()
+  })
+
+  it('should skip entries that name no role and keep the rest', () => {
+    const result = parseScript(
+      [
+        { id: '_meta', name: 'Patchy' },
+        'washerwoman',
+        null,
+        42,
+        {},
+        { name: 'No id at all', team: 'townsfolk' },
+        'imp',
+      ] as never,
+      baseRolesData,
+    )
+
+    expect(result.roles.map((role) => role.id)).toEqual(['washerwoman', 'imp'])
+    expect(result.meta?.name).toBe('Patchy')
+  })
+
+  it('should still read _meta past a null entry', () => {
+    const result = parseScript(
+      [null, { id: '_meta', name: 'Behind a hole' }, 'imp'] as never,
+      baseRolesData,
+    )
+
+    expect(result.meta?.name).toBe('Behind a hole')
+    expect(result.roles.map((role) => role.id)).toEqual(['imp'])
   })
 })
