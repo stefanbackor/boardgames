@@ -28,6 +28,15 @@ export function PrintDropdown({ onPrint, hasScript }: PrintDropdownProps) {
     onPrint(sections)
   }
 
+  const handlePrintAll = () => {
+    onPrint({
+      roles: true,
+      tables: true,
+      firstNight: true,
+      otherNights: true,
+    })
+  }
+
   return (
     <DropdownMenu.Root>
       <Tooltip content={t('Choose a page to print')}>
@@ -40,6 +49,12 @@ export function PrintDropdown({ onPrint, hasScript }: PrintDropdownProps) {
         </DropdownMenu.Trigger>
       </Tooltip>
       <DropdownMenu.Content className="no-print">
+        <DropdownMenu.Item onSelect={handlePrintAll}>
+          {t('All pages')}
+        </DropdownMenu.Item>
+
+        <DropdownMenu.Separator />
+
         <DropdownMenu.Item onSelect={() => handlePrintSection('roles')}>
           {t('Roles')}
         </DropdownMenu.Item>

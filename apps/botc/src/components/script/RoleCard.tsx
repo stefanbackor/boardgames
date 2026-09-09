@@ -10,9 +10,14 @@ import { useTranslation } from 'react-i18next'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { Role } from '@/types'
-import { roles as baseRoles } from '@/data/roles.en'
+import {
+  formatRoleDisplayName,
+  getEnglishRoleName,
+} from '@/utils/roleDisplayName'
 import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
 import { BootleggerRules } from './BootleggerRules'
+import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
+
 
 interface RoleCardProps {
   role: Role & { isCustom?: boolean }
@@ -98,6 +103,9 @@ export function RoleCard({
   lockedReason,
 }: RoleCardProps) {
   const { t } = useTranslation()
+  const showEnglishNames = useDisplayOptionsStore(
+    (state) => state.showEnglishNames,
+  )
 
   const {
     attributes,
@@ -118,11 +126,7 @@ export function RoleCard({
     pointerEvents: isDragging ? ('none' as const) : undefined,
   }
 
-  // Get English role name from base roles
-  const getEnglishRoleName = (roleId: string) => {
-    const baseRole = baseRoles.find((r) => r.id === roleId)
-    return baseRole?.name || roleId
-  }
+  const displayName = formatRoleDisplayName(role, showEnglishNames)
 
   // Format role name for wiki URL
   const getWikiUrl = (roleId: string) => {
@@ -146,7 +150,7 @@ export function RoleCard({
   const roleImage = (
     <img
       src={role.isCustom ? role.image : getProxiedImageUrl(role.image)}
-      alt={role.name}
+      alt={displayName}
       style={{
         width: '100%',
         height: '100%',
@@ -318,7 +322,7 @@ export function RoleCard({
               display: 'inline',
             }}
           >
-            {role.name}
+            {displayName}
           </Heading>
           {hatedBy && hatedBy.length > 0 && (
             <>

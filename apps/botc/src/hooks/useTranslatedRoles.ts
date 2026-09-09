@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
-import type { Role } from '@/types'
+import type { Role, RoleTranslation } from '@/types'
 import { roles as baseRoles } from '@/data/roles.en'
 
 /**
  * Type for role translation maps
  */
-type RoleTranslationMap = Record<string, any>
+type RoleTranslationMap = Record<string, RoleTranslation>
 
 /**
  * Cache for loaded translation modules to avoid re-fetching
@@ -26,36 +26,43 @@ async function loadRoleTranslations(
   }
 
   try {
-    let module: any
+    // Each language reads its own named export, so a renamed or missing export
+    // fails the build instead of silently falling back to English
+    let translations: RoleTranslationMap
     switch (language) {
       case 'cs':
-        module = await import('@/data/roles.cs.overrides')
+        translations = (await import('@/data/roles.cs.overrides'))
+          .roleTranslationsCs
         break
       case 'de':
-        module = await import('@/data/roles.de.overrides')
+        translations = (await import('@/data/roles.de.overrides'))
+          .roleTranslationsDe
         break
       case 'hu':
-        module = await import('@/data/roles.hu.overrides')
+        translations = (await import('@/data/roles.hu.overrides'))
+          .roleTranslationsHu
         break
       case 'nl':
-        module = await import('@/data/roles.nl.overrides')
+        translations = (await import('@/data/roles.nl.overrides'))
+          .roleTranslationsNl
         break
       case 'pl':
-        module = await import('@/data/roles.pl.overrides')
+        translations = (await import('@/data/roles.pl.overrides'))
+          .roleTranslationsPl
         break
       default:
         // Return empty object for unsupported languages (will use English)
         return {}
     }
 
-    // Extract the translations (try default export first, then named export)
-    const translations = module.default || module.roleTranslationsCs || {}
-
     // Cache the loaded translations
     translationCache.set(language, translations)
     return translations
   } catch (error) {
-    console.error(`Failed to load translations for language: ${language}`, error)
+    console.error(
+      `Failed to load translations for language: ${language}`,
+      error,
+    )
     return {}
   }
 }
