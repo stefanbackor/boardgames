@@ -2166,7 +2166,7 @@ export const roles = [
     remindersGlobal: ['Is the Demon', 'Dead'],
     setup: true,
     ability:
-      'Each night, Minions choose who babysits Lil\' Monsta & \\',
+      'Each night, Minions choose who babysits Lil\' Monsta & "is the Demon". Each night*, a player might die. [+1 Minion]',
   },
   {
     id: 'lleech',
