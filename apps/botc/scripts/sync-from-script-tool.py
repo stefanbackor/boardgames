@@ -36,6 +36,16 @@ NIGHT_FIRST_TSX = 'src/components/script/NightFirstSetup.tsx'
 NIGHT_OTHER_TSX = 'src/components/script/NightOtherSetup.tsx'
 
 
+def decode_bundle_string(value):
+    """Decode string values copied from the minified script-tool bundle."""
+    return (
+        value
+        .replace('\\\\"', '"')
+        .replace('\\"', '"')
+        .replace("\\'", "'")
+    )
+
+
 def find_botc_root():
     """Find the apps/botc directory by walking up from the script location."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -105,8 +115,8 @@ def extract_roles(content):
             continue
 
         def get_str(name, s=obj_str):
-            m = re.search(rf'"{name}":"((?:\\.|[^"])*?)"', s)
-            return m.group(1).replace("\\'", "'").replace('\\"', '"') if m else ''
+            m = re.search(rf'"{name}":"((?:\\\\"|\\.|[^"])*?)"', s)
+            return decode_bundle_string(m.group(1)) if m else ''
 
         def get_bool(name, s=obj_str):
             m = re.search(rf'"{name}":(true|false)', s)
@@ -120,7 +130,10 @@ def extract_roles(content):
             m = re.search(rf'"{name}":\[([^\]]*)\]', s)
             if not m:
                 return []
-            return re.findall(r'"((?:\\.|[^"])*?)"', m.group(1))
+            return [
+                decode_bundle_string(value)
+                for value in re.findall(r'"((?:\\\\"|\\.|[^"])*?)"', m.group(1))
+            ]
 
         roles[rid] = {
             'id': rid,
