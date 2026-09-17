@@ -12,23 +12,30 @@ extraction script handles this automatically by parsing the HTML page first.
 ## sync-from-script-tool.py
 
 Extracts role data, jinx data, and night order from the official script tool
-bundle. Can output JSON for inspection or update the local TypeScript files
-in-place.
+bundle. Writes JSON for inspection and can preview or apply updates to the
+local TypeScript files.
 
 ### Usage
 
 ```sh
 cd apps/botc
 
-# JSON output only (for inspection)
+# Write JSON output to scripts/output/ (for inspection)
 python3 scripts/sync-from-script-tool.py
 
-# Preview what would change in the .ts files
+# Preview exact TypeScript file diffs without writing any files
 python3 scripts/sync-from-script-tool.py --dry-run
 
-# Update .ts files in-place
+# Write JSON output and update TypeScript files in-place
 python3 scripts/sync-from-script-tool.py --apply
+
+# Write JSON output to a different directory (also works with --apply)
+python3 scripts/sync-from-script-tool.py --output-dir /path/to/output
 ```
+
+`--dry-run` prints change counts and, when needed, unified diffs to standard
+output. It does not write JSON or TypeScript files and cannot be combined with
+`--output-dir`.
 
 ### What `--apply` updates
 
@@ -46,11 +53,13 @@ python3 scripts/sync-from-script-tool.py --apply
 
 ### What it does NOT update
 
-- **Translation overrides** — Only updates the English data files.
+- **Translation overrides** — Updates English role/jinx data and shared
+  night-sheet positions, but leaves other-language overrides untouched.
 
 ### JSON output
 
-Always written to `scripts/output/` (gitignored):
+The default and `--apply` modes write these files to `scripts/output/`
+(gitignored), or to the directory specified by `--output-dir`:
 
 - `roles.json` — All roles with full metadata
 - `jinxes.json` — Jinx pairs grouped by top-level role
@@ -60,7 +69,12 @@ Always written to `scripts/output/` (gitignored):
 
 - **Field order varies** between role objects in the bundle — the extraction
   script handles this by searching for each field individually.
-- **Escaped quotes**: The bundle uses `\'` inside double-quoted strings.
+- **Escaped quotes**: The bundle contains escaped single and double quotes,
+  sometimes with an extra escape layer. The script decodes them so ability
+  and jinx text is not truncated.
+- **Night order format**: The current bundle uses dot-separated strings;
+  older bundles use JSON arrays. The script supports both and validates the
+  extracted order before writing files.
 - **Night order numbering**: The official order includes special entries
   (dusk, dawn, minioninfo, demoninfo) in the sequence. The `--apply` flag
   updates both role numbers and the hardcoded night sheet positions.
