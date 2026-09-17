@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
 Extract role data, jinx data, and night order from the official BOTC script tool,
-and optionally update the local TypeScript data files in-place.
+and optionally update local TypeScript data and night-sheet files in-place.
 
 The official script tool at script.bloodontheclocktower.com is a static client-side
 app with the complete game database embedded in its JavaScript bundle. This script
-fetches the bundle, extracts the data, and can either output JSON or update the
-local .ts files directly.
+fetches the bundle and writes extracted JSON by default. --apply also updates the
+local TypeScript files; --dry-run previews those changes without writing files.
 
 Usage:
-    python3 scripts/sync-from-script-tool.py              # JSON output only
-    python3 scripts/sync-from-script-tool.py --apply       # Update .ts files in-place
-    python3 scripts/sync-from-script-tool.py --dry-run     # Show what would change
+    python3 scripts/sync-from-script-tool.py              # Write JSON only
+    python3 scripts/sync-from-script-tool.py --apply       # Write JSON and update TypeScript
+    python3 scripts/sync-from-script-tool.py --dry-run     # Preview diffs without writing files
+    python3 scripts/sync-from-script-tool.py --output-dir PATH  # Choose JSON output directory
 """
 
 import argparse
+import difflib
 import json
 import os
 import re
@@ -180,18 +182,51 @@ def extract_jinxes(content):
 
 
 def extract_night_order(content):
-    """Extract the canonical night order arrays."""
+    """Extract canonical night order from split strings or older JSON arrays."""
     result = {}
     for field in ['firstNight', 'otherNight']:
-        matches = re.findall(rf'"{field}":\[([^\]]+)\]', content)
-        # Find the large array (the canonical order, not per-role values)
-        for match in matches:
-            ids = re.findall(r'"([^"]+)"', match)
-            if len(ids) > 20:  # Night order has many entries
+        # The current bundle stores each order as `id.id.id`.split(`.`).
+        split_match = re.search(
+            rf'\b{field}:`([^`]+)`\.split\(`([^`]+)`\)', content
+        )
+        if split_match:
+            ids = split_match.group(1).split(split_match.group(2))
+            if len(ids) > 20:
+                result[field] = ids
+                continue
+
+        # Older bundles embed the canonical order as a JSON array.
+        for match in re.finditer(rf'"{field}":(\[[^\]]+\])', content):
+            try:
+                ids = json.loads(match.group(1))
+            except json.JSONDecodeError:
+                continue
+            if isinstance(ids, list) and len(ids) > 20 and all(
+                    isinstance(rid, str) for rid in ids):
                 result[field] = ids
                 break
 
     return result
+
+
+def validate_night_order(night_order):
+    """Reject incomplete night order data before writing any sync output."""
+    required_ids = {
+        'firstNight': {'dusk', 'minioninfo', 'demoninfo', 'dawn'},
+        'otherNight': {'dusk', 'dawn'},
+    }
+    invalid = []
+    for field, required in required_ids.items():
+        order = night_order.get(field, [])
+        if (len(order) <= 20 or not required.issubset(order)
+                or len(order) != len(set(order))):
+            invalid.append(field)
+
+    if invalid:
+        raise ValueError(
+            f'Night order extraction incomplete or invalid ({", ".join(invalid)}); '
+            'the official bundle format may have changed. No files were written.'
+        )
 
 
 def resolve_wiki_icons(role_ids):
@@ -257,11 +292,27 @@ def clean_reminder(text):
 
 # --- In-place update functions ---
 
+def print_file_diff(botc_root, path, before, after):
+    """Print the exact text change that an apply would write."""
+    if before == after:
+        return
+    relative_path = os.path.relpath(path, botc_root)
+    diff = difflib.unified_diff(
+        before.splitlines(keepends=True),
+        after.splitlines(keepends=True),
+        fromfile=f'a/{relative_path}',
+        tofile=f'b/{relative_path}',
+    )
+    print()
+    sys.stdout.writelines(diff)
+
+
 def update_roles_ts(botc_root, roles, night_order, dry_run=False):
     """Update roles.en.ts in-place with data from the bundle."""
     path = os.path.join(botc_root, ROLES_TS)
     with open(path) as f:
         text = f.read()
+    original_text = text
 
     # Build night order position maps
     fn_pos = {rid: i + 1 for i, rid in enumerate(night_order.get('firstNight', []))}
@@ -408,6 +459,7 @@ def update_roles_ts(botc_root, roles, night_order, dry_run=False):
             print(f'  roles.en.ts: {changes} updates ({len(new_roles)} new roles)')
         else:
             print(f'  roles.en.ts: {changes} field updates')
+        print_file_diff(botc_root, path, original_text, text)
     else:
         with open(path, 'w') as f:
             f.write(text)
@@ -487,9 +539,15 @@ def generate_jinxes_ts(botc_root, jinxes, dry_run=False):
             # Use double quotes if the reason contains apostrophes for readability
             if "\\'" in reason:
                 reason_dq = target['reason'].replace('"', '\\"')
-                lines.append(f'        reason: "{reason_dq}",')
+                quoted_reason = f'"{reason_dq}"'
             else:
-                lines.append(f"        reason: '{reason}',")
+                quoted_reason = f"'{reason}'"
+            reason_line = f'        reason: {quoted_reason},'
+            if len(reason_line) > 80:
+                lines.append('        reason:')
+                lines.append(f'          {quoted_reason},')
+            else:
+                lines.append(reason_line)
             lines.append("      },")
         lines.append("    ],")
         lines.append("  },")
@@ -505,6 +563,7 @@ def generate_jinxes_ts(botc_root, jinxes, dry_run=False):
             old_content = f.read()
         if old_content != new_content:
             print(f'  jinxes.en.ts: would be regenerated')
+            print_file_diff(botc_root, path, old_content, new_content)
         else:
             print(f'  jinxes.en.ts: no changes')
     else:
@@ -528,6 +587,7 @@ def update_night_positions(botc_root, night_order, dry_run=False):
     first_path = os.path.join(botc_root, NIGHT_FIRST_TSX)
     with open(first_path) as f:
         first_text = f.read()
+    first_original = first_text
 
     updates = {
         # (variable name pattern, field, official id)
@@ -553,6 +613,7 @@ def update_night_positions(botc_root, night_order, dry_run=False):
     other_path = os.path.join(botc_root, NIGHT_OTHER_TSX)
     with open(other_path) as f:
         other_text = f.read()
+    other_original = other_text
 
     other_updates = {
         (r"(const dusk = \{[^}]*otherNight:\s*)(\d+)", 'dusk'),
@@ -576,6 +637,9 @@ def update_night_positions(botc_root, night_order, dry_run=False):
         print(f'  Night sheet positions: {changes} updates')
     else:
         print(f'  Night sheet positions: no changes')
+    if dry_run:
+        print_file_diff(botc_root, first_path, first_original, first_text)
+        print_file_diff(botc_root, other_path, other_original, other_text)
 
     return changes
 
@@ -603,12 +667,15 @@ def write_json_output(output_dir, roles, jinxes, night_order):
 def main():
     parser = argparse.ArgumentParser(description='Extract BOTC data from the official script tool')
     parser.add_argument('--output-dir', default=None,
-                        help='Output directory for JSON files (default: scripts/output)')
-    parser.add_argument('--apply', action='store_true',
-                        help='Update the local .ts files in-place')
-    parser.add_argument('--dry-run', action='store_true',
-                        help='Show what would change without writing files')
+                        help='Output directory for JSON files (default: scripts/output; cannot be used with --dry-run)')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--apply', action='store_true',
+                      help='Write JSON and update local TypeScript files in-place')
+    mode.add_argument('--dry-run', action='store_true',
+                      help='Preview TypeScript changes without writing files')
     args = parser.parse_args()
+    if args.dry_run and args.output_dir:
+        parser.error('--output-dir cannot be used with --dry-run')
 
     content = fetch_bundle()
     print(f'Bundle size: {len(content):,} bytes')
@@ -624,6 +691,11 @@ def main():
     night_order = extract_night_order(content)
     for field, order in night_order.items():
         print(f'Extracted {field} order: {len(order)} entries')
+    try:
+        validate_night_order(night_order)
+    except ValueError as error:
+        sys.stdout.flush()
+        parser.exit(1, f'ERROR: {error}\n')
 
     # Resolve wiki icon URLs
     print('Resolving wiki icon URLs...')
@@ -637,11 +709,11 @@ def main():
 
     print()
 
-    # Always write JSON output
     botc_root = find_botc_root()
-    output_dir = args.output_dir or os.path.join(botc_root, 'scripts', 'output')
-    print('Writing JSON output:')
-    write_json_output(output_dir, roles, jinxes, night_order)
+    if not args.dry_run:
+        output_dir = args.output_dir or os.path.join(botc_root, 'scripts', 'output')
+        print('Writing JSON output:')
+        write_json_output(output_dir, roles, jinxes, night_order)
 
     # Optionally update .ts files
     if args.apply or args.dry_run:

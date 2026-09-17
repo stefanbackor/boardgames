@@ -50,7 +50,7 @@ export const roles = [
     name: 'Amnesiac',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 50,
+    firstNight: 51,
     firstNightReminder:
       "Do whatever needs to be done to satisfy the Amnesiac's ability.",
     otherNight: 69,
@@ -98,7 +98,7 @@ export const roles = [
     name: 'Balloonist',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 65,
+    firstNight: 66,
     firstNightReminder:
       "Point to any player. ⏺",
     otherNight: 85,
@@ -122,7 +122,7 @@ export const roles = [
     name: 'Bounty Hunter',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 68,
+    firstNight: 69,
     firstNightReminder:
       "Point to the player marked KNOW. ",
     otherNight: 88,
@@ -156,7 +156,7 @@ export const roles = [
     name: 'Chambermaid',
     edition: 'bmr',
     team: 'townsfolk',
-    firstNight: 75,
+    firstNight: 76,
     firstNightReminder:
       'The Chambermaid chooses 2 living players. Give a finger signal.',
     otherNight: 95,
@@ -173,7 +173,7 @@ export const roles = [
     name: 'Chef',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 54,
+    firstNight: 55,
     firstNightReminder:
       'Give a finger signal.',
     otherNight: 0,
@@ -206,7 +206,7 @@ export const roles = [
     name: 'Clockmaker',
     edition: 'snv',
     team: 'townsfolk',
-    firstNight: 59,
+    firstNight: 60,
     firstNightReminder:
       'Give a finger signal.',
     otherNight: 0,
@@ -223,7 +223,7 @@ export const roles = [
     name: 'Courtier',
     edition: 'bmr',
     team: 'townsfolk',
-    firstNight: 34,
+    firstNight: 35,
     firstNightReminder:
       "The Courtier might choose a character. ⏺ ⏺",
     otherNight: 18,
@@ -241,7 +241,7 @@ export const roles = [
     name: 'Cult Leader',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 70,
+    firstNight: 71,
     firstNightReminder:
       'The Cult Leader might change alignment. If so, show the YOU ARE info token & give a thumb signal.',
     otherNight: 90,
@@ -258,7 +258,7 @@ export const roles = [
     name: 'Dreamer',
     edition: 'snv',
     team: 'townsfolk',
-    firstNight: 60,
+    firstNight: 61,
     firstNightReminder:
       'The Dreamer points to a player. Show 1 good & 1 evil character token, 1 of which is their character.',
     otherNight: 79,
@@ -275,7 +275,7 @@ export const roles = [
     name: 'Empath',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 55,
+    firstNight: 56,
     firstNightReminder:
       'Give a finger signal.',
     otherNight: 76,
@@ -293,7 +293,7 @@ export const roles = [
     name: 'Engineer',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 27,
+    firstNight: 28,
     firstNightReminder:
       "The Engineer might choose Minions or Demons. Put the Engineer to sleep. Wake the target(s) one at a time. Show the YOU ARE info token & their new character token. ⏺",
     otherNight: 14,
@@ -389,7 +389,7 @@ export const roles = [
     name: 'Fortune Teller',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 56,
+    firstNight: 57,
     firstNightReminder:
       'The Fortune Teller chooses 2 players. Nod if either is the Demon (or the RED HERRING).',
     otherNight: 77,
@@ -422,7 +422,7 @@ export const roles = [
     name: 'General',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 74,
+    firstNight: 75,
     firstNightReminder:
       'Give a thumb signal.',
     otherNight: 94,
@@ -456,7 +456,7 @@ export const roles = [
     name: 'Grandmother',
     edition: 'bmr',
     team: 'townsfolk',
-    firstNight: 58,
+    firstNight: 59,
     firstNightReminder:
       'Point to the grandchild player & show their character token.',
     otherNight: 73,
@@ -474,7 +474,7 @@ export const roles = [
     name: 'Huntsman',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 48,
+    firstNight: 49,
     firstNightReminder:
       "The Huntsman might choose a player. ⏺ If they chose the Damsel: Put the Huntsman to sleep. Wake the target. Show the YOU ARE info token & their new character token.",
     otherNight: 67,
@@ -509,7 +509,7 @@ export const roles = [
     name: 'Investigator',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 53,
+    firstNight: 54,
     firstNightReminder:
       'Show the Minion character token. Point to both the MINION and WRONG players.',
     otherNight: 0,
@@ -540,7 +540,7 @@ export const roles = [
     name: 'King',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 24,
+    firstNight: 25,
     firstNightReminder:
       "Wake the Demon: Show the THIS PLAYER IS & King tokens, then point to the King.",
     otherNight: 87,
@@ -558,7 +558,7 @@ export const roles = [
     name: 'Librarian',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 52,
+    firstNight: 53,
     firstNightReminder:
       'Show the Outsider character token. Point to both the OUTSIDER and WRONG players.',
     otherNight: 0,
@@ -608,7 +608,7 @@ export const roles = [
     name: 'Mathematician',
     edition: 'snv',
     team: 'townsfolk',
-    firstNight: 76,
+    firstNight: 77,
     firstNightReminder:
       'Give a finger signal.',
     otherNight: 96,
@@ -673,7 +673,7 @@ export const roles = [
     name: 'Nightwatchman',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 69,
+    firstNight: 70,
     firstNightReminder:
       "The Nightwatchman might choose a player. Put the Nightwatchman to sleep. Wake the target. Show the THIS PLAYER IS & Nightwatchman tokens, then point to the Nightwatchman. ⏺",
     otherNight: 89,
@@ -690,7 +690,7 @@ export const roles = [
     name: 'Noble',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 64,
+    firstNight: 65,
     firstNightReminder:
       'Point to the 3 players marked KNOW.',
     otherNight: 0,
@@ -753,7 +753,7 @@ export const roles = [
     name: 'Pixie',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 47,
+    firstNight: 48,
     firstNightReminder: 'Show the Townsfolk character token marked MAD.',
     otherNight: 0,
     otherNightReminder: '',
@@ -786,7 +786,7 @@ export const roles = [
     name: 'Preacher',
     edition: 'carousel',
     team: 'townsfolk',
-    firstNight: 28,
+    firstNight: 29,
     firstNightReminder:
       "The Preacher chooses a player. ⏺ If they chose a Minion: Put the Preacher to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU & Preacher tokens.",
     otherNight: 15,
@@ -860,7 +860,7 @@ export const roles = [
     setup: false,
     ability: 'You start knowing 2 players that are not the Demon.',
     image: 'https://wiki.bloodontheclocktower.com/images/8/8e/Icon_knight.png',
-    firstNight: 63,
+    firstNight: 64,
     otherNight: 0,
     flavor: 'When a man lies, he murders some part of the world.',
     source: 'cs',
@@ -886,7 +886,7 @@ export const roles = [
     name: 'Sailor',
     edition: 'bmr',
     team: 'townsfolk',
-    firstNight: 25,
+    firstNight: 26,
     firstNightReminder:
       'The Sailor chooses a living player. ⏺',
     otherNight: 13,
@@ -919,7 +919,7 @@ export const roles = [
     name: 'Seamstress',
     edition: 'snv',
     team: 'townsfolk',
-    firstNight: 61,
+    firstNight: 62,
     firstNightReminder:
       "The Seamstress might choose 2 players. Nod or shake your head. ⏺",
     otherNight: 83,
@@ -944,7 +944,7 @@ export const roles = [
       'You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.',
     image:
       'https://wiki.bloodontheclocktower.com/images/1/11/Icon_shugenja.png',
-    firstNight: 66,
+    firstNight: 67,
     otherNight: 0,
     flavor: 'これは夢。それも夢。すべて夢です。',
     source: 'cs',
@@ -990,7 +990,7 @@ export const roles = [
     name: 'Snake Charmer',
     edition: 'snv',
     team: 'townsfolk',
-    firstNight: 36,
+    firstNight: 37,
     firstNightReminder:
       'The Snake Charmer chooses a player. If they chose the Demon: Show the YOU ARE & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the YOU ARE and Snake Charmer tokens & give a thumbs up. ⏺',
     otherNight: 23,
@@ -1026,7 +1026,7 @@ export const roles = [
     setup: false,
     ability: 'You start knowing 1 good player.',
     image: 'https://wiki.bloodontheclocktower.com/images/f/fe/Icon_steward.png',
-    firstNight: 62,
+    firstNight: 63,
     otherNight: 0,
     flavor:
       'How DARE you accuse Her Ladyship of wrongdoing? I’ve known her my entire life! All nine years!',
@@ -1091,7 +1091,7 @@ export const roles = [
       'Each night, learn which player the Storyteller believes you should talk to most.',
     image:
       'https://wiki.bloodontheclocktower.com/images/6/63/Icon_highpriestess.png',
-    firstNight: 73,
+    firstNight: 74,
     otherNight: 93,
     flavor:
       'There is life behind the personality that uses personalities as masks. There are times when life puts off the mask and deep answers to deep.',
@@ -1112,7 +1112,7 @@ export const roles = [
       'Each night, choose a player: you learn their alignment. [+0 to +2 Village Idiots. 1 of the extras is drunk]',
     image:
       'https://wiki.bloodontheclocktower.com/images/d/da/Icon_villageidiot.png',
-    firstNight: 67,
+    firstNight: 68,
     otherNight: 86,
     special: [
       {
@@ -1146,7 +1146,7 @@ export const roles = [
     name: 'Washerwoman',
     edition: 'tb',
     team: 'townsfolk',
-    firstNight: 51,
+    firstNight: 52,
     firstNightReminder:
       'Show the Townsfolk character token. Point to both the TOWNSFOLK and WRONG players.',
     otherNight: 0,
@@ -1193,7 +1193,7 @@ export const roles = [
     name: 'Butler',
     edition: 'tb',
     team: 'outsider',
-    firstNight: 57,
+    firstNight: 58,
     firstNightReminder:
       "The Butler chooses a player. ⏺",
     otherNight: 91,
@@ -1210,7 +1210,7 @@ export const roles = [
     name: 'Damsel',
     edition: 'carousel',
     team: 'outsider',
-    firstNight: 49,
+    firstNight: 50,
     firstNightReminder:
       "During Minion Info, show the Minions the Damsel token. If you haven't done this yet, do so now. If the Damsel was chosen by the Huntsman, show the YOU ARE info token & their new character token.",
     otherNight: 68,
@@ -1321,7 +1321,7 @@ export const roles = [
     name: 'Lunatic',
     edition: 'bmr',
     team: 'outsider',
-    firstNight: 21,
+    firstNight: 22,
     firstNightReminder:
       "If there are 7 or more players, wake the Lunatic: Show the THESE ARE YOUR MINIONS token. Point to any players. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 good character tokens. Put the Lunatic to sleep. Wake the Demon. Show the YOU ARE info token and the Demon token. Show the THIS PLAYER IS info token and the Lunatic token, then point to the Lunatic.",
     otherNight: 35,
@@ -1461,7 +1461,7 @@ export const roles = [
     name: 'Snitch',
     edition: 'carousel',
     team: 'outsider',
-    firstNight: 20,
+    firstNight: 21,
     firstNightReminder:
       'Wake each Minion. Show the THESE CHARACTERS ARE NOT IN PLAY token. Show 3 not-in-play character tokens.',
     otherNight: 0,
@@ -1530,7 +1530,7 @@ export const roles = [
     ability:
       "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.",
     image: 'https://wiki.bloodontheclocktower.com/images/2/25/Icon_ogre.png',
-    firstNight: 72,
+    firstNight: 73,
     otherNight: 0,
     flavor: '<grunt><grin></grunt>',
     source: 'cs',
@@ -1615,7 +1615,7 @@ export const roles = [
     ability:
       'Once per game, choose to make a wish. If granted, it might have a price & leave a clue as to its nature.',
     image: 'https://wiki.bloodontheclocktower.com/images/b/b5/Icon_wizard.png',
-    firstNight: 35,
+    firstNight: 36,
     otherNight: 20,
     flavor:
       'Every man and every woman is a star. Love is the law, love under will.',
@@ -1628,7 +1628,7 @@ export const roles = [
     name: 'Cerenovus',
     edition: 'snv',
     team: 'minion',
-    firstNight: 42,
+    firstNight: 43,
     firstNightReminder:
       "The Cerenovus chooses a player & a character. ⏺ Put the Cerenovus to sleep. Wake the target. Show the THIS CHARACTER SELECTED YOU token, the Cerenovus token, then the madness-character token.",
     otherNight: 28,
@@ -1660,7 +1660,7 @@ export const roles = [
       'All players keep their eyes closed when voting and the vote tally is secret. Each night, choose if you are drunk until dusk.',
     image:
       'https://wiki.bloodontheclocktower.com/images/6/61/Icon_organgrinder.png',
-    firstNight: 38,
+    firstNight: 39,
     otherNight: 25,
     flavor:
       'Round and round the handles go. The more you dance the less you know.',
@@ -1673,7 +1673,7 @@ export const roles = [
     name: "Devil's Advocate",
     edition: 'bmr',
     team: 'minion',
-    firstNight: 39,
+    firstNight: 40,
     firstNightReminder:
       'The Devil\'s Advocate chooses a living player. ⏺',
     otherNight: 26,
@@ -1691,7 +1691,7 @@ export const roles = [
     name: 'Evil Twin',
     edition: 'snv',
     team: 'minion',
-    firstNight: 40,
+    firstNight: 41,
     firstNightReminder:
       'Wake both twins. Allow eye contact. Show the good twin\'s character token to the Evil Twin & vice versa.',
     otherNight: 0,
@@ -1708,7 +1708,7 @@ export const roles = [
     name: 'Fearmonger',
     edition: 'carousel',
     team: 'minion',
-    firstNight: 43,
+    firstNight: 44,
     firstNightReminder:
       'The Fearmonger chooses a player. ⏺ Announce that the Fearmonger has chosen a player.',
     otherNight: 30,
@@ -1741,7 +1741,7 @@ export const roles = [
     name: 'Godfather',
     edition: 'bmr',
     team: 'minion',
-    firstNight: 37,
+    firstNight: 38,
     firstNightReminder: 'Show the character tokens of all in-play Outsiders.',
     otherNight: 57,
     otherNightReminder:
@@ -1765,7 +1765,7 @@ export const roles = [
     ability:
       'Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die.',
     image: 'https://wiki.bloodontheclocktower.com/images/d/d3/Icon_harpy.png',
-    firstNight: 44,
+    firstNight: 45,
     otherNight: 31,
     flavor:
       'So fair a day I never did see, nor so fowl a presence hanging over me.',
@@ -1778,7 +1778,7 @@ export const roles = [
     name: 'Marionette',
     edition: 'carousel',
     team: 'minion',
-    firstNight: 26,
+    firstNight: 27,
     firstNightReminder:
       'Wake the Demon. Show the THIS PLAYER IS & Marionette tokens. Point to the Marionette.',
     otherNight: 0,
@@ -1812,7 +1812,7 @@ export const roles = [
     name: 'Mezepheles',
     edition: 'carousel',
     team: 'minion',
-    firstNight: 45,
+    firstNight: 46,
     firstNightReminder: 'Show the secret word.',
     otherNight: 32,
     otherNightReminder:
@@ -1845,7 +1845,7 @@ export const roles = [
     name: 'Poisoner',
     edition: 'tb',
     team: 'minion',
-    firstNight: 32,
+    firstNight: 33,
     firstNightReminder:
       'The Poisoner chooses a player. ⏺',
     otherNight: 17,
@@ -1920,7 +1920,7 @@ export const roles = [
     name: 'Spy',
     edition: 'tb',
     team: 'minion',
-    firstNight: 71,
+    firstNight: 72,
     firstNightReminder:
       'Show the Grimoire for as long as the Spy needs.',
     otherNight: 92,
@@ -1946,7 +1946,7 @@ export const roles = [
       'You get 3 bluffs. On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]',
     image:
       'https://wiki.bloodontheclocktower.com/images/1/1a/Icon_summoner.png',
-    firstNight: 22,
+    firstNight: 23,
     otherNight: 34,
     flavor:
       'Hail the guardians of the north; by my intellect, thou art cut. Hail the guardians of the east; by my will, thou art dominated. Hail the guardians of the south; by that which lies beyond, the mystery is revealed. Hail the guardians of the west; a shield in the darkness',
@@ -1964,7 +1964,7 @@ export const roles = [
     ability:
       'All players know you are the Vizier. You cannot die during the day. If good voted, you may choose to execute immediately.',
     image: 'https://wiki.bloodontheclocktower.com/images/a/a4/Icon_vizier.png',
-    firstNight: 79,
+    firstNight: 80,
     otherNight: 0,
     flavor:
       'An excellent decision, as always, sire. Such a petty crime as bumping into the Bishop indeed deserves your ‘justice’ and ‘mercy’. Take a stroll in the gardens. Visit the gallery and peruse the sculptures of Von Strauf. Relax, sire. Leave everything… to me.',
@@ -1976,7 +1976,7 @@ export const roles = [
     name: 'Widow',
     edition: 'carousel',
     team: 'minion',
-    firstNight: 33,
+    firstNight: 34,
     firstNightReminder:
       "Show the Grimoire for as long as the Widow needs. The Widow chooses a player. ⏺ Put the Widow to sleep. Wake the player marked KNOW & show the Widow token. ⏺",
     otherNight: 0,
@@ -1993,7 +1993,7 @@ export const roles = [
     name: 'Witch',
     edition: 'snv',
     team: 'minion',
-    firstNight: 41,
+    firstNight: 42,
     firstNightReminder:
       'The Witch chooses a player. ⏺',
     otherNight: 27,
@@ -2017,7 +2017,7 @@ export const roles = [
     setup: true,
     ability: 'On night X, all Townsfolk are poisoned until dusk. [X Outsiders]',
     image: 'https://wiki.bloodontheclocktower.com/images/0/0c/Icon_xaan.png',
-    firstNight: 31,
+    firstNight: 32,
     otherNight: 16,
     flavor: 'Down they fall. One by one. By two, by three, by five.',
     source: 'cs',
@@ -2132,7 +2132,7 @@ export const roles = [
     name: 'Leviathan',
     edition: 'carousel',
     team: 'demon',
-    firstNight: 78,
+    firstNight: 79,
     firstNightReminder:
       "Announce that the Leviathan is in play. ⏺",
     otherNight: 99,
@@ -2156,7 +2156,7 @@ export const roles = [
     name: "Lil' Monsta",
     edition: 'carousel',
     team: 'demon',
-    firstNight: 29,
+    firstNight: 30,
     firstNightReminder:
       "Wake the Minions. They choose a player. ⏺ Put the Minions to sleep. Wake the target. Show the YOU ARE & Lil' Monsta tokens.",
     otherNight: 53,
@@ -2174,7 +2174,7 @@ export const roles = [
     name: 'Lleech',
     edition: 'carousel',
     team: 'demon',
-    firstNight: 30,
+    firstNight: 31,
     firstNightReminder:
       'The Lleech chooses a player. ⏺',
     otherNight: 52,
@@ -2261,7 +2261,7 @@ export const roles = [
     name: 'Pukka',
     edition: 'bmr',
     team: 'demon',
-    firstNight: 46,
+    firstNight: 47,
     firstNightReminder:
       'The Pukka chooses a player. ⏺',
     otherNight: 42,
@@ -2646,9 +2646,9 @@ export const roles = [
     name: 'Tor',
     edition: 'loric',
     team: 'loric',
-    firstNightReminder: '',
+    firstNightReminder: 'Skip Minion Info and Demon Info.',
     otherNightReminder:
-      'If a player died tonight, show the YOU ARE info token, their character token, & a thumbs up or thumbs down.',
+      'If a player died tonight, show the YOU ARE info token, their character token, & give a thumb signal.',
     reminders: [],
     setup: true,
     ability:
@@ -2656,7 +2656,7 @@ export const roles = [
     flavor:
       'With thunder as my voice and lightning as my blade, I, the eternal guardian, feast upon the fools who dare approach the forbidden gate. Behold, my sacred goal! To purge the beetle from the belly of the rocky earth, to ensnare it in a net of stars on the hilltop where heaven meets earth.',
     image: 'https://wiki.bloodontheclocktower.com/images/6/61/Icon_tor.png',
-    firstNight: 0,
+    firstNight: 19,
     otherNight: 74,
     source: 'cs',
   },
@@ -2688,7 +2688,7 @@ export const roles = [
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
-    setup: false,
+    setup: true,
     ability: 'This script has homebrew characters or rules.',
     flavor:
       "I've got the latest shipment from home, a brew I'd like to call 'Barrowfog'. Wanna try?",
@@ -2705,8 +2705,8 @@ export const roles = [
     otherNight: 0,
     otherNightReminder: '',
     reminders: [],
-    setup: false,
-    ability: "The Storyteller assigns 1 or more players' characters.",
+    setup: true,
+    ability: "The Storyteller assigns all players' characters.",
     flavor:
       "Oh now, this won't do. We've got the monkshood mixed in with the wolfsbane and the hemlock is smothering the hellebore! Oh dear me, we'd better start over. Fetch my shears.",
     image:
