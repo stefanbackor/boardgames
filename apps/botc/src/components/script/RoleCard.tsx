@@ -15,7 +15,9 @@ import {
   getEnglishRoleName,
 } from '@/utils/roleDisplayName'
 import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
+import { BootleggerRules } from './BootleggerRules'
 import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
+
 
 interface RoleCardProps {
   role: Role & { isCustom?: boolean }
@@ -30,6 +32,62 @@ interface RoleCardProps {
     role2Image: string
   }>
   hatedBy?: Array<{ id: string; name: string; image: string }>
+  /** Homebrew rules to list under the ability (Bootlegger only) */
+  rules?: string[]
+  /** Called with the new rule list; omit to render the rules read-only */
+  onRulesChange?: (rules: string[]) => void
+  /**
+   * Draws the rule editor's layout without its handlers. Used by the drag
+   * preview, which has to match the height of the editable card it copies.
+   */
+  frozenRules?: boolean
+  /**
+   * Why this role cannot be taken out of the script. When set, every control
+   * that would take it out - Replace as much as Remove - is shown disabled with
+   * this as its tooltip, so the reason is discoverable instead of the control
+   * simply being missing.
+   */
+  lockedReason?: string
+}
+
+/**
+ * A card action the script content will not allow: the button keeps its place
+ * and its tooltip says why, but it does nothing.
+ *
+ * It is marked `aria-disabled` rather than `disabled`: the whole point of
+ * keeping the control is that the reason stays discoverable, and a `disabled`
+ * button takes neither pointer events nor focus - which would leave that reason
+ * reachable by mouse hover alone. Focus is what makes it reachable without one,
+ * so the disabled look has to be drawn in CSS instead.
+ */
+function LockedAction({
+  reason,
+  label,
+  color,
+  className,
+  children,
+}: {
+  reason: string
+  label: string
+  color: 'red' | 'gray'
+  className: string
+  children: React.ReactNode
+}) {
+  return (
+    <Tooltip content={reason}>
+      <IconButton
+        size="1"
+        variant="soft"
+        color={color}
+        className={`${className} role-card-action-locked`}
+        aria-label={label}
+        aria-disabled
+        // No handler at all, so the click lands on nothing
+      >
+        {children}
+      </IconButton>
+    </Tooltip>
+  )
 }
 
 export function RoleCard({
@@ -39,6 +97,10 @@ export function RoleCard({
   isDraggable = false,
   jinxes,
   hatedBy,
+  rules,
+  onRulesChange,
+  frozenRules,
+  lockedReason,
 }: RoleCardProps) {
   const { t } = useTranslation()
   const showEnglishNames = useDisplayOptionsStore(
@@ -145,32 +207,54 @@ export function RoleCard({
               </Box>
             </Tooltip>
           )}
-          {onSearch && (
-            <Tooltip content={t('Replace character')}>
+          {onSearch &&
+            // Replacing a role takes it out of the script just as removing it
+            // does, so a locked role has to refuse both
+            (lockedReason ? (
+              <LockedAction
+                reason={lockedReason}
+                label={t('Replace character')}
+                color="gray"
+                className="role-card-search"
+              >
+                <ReplaceIcon size={14} />
+              </LockedAction>
+            ) : (
+              <Tooltip content={t('Replace character')}>
+                <IconButton
+                  size="1"
+                  variant="soft"
+                  color="gray"
+                  className="role-card-search"
+                  aria-label={t('Replace character')}
+                  onClick={() => onSearch(role.id)}
+                >
+                  <ReplaceIcon size={14} />
+                </IconButton>
+              </Tooltip>
+            ))}
+          {onRemove &&
+            (lockedReason ? (
+              <LockedAction
+                reason={lockedReason}
+                label={t('Remove character')}
+                color="red"
+                className="role-card-remove"
+              >
+                <Trash size={14} />
+              </LockedAction>
+            ) : (
               <IconButton
                 size="1"
                 variant="soft"
-                color="gray"
-                className="role-card-search"
-                aria-label={t('Replace character')}
-                onClick={() => onSearch(role.id)}
+                color="red"
+                className="role-card-remove"
+                aria-label={t('Remove character')}
+                onClick={() => onRemove(role.id)}
               >
-                <ReplaceIcon size={14} />
+                <Trash size={14} />
               </IconButton>
-            </Tooltip>
-          )}
-          {onRemove && (
-            <IconButton
-              size="1"
-              variant="soft"
-              color="red"
-              className="role-card-remove"
-              aria-label={t('Remove character')}
-              onClick={() => onRemove(role.id)}
-            >
-              <Trash size={14} />
-            </IconButton>
-          )}
+            ))}
         </Flex>
       )}
       <Box
@@ -325,6 +409,13 @@ export function RoleCard({
           >
             {renderAbilityText(role.ability)}
           </Text>
+          {rules && (
+            <BootleggerRules
+              rules={rules}
+              onChange={onRulesChange}
+              frozen={frozenRules}
+            />
+          )}
           {jinxes && jinxes.length > 0 && (
             <Box
               mt="2"

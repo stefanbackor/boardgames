@@ -5,6 +5,7 @@ import {
   getOriginalFromUrl,
   setOriginalScriptCache,
   clearOriginalScriptCache,
+  getScriptKey,
 } from './scriptModificationHelpers'
 import type { ScriptItem } from '@/types'
 
@@ -31,7 +32,11 @@ vi.mock('@/utils/urlCompression', () => ({
 }))
 
 // Mock the parseScript utility
-vi.mock('@/utils/parseScript', () => ({
+// Only extractMeta is stubbed: the rest of the module is real, so helpers like
+// getScriptItemId are exercised rather than replaced by a second copy of
+// themselves that could agree with a bug
+vi.mock('@/utils/parseScript', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/utils/parseScript')>()),
   extractMeta: vi.fn((script: ScriptItem[]) => {
     const metaItem = script.find((item) => {
       if (typeof item === 'string') return false
@@ -150,12 +155,22 @@ describe('scriptModificationHelpers', () => {
   describe('getOriginalFromUrl', () => {
     it('should return null script when searchParams is empty', () => {
       const result = getOriginalFromUrl('')
-      expect(result).toEqual({ script: null, name: '', author: '' })
+      expect(result).toEqual({
+        script: null,
+        name: '',
+        author: '',
+        bootlegger: [],
+      })
     })
 
     it('should return null script when no script parameter exists', () => {
       const result = getOriginalFromUrl('?foo=bar')
-      expect(result).toEqual({ script: null, name: '', author: '' })
+      expect(result).toEqual({
+        script: null,
+        name: '',
+        author: '',
+        bootlegger: [],
+      })
     })
 
     it('should parse valid script from URL', () => {
@@ -200,14 +215,24 @@ describe('scriptModificationHelpers', () => {
     it('should return null for invalid JSON', () => {
       const encoded = btoa('not valid json')
       const result = getOriginalFromUrl(`?script=${encoded}`)
-      expect(result).toEqual({ script: null, name: '', author: '' })
+      expect(result).toEqual({
+        script: null,
+        name: '',
+        author: '',
+        bootlegger: [],
+      })
     })
 
     it('should return null when decoded data is not an array', () => {
       const notAnArray = { foo: 'bar' }
       const encoded = btoa(JSON.stringify(notAnArray))
       const result = getOriginalFromUrl(`?script=${encoded}`)
-      expect(result).toEqual({ script: null, name: '', author: '' })
+      expect(result).toEqual({
+        script: null,
+        name: '',
+        author: '',
+        bootlegger: [],
+      })
     })
 
     it('should cache results for the same URL', () => {
@@ -304,6 +329,34 @@ describe('scriptModificationHelpers', () => {
       const result2 = getOriginalFromUrl(searchParams)
       expect(result2).toEqual(result1)
       expect(result2.script).toBe(result1.script) // Same reference
+    })
+
+    it('should refuse edits to the original it hands out', () => {
+      const script = [
+        { id: '_meta', name: 'Cached Script', bootlegger: ['One rule'] },
+      ]
+      const encoded = btoa(JSON.stringify(script))
+
+      const original = getOriginalFromUrl(`?script=${encoded}`)
+
+      // The object is shared, so an edit reaching it would move the original
+      // the diff is measured against
+      expect(() => {
+        ;(original as { name: string }).name = 'Renamed'
+      }).toThrow()
+      expect(original.name).toBe('Cached Script')
+    })
+
+    it('should hand out the original without the URL it was read from', () => {
+      const script = [{ id: '_meta', name: 'Cached Script' }]
+      const search = `?script=${btoa(JSON.stringify(script))}`
+
+      expect(Object.keys(getOriginalFromUrl(search)).sort()).toEqual([
+        'author',
+        'bootlegger',
+        'name',
+        'script',
+      ])
     })
   })
 
@@ -402,6 +455,140 @@ describe('scriptModificationHelpers', () => {
       expect(result.script).toEqual(loadedScript)
       expect(result.name).toBe('Loaded Script')
       expect(result.author).toBe('Loader')
+    })
+  })
+
+  describe('bootlegger rules', () => {
+    it('should read homebrew rules from _meta.bootlegger', () => {
+      const script = [
+        {
+          id: '_meta',
+          name: 'Homebrew Script',
+          author: 'Author',
+          bootlegger: ['Spy does not know the Zombuul', 'Second rule'],
+        },
+        'washerwoman',
+      ]
+      const encoded = btoa(JSON.stringify(script))
+
+      const result = getOriginalFromUrl(`?script=${encoded}`)
+
+      expect(result.bootlegger).toEqual([
+        'Spy does not know the Zombuul',
+        'Second rule',
+      ])
+    })
+
+    it('should hand out the same rule list on every call', () => {
+      const script = [
+        { id: '_meta', name: 'Homebrew Script', bootlegger: ['One rule'] },
+      ]
+      const search = `?script=${btoa(JSON.stringify(script))}`
+
+      // A copy per call is a new identity per render for whoever holds it
+      expect(getOriginalFromUrl(search).bootlegger).toBe(
+        getOriginalFromUrl(search).bootlegger,
+      )
+    })
+
+    it('should refuse edits to the rule list it hands out', () => {
+      const script = [
+        { id: '_meta', name: 'Homebrew Script', bootlegger: ['One rule'] },
+      ]
+      const encoded = btoa(JSON.stringify(script))
+
+      const { bootlegger } = getOriginalFromUrl(`?script=${encoded}`)
+
+      // The list is shared, so an edit reaching it would move the original the
+      // diff is measured against
+      expect(() => bootlegger.push('Sneaked in')).toThrow()
+      expect(bootlegger).toEqual(['One rule'])
+    })
+
+    it('should normalize a single rule string into a list', () => {
+      const script = [
+        { id: '_meta', name: 'Homebrew Script', bootlegger: 'One rule' },
+      ]
+      const encoded = btoa(JSON.stringify(script))
+
+      const result = getOriginalFromUrl(`?script=${encoded}`)
+
+      expect(result.bootlegger).toEqual(['One rule'])
+    })
+
+    it('should return an empty list when no rules are declared', () => {
+      const script = [{ id: '_meta', name: 'Plain Script' }, 'washerwoman']
+      const encoded = btoa(JSON.stringify(script))
+
+      const result = getOriginalFromUrl(`?script=${encoded}`)
+
+      expect(result.bootlegger).toEqual([])
+    })
+
+    it('should read rules from an explicitly cached script', () => {
+      const script: ScriptItem[] = [
+        { id: '_meta', name: 'Cached', bootlegger: ['Cached rule'] },
+      ]
+      const searchParams = '?script=cached'
+
+      setOriginalScriptCache(script, searchParams)
+
+      expect(getOriginalFromUrl(searchParams).bootlegger).toEqual([
+        'Cached rule',
+      ])
+    })
+  })
+
+  describe('getScriptKey', () => {
+    it('should return an empty key when no script is in the URL', () => {
+      expect(getScriptKey('')).toBe('')
+      expect(getScriptKey('?foo=bar')).toBe('')
+    })
+
+    it('should give different scripts different keys', () => {
+      expect(getScriptKey('?script=aaa')).not.toBe(getScriptKey('?script=bbb'))
+    })
+
+    it('should ignore params that do not identify the script', () => {
+      expect(getScriptKey('?script=aaa&lang=cs')).toBe(
+        getScriptKey('?script=aaa'),
+      )
+    })
+
+    it('should tell saved scripts apart by id', () => {
+      expect(getScriptKey('?script=aaa&id=one')).not.toBe(
+        getScriptKey('?script=aaa&id=two'),
+      )
+    })
+
+    it('should key external scripts on their URL', () => {
+      expect(getScriptKey('?script_url=https://a.test/s.json')).not.toBe(
+        getScriptKey('?script_url=https://b.test/s.json'),
+      )
+    })
+  })
+
+  describe('malformed script items', () => {
+    it('should answer with no id rather than throw on null', () => {
+      // typeof null === 'object', so this is the entry that used to throw
+      expect(normalizeScriptItem(null as never)).toBe('')
+    })
+
+    it('should answer with no id for an object that carries none', () => {
+      expect(normalizeScriptItem({ name: 'No id' } as never)).toBe('')
+    })
+
+    it('should drop entries without an id from the role ids', () => {
+      const script = [
+        { id: '_meta', name: 'Patchy' },
+        'washerwoman',
+        null,
+        42,
+        { name: 'No id at all' },
+        'imp',
+      ]
+
+      expect(getRoleIds(script as never)).toEqual(['washerwoman', 'imp'])
     })
   })
 })

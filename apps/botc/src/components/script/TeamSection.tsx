@@ -49,6 +49,16 @@ interface TeamSectionProps {
    * Falls back to base English jinxes when not provided.
    */
   jinxes?: Jinx[]
+  /** Homebrew rules from `_meta.bootlegger`, shown on the Bootlegger card */
+  bootleggerRules?: string[]
+  /** Called with the new rule list; omit to render the rules read-only */
+  onBootleggerRulesChange?: (rules: string[]) => void
+  /**
+   * Why a role cannot be taken out of the script, by role id. The reason is
+   * worked out where the script content is known, so that the card can name it
+   * rather than guess at it.
+   */
+  lockedRoles?: Record<string, string>
 }
 
 export function TeamSection({
@@ -64,6 +74,9 @@ export function TeamSection({
   onReorderRoles,
   scriptRoles,
   jinxes: jinxesOverride,
+  bootleggerRules,
+  onBootleggerRulesChange,
+  lockedRoles,
 }: TeamSectionProps) {
   const { t } = useTranslation()
   const teamLabels = useTeamLabels()
@@ -260,10 +273,25 @@ export function TeamSection({
                   <RoleCard
                     role={role}
                     onRemove={onRemoveRole}
+                    // Some roles are put straight back by the auto-roles -
+                    // homebrew content keeps the Bootlegger, an active jinx
+                    // keeps the Djinn - so taking them out would do nothing.
+                    // Say why rather than dropping the control.
+                    lockedReason={lockedRoles?.[role.id]}
                     onSearch={canAddRoles ? handleSearch : undefined}
                     isDraggable={!!onReorderRoles}
                     jinxes={role.id === 'djinn' ? djinnJinxes : undefined}
                     hatedBy={hatedByMap.get(role.id)}
+                    rules={
+                      role.id === 'bootlegger'
+                        ? (bootleggerRules ?? [])
+                        : undefined
+                    }
+                    onRulesChange={
+                      role.id === 'bootlegger'
+                        ? onBootleggerRulesChange
+                        : undefined
+                    }
                   />
                 </Box>
               ))}
@@ -277,7 +305,18 @@ export function TeamSection({
                   opacity: 0.9,
                 }}
               >
-                <RoleCard role={activeRole} isDraggable={false} />
+                <RoleCard
+                  role={activeRole}
+                  isDraggable={false}
+                  // Frozen rather than read-only, so the preview keeps the
+                  // height of the card it was picked up from
+                  rules={
+                    activeRole.id === 'bootlegger'
+                      ? (bootleggerRules ?? [])
+                      : undefined
+                  }
+                  frozenRules={!!onBootleggerRulesChange}
+                />
               </Box>
             ) : null}
           </DragOverlay>

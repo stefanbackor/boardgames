@@ -20,6 +20,14 @@ interface ScriptMeta {
 }
 
 /**
+ * The Bootlegger's homebrew rules, as {@link TeamSection} takes them
+ */
+type BootleggerRuleProps = Pick<
+  ScriptContentProps,
+  'bootleggerRules' | 'onBootleggerRulesChange'
+>
+
+/**
  * Props for the ScriptContent component
  */
 interface ScriptContentProps {
@@ -63,6 +71,15 @@ interface ScriptContentProps {
   onReorderRoles: (team: string, fromIndex: number, toIndex: number) => void
   /** Function to get author from store */
   getAuthor: () => string | null
+  /** Homebrew rules from `_meta.bootlegger`, shown on the Bootlegger card */
+  bootleggerRules?: string[]
+  /** Handler when the homebrew rules change */
+  onBootleggerRulesChange?: (rules: string[]) => void
+  /**
+   * Why a role cannot be taken out of the script, by role id. Removing one that
+   * is held would be undone right away, so the card says why instead.
+   */
+  lockedRoles?: Record<string, string>
 }
 
 /**
@@ -111,8 +128,23 @@ export function ScriptContent({
   onReplaceRole,
   onReorderRoles,
   getAuthor,
+  bootleggerRules,
+  onBootleggerRulesChange,
+  lockedRoles,
 }: ScriptContentProps) {
   const { t } = useTranslation()
+
+  /**
+   * The Bootlegger's homebrew rules only concern the section its card is drawn
+   * in, so the rest are spared props they have nothing to put them on. The team
+   * is read off the script rather than assumed: a script is free to list the
+   * Bootlegger under a team of its own choosing.
+   */
+  const bootleggerTeam = scriptRoles.find(
+    (role) => role.id === 'bootlegger',
+  )?.team
+  const bootleggerFor = (team: Team): BootleggerRuleProps =>
+    team === bootleggerTeam ? { bootleggerRules, onBootleggerRulesChange } : {}
 
   return (
     <Flex direction="column" gap="9">
@@ -124,7 +156,7 @@ export function ScriptContent({
         <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
           <Header
             name={displayScriptName}
-            author={getAuthor() || meta?.author || ''}
+            author={getAuthor() ?? meta?.author ?? ''}
             isModified={scriptIsModified}
             showSave={showSave}
             isSaved={isSaved}
@@ -149,6 +181,8 @@ export function ScriptContent({
             onReorderRoles={onReorderRoles}
             scriptRoles={scriptRoles}
             jinxes={activeJinxes}
+            lockedRoles={lockedRoles}
+            {...bootleggerFor(Team.Townsfolk)}
           />
         </Flex>
         {/* Render main teams (outsider, minion, demon) */}
@@ -171,6 +205,8 @@ export function ScriptContent({
                 onReorderRoles={onReorderRoles}
                 scriptRoles={scriptRoles}
                 jinxes={activeJinxes}
+                lockedRoles={lockedRoles}
+                {...bootleggerFor(team)}
               />
             </div>
           )
@@ -218,6 +254,8 @@ export function ScriptContent({
                 onReorderRoles={onReorderRoles}
                 scriptRoles={scriptRoles}
                 jinxes={activeJinxes}
+                lockedRoles={lockedRoles}
+                {...bootleggerFor(team)}
               />
             </div>
           )

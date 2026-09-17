@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures'
 
 test.describe('Homepage', () => {
   test('should render homepage with upload controls', async ({ page }) => {

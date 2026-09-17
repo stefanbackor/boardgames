@@ -9,6 +9,12 @@ export type ScriptMeta = {
   author: string
   firstNight?: Array<string>
   otherNight?: Array<string>
+  /**
+   * Homebrew rules shown on the Bootlegger (Loric) card.
+   * Official script tool format: an array of rule strings.
+   * A single string is also accepted for leniency.
+   */
+  bootlegger?: string[] | string
 }
 
 /**
@@ -49,6 +55,8 @@ export type ScriptItem = string | { id: string; [key: string]: unknown }
 export interface MetaOverrides {
   name?: string
   author?: string
+  /** Homebrew rules for the Bootlegger, normalized to an array */
+  bootlegger?: string[]
 }
 
 /**

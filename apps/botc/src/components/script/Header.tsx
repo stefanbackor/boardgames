@@ -31,6 +31,14 @@ export function Header({
   const { t } = useTranslation()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const authorRef = useRef<HTMLSpanElement>(null)
+  /**
+   * The text as it was when editing started. Edits are committed on every
+   * keystroke, so the props are no use to Escape by the time it is pressed -
+   * they already hold the text being cancelled rather than the text to go
+   * back to.
+   */
+  const originalNameRef = useRef(name)
+  const originalAuthorRef = useRef(author)
 
   // Sync external name changes to the contentEditable element
   useEffect(() => {
@@ -52,6 +60,10 @@ export function Header({
       }
     }
   }, [author, t])
+
+  const handleNameFocus = () => {
+    originalNameRef.current = name
+  }
 
   const handleNameInput = () => {
     if (!onNameChange || !headingRef.current) return
@@ -77,6 +89,18 @@ export function Header({
     brElements.forEach((br) => br.remove())
 
     const newName = headingRef.current.textContent?.trim() || ''
+
+    /**
+     * Put the trimmed text back on screen before committing it. Whitespace the
+     * trim dropped leaves the element holding text the name never took, and
+     * the sync effect above only runs when the value changes - so a typed space
+     * would sit there until a reload. The element is no longer focused by the
+     * time a blur is handled, so writing to it cannot disturb a caret.
+     */
+    if (headingRef.current.textContent !== newName) {
+      headingRef.current.textContent = newName
+    }
+
     // Always call onNameChange with the current value, even if empty
     if (newName !== name) {
       onNameChange(newName)
@@ -88,9 +112,10 @@ export function Header({
       e.preventDefault()
       headingRef.current?.blur()
     } else if (e.key === 'Escape') {
+      e.preventDefault()
       if (headingRef.current) {
-        headingRef.current.textContent = name
-        onNameChange?.(name)
+        // Put the text back and let the blur commit it
+        headingRef.current.textContent = originalNameRef.current
         headingRef.current.blur()
       }
     }
@@ -102,6 +127,10 @@ export function Header({
     // Remove line breaks and insert as plain text
     const cleanText = text.replace(/[\r\n]+/g, ' ')
     document.execCommand('insertText', false, cleanText)
+  }
+
+  const handleAuthorFocus = () => {
+    originalAuthorRef.current = author
   }
 
   const handleAuthorInput = () => {
@@ -128,6 +157,18 @@ export function Header({
     brElements.forEach((br) => br.remove())
 
     const newAuthor = authorRef.current.textContent?.trim() || ''
+
+    /**
+     * Put the trimmed text back on screen before committing it. Whitespace the
+     * trim dropped leaves the element holding text the author never took, and
+     * the sync effect above only runs when the value changes - so a typed space
+     * would sit there until a reload. The element is no longer focused by the
+     * time a blur is handled, so writing to it cannot disturb a caret.
+     */
+    if (authorRef.current.textContent !== newAuthor) {
+      authorRef.current.textContent = newAuthor
+    }
+
     // Always call onAuthorChange with the current value, even if empty
     if (newAuthor !== author) {
       onAuthorChange(newAuthor)
@@ -139,9 +180,10 @@ export function Header({
       e.preventDefault()
       authorRef.current?.blur()
     } else if (e.key === 'Escape') {
+      e.preventDefault()
       if (authorRef.current) {
-        authorRef.current.textContent = author
-        onAuthorChange?.(author || '')
+        // Put the text back and let the blur commit it
+        authorRef.current.textContent = originalAuthorRef.current
         authorRef.current.blur()
       }
     }
@@ -166,14 +208,29 @@ export function Header({
               <Check size={14} /> {t('Saved')}
             </Badge>
           )}
-          {onSave && showSave && (
-            <Button size="1" color="green" onClick={onSave}>
-              {t('Save')}
-            </Button>
-          )}
+          {/*
+           * Revert sits before Save, and has to keep sitting there: the row is
+           * right-aligned, so a button that appears only once something is
+           * modified moves everything to its left and leaves everything to its
+           * right where it was.
+           *
+           * Save is the button that must not move. Some edits are only
+           * committed when the field they are in loses focus - emptying a
+           * homebrew rule is one - and that blur is caused by the very click
+           * on Save that is meant to save it. Committing turns "modified" on,
+           * so a Revert appearing to the right of Save would slide Save out
+           * from under the pointer between the press and the release, and the
+           * click would land on neither button. Nothing that shows up with
+           * `isModified` belongs after Save.
+           */}
           {onRevert && isModified && (
             <Button size="1" color="gray" onClick={onRevert}>
               {t('Revert')}
+            </Button>
+          )}
+          {onSave && showSave && (
+            <Button size="1" color="green" onClick={onSave}>
+              {t('Save')}
             </Button>
           )}
           {onDelete && (
@@ -195,6 +252,7 @@ export function Header({
             size="7"
             contentEditable={!!onNameChange}
             suppressContentEditableWarning
+            onFocus={handleNameFocus}
             onInput={handleNameInput}
             onBlur={handleNameBlur}
             onKeyDown={handleNameKeyDown}
@@ -229,6 +287,7 @@ export function Header({
               ref={authorRef}
               contentEditable={!!onAuthorChange}
               suppressContentEditableWarning
+              onFocus={handleAuthorFocus}
               onInput={handleAuthorInput}
               onBlur={handleAuthorBlur}
               onKeyDown={handleAuthorKeyDown}

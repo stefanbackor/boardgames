@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import type { Role, ParsedRole } from '@/types'
+import { getScriptItemId } from '@/utils/parseScript'
 import type { ScriptData } from '@/utils/parseScript'
 import { sendEvent } from '@/utils/analytics'
 
@@ -127,7 +128,7 @@ export function useScriptModification({
 
       // Update local state directly - filter out the removed role
       const newScriptData = scriptData.filter((item) => {
-        const id = typeof item === 'string' ? item : item.id
+        const id = getScriptItemId(item)
         return id !== roleId
       })
       setScriptData(newScriptData as ScriptData)
@@ -164,7 +165,7 @@ export function useScriptModification({
 
       // Update local state directly - replace the role at the same position
       const newScriptData = scriptData.map((item) => {
-        const id = typeof item === 'string' ? item : item.id
+        const id = getScriptItemId(item)
         return id === oldRoleId ? newRoleItem : item
       })
       setScriptData(newScriptData as ScriptData)
@@ -242,7 +243,7 @@ export function useScriptModification({
       newScript.forEach((role) => {
         // Find the original item in scriptData
         const originalItem = scriptData?.find((item) => {
-          const id = typeof item === 'string' ? item : item.id
+          const id = getScriptItemId(item)
           return id === role.id
         })
         if (originalItem) {
