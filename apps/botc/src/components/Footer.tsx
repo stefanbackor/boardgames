@@ -54,6 +54,18 @@ export function Footer() {
             {t('Privacy & cookies')}
           </Link>
         </Flex>
+        <Flex mt="2">
+          <Link
+            href="https://bloodontheclocktower.com/pages/community-created-content-policy"
+            target="_blank"
+          >
+            <img
+              src="https://release.botc.app/resources/community/ccc-parchment.png"
+              alt="Community Created Content"
+              style={{ height: '48px' }}
+            />
+          </Link>
+        </Flex>
       </Flex>
     </Box>
   )
