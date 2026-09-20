@@ -84,6 +84,9 @@ function applyTranslations(
       ...(translation.name && { name: translation.name }),
       ...(translation.ability && { ability: translation.ability }),
       ...(translation.reminders && { reminders: translation.reminders }),
+      ...(translation.remindersGlobal && {
+        remindersGlobal: translation.remindersGlobal,
+      }),
       ...(translation.firstNightReminder && {
         firstNightReminder: translation.firstNightReminder,
       }),
