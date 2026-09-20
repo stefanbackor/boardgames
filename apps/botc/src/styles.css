@@ -296,8 +296,17 @@ body {
   }
 }
 
-/* Role Card hover effect for controls container */
-.role-card:hover .role-card-controls {
+/*
+ * Role Card hover effect for controls container. :focus-within is what makes
+ * the controls reachable without a pointer - tabbing into one has to show it,
+ * or it and its tooltip are focused but invisible.
+ *
+ * It sits on the controls rather than on the card: a card can hold focusable
+ * content of its own - the Bootlegger's rule editor does - and reading focus
+ * from the card would put a live Remove button over the text being typed.
+ */
+.role-card:hover .role-card-controls,
+.role-card-controls:focus-within {
   opacity: 1 !important;
 }
 
@@ -430,4 +439,49 @@ body {
 
 .editable-author:empty {
   border-bottom: 1px dashed var(--gray-a9);
+}
+
+/* Editable Bootlegger rule placeholder support */
+.editable-rule:empty:before {
+  content: attr(data-placeholder);
+  color: var(--gray-a9);
+  pointer-events: none;
+}
+
+.editable-rule {
+  border-bottom: 1px solid transparent;
+}
+
+.editable-rule:empty {
+  border-bottom: 1px dashed var(--gray-a9);
+}
+
+/*
+ * Reveal the per-rule remove button while the rule is hovered or being edited.
+ * :focus-within is what makes it reachable without a pointer - on touch there
+ * is no hover, so tapping the rule to edit it is the way in. While hidden the
+ * button takes no clicks either, so it cannot be hit by accident next to the
+ * text it sits beside.
+ */
+.bootlegger-rule-remove {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.bootlegger-rule:hover .bootlegger-rule-remove,
+.bootlegger-rule:focus-within .bootlegger-rule-remove,
+.bootlegger-rule-remove:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * A card action that is refused rather than absent (see LockedAction). It keeps
+ * focus so the tooltip saying why can be reached without a mouse, which
+ * `disabled` would take away - so the disabled look is drawn here instead.
+ */
+.role-card-action-locked {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

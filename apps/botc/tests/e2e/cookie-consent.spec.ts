@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures'
 
 // localStorage key persisting the user's choice — see src/utils/consent.ts.
 const CONSENT_KEY = 'botc-cookie-consent'

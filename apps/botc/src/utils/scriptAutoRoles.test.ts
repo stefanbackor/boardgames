@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { applyAutoRoles, type JinxEntry } from './scriptAutoRoles'
+import {
+  applyAutoRoles,
+  isBootleggerRequired,
+  isDjinnRequired,
+  type JinxEntry,
+} from './scriptAutoRoles'
 import type { ParsedRole, Role } from '@/types'
 
 describe('applyAutoRoles', () => {
@@ -112,7 +117,7 @@ describe('applyAutoRoles', () => {
       expect(result.some((r) => r.id === 'bootlegger')).toBe(false)
     })
 
-    it('should remove bootlegger when custom roles are removed', () => {
+    it('should keep a bootlegger that is part of the script', () => {
       const roles: ParsedRole[] = [
         {
           id: 'washerwoman',
@@ -147,6 +152,85 @@ describe('applyAutoRoles', () => {
       ]
 
       const result = applyAutoRoles(roles, mockJinxes, mockBaseRoles)
+
+      // Listed on purpose - it may carry homebrew rules instead of characters
+      expect(result.some((r) => r.id === 'bootlegger')).toBe(true)
+    })
+
+    it('should add bootlegger when the script declares homebrew rules', () => {
+      const roles: ParsedRole[] = [
+        {
+          id: 'washerwoman',
+          name: 'Washerwoman',
+          team: 'townsfolk',
+          edition: 'tb',
+          ability: 'Test',
+          image: '',
+          firstNight: 0,
+          otherNight: 0,
+          firstNightReminder: '',
+          otherNightReminder: '',
+          reminders: [],
+          setup: false,
+          isCustom: false,
+        },
+      ]
+
+      const result = applyAutoRoles(roles, mockJinxes, mockBaseRoles, {
+        hasHomebrewRules: true,
+      })
+
+      expect(result.some((r) => r.id === 'bootlegger')).toBe(true)
+    })
+
+    it('should not duplicate bootlegger when homebrew rules exist', () => {
+      const roles: ParsedRole[] = [
+        {
+          id: 'bootlegger',
+          name: 'Bootlegger',
+          team: 'loric',
+          edition: 'loric',
+          ability: 'This script has homebrew characters or rules.',
+          image: '',
+          firstNight: 0,
+          otherNight: 0,
+          firstNightReminder: '',
+          otherNightReminder: '',
+          reminders: [],
+          setup: false,
+          isCustom: false,
+        },
+      ]
+
+      const result = applyAutoRoles(roles, mockJinxes, mockBaseRoles, {
+        hasHomebrewRules: true,
+      })
+
+      expect(result.filter((r) => r.id === 'bootlegger')).toHaveLength(1)
+    })
+
+    it('should not add bootlegger when there are no homebrew rules', () => {
+      const roles: ParsedRole[] = [
+        {
+          id: 'washerwoman',
+          name: 'Washerwoman',
+          team: 'townsfolk',
+          edition: 'tb',
+          ability: 'Test',
+          image: '',
+          firstNight: 0,
+          otherNight: 0,
+          firstNightReminder: '',
+          otherNightReminder: '',
+          reminders: [],
+          setup: false,
+          isCustom: false,
+        },
+      ]
+
+      const result = applyAutoRoles(roles, mockJinxes, mockBaseRoles, {
+        hasHomebrewRules: false,
+      })
 
       expect(result.some((r) => r.id === 'bootlegger')).toBe(false)
     })
@@ -363,10 +447,95 @@ describe('applyAutoRoles', () => {
 
       const result = applyAutoRoles(roles, mockJinxes, mockBaseRoles)
 
-      // Should remove both since there are no actual custom roles or jinxes
-      expect(result.some((r) => r.id === 'bootlegger')).toBe(false)
+      // Neither counts as a custom role, so no extra fabled is added.
+      // The bootlegger stays because the script lists it, the djinn goes
+      // because there are no active jinxes.
+      expect(result.filter((r) => r.id === 'bootlegger')).toHaveLength(1)
       expect(result.some((r) => r.id === 'djinn')).toBe(false)
     })
   })
 })
 
+describe('isBootleggerRequired', () => {
+  const plainRole: ParsedRole = {
+    id: 'washerwoman',
+    name: 'Washerwoman',
+    team: 'townsfolk',
+    edition: 'tb',
+    ability: 'Test',
+    image: '',
+    firstNight: 0,
+    otherNight: 0,
+    firstNightReminder: '',
+    otherNightReminder: '',
+    reminders: [],
+    setup: false,
+    isCustom: false,
+  }
+
+  const customRole: ParsedRole = { ...plainRole, id: 'mybrew', isCustom: true }
+
+  it('should not require the bootlegger for a plain script', () => {
+    expect(isBootleggerRequired([plainRole])).toBe(false)
+  })
+
+  it('should require the bootlegger for homebrew characters', () => {
+    expect(isBootleggerRequired([plainRole, customRole])).toBe(true)
+  })
+
+  it('should require the bootlegger for homebrew rules', () => {
+    expect(isBootleggerRequired([plainRole], { hasHomebrewRules: true })).toBe(
+      true,
+    )
+  })
+
+  it('should not require the bootlegger just because it is listed', () => {
+    const bootlegger: ParsedRole = {
+      ...plainRole,
+      id: 'bootlegger',
+      name: 'Bootlegger',
+      team: 'loric',
+    }
+
+    expect(isBootleggerRequired([plainRole, bootlegger])).toBe(false)
+  })
+})
+
+describe('isDjinnRequired', () => {
+  const role = (id: string): ParsedRole =>
+    ({
+      id,
+      name: id,
+      team: 'townsfolk',
+      edition: 'tb',
+      ability: 'Test',
+      image: '',
+      firstNight: 0,
+      otherNight: 0,
+      firstNightReminder: '',
+      otherNightReminder: '',
+      reminders: [],
+      setup: false,
+      isCustom: false,
+    }) as ParsedRole
+
+  const jinxes: JinxEntry[] = [
+    { id: 'chambermaid', hatred: [{ id: 'mathematician', reason: 'Test' }] },
+  ]
+
+  it('should not require the djinn without a jinx pair', () => {
+    expect(isDjinnRequired([role('chambermaid')], jinxes)).toBe(false)
+  })
+
+  it('should require the djinn while both halves of a jinx are present', () => {
+    expect(
+      isDjinnRequired([role('chambermaid'), role('mathematician')], jinxes),
+    ).toBe(true)
+  })
+
+  it('should not require the djinn just because it is listed', () => {
+    expect(isDjinnRequired([role('chambermaid'), role('djinn')], jinxes)).toBe(
+      false,
+    )
+  })
+})
