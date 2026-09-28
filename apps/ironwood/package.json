@@ -42,7 +42,7 @@
     "@storybook/react-vite": "^10.4.3",
     "@storybook/test-runner": "^0.24.4",
     "@testing-library/react": "^16.0.1",
-    "@types/lodash": "^4.17.9",
+    "@types/lodash": "^4.17.25",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -60,9 +60,9 @@
     "jsdom": "^25.0.1",
     "storybook": "^10.4.3",
     "typescript": "^5.1.6",
-    "vite": "^8.2.2",
+    "vite": "^6.4.3",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "^4.1.8"
+    "vitest": "^5.0.2"
   },
   "lint-staged": {
     "**/*.{js,ts,jsx,tsx}": [
