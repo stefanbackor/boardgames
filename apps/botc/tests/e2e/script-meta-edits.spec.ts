@@ -1,5 +1,6 @@
 import { gunzipSync } from 'node:zlib'
 import { test, expect } from './fixtures'
+import { moveCursorToLineEdge } from './keyboard'
 
 /**
  * Edits to the script metadata (name, author, homebrew rules) live in the
@@ -110,7 +111,7 @@ test.describe('Script metadata edits', () => {
     await expect(heading).toBeVisible({ timeout: 10000 })
 
     await heading.click()
-    await page.keyboard.press('Home')
+    await moveCursorToLineEdge(page, 'start')
     await page.keyboard.type('   ')
     await page.keyboard.press('Enter')
 
@@ -119,7 +120,7 @@ test.describe('Script metadata edits', () => {
 
     const author = page.getByText('Original Author', { exact: true }).first()
     await author.click()
-    await page.keyboard.press('End')
+    await moveCursorToLineEdge(page, 'end')
     await page.keyboard.type('   ')
     await page.keyboard.press('Enter')
 
