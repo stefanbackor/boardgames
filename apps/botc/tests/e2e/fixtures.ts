@@ -12,10 +12,10 @@ import { test as base, expect } from '@playwright/test'
  * one run in two, landing on a different test each time - which is exactly what
  * made it look like a fault in whichever test drew the short straw.
  *
- * Nothing is lost by cutting it off. The app skips its own analytics calls
- * outside a production build, so the tag is dead weight in a test run; the
- * `wsrv.nl` image proxy behind the role card art has nothing any assertion
- * reads. Blocking it also keeps test runs out of the real analytics property,
+ * The inline gtag function still pushes onto the in-page data layer in
+ * production builds, so consent behaviour remains testable without loading
+ * the external tag. The `wsrv.nl` image proxy behind the role card art has
+ * nothing any assertion reads. Blocking it also keeps test runs out of the real analytics property,
  * which they were reaching - the tag reports a pageview of its own whatever the
  * app does.
  *
