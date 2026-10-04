@@ -10,7 +10,10 @@ function looksLikeGzip(bytes: Uint8Array): boolean {
 
 /**
  * Compresses and encodes a string for URL usage
- * Uses gzip compression + base64 encoding
+ * Uses gzip compression + URL-safe base64 encoding (RFC 4648 §5: '-'/'_',
+ * no padding) so the result never contains '+' or '/'. A literal '+' in a
+ * query string is decoded back to a space by URLSearchParams, which would
+ * silently corrupt standard base64 before it reaches atob.
  */
 export function compressForUrl(data: string): string {
   try {
@@ -26,6 +29,9 @@ export function compressForUrl(data: string): string {
     ).join('')
 
     return btoa(binaryString)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '')
   } catch (error) {
     throw new Error('Failed to compress data for URL')
   }
@@ -37,8 +43,21 @@ export function compressForUrl(data: string): string {
  */
 export function decompressFromUrl(encoded: string): string {
   try {
+    // Restore standard base64 alphabet/padding for URL-safe strings (new
+    // format), and repair legacy links where a literal '+' in the query
+    // string was decoded to a space by URLSearchParams before this ever
+    // saw it - a space never occurs in legitimate base64 output.
+    const standardBase64 = encoded
+      .replace(/-/g, '+')
+      .replace(/_/g, '/')
+      .replace(/ /g, '+')
+    const padded = standardBase64.padEnd(
+      standardBase64.length + ((4 - (standardBase64.length % 4)) % 4),
+      '=',
+    )
+
     // Decode from base64
-    const binaryString = atob(encoded)
+    const binaryString = atob(padded)
     const bytes = new Uint8Array(binaryString.length)
     for (let i = 0; i < binaryString.length; i++) {
       bytes[i] = binaryString.charCodeAt(i)
@@ -56,7 +75,7 @@ export function decompressFromUrl(encoded: string): string {
       return new TextDecoder().decode(bytes)
     } catch {
       // Fallback to simple atob for backward compatibility
-      return atob(encoded)
+      return atob(padded)
     }
   } catch (error) {
     throw new Error('Failed to decompress data from URL')

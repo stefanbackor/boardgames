@@ -79,6 +79,40 @@ describe('urlCompression', () => {
     expect(decompressed).toBe(testData)
   })
 
+  it('should not produce + or / that URLSearchParams could mangle', async () => {
+    const testData = JSON.stringify({
+      roles: Array.from({ length: 30 }, (_, i) => `role_${i}`),
+    })
+
+    const compressed = await compressForUrl(testData)
+
+    expect(compressed).not.toMatch(/[+/=]/)
+  })
+
+  it('should recover from a legacy link whose + was turned into a space', async () => {
+    // Reproduces a real-world failure: a standard-base64 (legacy) link gets
+    // shared somewhere that doesn't percent-encode '+', so when the app
+    // reads it back via URLSearchParams, every '+' becomes a space before
+    // decompressFromUrl ever sees it.
+    const legacyEncoded =
+      'H4sIAAAAAAAAA12RwWoEIQyGX2XwvE/Q45beey+lZDTdCaOJxDhlKPvu66FgtuDl+xPz/8aP30ApvISvggbhEhgKDnw7UE9hXF6Bl/cM5yhBt010FK/Iy7Urt3C//F3PtCooAU8pZol7gR11ajcFTkVs8+K3qHVGw5y9jKWCbZOL8D6pc0K1f9OhrE8jQI2aTW7jIc/OkicpHMg7YvUtBU5xmLT7FIox94bOAYjNZxaOG+U0pRVU3JaqUBt79qFbG4dcT8KDcoN0SATzZvV0EEEz2o8U/wlUarh/PgDP0gK95QEAAA=='
+    const mangled = new URL(
+      `https://example.com/?script=${legacyEncoded}`,
+    ).searchParams.get('script') as string
+
+    expect(mangled).not.toBe(legacyEncoded) // sanity check the corruption happened
+
+    const decompressed = decompressFromUrl(mangled)
+    const parsed = JSON.parse(decompressed)
+
+    expect(Array.isArray(parsed)).toBe(true)
+    expect(parsed[0]).toEqual({
+      id: '_meta',
+      name: 'Everyone Can Play',
+      author: 'Ben Burns',
+    })
+  })
+
   it('should decompress compressed data with sync function', () => {
     const testData = JSON.stringify({ name: 'Test' })
     
