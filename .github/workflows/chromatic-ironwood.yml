@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22
           cache: "yarn"
-          cache-dependency-path: apps/ironwood/yarn.lock
+          cache-dependency-path: yarn.lock
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build
