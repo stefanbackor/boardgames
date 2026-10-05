@@ -1,4 +1,6 @@
+import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { openScript, scriptUrl } from './script-state'
 import { test, expect } from './fixtures'
 import { moveCursorToLineEdge } from './keyboard'
 
@@ -17,13 +19,6 @@ const script = [
   'imp',
 ]
 
-function scriptUrl(scriptData: unknown) {
-  const encoded = Buffer.from(JSON.stringify(scriptData), 'utf-8').toString(
-    'base64',
-  )
-  return `/?script=${encodeURIComponent(encoded)}`
-}
-
 async function replaceText(
   page: import('@playwright/test').Page,
   currentText: string,
@@ -31,7 +26,7 @@ async function replaceText(
 ) {
   await page.getByText(currentText, { exact: true }).first().click()
   await page.keyboard.press('ControlOrMeta+a')
-  await page.keyboard.type(newText)
+  await page.keyboard.insertText(newText)
   await page.keyboard.press('Enter')
 }
 
@@ -44,162 +39,86 @@ async function readScriptJson(page: import('@playwright/test').Page) {
 }
 
 test.describe('Script metadata edits', () => {
-  // These tests type metadata key by key, which runs long enough to hit the
-  // default timeout when the whole suite shares one dev server
-  test.describe.configure({ timeout: 60_000 })
+  test('trims, cancels and clears name and author edits', async ({ page }) => {
+    await openScript(page, script)
+    await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
+    await test.step('should not leave trimmed whitespace on screen', async () => {
+      const heading = page
+        .getByText('Meta Edit Script', { exact: true })
+        .first()
+      await expect(heading).toBeVisible({ timeout: 10000 })
 
-  test('should show an unsaved name in the script JSON view', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
+      await heading.click()
+      await moveCursorToLineEdge(page, 'start')
+      await page.keyboard.type('   ')
+      await page.keyboard.press('Enter')
+
+      await expect(heading).toHaveText('Meta Edit Script')
+      await expect(page.getByText('Changes made')).toHaveCount(0)
+
+      const author = page.getByText('Original Author', { exact: true }).first()
+      await author.click()
+      await moveCursorToLineEdge(page, 'end')
+      await page.keyboard.type('   ')
+      await page.keyboard.press('Enter')
+
+      await expect(author).toHaveText('Original Author')
+      await expect(page.getByText('Changes made')).toHaveCount(0)
     })
+    await test.step('should put the original name and author back when cancelled', async () => {
+      const heading = page.locator('.editable-heading')
+      await expect(heading).toHaveText('Meta Edit Script', { timeout: 10000 })
 
-    await replaceText(page, 'Meta Edit Script', 'Renamed Script')
+      await heading.click()
+      await page.keyboard.press('ControlOrMeta+a')
+      await page.keyboard.type('Draft')
+      await expect(page.getByText('Changes made')).toBeVisible()
 
-    const json = await readScriptJson(page)
-    expect(json).toContain('Renamed Script')
-    expect(json).not.toContain('Meta Edit Script')
-  })
+      await page.keyboard.press('Escape')
 
-  test('should show an unsaved author in the script JSON view', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Original Author').first()).toBeVisible({
-      timeout: 10000,
+      await expect(heading).toHaveText('Meta Edit Script')
+      await expect(page.getByText('Changes made')).toHaveCount(0)
+
+      const author = page.locator('.editable-author')
+      await author.click()
+      await page.keyboard.press('ControlOrMeta+a')
+      await page.keyboard.type('Else')
+      await expect(page.getByText('Changes made')).toBeVisible()
+
+      await page.keyboard.press('Escape')
+
+      await expect(author).toHaveText('Original Author')
+      await expect(page.getByText('Changes made')).toHaveCount(0)
     })
-
-    await replaceText(page, 'Original Author', 'New Author')
-
-    const json = await readScriptJson(page)
-    expect(json).toContain('New Author')
-    expect(json).not.toContain('Original Author')
-  })
-
-  test('should clear a name everywhere at once', async ({ page }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    // The heading plus both night order sheets, so an empty name has to reach
-    // all three - a cleared name that only clears the heading leaves the sheets
-    // showing the name saving is about to drop
-    await expect(page.getByText('Meta Edit Script')).toHaveCount(3)
-
-    await page.getByText('Meta Edit Script', { exact: true }).first().click()
-    await page.keyboard.press('ControlOrMeta+a')
-    await page.keyboard.press('Delete')
-    await page.keyboard.press('Enter')
-
-    await expect(page.getByText('Meta Edit Script')).toHaveCount(0)
-
-    const json = await readScriptJson(page)
-    expect(json).toContain('"name": ""')
-  })
-
-  /**
-   * The editors commit trimmed text, so whitespace typed at an edge is an edit
-   * that changes nothing - and the element would go on showing the space it
-   * committed away, indenting a name that is not indented.
-   */
-  test('should not leave trimmed whitespace on screen', async ({ page }) => {
-    await page.goto(scriptUrl(script))
-    const heading = page.getByText('Meta Edit Script', { exact: true }).first()
-    await expect(heading).toBeVisible({ timeout: 10000 })
-
-    await heading.click()
-    await moveCursorToLineEdge(page, 'start')
-    await page.keyboard.type('   ')
-    await page.keyboard.press('Enter')
-
-    await expect(heading).toHaveText('Meta Edit Script')
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-
-    const author = page.getByText('Original Author', { exact: true }).first()
-    await author.click()
-    await moveCursorToLineEdge(page, 'end')
-    await page.keyboard.type('   ')
-    await page.keyboard.press('Enter')
-
-    await expect(author).toHaveText('Original Author')
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-  })
-
-  /**
-   * Edits are committed as they are typed, so by the time Escape is pressed the
-   * name on hand is the one being cancelled rather than the one to go back to.
-   */
-  test('should put the original name and author back when cancelled', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    const heading = page.locator('.editable-heading')
-    await expect(heading).toHaveText('Meta Edit Script', { timeout: 10000 })
-
-    await heading.click()
-    await page.keyboard.press('ControlOrMeta+a')
-    await page.keyboard.type('Half typed')
-    await expect(page.getByText('Changes made')).toBeVisible()
-
-    await page.keyboard.press('Escape')
-
-    await expect(heading).toHaveText('Meta Edit Script')
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-
-    const author = page.locator('.editable-author')
-    await author.click()
-    await page.keyboard.press('ControlOrMeta+a')
-    await page.keyboard.type('Someone else')
-    await expect(page.getByText('Changes made')).toBeVisible()
-
-    await page.keyboard.press('Escape')
-
-    await expect(author).toHaveText('Original Author')
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-  })
-
-  test('should clear an author without putting the old one back', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Original Author').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await page.getByText('Original Author', { exact: true }).first().click()
-    await page.keyboard.press('ControlOrMeta+a')
-    await page.keyboard.press('Delete')
-    await page.keyboard.press('Enter')
-
-    await expect(page.getByText('Original Author')).toHaveCount(0)
-
-    const json = await readScriptJson(page)
-    expect(json).toContain('"author": ""')
-  })
-
-  test('should create a _meta entry for a script that carries none', async ({
-    page,
-  }) => {
-    const withoutMeta = ['washerwoman', 'chef', 'poisoner', 'imp', 'bootlegger']
-
-    await page.goto(scriptUrl(withoutMeta))
-    await expect(page.getByRole('heading', { name: 'Bootlegger' })).toBeVisible(
-      {
+    await test.step('should clear a name everywhere at once', async () => {
+      await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
         timeout: 10000,
-      },
-    )
+      })
 
-    await page.getByRole('button', { name: 'Add rule' }).click()
-    await page.keyboard.type('Rule without a meta entry')
-    await page.keyboard.press('Enter')
+      // The heading plus both night order sheets, so an empty name has to reach
+      // all three - a cleared name that only clears the heading leaves the sheets
+      // showing the name saving is about to drop
+      await expect(page.getByText('Meta Edit Script')).toHaveCount(3)
 
-    // The _meta entry is created on the fly, so the JSON matches the screen
-    const json = await readScriptJson(page)
-    expect(json).toContain('_meta')
-    expect(json).toContain('Rule without a meta entry')
+      await page.getByText('Meta Edit Script', { exact: true }).first().click()
+      await page.keyboard.press('ControlOrMeta+a')
+      await page.keyboard.press('Delete')
+      await page.keyboard.press('Enter')
+
+      await expect(page.getByText('Meta Edit Script')).toHaveCount(0)
+    })
+    await test.step('should clear an author without putting the old one back', async () => {
+      await expect(page.getByText('Original Author').first()).toBeVisible({
+        timeout: 10000,
+      })
+
+      await page.getByText('Original Author', { exact: true }).first().click()
+      await page.keyboard.press('ControlOrMeta+a')
+      await page.keyboard.press('Delete')
+      await page.keyboard.press('Enter')
+
+      await expect(page.getByText('Original Author')).toHaveCount(0)
+    })
   })
 
   test('should not carry unsaved edits over to another script', async ({
@@ -213,17 +132,11 @@ test.describe('Script metadata edits', () => {
       'bootlegger',
     ]
 
-    await page.goto(scriptUrl(otherScript))
-    await expect(page.getByRole('heading', { name: 'Bootlegger' })).toBeVisible(
-      {
-        timeout: 10000,
-      },
-    )
-
-    await replaceText(page, 'Other Script', 'Renamed Other')
-    await page.getByRole('button', { name: 'Add rule' }).click()
-    await page.keyboard.type('Rule of the other script')
-    await page.keyboard.press('Enter')
+    await openScript(page, otherScript, {
+      name: 'Renamed Other',
+      bootlegger: ['Rule of the other script'],
+    })
+    await expect(page.getByText('Renamed Other').first()).toBeVisible()
     await expect(page.getByText('Rule of the other script')).toBeVisible()
 
     // A different script, same tab: the diff above belongs to the one left
@@ -241,38 +154,11 @@ test.describe('Script metadata edits', () => {
     await expect(page.getByText('Changes made')).toHaveCount(0)
   })
 
-  test('should let the back button through when nothing is unsaved', async ({
-    page,
-  }) => {
-    const otherScript = [{ id: '_meta', name: 'Script Left Behind' }, 'chef']
-
-    await page.goto(scriptUrl(otherScript))
-    await expect(page.getByText('Script Left Behind').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }).click()
-    await page.locator('textarea').fill(JSON.stringify(script))
-    await page.getByRole('button', { name: 'Load Script' }).click()
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
-
-    // There is nothing to lose, so a prompt here would only be in the way
-    const asked: string[] = []
-    page.on('dialog', (dialog) => {
-      asked.push(dialog.message())
-      dialog.dismiss()
-    })
-    await page.evaluate(() => window.history.back())
-
-    await expect(page.getByText('Script Left Behind').first()).toBeVisible()
-    expect(asked).toEqual([])
-  })
-
-  test('should ask before the back button drops unsaved edits', async ({
+  test('should keep putting the address back when Back is declined twice', async ({
     page,
   }) => {
     const otherScript = [
-      { id: '_meta', name: 'Script Left Behind', author: 'Other Author' },
+      { id: '_meta', name: 'Script Left Behind' },
       'chef',
       'imp',
     ]
@@ -282,45 +168,56 @@ test.describe('Script metadata edits', () => {
       timeout: 10000,
     })
 
-    /**
-     * The second script is loaded in-page, so Back is a popstate rather than a
-     * reload - and a popstate fires no beforeunload, which is the whole reason
-     * the guard below exists.
-     */
     await page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }).click()
     await page.locator('textarea').fill(JSON.stringify(script))
     await page.getByRole('button', { name: 'Load Script' }).click()
+    await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
+
+    const unexpectedPrompts: string[] = []
+    const noPrompt = (dialog: import('@playwright/test').Dialog) => {
+      unexpectedPrompts.push(dialog.message())
+      dialog.dismiss()
+    }
+    page.on('dialog', noPrompt)
+    await page.evaluate(() => window.history.back())
+    await expect(page.getByText('Script Left Behind').first()).toBeVisible()
+    expect(unexpectedPrompts).toEqual([])
+    page.off('dialog', noPrompt)
+    await page.evaluate(() => window.history.forward())
     await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
 
     await replaceText(page, 'Meta Edit Script', 'Renamed Script')
     await expect(page.getByText('Changes made')).toBeVisible()
     const editedUrl = page.url()
 
-    // Declining the prompt stays put, edit and all
     const asked: string[] = []
-    const decline = (dialog: import('@playwright/test').Dialog) => {
+    page.on('dialog', (dialog) => {
       asked.push(dialog.message())
       dialog.dismiss()
+    })
+
+    /**
+     * Putting the address back is a push, so it replaces the entry the
+     * declined navigation came from rather than piling one on. Declining twice
+     * has to leave the script exactly where declining once did - a history
+     * that grew or shrank each time would take the second Back somewhere else.
+     */
+    for (const attempt of [1, 2]) {
+      await page.evaluate(() => window.history.back())
+      await expect.poll(() => asked.length).toBe(attempt)
+      expect(asked[attempt - 1]).toBe(
+        'Your unsaved changes will be lost. Leave this script?',
+      )
+      await expect.poll(() => page.url()).toBe(editedUrl)
+      await expect(page.getByText('Renamed Script').first()).toBeVisible()
+      await expect(page.getByText('Changes made')).toBeVisible()
     }
-    page.on('dialog', decline)
-    await page.evaluate(() => window.history.back())
 
-    await expect(page.getByText('Renamed Script').first()).toBeVisible()
-    await expect(page.getByText('Changes made')).toBeVisible()
-    expect(asked).toEqual([
-      'Your unsaved changes will be lost. Leave this script?',
-    ])
-
-    // The navigation was undone, so a second Back has somewhere to go again
-    await expect.poll(() => page.url()).toBe(editedUrl)
-    page.off('dialog', decline)
-
-    // Accepting goes through, and the script arrived at keeps its own name
+    // The way out is still there, and it still leads to the other script
+    page.removeAllListeners('dialog')
     page.on('dialog', (dialog) => dialog.accept())
     await page.evaluate(() => window.history.back())
-
     await expect(page.getByText('Script Left Behind').first()).toBeVisible()
-    await expect(page.getByText('Renamed Script')).toHaveCount(0)
     await expect(page.getByText('Changes made')).toHaveCount(0)
   })
 
@@ -411,57 +308,6 @@ test.describe('Script metadata edits', () => {
 
     await expect(page.getByText('Script Ahead').first()).toBeVisible()
     await expect(page.getByText('Renamed Script')).toHaveCount(0)
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-  })
-
-  test('should keep putting the address back when Back is declined twice', async ({
-    page,
-  }) => {
-    const otherScript = [
-      { id: '_meta', name: 'Script Left Behind' },
-      'chef',
-      'imp',
-    ]
-
-    await page.goto(scriptUrl(otherScript))
-    await expect(page.getByText('Script Left Behind').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }).click()
-    await page.locator('textarea').fill(JSON.stringify(script))
-    await page.getByRole('button', { name: 'Load Script' }).click()
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
-
-    await replaceText(page, 'Meta Edit Script', 'Renamed Script')
-    await expect(page.getByText('Changes made')).toBeVisible()
-    const editedUrl = page.url()
-
-    const asked: string[] = []
-    page.on('dialog', (dialog) => {
-      asked.push(dialog.message())
-      dialog.dismiss()
-    })
-
-    /**
-     * Putting the address back is a push, so it replaces the entry the
-     * declined navigation came from rather than piling one on. Declining twice
-     * has to leave the script exactly where declining once did - a history
-     * that grew or shrank each time would take the second Back somewhere else.
-     */
-    for (const attempt of [1, 2]) {
-      await page.evaluate(() => window.history.back())
-      await expect.poll(() => asked.length).toBe(attempt)
-      await expect.poll(() => page.url()).toBe(editedUrl)
-      await expect(page.getByText('Renamed Script').first()).toBeVisible()
-      await expect(page.getByText('Changes made')).toBeVisible()
-    }
-
-    // The way out is still there, and it still leads to the other script
-    page.removeAllListeners('dialog')
-    page.on('dialog', (dialog) => dialog.accept())
-    await page.evaluate(() => window.history.back())
-    await expect(page.getByText('Script Left Behind').first()).toBeVisible()
     await expect(page.getByText('Changes made')).toHaveCount(0)
   })
 
@@ -611,12 +457,8 @@ test.describe('Script metadata edits', () => {
   test('should keep unsaved edits across a reload of the same script', async ({
     page,
   }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await replaceText(page, 'Meta Edit Script', 'Renamed Script')
+    await openScript(page, script, { name: 'Renamed Script' })
+    await expect(page.getByText('Renamed Script').first()).toBeVisible()
     await expect(page.getByText('Changes made')).toBeVisible()
 
     await page.reload()
@@ -626,6 +468,26 @@ test.describe('Script metadata edits', () => {
       timeout: 10000,
     })
     await expect(page.getByText('Changes made')).toBeVisible()
+    const json = await readScriptJson(page)
+    expect(json).toContain('Renamed Script')
+    expect(json).not.toContain('Meta Edit Script')
+
+    // A role edit is transient, unlike persisted metadata.
+    const chef = page.locator('.role-card').filter({ hasText: 'Chef' }).first()
+    await chef
+      .getByRole('button', { name: 'Remove character' })
+      .click({ force: true })
+    await expect(page.getByRole('heading', { name: 'Chef' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Revert' }).click()
+    await chef
+      .getByRole('button', { name: 'Remove character' })
+      .click({ force: true })
+    await expect(page.getByText('Changes made')).toBeVisible()
+    await page.reload()
+    await expect(
+      page.getByRole('heading', { name: 'Chef' }).first(),
+    ).toBeVisible()
+    await expect(page.getByText('Changes made')).toHaveCount(0)
   })
 
   test('should keep unsaved edits across a reload of a script loaded from a URL', async ({
@@ -658,95 +520,6 @@ test.describe('Script metadata edits', () => {
     await expect(page.getByText('Changes made')).toBeVisible()
   })
 
-  test('should not claim changes for a role edit a reload undid', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    const chef = page.locator('.role-card').filter({ hasText: 'Chef' }).first()
-    await expect(chef).toBeVisible({ timeout: 10000 })
-
-    await chef
-      .getByRole('button', { name: 'Remove character' })
-      .click({ force: true })
-    await expect(page.getByRole('heading', { name: 'Chef' })).toHaveCount(0)
-    await expect(page.getByText('Changes made')).toBeVisible()
-
-    // Role edits live in the script data, which the reload rebuilds from the
-    // URL - so the removal is gone, and the badge must not say otherwise
-    await page.reload()
-    await expect(
-      page.getByRole('heading', { name: 'Chef' }).first(),
-    ).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-  })
-
-  test('should keep the JSON view in step with a diff restored by a reload', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await replaceText(page, 'Meta Edit Script', 'Renamed Script')
-    await page.reload()
-    await expect(page.getByText('Renamed Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    // The restored diff lives in the store alone, so the JSON the app hands out
-    // has to resolve it rather than rely on the loaded script data carrying it
-    const json = await readScriptJson(page)
-    expect(json).toContain('Renamed Script')
-    expect(json).not.toContain('Meta Edit Script')
-  })
-
-  test('should not add empty _meta fields to a script that had none', async ({
-    page,
-  }) => {
-    const withoutMeta = [
-      { id: 'probe_custom', name: 'Probe Custom', team: 'townsfolk' },
-      'chef',
-      'imp',
-    ]
-
-    await page.goto(scriptUrl(withoutMeta))
-    await expect(
-      page.getByRole('heading', { name: 'Bootlegger' }).first(),
-    ).toBeVisible({ timeout: 10000 })
-
-    await page.getByRole('button', { name: 'Add rule' }).click()
-    await page.keyboard.type('Rule without a name or author')
-    await page.keyboard.press('Enter')
-
-    // _meta is created for the rules, but a name and author the user never
-    // wrote must not be invented alongside them
-    const meta = JSON.parse(await readScriptJson(page))[0]
-    expect(meta.bootlegger).toEqual(['Rule without a name or author'])
-    expect('name' in meta).toBe(false)
-    expect('author' in meta).toBe(false)
-  })
-
-  test('should drop unsaved edits when the changes are reverted', async ({
-    page,
-  }) => {
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await replaceText(page, 'Meta Edit Script', 'Renamed Script')
-    await expect(page.getByText('Changes made')).toBeVisible()
-
-    // Reverting goes back to the script as it was loaded from the URL
-    await page.getByRole('button', { name: 'Revert' }).click()
-
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible()
-    const json = await readScriptJson(page)
-    expect(json).toContain('Meta Edit Script')
-    expect(json).not.toContain('Renamed Script')
-  })
-
   test('should keep updating the same saved script after a revert', async ({
     page,
   }) => {
@@ -758,12 +531,8 @@ test.describe('Script metadata edits', () => {
         return Object.keys(JSON.parse(raw).state.scripts).length
       })
 
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await replaceText(page, 'Meta Edit Script', 'First Save')
+    await openScript(page, script, { name: 'First Save' })
+    await expect(page.getByText('First Save').first()).toBeVisible()
     await page.getByRole('button', { name: 'Save' }).click()
     await expect.poll(savedCount).toBe(1)
     expect(page.url()).toContain('id=')
@@ -773,6 +542,8 @@ test.describe('Script metadata edits', () => {
     await replaceText(page, 'First Save', 'Thrown away')
     await page.getByRole('button', { name: 'Revert' }).click()
     await expect(page.getByText('First Save').first()).toBeVisible()
+    await expect(page.getByText('Changes made')).toHaveCount(0)
+    expect(await readScriptJson(page)).not.toContain('Thrown away')
 
     await replaceText(page, 'First Save', 'Second Save')
     await page.getByRole('button', { name: 'Save' }).click()
@@ -781,12 +552,6 @@ test.describe('Script metadata edits', () => {
     await expect.poll(savedCount).toBe(1)
   })
 
-  /**
-   * The name on screen for a script that carries none is a localized
-   * placeholder, so saving must not write it into `_meta`: it would become a
-   * real name in one user's language, and every share link and JSON download
-   * from then on would carry it. The library row is labelled separately.
-   */
   test('should not save a placeholder name into the script', async ({
     page,
   }) => {
@@ -828,107 +593,51 @@ test.describe('Script metadata edits', () => {
   })
 })
 
-/**
- * The share link has to carry the same script the JSON download does: role
- * edits land in the script data at once and _meta edits live in the store until
- * saving, while the URL is only rewritten on save.
- */
-test.describe('Share link', () => {
-  test.describe.configure({ timeout: 60_000 })
-
-  /** Records what the page hands to navigator.share instead of opening a sheet */
-  async function captureShare(page: import('@playwright/test').Page) {
-    await page.addInitScript(() => {
-      const shared: Array<string> = []
-      Object.defineProperty(window, '__shared', { value: shared })
-      Object.defineProperty(navigator, 'share', {
-        configurable: true,
-        value: (data: { url: string }) => {
-          shared.push(data.url)
-          return Promise.resolve()
-        },
-      })
+test('exports seeded unsaved metadata through JSON, download and Share', async ({
+  page,
+}) => {
+  const sharedUrls: string[] = []
+  await page.exposeFunction('captureShareUrl', (url: string) =>
+    sharedUrls.push(url),
+  )
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', {
+      configurable: true,
+      value: (data: { url: string }) =>
+        (
+          window as unknown as {
+            captureShareUrl: (url: string) => Promise<void>
+          }
+        ).captureShareUrl(data.url),
     })
-  }
-
-  /** Reads the script the share URL points at */
-  async function sharedScript(page: import('@playwright/test').Page) {
-    const urls = await page.evaluate(
-      () => (window as unknown as { __shared: Array<string> }).__shared,
-    )
-    expect(urls).toHaveLength(1)
-
-    const param = new URL(urls[0]).searchParams.get('script')
-    expect(param).toBeTruthy()
-
-    return gunzipSync(Buffer.from(param!, 'base64')).toString('utf-8')
-  }
-
-  test('should share unsaved name, author and rule edits', async ({ page }) => {
-    await captureShare(page)
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await replaceText(page, 'Meta Edit Script', 'Shared Rename')
-    await replaceText(page, 'Original Author', 'Shared Author')
-
-    // A rule needs the Bootlegger on screen, so bring it in first
-    const loricHeader = page
-      .locator('.team-header')
-      .filter({ hasText: 'Loric' })
-    await loricHeader.getByRole('button').click()
-    await page
-      .getByRole('button', { name: /Bootlegger/ })
-      .first()
-      .click()
-    await page.getByRole('button', { name: 'Done' }).click()
-    await page.getByRole('button', { name: 'Add rule' }).click()
-    await page.keyboard.type('Shared homebrew rule')
-    await page.keyboard.press('Enter')
-    await expect(page.getByText('Shared homebrew rule')).toBeVisible()
-
-    await page.getByRole('button', { name: 'Share', exact: true }).click()
-
-    const shared = await sharedScript(page)
-    expect(shared).toContain('Shared Rename')
-    expect(shared).toContain('Shared Author')
-    expect(shared).toContain('Shared homebrew rule')
-    expect(shared).not.toContain('Meta Edit Script')
-    expect(shared).not.toContain('Original Author')
   })
-
-  test('should share a script without a name unchanged', async ({ page }) => {
-    // The header falls back to a localized placeholder ("Shared Script") for a
-    // script that carries no name. That is ours, not the author's, so it must
-    // not travel with the link
-    const nameless = ['washerwoman', 'chef', 'poisoner', 'imp']
-
-    await captureShare(page)
-    await page.goto(scriptUrl(nameless))
-    await expect(
-      page.getByRole('heading', { name: 'Washerwoman' }).first(),
-    ).toBeVisible({ timeout: 10000 })
-
-    // Nothing was edited either, so no Save/Revert prompt on arrival
-    await expect(page.getByText('Changes made')).toHaveCount(0)
-
-    await page.getByRole('button', { name: 'Share', exact: true }).click()
-
-    expect(JSON.parse(await sharedScript(page))).toEqual(nameless)
+  await openScript(page, script, {
+    name: 'Shared Rename',
+    author: 'Shared Author',
+    bootlegger: ['Shared rule'],
   })
-
-  test('should share an unmodified script unchanged', async ({ page }) => {
-    await captureShare(page)
-    await page.goto(scriptUrl(script))
-    await expect(page.getByText('Meta Edit Script').first()).toBeVisible({
-      timeout: 10000,
-    })
-
-    await page.getByRole('button', { name: 'Share', exact: true }).click()
-
-    const shared = await sharedScript(page)
-    expect(JSON.parse(shared)).toEqual(script)
-  })
+  await expect(page.getByText('Shared Rename').first()).toBeVisible()
+  await expect(page.getByText('Shared rule', { exact: true })).toBeVisible()
+  const expected = [
+    {
+      id: '_meta',
+      name: 'Shared Rename',
+      author: 'Shared Author',
+      bootlegger: ['Shared rule'],
+    },
+    ...script.slice(1),
+  ]
+  expect(JSON.parse(await readScriptJson(page))).toEqual(expected)
+  const downloaded = page.waitForEvent('download')
+  await page.getByRole('button', { name: /^(Download JSON|JSON)$/ }).click()
+  const download = await downloaded
+  const path = await download.path()
+  expect(path).toBeTruthy()
+  expect(JSON.parse(await readFile(path!, 'utf-8'))).toEqual(expected)
+  await page.getByRole('button', { name: 'Share', exact: true }).click()
+  await expect.poll(() => sharedUrls.length).toBe(1)
+  const encoded = new URL(sharedUrls[0]).searchParams.get('script')!
+  expect(
+    JSON.parse(gunzipSync(Buffer.from(encoded, 'base64')).toString('utf-8')),
+  ).toEqual(expected)
 })

@@ -128,3 +128,45 @@ Tests are configured in `playwright.config.ts` at the project root. Key settings
 
 
 
+
+
+## Metadata and homebrew rules
+
+`bootlegger-rules.spec.ts` and `script-meta-edits.spec.ts` keep real-browser
+coverage for contenteditable typing, keyboard/pointer controls, save-on-blur,
+navigation prompts, persisted reloads, and refused-control tooltips. Merged
+scenarios use named steps where attribution would otherwise be unclear.
+
+Payload permutations belong in `src/stores/scriptExport.test.ts` and
+`src/utils/commitScript.test.ts`. One browser test checks the JSON view,
+download, and Share buttons together to catch wiring regressions. Use
+`openScript` from `script-state.ts` to seed metadata edits when editing itself
+is not under test. It seeds once, so subsequent reloads exercise the app's
+persisted state. These specs use Playwright's default 30-second timeout.
+
+### Timing check for #52
+
+Measured on 2026-10-05 with the same local dev-server configuration, Chromium
+and Mobile Safari, four workers, and no retries. The baseline is `b643e7e`;
+these numbers isolate the test refactor from the earlier CI pipeline changes.
+Run from `apps/botc` with `yarn playwright test --workers=4 --reporter=json`.
+Sum each test result's `duration` to calculate the spec contribution; parallel
+work makes that sum different from suite wall time. These are single local
+runs, not a CI benchmark.
+
+| Measurement | Before | After |
+| --- | ---: | ---: |
+| Cases in these two specs, per project | 58 | 22 |
+| Full suite wall time | 78.5s | 40.4s |
+| Summed duration of these two specs | 233.6s | 88.3s |
+| Share of all tests' summed duration | 80.0% | 60.4% |
+
+The baseline passed 167/168 checks (one keyboard-tooltip failure); the final
+run passed all 96 checks. The two specs take 37.8% of their previous
+summed duration. This meets an approximately 60% duration-reduction reading of
+#52. Their fraction of the whole suite is still above 32%, so the stricter
+reading of “40% of their current share” remains unmet.
+
+On local Node 26, run unit tests with
+`NODE_OPTIONS=--no-experimental-webstorage yarn test`. Its built-in storage
+otherwise bypasses the jsdom `Storage.prototype` spies in two existing tests.
