@@ -29,7 +29,7 @@ Tests for loading and displaying scripts from URL parameters:
 ### Install Playwright Browsers
 First time setup:
 ```bash
-npx playwright install
+npx playwright install chromium webkit
 ```
 
 ### Run All Tests
@@ -71,16 +71,17 @@ npx playwright test -g "should render homepage"
 ### Run Tests in Specific Browser
 ```bash
 npx playwright test --project=chromium
-npx playwright test --project=firefox
-npx playwright test --project=webkit
+npx playwright test --project="Mobile Safari"
 ```
 
 ## Test Configuration
 
 Tests are configured in `playwright.config.ts` at the project root. Key settings:
 - **Base URL**: `http://localhost:5175`
-- **Dev Server**: Automatically starts with `npm run dev`
-- **Browsers**: Chromium, Firefox, WebKit, Mobile Chrome, Mobile Safari
+- **Server**: Locally starts `npm run dev` and reuses an existing server. With `CI=1`, builds the frontend and serves it with Vite preview on the same port.
+- **Browsers**: Desktop Chromium and Mobile Safari (iPhone 12)
+- **Parallelism**: Four workers on CI; Playwright's default locally
+- **Retries**: One on CI (reported as flaky if it passes); none locally
 - **Timeout**: 120 seconds for server startup
 
 ## Writing New Tests
@@ -88,7 +89,7 @@ Tests are configured in `playwright.config.ts` at the project root. Key settings
 1. Create a new `.spec.ts` file in this directory
 2. Import test utilities:
    ```typescript
-   import { test, expect } from '@playwright/test';
+   import { test, expect } from './fixtures'
    ```
 3. Write test cases using `test.describe()` and `test()`
 4. Use Playwright's built-in assertions and selectors
