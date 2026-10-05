@@ -666,6 +666,9 @@ test.describe('Bootlegger homebrew rules', () => {
     // behind a mouse hover. Tabbing from one refused control to the next only
     // works because they are merely aria-disabled - and the controls have to
     // show themselves on focus, or the tooltip opens on an invisible button.
+    // Focus scrolls an off-screen card into view. A delayed scroll event can
+    // dismiss the tooltip after Tab has opened it, so scroll before focusing.
+    await card.scrollIntoViewIfNeeded()
     await replace.focus()
     await tabToNextControl(page, browserName)
 
