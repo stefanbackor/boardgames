@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures'
+import { moveCursorToLineEdge, tabToNextControl } from './keyboard'
 
 /**
  * Scripts carry homebrew rules in `_meta.bootlegger`, the same way the official
@@ -132,7 +133,7 @@ test.describe('Bootlegger homebrew rules', () => {
 
     // Edit the first rule in place
     await firstRule.click()
-    await page.keyboard.press('End')
+    await moveCursorToLineEdge(page, 'end')
     await page.keyboard.type(' tonight')
     await page.keyboard.press('Enter')
 
@@ -291,7 +292,7 @@ test.describe('Bootlegger homebrew rules', () => {
      * release, and the click would reach neither button.
      */
     await rule.click()
-    await page.keyboard.press('Control+A')
+    await page.keyboard.press('ControlOrMeta+a')
     await page.keyboard.press('Backspace')
     await expect(page.getByText('Changes made')).toHaveCount(0)
 
@@ -501,7 +502,7 @@ test.describe('Bootlegger homebrew rules', () => {
     await expect(rule).toBeVisible({ timeout: 10000 })
 
     await rule.click()
-    await page.keyboard.press('End')
+    await moveCursorToLineEdge(page, 'end')
     await page.keyboard.type(' and never will')
     await page.keyboard.press('Escape')
 
@@ -518,7 +519,7 @@ test.describe('Bootlegger homebrew rules', () => {
     // The rule commits trimmed, so this is an edit that changes nothing - and
     // the space must not be left indenting a rule that is not indented
     await rule.click()
-    await page.keyboard.press('Home')
+    await moveCursorToLineEdge(page, 'start')
     await page.keyboard.type('   ')
     await page.keyboard.press('Enter')
 
@@ -557,7 +558,10 @@ test.describe('Bootlegger homebrew rules', () => {
     await expect(page.getByText('Rule to keep')).toBeVisible()
   })
 
-  test('should reach the remove button from the keyboard', async ({ page }) => {
+  test('should reach the remove button from the keyboard', async ({
+    page,
+    browserName,
+  }) => {
     await page.goto(scriptUrl(scriptWithRules))
     const rule = page.getByText('Spy does not know who the Zombuul is')
     await expect(rule).toBeVisible({ timeout: 10000 })
@@ -566,7 +570,7 @@ test.describe('Bootlegger homebrew rules', () => {
     )
 
     await rule.click()
-    await page.keyboard.press('Tab')
+    await tabToNextControl(page, browserName)
 
     await expect(
       page.getByRole('button', { name: 'Remove rule' }).first(),
@@ -644,6 +648,7 @@ test.describe('Bootlegger homebrew rules', () => {
 
   test('should say why a refused control is refused without a mouse', async ({
     page,
+    browserName,
   }) => {
     await page.goto(scriptUrl(scriptWithRules))
     const card = page
@@ -661,8 +666,11 @@ test.describe('Bootlegger homebrew rules', () => {
     // behind a mouse hover. Tabbing from one refused control to the next only
     // works because they are merely aria-disabled - and the controls have to
     // show themselves on focus, or the tooltip opens on an invisible button.
+    // Focus scrolls an off-screen card into view. A delayed scroll event can
+    // dismiss the tooltip after Tab has opened it, so scroll before focusing.
+    await card.scrollIntoViewIfNeeded()
     await replace.focus()
-    await page.keyboard.press('Tab')
+    await tabToNextControl(page, browserName)
 
     await expect(remove).toBeFocused()
     await expect(remove).toBeVisible()
