@@ -163,9 +163,10 @@ runs, not a CI benchmark.
 
 The baseline passed 167/168 checks (one keyboard-tooltip failure); the final
 run passed all 96 checks. The two specs take 37.8% of their previous
-summed duration. This meets an approximately 60% duration-reduction reading of
-#52. Their fraction of the whole suite is still above 32%, so the stricter
-reading of “40% of their current share” remains unmet.
+summed duration, a 62.2% reduction. The clarified target for #52 is to reduce
+the two specs’ duration by about 60%, so this meets the timing criterion. The
+share of the whole suite is reported for context and is not the acceptance
+target.
 
 On local Node 26, run unit tests with
 `NODE_OPTIONS=--no-experimental-webstorage yarn test`. Its built-in storage
