@@ -767,7 +767,7 @@ export const jinxesHu: Array<Jinx> = [
       {
         id: 'exorcist',
         reason:
-          'Ha az Ördögűző a Blabla Jagát választja, a Blabla Jaga ma éjjel nem öl.',
+          'Ha az Ördögűző a Yaggababble-t választja, a Yaggababble ma éjjel nem öl.',
       },
     ],
   },
