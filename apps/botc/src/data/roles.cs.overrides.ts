@@ -161,7 +161,7 @@ export const roleTranslationsCs: Record<string, RoleTranslation> = {
     otherNightReminder: 'Byrokrat ukáže na hráče.',
   },
   thief: {
-    name: 'Thief',
+    name: 'Zloděj',
     ability:
       'Každou noc vybereš 1 hráče (ne sebe): jeho hlas je následující den negativní.',
     reminders: ['Negative vote'],

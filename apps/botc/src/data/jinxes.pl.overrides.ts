@@ -769,7 +769,7 @@ export const jinxesPl: Array<Jinx> = [
       {
         id: 'exorcist',
         reason:
-          'Jeśli Egzorcysta wybierze Blabla Jagę, Blabla Jaga nie zabija tej nocy.',
+          'Jeśli Egzorcysta wybierze Yaggababble, Yaggababble nie zabija tej nocy.',
       },
     ],
   },

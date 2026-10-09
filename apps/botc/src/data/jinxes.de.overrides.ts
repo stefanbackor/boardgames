@@ -774,7 +774,7 @@ export const jinxesDe: Array<Jinx> = [
       {
         id: 'exorcist',
         reason:
-          'Wählt der Exorzist die Blabla Jaga, tötet die Blabla Jaga heute Nacht nicht.',
+          'Wählt der Exorzist den Yaggababble, tötet der Yaggababble heute Nacht nicht.',
       },
     ],
   },
