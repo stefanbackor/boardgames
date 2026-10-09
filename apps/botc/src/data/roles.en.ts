@@ -2041,13 +2041,13 @@ export const roles = [
   },
   {
     id: 'yaggababble',
-    name: 'Blabla Jaga',
+    name: 'Yaggababble',
     edition: 'carousel',
     team: 'demon',
     firstNightReminder: 'Show the Yaggababble their secret phrase.',
     otherNightReminder:
       'For each time the Yaggababble said their phrase today, a player might die. ⏺',
-    reminders: ['Mrtvý', 'Mrtvý', 'Mrtvý'],
+    reminders: ['Dead', 'Dead', 'Dead'],
     setup: false,
     ability:
       'You start knowing a secret phrase. For each time you said it publicly today, a player might die.',
