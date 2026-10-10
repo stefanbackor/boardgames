@@ -37,6 +37,14 @@ yarn workspace botc-script-tool build
 yarn build
 ```
 
+### Deploying your own copy
+
+The Google Analytics tag in `index.html` reports to botcscript.app's property. Build any other deployment with `VITE_DISABLE_ANALYTICS=true`: the tag is left out, and the cookie banner and the analytics part of the privacy page are not shown.
+
+```bash
+VITE_DISABLE_ANALYTICS=true yarn build
+```
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:

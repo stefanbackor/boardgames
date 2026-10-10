@@ -8,6 +8,13 @@
 
 export type ConsentChoice = 'granted' | 'denied'
 
+/**
+ * False in a deployment built with VITE_DISABLE_ANALYTICS=true: it has no
+ * Google tag, so there is nothing to consent to (see utils/analyticsHtml.ts).
+ */
+export const ANALYTICS_AVAILABLE =
+  import.meta.env.VITE_DISABLE_ANALYTICS !== 'true'
+
 /** localStorage key — kept in sync with the inline bootstrap in index.html. */
 export const CONSENT_KEY = 'botc-cookie-consent'
 

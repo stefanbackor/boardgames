@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { AppHeader } from '@/components/AppHeader'
 import { Footer } from '@/components/Footer'
 import { useLanguage } from '@/hooks/useLanguage'
-import { reopenConsent } from '@/utils/consent'
+import { ANALYTICS_AVAILABLE, reopenConsent } from '@/utils/consent'
 
 export const Route = createFileRoute('/privacy')({
   component: PrivacyPage,
@@ -54,14 +54,18 @@ function PrivacyPage() {
               )}
             </Text>
 
-            <Heading as="h2" size="4" mb="2">
-              {t('Analytics cookies (your choice)')}
-            </Heading>
-            <Text as="p" size="2" mb="5">
-              {t(
-                'We use Google Analytics to understand how the tool is used so we can improve it. It is switched off by default and only runs if you choose "Allow" in the cookie banner. When enabled, it sets cookies and sends usage data — such as pages viewed, actions taken, approximate location, and device and browser type — to Google, which may process it in the United States. It is not used for advertising.',
-              )}
-            </Text>
+            {ANALYTICS_AVAILABLE && (
+              <>
+                <Heading as="h2" size="4" mb="2">
+                  {t('Analytics cookies (your choice)')}
+                </Heading>
+                <Text as="p" size="2" mb="5">
+                  {t(
+                    'We use Google Analytics to understand how the tool is used so we can improve it. It is switched off by default and only runs if you choose "Allow" in the cookie banner. When enabled, it sets cookies and sends usage data — such as pages viewed, actions taken, approximate location, and device and browser type — to Google, which may process it in the United States. It is not used for advertising.',
+                  )}
+                </Text>
+              </>
+            )}
 
             <Heading as="h2" size="4" mb="2">
               {t('Sharing scripts')}
@@ -72,19 +76,23 @@ function PrivacyPage() {
               )}
             </Text>
 
-            <Heading as="h2" size="4" mb="2">
-              {t('Changing or withdrawing your choice')}
-            </Heading>
-            <Text as="p" size="2" mb="3">
-              {t(
-                'You can change your mind at any time. Rejecting stops analytics cookies from being used going forward.',
-              )}
-            </Text>
-            <Box>
-              <Button onClick={reopenConsent}>
-                {t('Change cookie settings')}
-              </Button>
-            </Box>
+            {ANALYTICS_AVAILABLE && (
+              <>
+                <Heading as="h2" size="4" mb="2">
+                  {t('Changing or withdrawing your choice')}
+                </Heading>
+                <Text as="p" size="2" mb="3">
+                  {t(
+                    'You can change your mind at any time. Rejecting stops analytics cookies from being used going forward.',
+                  )}
+                </Text>
+                <Box>
+                  <Button onClick={reopenConsent}>
+                    {t('Change cookie settings')}
+                  </Button>
+                </Box>
+              </>
+            )}
           </Box>
 
           <Footer />
