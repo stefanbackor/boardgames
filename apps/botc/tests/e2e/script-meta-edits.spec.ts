@@ -35,6 +35,8 @@ async function readScriptJson(page: import('@playwright/test').Page) {
   await page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }).click()
   const json = await page.locator('textarea').inputValue()
   await page.getByRole('button', { name: 'Cancel' }).click()
+  // The closing overlay still intercepts clicks until its animation finishes.
+  await page.locator('.rt-DialogOverlay').waitFor({ state: 'detached' })
   return json
 }
 
@@ -474,14 +476,10 @@ test.describe('Script metadata edits', () => {
 
     // A role edit is transient, unlike persisted metadata.
     const chef = page.locator('.role-card').filter({ hasText: 'Chef' }).first()
-    await chef
-      .getByRole('button', { name: 'Remove character' })
-      .click({ force: true })
+    await chef.getByRole('button', { name: 'Remove character' }).click()
     await expect(page.getByRole('heading', { name: 'Chef' })).toHaveCount(0)
     await page.getByRole('button', { name: 'Revert' }).click()
-    await chef
-      .getByRole('button', { name: 'Remove character' })
-      .click({ force: true })
+    await chef.getByRole('button', { name: 'Remove character' }).click()
     await expect(page.getByText('Changes made')).toBeVisible()
     await page.reload()
     await expect(
