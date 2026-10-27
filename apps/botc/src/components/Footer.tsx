@@ -13,7 +13,7 @@ export function Footer() {
   )
 
   return (
-    <Box my="9">
+    <Box my="9" className="no-print">
       <Separator orientation="horizontal" size="4" />
       <Flex direction="column" p="3">
         <Text size="1" color="gray">

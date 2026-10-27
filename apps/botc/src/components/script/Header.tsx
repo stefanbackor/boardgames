@@ -31,6 +31,7 @@ export function Header({
   const { t } = useTranslation()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const authorRef = useRef<HTMLSpanElement>(null)
+  const hasAuthor = author.trim() !== ''
   /**
    * The text as it was when editing started. Edits are committed on every
    * keystroke, so the props are no use to Escape by the time it is pressed -
@@ -272,43 +273,49 @@ export function Header({
             {!onNameChange && name}
           </Heading>
         </Tooltip>
-        <Flex align="baseline" gap="1">
-          <Text
-            size="4"
-            color="gray"
-            style={{ fontFamily: 'var(--heading-font-family)' }}
+        {(onAuthorChange || hasAuthor) && (
+          <Flex
+            align="baseline"
+            gap="1"
+            className={hasAuthor ? undefined : 'no-print'}
           >
-            {t('by')}{' '}
-          </Text>
-          <Tooltip content={onAuthorChange ? t('Click to edit') : undefined}>
             <Text
               size="4"
               color="gray"
-              ref={authorRef}
-              contentEditable={!!onAuthorChange}
-              suppressContentEditableWarning
-              onFocus={handleAuthorFocus}
-              onInput={handleAuthorInput}
-              onBlur={handleAuthorBlur}
-              onKeyDown={handleAuthorKeyDown}
-              onPaste={handleAuthorPaste}
-              data-placeholder={onAuthorChange ? t('Add author') : undefined}
-              style={{
-                cursor: onAuthorChange ? 'text' : 'default',
-                outline: 'none',
-                whiteSpace: 'nowrap',
-                minWidth: onAuthorChange ? '100px' : undefined,
-                display: 'inline-block',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                fontFamily: 'var(--heading-font-family)',
-              }}
-              className={onAuthorChange ? 'editable-author' : undefined}
+              style={{ fontFamily: 'var(--heading-font-family)' }}
             >
-              {!onAuthorChange && author}
+              {t('by')}{' '}
             </Text>
-          </Tooltip>
-        </Flex>
+            <Tooltip content={onAuthorChange ? t('Click to edit') : undefined}>
+              <Text
+                size="4"
+                color="gray"
+                ref={authorRef}
+                contentEditable={!!onAuthorChange}
+                suppressContentEditableWarning
+                onFocus={handleAuthorFocus}
+                onInput={handleAuthorInput}
+                onBlur={handleAuthorBlur}
+                onKeyDown={handleAuthorKeyDown}
+                onPaste={handleAuthorPaste}
+                data-placeholder={onAuthorChange ? t('Add author') : undefined}
+                style={{
+                  cursor: onAuthorChange ? 'text' : 'default',
+                  outline: 'none',
+                  whiteSpace: 'nowrap',
+                  minWidth: onAuthorChange ? '100px' : undefined,
+                  display: 'inline-block',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  fontFamily: 'var(--heading-font-family)',
+                }}
+                className={onAuthorChange ? 'editable-author' : undefined}
+              >
+                {!onAuthorChange && author}
+              </Text>
+            </Tooltip>
+          </Flex>
+        )}
       </Flex>
     </Flex>
   )
