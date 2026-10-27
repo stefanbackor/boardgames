@@ -73,6 +73,26 @@ test.describe('Print dropdown', () => {
     ])
   })
 
+  test('should head the travellers page with the script name', async ({
+    page,
+  }) => {
+    await loadSampleScript(page)
+    await openPrintMenu(page)
+    await page
+      .getByRole('menuitem', {
+        name: 'Travellers, Loric, Fables, Player Distribution',
+        exact: true,
+      })
+      .click()
+    // The open menu hides the rest of the page from assistive tech, headings included
+    await expect(page.getByRole('menu')).toBeHidden()
+    await page.emulateMedia({ media: 'print' })
+
+    await expect(
+      page.getByRole('heading', { name: 'Trouble Brewing', exact: true }),
+    ).toBeVisible()
+  })
+
   test('should restore every section after a single-section print', async ({
     page,
   }) => {

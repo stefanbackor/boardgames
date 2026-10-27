@@ -231,6 +231,13 @@ export function ScriptContent({
           pageBreakInside: 'avoid',
         }}
       >
+        {/* The editable header above stays on the roles page, so this one only shows on paper */}
+        <div className="hidden print:block">
+          <Header
+            name={displayScriptName}
+            author={getAuthor() ?? meta?.author ?? ''}
+          />
+        </div>
         {[Team.Traveler, Team.Fabled, Team.Loric].map((team) => {
           const teamRoles = scriptRoles.filter((role) => role.team === team)
           const config = TEAM_CONFIG[team]
