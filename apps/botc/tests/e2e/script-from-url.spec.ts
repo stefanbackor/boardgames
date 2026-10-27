@@ -58,7 +58,7 @@ test.describe('Script from URL', () => {
     await expect(page.getByText('Test Script').first()).toBeVisible({
       timeout: 10000,
     })
-    await expect(page.getByText('Test Author')).toBeVisible()
+    await expect(page.getByText('Test Author').first()).toBeVisible()
   })
 
   test('should have URL modal for loading external scripts', async ({

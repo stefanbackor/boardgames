@@ -97,10 +97,10 @@ test.describe('Script metadata edits', () => {
         timeout: 10000,
       })
 
-      // The heading plus both night order sheets, so an empty name has to reach
-      // all three - a cleared name that only clears the heading leaves the sheets
-      // showing the name saving is about to drop
-      await expect(page.getByText('Meta Edit Script')).toHaveCount(3)
+      // The heading, the printed travellers page and both night order sheets, so
+      // an empty name has to reach all four - a cleared name that only clears the
+      // heading leaves the other pages showing the name saving is about to drop
+      await expect(page.getByText('Meta Edit Script')).toHaveCount(4)
 
       await page.getByText('Meta Edit Script', { exact: true }).first().click()
       await page.keyboard.press('ControlOrMeta+a')
