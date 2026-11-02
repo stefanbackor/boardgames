@@ -26,6 +26,7 @@ import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
 import { jinxes as baseJinxes } from '@/data/jinxes.en'
 import type { Jinx } from '@/types/jinx'
+import { getDjinnJinxes, getHatedByMap } from '@/utils/scriptJinxes'
 
 interface TeamSectionProps {
   team: Team
@@ -143,78 +144,16 @@ export function TeamSection({
   const jinxes = jinxesOverride ?? baseJinxes
 
   // Compute jinxes for djinn role if scriptRoles is provided
-  const djinnJinxes = useMemo(() => {
-    if (!scriptRoles) return []
-
-    const scriptRoleIds = new Set(scriptRoles.map((r) => r.id))
-    const applicableJinxes: Array<{
-      id: string
-      name: string
-      reason: string
-      role1Image: string
-      role2Image: string
-    }> = []
-
-    // Find all jinxes where both the role and the jinxed role are in the script
-    for (const jinxEntry of jinxes) {
-      if (scriptRoleIds.has(jinxEntry.id)) {
-        // This role is in the script, check its jinxes
-        for (const hatred of jinxEntry.hatred) {
-          if (scriptRoleIds.has(hatred.id)) {
-            // The jinxed role is also in the script
-            const role1 = scriptRoles.find((r) => r.id === jinxEntry.id)
-            const role2 = scriptRoles.find((r) => r.id === hatred.id)
-            if (role1 && role2) {
-              applicableJinxes.push({
-                id: `${jinxEntry.id}-${hatred.id}`,
-                name: `${role1.name} & ${role2.name}`,
-                reason: hatred.reason,
-                role1Image: role1.image,
-                role2Image: role2.image,
-              })
-            }
-          }
-        }
-      }
-    }
-
-    return applicableJinxes
-  }, [scriptRoles, jinxes])
+  const djinnJinxes = useMemo(
+    () => (scriptRoles ? getDjinnJinxes(scriptRoles, jinxes) : []),
+    [scriptRoles, jinxes],
+  )
 
   // Compute "hated by" information for each role
-  const hatedByMap = useMemo(() => {
-    if (!scriptRoles) return new Map()
-
-    const map = new Map<
-      string,
-      Array<{ id: string; name: string; image: string }>
-    >()
-    const scriptRoleIds = new Set(scriptRoles.map((r) => r.id))
-
-    // For each jinx entry, if both roles are in the script, add the "hater" to the "hated" role's list
-    for (const jinxEntry of jinxes) {
-      if (scriptRoleIds.has(jinxEntry.id)) {
-        const haterRole = scriptRoles.find((r) => r.id === jinxEntry.id)
-        if (!haterRole) continue
-
-        for (const hatred of jinxEntry.hatred) {
-          if (scriptRoleIds.has(hatred.id)) {
-            // hatred.id is hated by jinxEntry.id
-            if (!map.has(hatred.id)) {
-              map.set(hatred.id, [])
-            }
-            map.get(hatred.id)!.push({
-              id: haterRole.id,
-              name: haterRole.name,
-              image: haterRole.image,
-            })
-          }
-        }
-      }
-    }
-
-    return map
-  }, [scriptRoles, jinxes])
+  const hatedByMap = useMemo(
+    () => (scriptRoles ? getHatedByMap(scriptRoles, jinxes) : new Map()),
+    [scriptRoles, jinxes],
+  )
 
   return (
     <>
