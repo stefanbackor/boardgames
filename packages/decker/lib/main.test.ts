@@ -26,6 +26,10 @@ describe('Decker', () => {
       deck = new Decker<typeof CARD_1, 'deck' | 'hand' | 'discard'>()
     })
 
+    afterEach(() => {
+      jest.restoreAllMocks()
+    })
+
     it('should create a `deck` pile of cards, then draw from it', () => {
       deck.createPile('deck', [CARD_1, CARD_2, CARD_3])
 
@@ -60,23 +64,18 @@ describe('Decker', () => {
     })
 
     it('should shuffle a pile of cards', () => {
-      deck.createPile('deck', [
-        CARD_1,
-        CARD_2,
-        CARD_3,
-        CARD_2,
-        CARD_3,
-        CARD_2,
-        CARD_3,
-        CARD_2,
-        CARD_3,
-        CARD_2,
-        CARD_3,
-        CARD_2,
-        CARD_3,
-      ])
+      // A real shuffle leaves any card on top some of the time, so the order is
+      // pinned rather than hoped for
+      jest
+        .spyOn(Math, 'random')
+        .mockReturnValueOnce(0.9)
+        .mockReturnValueOnce(0.5)
+        .mockReturnValueOnce(0.1)
+      deck.createPile('deck', [CARD_1, CARD_2, CARD_3])
+
       deck.shuffle('deck')
-      expect(deck.peek('deck')).not.toBe(CARD_1)
+
+      expect(deck.get('deck')).toEqual([CARD_3, CARD_2, CARD_1])
     })
 
     it('should reshuffle from one pile to another', () => {
