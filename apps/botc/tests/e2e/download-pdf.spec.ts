@@ -12,7 +12,7 @@ test.describe('Download PDF', () => {
     })
 
     const downloadPromise = page.waitForEvent('download', { timeout: 60000 })
-    await page.getByRole('button', { name: 'Download PDF' }).click()
+    await page.getByRole('button', { name: /PDF/ }).click()
     const download = await downloadPromise
 
     expect(download.suggestedFilename()).toBe('Trouble Brewing.pdf')
@@ -34,7 +34,7 @@ test.describe('Download PDF', () => {
     await heading.blur()
 
     const downloadPromise = page.waitForEvent('download', { timeout: 60000 })
-    await page.getByRole('button', { name: 'Download PDF' }).click()
+    await page.getByRole('button', { name: /PDF/ }).click()
 
     expect((await downloadPromise).suggestedFilename()).toBe(
       'Renamed Script.pdf',
@@ -81,7 +81,7 @@ test.describe('Download PDF', () => {
     })
 
     const downloadPromise = page.waitForEvent('download', { timeout: 60000 })
-    await page.getByRole('button', { name: 'Download PDF' }).click()
+    await page.getByRole('button', { name: /PDF/ }).click()
     const download = await downloadPromise
 
     const file = readFileSync(await download.path())
