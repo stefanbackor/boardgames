@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { getProxiedImageUrl, getImageScale } from './imageUrl'
+import {
+  getProxiedImageUrl,
+  getPrintImageUrl,
+  getImageScale,
+} from './imageUrl'
 
 describe('imageUrl utilities', () => {
   describe('getProxiedImageUrl', () => {
@@ -21,13 +25,6 @@ describe('imageUrl utilities', () => {
       expect(result).toContain(encodeURIComponent(url))
     })
 
-    it('should serve the requested format, even from an already proxied URL', () => {
-      expect(getProxiedImageUrl('https://example.com/a.webp', 150, 'png')).toContain('output=png')
-      expect(
-        getProxiedImageUrl('//wsrv.nl/?url=x&h=150&output=webp', 150, 'png'),
-      ).toBe('//wsrv.nl/?url=x&h=150&output=png')
-    })
-
     it('should proxy a regular URL with custom height', () => {
       const url = 'https://example.com/image.png'
       const result = getProxiedImageUrl(url, 300)
@@ -38,6 +35,33 @@ describe('imageUrl utilities', () => {
       const url = 'https://example.com/image with spaces.png'
       const result = getProxiedImageUrl(url)
       expect(result).toContain(encodeURIComponent(url))
+    })
+  })
+
+  describe('getPrintImageUrl', () => {
+    it('should return undefined for undefined input', () => {
+      expect(getPrintImageUrl(undefined)).toBeUndefined()
+    })
+
+    it('should request a JPEG flattened onto the white page', () => {
+      const url = 'https://example.com/image.png'
+      const result = getPrintImageUrl(url)
+      expect(result).toContain('//wsrv.nl/')
+      expect(result).toContain(encodeURIComponent(url))
+      expect(result).toContain('output=jpg')
+      expect(result).toContain('bg=white')
+    })
+
+    it('should leave inline images alone, the proxy cannot fetch them', () => {
+      const dataUrl = 'data:image/png;base64,AAAA'
+      expect(getPrintImageUrl(dataUrl)).toBe(dataUrl)
+      const blobUrl = 'blob:https://example.com/1234'
+      expect(getPrintImageUrl(blobUrl)).toBe(blobUrl)
+    })
+
+    it('should leave an already proxied URL alone', () => {
+      const proxiedUrl = '//wsrv.nl/?url=https://example.com/image.png&h=150'
+      expect(getPrintImageUrl(proxiedUrl)).toBe(proxiedUrl)
     })
   })
 

@@ -23,6 +23,16 @@ test.describe('Download PDF', () => {
     // Roles, travellers and player counts, first night, other nights
     const pages = file.toString('latin1').match(/\/Type \/Page\b/g)
     expect(pages).toHaveLength(4)
+
+    // JPEG goes in as is; anything else is stored losslessly at several times
+    // the size, which is what made images most of the file
+    const images = file
+      .toString('latin1')
+      .match(/<<[^>]*\/Subtype \/Image[^>]*>>/g)
+    expect(images?.length).toBeGreaterThan(0)
+    for (const image of images ?? []) {
+      expect(image).toContain('/DCTDecode')
+    }
   })
 
   test('should name the file after an unsaved rename', async ({ page }) => {

@@ -16,6 +16,7 @@ import {
 } from '@/utils/roleDisplayName'
 import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
 import { BootleggerRules } from './BootleggerRules'
+import { RoleImage } from './RoleImage'
 import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
 
 
@@ -148,8 +149,9 @@ export function RoleCard({
   }
 
   const roleImage = (
-    <img
-      src={role.isCustom ? role.image : getProxiedImageUrl(role.image)}
+    <RoleImage
+      image={role.image}
+      screenSrc={role.isCustom ? role.image : getProxiedImageUrl(role.image)}
       alt={displayName}
       style={{
         width: '100%',
@@ -158,7 +160,6 @@ export function RoleCard({
         flexShrink: 0,
         scale: getImageScale(role.image),
         objectFit: 'cover',
-        display: 'block',
       }}
     />
   )
@@ -340,8 +341,8 @@ export function RoleCard({
                       verticalAlign: 'bottom',
                     }}
                   >
-                    <img
-                      src={getProxiedImageUrl(hater.image)}
+                    <RoleImage
+                      image={hater.image}
                       alt={hater.name}
                       style={{
                         width: '100%',
@@ -436,8 +437,8 @@ export function RoleCard({
                       flexShrink: 0,
                     }}
                   >
-                    <img
-                      src={getProxiedImageUrl(jinx.role1Image)}
+                    <RoleImage
+                      image={jinx.role1Image}
                       alt=""
                       style={{
                         width: '100%',
@@ -457,8 +458,8 @@ export function RoleCard({
                       flexShrink: 0,
                     }}
                   >
-                    <img
-                      src={getProxiedImageUrl(jinx.role2Image)}
+                    <RoleImage
+                      image={jinx.role2Image}
                       alt=""
                       style={{
                         width: '100%',

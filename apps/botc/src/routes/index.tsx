@@ -12,6 +12,7 @@ import { Footer } from '@/components/Footer'
 import { PdfDebugPreview } from '@/components/PdfDebugPreview'
 import type { PrintSections } from '@/components/PrintDropdown'
 import { parseScript } from '@/utils/parseScript'
+import { whenPrintImagesReady } from '@/utils/printImages'
 import { normalizeBootleggerRules } from '@/utils/bootleggerRules'
 import { buildCommittedScript } from '@/utils/commitScript'
 import { compressForUrl } from '@/utils/urlCompression'
@@ -325,7 +326,7 @@ function App() {
     setPrintSections(sections)
     // Use setTimeout to ensure state is updated before print dialog opens
     setTimeout(() => {
-      window.print()
+      whenPrintImagesReady(() => window.print())
     }, 0)
   }
 

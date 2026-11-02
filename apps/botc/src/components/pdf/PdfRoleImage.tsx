@@ -1,5 +1,5 @@
 import { Image, View } from '@react-pdf/renderer'
-import { getImageScale, getProxiedImageUrl } from '@/utils/imageUrl'
+import { getImageScale, getPrintImageUrl } from '@/utils/imageUrl'
 import { cssPx } from './pdfStyles'
 
 interface PdfRoleImageProps {
@@ -11,13 +11,13 @@ interface PdfRoleImageProps {
 }
 
 /**
- * wsrv.nl serves CORS headers, and PNG is what react-pdf can read and embed. A
- * data URI is already in hand and is not something wsrv.nl could fetch.
+ * wsrv.nl serves CORS headers, and JPEG is what react-pdf embeds without
+ * re-encoding it. An image left as is, like a data URI, is already in hand.
  */
-const pdfImageUrl = (image: string) =>
-  image.startsWith('data:')
-    ? image
-    : `https:${getProxiedImageUrl(image, 150, 'png')}`
+const pdfImageUrl = (image: string) => {
+  const url = getPrintImageUrl(image) ?? image
+  return url.startsWith('//') ? `https:${url}` : url
+}
 
 /** A role's image, or an empty box of the same size when it has none */
 export function PdfRoleImage({ image, size, clipped }: PdfRoleImageProps) {
