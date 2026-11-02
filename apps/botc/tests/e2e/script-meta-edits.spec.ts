@@ -639,3 +639,22 @@ test('exports seeded unsaved metadata through JSON, download and Share', async (
     JSON.parse(gunzipSync(Buffer.from(encoded, 'base64')).toString('utf-8')),
   ).toEqual(expected)
 })
+
+test('copies the same JSON as the download to the clipboard', async ({
+  page,
+  browserName,
+}) => {
+  // Clipboard permissions are only supported in Chromium
+  test.skip(browserName !== 'chromium')
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
+  await openScript(page, script, { name: 'Copied Rename' })
+  const downloaded = page.waitForEvent('download')
+  await page.getByRole('button', { name: /^(Download JSON|JSON)$/ }).click()
+  const path = await (await downloaded).path()
+  // The label is "Copy" on mobile viewports
+  await page.getByRole('button', { name: /^(Copy JSON|Copy)$/ }).click()
+  await expect(page.getByRole('button', { name: 'Copied!' })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    await readFile(path, 'utf-8'),
+  )
+})

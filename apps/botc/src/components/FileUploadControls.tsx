@@ -7,6 +7,7 @@ import {
   Link2,
   FileJson,
   Download,
+  Copy,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { LoadFromUrlModal } from './LoadFromUrlModal'
@@ -48,6 +49,7 @@ export function FileUploadControls({
   const { t, i18n } = useTranslation()
   const [urlModalOpen, setUrlModalOpen] = useState(false)
   const [pasteModalOpen, setPasteModalOpen] = useState(false)
+  const [jsonCopied, setJsonCopied] = useState(false)
   const showEnglishNames = useDisplayOptionsStore(
     (state) => state.showEnglishNames,
   )
@@ -102,6 +104,27 @@ export function FileUploadControls({
     // Cleanup
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
+  }
+
+  const handleCopyJson = async () => {
+    if (!scriptData) return
+
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(scriptData, null, 2))
+      setJsonCopied(true)
+      setTimeout(() => setJsonCopied(false), 2000)
+
+      /**
+       * Analytics: Track copying the script JSON
+       * Purpose: Understand how often scripts are copied rather than downloaded
+       * Key insights: Copy vs download adoption for moving scripts to other tools
+       */
+      sendEvent('copy_script_json', {
+        script_name: scriptName || 'unnamed',
+      })
+    } catch (err) {
+      console.error('Failed to copy JSON:', err)
+    }
   }
 
   /**
@@ -199,7 +222,7 @@ export function FileUploadControls({
             </Flex>
 
             {/* Script actions buttons */}
-            <Flex direction="row" gap="2">
+            <Flex direction="row" gap="2" justify="center" wrap="wrap">
               <PrintDropdown onPrint={onPrint} hasScript={hasScript} />
               <Tooltip content={t('Download script as JSON file')}>
                 <Button
@@ -210,6 +233,21 @@ export function FileUploadControls({
                   <Download size={16} />
                   <span className="hidden md:inline">{t('Download JSON')}</span>
                   <span className="md:hidden">{t('JSON')}</span>
+                </Button>
+              </Tooltip>
+              <Tooltip content={t('Copy script JSON to clipboard')}>
+                <Button
+                  onClick={handleCopyJson}
+                  variant={hasScript ? 'solid' : 'soft'}
+                  disabled={!hasScript}
+                >
+                  {jsonCopied ? <Check size={16} /> : <Copy size={16} />}
+                  <span className="hidden md:inline">
+                    {jsonCopied ? t('Copied!') : t('Copy JSON')}
+                  </span>
+                  <span className="md:hidden">
+                    {jsonCopied ? t('Copied!') : t('Copy')}
+                  </span>
                 </Button>
               </Tooltip>
               <Tooltip content={t('Share with others')}>
