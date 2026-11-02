@@ -813,6 +813,15 @@ describe('scriptModificationStore', () => {
       return module.canPersistModifications
     }
 
+    /**
+     * Where `sessionStorage` really keeps its methods. The global `Storage` is
+     * not always its class: from Node 25 the runtime has a `Storage` of its own,
+     * and spying on that one never sees the writes the store makes.
+     */
+    function sessionStorageMethods(): Storage {
+      return Object.getPrototypeOf(sessionStorage)
+    }
+
     it('should report storage that takes the diff', async () => {
       const canPersist = await freshCanPersist()
 
@@ -821,7 +830,7 @@ describe('scriptModificationStore', () => {
 
     it('should report storage that refuses the diff', async () => {
       const canPersist = await freshCanPersist()
-      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      vi.spyOn(sessionStorageMethods(), 'setItem').mockImplementation(() => {
         throw new Error('QuotaExceededError')
       })
 
@@ -842,7 +851,7 @@ describe('scriptModificationStore', () => {
 
     it('should work the answer out once', async () => {
       const canPersist = await freshCanPersist()
-      const setItem = vi.spyOn(Storage.prototype, 'setItem')
+      const setItem = vi.spyOn(sessionStorageMethods(), 'setItem')
 
       canPersist()
       canPersist()
