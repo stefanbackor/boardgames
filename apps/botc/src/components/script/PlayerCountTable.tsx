@@ -1,14 +1,12 @@
 import { Table, Text } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
+import { PLAYER_DISTRIBUTION } from '@/constants/playerDistribution'
 
 export function PlayerCountTable() {
   const { t } = useTranslation()
 
-  const playerCounts = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, '15+']
-  const townsfolk = [3, 3, 5, 5, 5, 7, 7, 7, 9, 9, 9]
-  const outsiders = [0, 1, 0, 1, 2, 0, 1, 2, 0, 1, 2]
-  const minions = [1, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3]
-  const demons = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  const { playerCounts, townsfolk, outsiders, minions, demons } =
+    PLAYER_DISTRIBUTION
 
   return (
     <Table.Root size="1" style={{ fontFamily: 'var(--heading-font-family)' }}>

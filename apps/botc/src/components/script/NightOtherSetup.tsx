@@ -1,9 +1,7 @@
-import { Avatar, Badge, Flex, Heading, Separator } from '@radix-ui/themes'
-import { Moon, Sun } from 'lucide-react'
+import { Badge, Flex, Heading, Separator } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
 import type { Role } from '@/types'
-import { formatRoleDisplayName } from '@/utils/roleDisplayName'
-import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
+import { useOtherNightItems } from '@/hooks/useNightItems'
 import { NightRoleItem } from './NightRoleItem'
 
 interface NightOtherSetupProps {
@@ -13,48 +11,7 @@ interface NightOtherSetupProps {
 
 export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
   const { t: tContent } = useTranslation('content')
-  const showEnglishNames = useDisplayOptionsStore(
-    (state) => state.showEnglishNames,
-  )
-
-  // Create special role objects for night setup phases
-  const dusk = {
-    id: 'dusk',
-    name: tContent('Dusk'),
-    firstNight: 1,
-    otherNight: 1,
-    image: (
-      <Avatar
-        fallback={<Moon size={24} />}
-        size="4"
-        color="orange"
-        radius="full"
-      />
-    ),
-    reminder: '',
-    otherNightReminder: '',
-  }
-
-  const dawn = {
-    id: 'dawn',
-    name: tContent('Dawn'),
-    firstNight: 53,
-    otherNight: 98,
-    image: (
-      <Avatar
-        fallback={<Sun size={24} />}
-        size="4"
-        color="orange"
-        radius="full"
-      />
-    ),
-    reminder: '',
-    otherNightReminder: '',
-  }
-
-  const otherNightsRoles = [dusk, dawn, ...roles]
-    .filter((role) => role.otherNight > 0)
-    .sort((a, b) => a.otherNight - b.otherNight)
+  const items = useOtherNightItems(roles)
 
   return (
     <Flex className="night-page" direction="row" align="stretch" gap="4">
@@ -67,12 +24,13 @@ export function NightOtherSetup({ roles, scriptName }: NightOtherSetupProps) {
         </Flex>
 
         <Flex direction="column" gap="2">
-          {otherNightsRoles.map((role) => (
+          {items.map((item) => (
             <NightRoleItem
-              key={role.id}
-              name={formatRoleDisplayName(role, showEnglishNames)}
-              image={role.image}
-              reminder={role.otherNightReminder}
+              key={item.id}
+              name={item.name}
+              image={item.image}
+              marker={item.marker}
+              reminder={item.reminder}
             />
           ))}
         </Flex>

@@ -25,6 +25,13 @@ describe('imageUrl utilities', () => {
       expect(result).toContain(encodeURIComponent(url))
     })
 
+    it('should serve the requested format, even from an already proxied URL', () => {
+      expect(getProxiedImageUrl('https://example.com/a.webp', 150, 'png')).toContain('output=png')
+      expect(
+        getProxiedImageUrl('//wsrv.nl/?url=x&h=150&output=webp', 150, 'png'),
+      ).toBe('//wsrv.nl/?url=x&h=150&output=png')
+    })
+
     it('should proxy a regular URL with custom height', () => {
       const url = 'https://example.com/image.png'
       const result = getProxiedImageUrl(url, 300)

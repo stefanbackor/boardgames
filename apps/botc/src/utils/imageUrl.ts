@@ -4,16 +4,20 @@
  *
  * @param url - The original image URL
  * @param height - The desired height in pixels (default: 150)
+ * @param output - The image format to serve (default: webp)
  * @returns The proxied URL or undefined if no URL provided
  */
 export function getProxiedImageUrl(
   url?: string,
   height = 150,
+  output: 'webp' | 'png' = 'webp',
 ): string | undefined {
   if (!url) return url
-  if (url.startsWith('//wsrv.nl/')) return url
+  if (url.startsWith('//wsrv.nl/')) {
+    return url.replace(/output=\w+/, `output=${output}`)
+  }
   const encoded = encodeURIComponent(url)
-  return `//wsrv.nl/?url=${encoded}&h=${height}&output=webp`
+  return `//wsrv.nl/?url=${encoded}&h=${height}&output=${output}`
 }
 
 /**

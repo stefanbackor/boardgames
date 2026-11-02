@@ -3,11 +3,13 @@ import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { Box, Container, Flex } from '@radix-ui/themes'
 import { roles as baseRoles } from '@/data/roles.en'
 import { AppHeader } from '@/components/AppHeader'
+import { DownloadPdfButton } from '@/components/DownloadPdfButton'
 import { FileUploadControls } from '@/components/FileUploadControls'
 import { LoadingIndicator } from '@/components/LoadingIndicator'
 import { EmptyState } from '@/components/EmptyState'
 import { ScriptContent } from '@/components/ScriptContent'
 import { Footer } from '@/components/Footer'
+import { PdfDebugPreview } from '@/components/PdfDebugPreview'
 import type { PrintSections } from '@/components/PrintDropdown'
 import { parseScript } from '@/utils/parseScript'
 import { whenPrintImagesReady } from '@/utils/printImages'
@@ -29,6 +31,7 @@ import { useTranslatedRoles } from '@/hooks/useTranslatedRoles'
 import { useActiveJinxes } from '@/hooks/useActiveJinxes'
 import { useScriptModification } from '@/hooks/useScriptModification'
 import { useScriptCommit } from '@/hooks/useScriptCommit'
+import { useScriptPdf } from '@/hooks/useScriptPdf'
 import {
   canPersistModifications,
   useScriptModificationStore,
@@ -326,6 +329,19 @@ function App() {
       whenPrintImagesReady(() => window.print())
     }, 0)
   }
+
+  const {
+    data: pdfData,
+    downloadPdf,
+    isGenerating: isGeneratingPdf,
+    error: pdfError,
+  } = useScriptPdf({
+    roles: scriptRoles ?? [],
+    name: displayScriptName,
+    author: getAuthor() ?? meta?.author ?? '',
+    jinxes: activeJinxes,
+    bootleggerRules,
+  })
 
   // Script modification handlers (from hook)
   const {
@@ -722,6 +738,15 @@ function App() {
   }
 
   // ==================== RENDER ====================
+  // Dev-only: add &pdf-debug to a script's URL to see its PDF instead of the app
+  if (
+    import.meta.env.DEV &&
+    scriptRoles &&
+    new URLSearchParams(window.location.search).has('pdf-debug')
+  ) {
+    return <PdfDebugPreview data={pdfData} />
+  }
+
   return (
     <>
       <AppHeader language={language} onLanguageChange={changeLanguage} />
@@ -734,10 +759,17 @@ function App() {
                 onFileUpload={handleFileUpload}
                 onUrlLoad={handleUrlLoad}
                 onPrint={handlePrint}
+                pdfButton={
+                  <DownloadPdfButton
+                    onDownload={downloadPdf}
+                    isGenerating={isGeneratingPdf}
+                    hasScript={!!scriptData}
+                  />
+                }
                 onCopyLink={handleCopyLink}
                 hasScript={!!scriptData}
                 linkCopied={linkCopied}
-                error={error}
+                error={error || pdfError}
                 currentScriptUrl={currentScriptUrl}
                 isLoading={isLoading}
                 onJsonPaste={handleJsonPaste}
