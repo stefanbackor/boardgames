@@ -2,6 +2,7 @@ import { Avatar, Flex, Heading, Text } from '@radix-ui/themes'
 import { sanitizeHtml } from '@/utils/sanitizeHtml'
 import { ImageIcon } from 'lucide-react'
 import { getProxiedImageUrl } from '@/utils/imageUrl'
+import { PrintRoleImage } from './RoleImage'
 
 interface NightRoleItemProps {
   name: string
@@ -20,12 +21,26 @@ export function NightRoleItem({ name, image, reminder }: NightRoleItemProps) {
   return (
     <Flex gap="3" justify="start" style={{ pageBreakInside: 'avoid' }}>
       {typeof image === 'string' ? (
-        <Avatar
-          size="4"
-          radius="full"
-          src={getProxiedImageUrl(image)}
-          fallback={<ImageIcon />}
-        />
+        <>
+          <Avatar
+            size="4"
+            radius="full"
+            src={getProxiedImageUrl(image)}
+            fallback={<ImageIcon />}
+            className="print:hidden"
+          />
+          <PrintRoleImage
+            image={image}
+            alt=""
+            style={{
+              width: 'var(--space-8)',
+              height: 'var(--space-8)',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              flexShrink: 0,
+            }}
+          />
+        </>
       ) : (
         image
       )}

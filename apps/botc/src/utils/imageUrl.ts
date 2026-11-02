@@ -17,6 +17,23 @@ export function getProxiedImageUrl(
 }
 
 /**
+ * Builds the URL of an image meant for printing. Browsers embed a JPEG in a PDF
+ * as is but re-encode any other format losslessly, with a separate alpha mask,
+ * which costs several times the bytes. JPEG has no transparency, so the image is
+ * flattened onto white, matching the printed page.
+ *
+ * @param url - The original image URL
+ * @returns The proxied URL, or the input if the proxy cannot or need not fetch it
+ */
+export function getPrintImageUrl(url?: string): string | undefined {
+  if (!url || /^(data|blob):/.test(url) || url.startsWith('//wsrv.nl/')) {
+    return url
+  }
+  const encoded = encodeURIComponent(url)
+  return `//wsrv.nl/?url=${encoded}&h=150&output=jpg&q=80&bg=white`
+}
+
+/**
  * Returns the appropriate scale factor for an image URL
  * Wiki images need a scale of 1.3 to look good, others use 1
  *
