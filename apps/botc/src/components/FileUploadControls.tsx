@@ -21,6 +21,8 @@ interface FileUploadControlsProps {
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
   onUrlLoad: (url: string) => void
   onPrint: (sections: PrintSections) => void
+  /** The PDF download, whose state lives with the script it renders */
+  pdfButton: React.ReactNode
   onCopyLink: () => void
   hasScript: boolean
   linkCopied: boolean
@@ -36,6 +38,7 @@ export function FileUploadControls({
   onFileUpload,
   onUrlLoad,
   onPrint,
+  pdfButton,
   onCopyLink,
   hasScript,
   linkCopied,
@@ -250,6 +253,7 @@ export function FileUploadControls({
                   </span>
                 </Button>
               </Tooltip>
+              {pdfButton}
               <Tooltip content={t('Share with others')}>
                 <Button
                   onClick={onCopyLink}

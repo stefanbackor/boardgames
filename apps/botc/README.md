@@ -27,6 +27,10 @@ yarn dev
 
 The app will start at [http://localhost:5175](http://localhost:5175)
 
+## Tuning the PDF
+
+On the dev server, load a script and add `&pdf-debug` to its URL to see the PDF in the page instead of downloading it. Saving a file in `src/components/pdf/` reloads the page and regenerates it.
+
 ## Building For Production
 
 ```bash
