@@ -639,3 +639,75 @@ test('exports seeded unsaved metadata through JSON, download and Share', async (
     JSON.parse(gunzipSync(Buffer.from(encoded, 'base64')).toString('utf-8')),
   ).toEqual(expected)
 })
+
+test('copies the same JSON as the download to the clipboard', async ({
+  page,
+  browserName,
+}) => {
+  // Clipboard permissions are only supported in Chromium
+  test.skip(browserName !== 'chromium')
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
+  await openScript(page, script, { name: 'Copied Rename' })
+  const downloaded = page.waitForEvent('download')
+  await page.getByRole('button', { name: /^(Download JSON|JSON)$/ }).click()
+  const path = await (await downloaded).path()
+  await page.getByRole('button', { name: 'Copy JSON' }).click()
+  await expect(page.getByRole('button', { name: 'Copied!' })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    await readFile(path, 'utf-8'),
+  )
+})
+
+test('hands the script to the clipboard and resets the button', async ({
+  page,
+}) => {
+  // Stubbed because only Chromium can grant real clipboard permissions
+  const copied: string[] = []
+  await page.exposeFunction('captureCopiedText', (text: string) =>
+    copied.push(text),
+  )
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) =>
+          (
+            window as unknown as {
+              captureCopiedText: (text: string) => Promise<void>
+            }
+          ).captureCopiedText(text),
+      },
+    })
+  })
+  await openScript(page, script)
+  // The label is "Copy" on mobile viewports
+  const copyButton = page.getByRole('button', { name: /^(Copy JSON|Copy)$/ })
+  await copyButton.click()
+  await expect(page.getByRole('button', { name: 'Copied!' })).toBeVisible()
+  expect(copied).toHaveLength(1)
+  expect(JSON.parse(copied[0])).toEqual(script)
+  await expect(copyButton).toBeVisible()
+})
+
+test('does not claim a copy the clipboard refused', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: () => Promise.reject(new Error('Denied')) },
+    })
+  })
+  await openScript(page, script)
+  const copyButton = page.getByRole('button', { name: /^(Copy JSON|Copy)$/ })
+  await copyButton.click()
+  // Long enough for the rejection to have settled before looking for the label
+  await page.waitForTimeout(200)
+  await expect(page.getByRole('button', { name: 'Copied!' })).toHaveCount(0)
+  await expect(copyButton).toBeVisible()
+})
+
+test('disables copying until a script is loaded', async ({ page }) => {
+  await page.goto('/')
+  await expect(
+    page.getByRole('button', { name: /^(Copy JSON|Copy)$/ }),
+  ).toBeDisabled()
+})
