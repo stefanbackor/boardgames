@@ -85,15 +85,25 @@ function App() {
     reset: resetModifications,
   } = useScriptModificationStore()
 
-  // Saved scripts store (localStorage persistence)
+  // Saved scripts store (IndexedDB persistence)
   const {
     saveScript,
     loadScript: getSavedScript,
     deleteScript,
     getAllScripts,
+    initialize,
   } = useSavedScriptsStore()
 
   const savedScripts = getAllScripts()
+  const [storageError, setStorageError] = useState<string | null>(null)
+  useEffect(() => {
+    initialize().catch((error) => {
+      console.error('Failed to initialize saved scripts:', error)
+      setStorageError(
+        t('Could not load saved scripts. Please reload to retry.'),
+      )
+    })
+  }, [initialize, t])
 
   // UI state hooks
   const [linkCopied, setLinkCopied] = useState(false)
@@ -361,20 +371,22 @@ function App() {
   })
 
   // Save/revert handlers (from hook)
-  const { handleSaveChanges, handleRevertChanges } = useScriptCommit({
-    scriptData,
-    getMetaOverrides,
-    fallbackName: displayScriptName,
-    setScriptData,
-    setScriptName,
-    setCurrentScriptUrl,
-    resetModifications,
-    loadFromUrlParams,
-    getSavedScript,
-    currentScriptId,
-    saveScript,
-    setCurrentScriptId,
-  })
+  const { handleSaveChanges, handleRevertChanges, saveError } = useScriptCommit(
+    {
+      scriptData,
+      getMetaOverrides,
+      fallbackName: displayScriptName,
+      setScriptData,
+      setScriptName,
+      setCurrentScriptUrl,
+      resetModifications,
+      loadFromUrlParams,
+      getSavedScript,
+      currentScriptId,
+      saveScript,
+      setCurrentScriptId,
+    },
+  )
 
   // Check if script is modified
   const scriptIsModified = isModified()
@@ -713,8 +725,15 @@ function App() {
   }
 
   // Handler for deleting saved scripts
-  const handleDeleteScript = (id: string) => {
-    deleteScript(id)
+  const handleDeleteScript = async (id: string) => {
+    try {
+      await deleteScript(id)
+      setStorageError(null)
+    } catch (error) {
+      console.error('Failed to delete script:', error)
+      setStorageError(t('Could not delete script. Please try again.'))
+      return
+    }
 
     // If currently viewing this script, clear URL
     const params = new URLSearchParams(window.location.search)
@@ -769,7 +788,7 @@ function App() {
                 onCopyLink={handleCopyLink}
                 hasScript={!!scriptData}
                 linkCopied={linkCopied}
-                error={error || pdfError}
+                error={storageError || saveError || error || pdfError}
                 currentScriptUrl={currentScriptUrl}
                 isLoading={isLoading}
                 onJsonPaste={handleJsonPaste}

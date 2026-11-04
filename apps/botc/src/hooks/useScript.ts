@@ -9,6 +9,7 @@ import {
   syncScriptKey,
 } from '@/stores/scriptModificationStore'
 import { sendEvent } from '@/utils/analytics'
+import { useSavedScriptsStore } from '@/stores/savedScriptsStore'
 
 /**
  * Custom hook to manage script loading, parsing, and URL synchronization
@@ -307,6 +308,7 @@ export function useScript() {
       resetModifications?: () => void,
       getSavedScript?: (id: string) => SavedScript | null,
     ) => {
+      const originalUrl = window.location.href
       const params = new URLSearchParams(window.location.search)
       const encodedScript = params.get('script')
       const scriptId = params.get('id')
@@ -320,8 +322,19 @@ export function useScript() {
         return
       }
 
-      // Priority 2: id parameter - load from localStorage
+      // Priority 2: wait for migration before resolving a saved script ID
       if (scriptId && getSavedScript) {
+        setIsLoading(true)
+        try {
+          await useSavedScriptsStore.getState().initialize()
+        } catch (error) {
+          console.error('Failed to load saved scripts:', error)
+          setError(t('Could not load saved scripts. Please reload to retry.'))
+          return
+        } finally {
+          setIsLoading(false)
+        }
+        if (window.location.href !== originalUrl) return
         const savedScript = getSavedScript(scriptId)
 
         if (savedScript) {
@@ -339,8 +352,8 @@ export function useScript() {
           })
           return
         } else {
-          // ID not found in localStorage - fall back to encoded script
-          console.warn('Script ID not found in localStorage:', scriptId)
+          // ID not found in IndexedDB - fall back to encoded script
+          console.warn('Script ID not found in IndexedDB:', scriptId)
           setCurrentScriptId(null)
         }
       }

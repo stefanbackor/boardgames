@@ -1,7 +1,7 @@
 import type { Locator } from '@playwright/test'
 import { test, expect } from './fixtures'
 import { moveCursorToLineEdge, tabToNextControl } from './keyboard'
-import { openScript } from './script-state'
+import { openScript, readSavedScripts } from './script-state'
 
 // Rules alone must bring in the Bootlegger, without an explicit character entry.
 const scriptWithRules = [
@@ -219,13 +219,13 @@ test.describe('Bootlegger homebrew rules', () => {
     await page.keyboard.type('Typed into Save')
     await page.getByRole('button', { name: 'Save', exact: true }).click()
     await expect(page.getByText('Saved', { exact: true })).toBeVisible()
-    const saved = () =>
-      page.evaluate(() => {
-        const id = new URL(location.href).searchParams.get('id')!
-        const scripts = JSON.parse(localStorage.getItem('botc-saved-scripts')!)
-          .state.scripts
-        return JSON.stringify(scripts[id].scriptData)
-      })
+    const saved = async () => {
+      const id = new URL(page.url()).searchParams.get('id')!
+      const script = (await readSavedScripts(page)).find(
+        (script) => script.id === id,
+      )!
+      return JSON.stringify(script.scriptData)
+    }
     expect(await saved()).toContain('Typed into Save')
     expect(await saved()).toContain('Original rule')
     await expect(page.getByText('Changes made')).toHaveCount(0)

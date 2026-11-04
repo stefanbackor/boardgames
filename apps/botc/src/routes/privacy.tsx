@@ -50,7 +50,7 @@ function PrivacyPage() {
             </Heading>
             <Text as="p" size="2" mb="5">
               {t(
-                'Your saved scripts, your language preference, and in-progress edits are stored locally in your browser (localStorage and sessionStorage). This data never leaves your device and is required for the tool to work, so it does not need consent.',
+                'Your saved scripts are stored locally in your browser using IndexedDB. Your language preference and in-progress edits use localStorage and sessionStorage. This data never leaves your device and is required for the tool to work, so it does not need consent.',
               )}
             </Text>
 
