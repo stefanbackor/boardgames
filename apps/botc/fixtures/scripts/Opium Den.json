@@ -1,0 +1,75 @@
+[
+  {
+    "name": "Opium Den",
+    "author": "Corey and Bell",
+    "id": "_meta",
+    "background": "https://i.ibb.co/GvLbppsB/image.png",
+    "almanac": "https://coreyandbell.weebly.com/opium-den.html",
+    "bootlegger": [
+      "The Poppy Grower is Stormcaught and thinks they are a different out of play Townsfolk or Outsider. They are not."
+    ],
+    "hideTitle": true,
+    "logo": "https://i.ibb.co/60ysv29j/OD-Logo.png"
+  },
+  "steward",
+  "chef",
+  "librarian",
+  "pixie",
+  "balloonist",
+  "general",
+  "villageidiot",
+  "snakecharmer",
+  "oracle",
+  "monk",
+  "seamstress",
+  "juggler",
+  {
+    "id": "drunk_poppy_grower",
+    "name": "Poppy Grower",
+    "team": "townsfolk",
+    "ability": "Minions & Demons do not know each other. If you die, they learn who each other are that night.",
+    "flavor": "In the hidden groves of the deep forest, the black poppy dwells. To see its revelry is to be enchanted. To smell its thick aroma is to be lost forever, a slave to the gods of light and dark.",
+    "firstNightReminder": "Do not do the Minion Info and Demon Info steps. Wake the Demon, show the *THESE CHARACTERS ARE NOT IN PLAY* info token and any three good character tokens that are not in play.",
+    "firstNight": 15,
+    "otherNightReminder": "If the Poppy Grower died today or tonight, wake the Minions, show the *THIS IS THE DEMON* info token and point to the Demon. Put them to sleep. Wake the Demon, show the *THESE ARE YOUR MINIONS* info token and point to the Minions. Put the Demon to sleep.",
+    "otherNight": 10,
+    "remindersGlobal": [
+      "Is The Poppy Grower",
+      "Evil Wakes"
+    ],
+    "image": [
+      "https://wiki.bloodontheclocktower.com/images/9/91/Icon_poppygrower.png",
+      "https://i.ibb.co/ZRyYR76B/Icon-poppygrower-red.png"
+    ],
+    "setup": true,
+    "special": [
+      {
+        "type": "selection",
+        "name": "bag-disabled"
+      },
+      {
+        "type": "reveal",
+        "name": "replace-character"
+      }
+    ]
+  },
+  "recluse",
+  "sweetheart",
+  "mutant",
+  "damsel",
+  "harpy",
+  "witch",
+  "cerenovus",
+  "eviltwin",
+  "nodashii",
+  "ojo",
+  "vigormortis",
+  "fanggu",
+  "thief",
+  "bureaucrat",
+  "harlot",
+  "beggar",
+  "scapegoat",
+  "bootlegger",
+  "stormcatcher"
+]
