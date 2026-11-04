@@ -155,6 +155,37 @@ describe('parseScript', () => {
       expect(role.remindersGlobal).toEqual(['Global reminder'])
       expect(role.special).toBeDefined()
     })
+
+    it('should take the first image when given alignment variants', () => {
+      const scriptData = [
+        {
+          id: 'customrole',
+          name: 'Two Faced',
+          team: 'townsfolk' as const,
+          image: [
+            'https://example.com/good.png',
+            'https://example.com/evil.png',
+          ],
+        },
+      ]
+
+      const result = parseScript(scriptData, baseRoles)
+
+      expect(result.roles[0].image).toBe('https://example.com/good.png')
+    })
+
+    it('should drop an image that is not a URL string', () => {
+      const scriptData = [
+        { id: 'emptyimages', name: 'Empty', team: 'townsfolk', image: [] },
+        { id: 'numberimage', name: 'Number', team: 'townsfolk', image: 42 },
+      ]
+
+      const result = parseScript(scriptData as any, baseRoles)
+
+      expect(result.roles).toHaveLength(2)
+      expect(result.roles[0].image).toBeUndefined()
+      expect(result.roles[1].image).toBeUndefined()
+    })
   })
 
   describe('fixture files', () => {
@@ -218,6 +249,9 @@ describe('parseScript', () => {
             expect(typeof role.otherNightReminder).toBe('string')
             expect(Array.isArray(role.reminders)).toBe(true)
             expect(typeof role.setup).toBe('boolean')
+            if (role.image !== undefined) {
+              expect(typeof role.image).toBe('string')
+            }
           })
         })
 

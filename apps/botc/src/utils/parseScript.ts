@@ -17,6 +17,16 @@ export type {
 }
 
 /**
+ * Reads the image URL off a script role. The schema allows alignment variants
+ * as an array, good first; only the first is shown. Anything that is not a URL
+ * string is dropped, as the rest of the app treats the image as one.
+ */
+function getScriptRoleImage(image: unknown): string | undefined {
+  const url = Array.isArray(image) ? image[0] : image
+  return typeof url === 'string' && url ? url : undefined
+}
+
+/**
  * Reads the role id off a script item.
  *
  * Script data arrives as arbitrary JSON - a pasted file, a shared link, a
@@ -115,6 +125,8 @@ export function parseScript(
             ? 'traveller'
             : scriptRole.team
 
+        const image = getScriptRoleImage(scriptRole.image)
+
         // Convert script role to Role type with defaults for required fields
         return {
           id: scriptRole.id,
@@ -129,7 +141,7 @@ export function parseScript(
           reminders: scriptRole.reminders || [],
           setup: scriptRole.setup || false,
           isCustom: true,
-          ...(scriptRole.image && { image: scriptRole.image }),
+          ...(image && { image }),
           ...(scriptRole.flavor && { flavor: scriptRole.flavor }),
           ...(scriptRole.remindersGlobal && {
             remindersGlobal: scriptRole.remindersGlobal,

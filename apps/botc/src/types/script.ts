@@ -24,7 +24,11 @@ export type ScriptRole = {
   id: string
   // Optional fields from full role objects in script
   name?: string
-  image?: string
+  /**
+   * One URL, or alignment variants (good first, then evil) as the official
+   * script schema allows.
+   */
+  image?: string | string[]
   team?: Role['team']
   edition?: Role['edition']
   ability?: string
