@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { ScriptItem, MetaOverrides } from '@/types'
+import { extractMeta } from '@/utils/parseScript'
+import type { ScriptItem, ScriptData, MetaOverrides } from '@/types'
 import {
   areBootleggerRulesEqual,
   normalizeBootleggerRules,
@@ -155,6 +156,7 @@ interface ScriptModificationState {
   hasRoleEdits: () => boolean
   isModified: () => boolean
   reset: () => void
+  rebase: (script: ScriptData) => void
 }
 
 /**
@@ -434,6 +436,37 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
               metaOverrides.author !== undefined ||
               metaOverrides.bootlegger !== undefined))
         )
+      },
+
+      // Recompute outstanding edits after an asynchronous save advances the URL
+      // baseline. Keeping the old diff would lose overrides pruned against the
+      // previous baseline and count already-saved role additions twice.
+      rebase: (script) => {
+        const original = getOriginalFromUrl()
+        const originalIds = getRoleIds(original.script || [])
+        const currentIds = getRoleIds(script)
+        const meta = extractMeta(script)
+        const name = meta?.name || ''
+        const author = meta?.author || ''
+        const rules = normalizeBootleggerRules(meta?.bootlegger)
+        const overrides: MetaOverrides = {}
+        if (name !== original.name) overrides.name = name
+        if (author !== original.author) overrides.author = author
+        if (!areBootleggerRulesEqual(rules, original.bootlegger))
+          overrides.bootlegger = rules
+        const sameOrder =
+          currentIds.length === originalIds.length &&
+          currentIds.every((id, index) => id === originalIds[index])
+        set({
+          addedRoles: script.filter((item) => {
+            const id = normalizeScriptItem(item)
+            return id !== '' && id !== '_meta' && !originalIds.includes(id)
+          }),
+          removedRoles: originalIds.filter((id) => !currentIds.includes(id)),
+          reorderedScript: sameOrder ? null : currentIds,
+          metaOverrides: pruneMetaOverrides(overrides),
+          scriptKey: getScriptKey(),
+        })
       },
 
       reset: () => {

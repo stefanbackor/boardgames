@@ -24,7 +24,7 @@ interface EmptyStateProps {
   sampleScripts: BaseScript[]
   /** Array of experimental carousel scripts */
   carouselScripts: CarouselScript[]
-  /** Array of saved scripts from localStorage */
+  /** Array of saved scripts from browser storage */
   savedScripts: SavedScript[]
   /** Handler for loading a script from JSON */
   onLoadScript: (json: any) => void

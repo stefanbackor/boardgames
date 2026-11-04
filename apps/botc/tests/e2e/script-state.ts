@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test'
-import type { MetaOverrides } from '../../src/types'
+import type { SavedScript, MetaOverrides } from '../../src/types'
 import { getScriptKey } from '../../src/stores/scriptModificationHelpers'
 
 export function scriptUrl(script: unknown) {
@@ -33,4 +33,28 @@ export async function openScript(
     )
   }
   await page.goto(url)
+}
+
+/** Read the committed library, independently of the app's in-memory cache. */
+export async function readSavedScripts(page: Page): Promise<SavedScript[]> {
+  return page.evaluate(
+    () =>
+      new Promise((resolve, reject) => {
+        const open = indexedDB.open('botc-saved-scripts', 1)
+        open.onerror = () => reject(open.error)
+        open.onsuccess = () => {
+          const db = open.result
+          const tx = db.transaction('scripts', 'readonly')
+          const request = tx.objectStore('scripts').getAll()
+          tx.oncomplete = () => {
+            db.close()
+            resolve(request.result)
+          }
+          tx.onabort = () => {
+            db.close()
+            reject(tx.error)
+          }
+        }
+      }),
+  )
 }

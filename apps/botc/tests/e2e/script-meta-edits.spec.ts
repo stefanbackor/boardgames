@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
-import { openScript, scriptUrl } from './script-state'
+import { openScript, scriptUrl, readSavedScripts } from './script-state'
 import { test, expect } from './fixtures'
 import { moveCursorToLineEdge } from './keyboard'
 
@@ -522,12 +522,7 @@ test.describe('Script metadata edits', () => {
     page,
   }) => {
     /** How many scripts the library holds */
-    const savedCount = () =>
-      page.evaluate(() => {
-        const raw = localStorage.getItem('botc-saved-scripts')
-        if (!raw) return 0
-        return Object.keys(JSON.parse(raw).state.scripts).length
-      })
+    const savedCount = async () => (await readSavedScripts(page)).length
 
     await openScript(page, script, { name: 'First Save' })
     await expect(page.getByText('First Save').first()).toBeVisible()
@@ -566,20 +561,13 @@ test.describe('Script metadata edits', () => {
     await page.getByRole('button', { name: 'Save' }).click()
     await expect.poll(() => page.url()).toContain('id=')
 
-    const saved = await page.evaluate(() => {
-      const raw = localStorage.getItem('botc-saved-scripts')
-      const scripts = JSON.parse(raw!).state.scripts as Record<
-        string,
-        { name: string; scriptData: Array<unknown> }
-      >
-      return Object.values(scripts)[0]
-    })
+    const [saved] = await readSavedScripts(page)
 
     // The script keeps the name it came with, which is none. Were the
     // placeholder written in, a Czech user's save would hand every later reader
     // "Sdílený skript" as the author's own title.
     const meta = saved.scriptData.find(
-      (item): item is Record<string, unknown> =>
+      (item): item is Exclude<typeof item, string> =>
         typeof item === 'object' && item !== null && 'id' in item,
     )
     expect(meta?.name).toBeUndefined()
