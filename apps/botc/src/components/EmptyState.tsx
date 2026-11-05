@@ -124,7 +124,7 @@ export function EmptyState({
     <Flex direction="column" align="center" justify="center" gap="4">
       {/* Saved Scripts Section */}
       {(savedScripts.length > 0 || folders.length > 0) && (
-        <>
+        <Flex direction="column" gap="0" width="100%" align="center">
           <Flex direction="column" gap="3" width="100%" align="center">
             <Flex gap="2" wrap="wrap" justify="center">
               {renderScripts(unfiledScripts)}
@@ -138,13 +138,13 @@ export function EmptyState({
               <Flex
                 key={folder.id}
                 direction="column"
-                gap="3"
+                gap="0"
                 width="100%"
                 align="center"
                 role="region"
                 aria-label={folder.name}
               >
-                <Flex align="center" gap="2" width="100%" my="2">
+                <Flex align="center" gap="2" width="100%">
                   <Button
                     variant="ghost"
                     aria-expanded={!folder.collapsed}
@@ -202,7 +202,7 @@ export function EmptyState({
             />
           )}
           <Separator size="4" />
-        </>
+        </Flex>
       )}
 
       <Text
