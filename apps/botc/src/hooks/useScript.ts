@@ -4,11 +4,10 @@ import type { ScriptData, SavedScript } from '@/types'
 import { compressForUrl } from '@/utils/urlCompression'
 import {
   readScript,
-  readScriptFile,
-  readScriptUrl,
   type IntakeError,
   type IntakeScript,
 } from '@/utils/scriptIntake'
+import { readScriptFile, readScriptUrl } from '@/services/scriptSources'
 import {
   setOriginalScriptCache,
   clearOriginalScriptCache,
@@ -16,6 +15,12 @@ import {
 } from '@/stores/scriptModificationStore'
 import { sendEvent } from '@/utils/analytics'
 import { useSavedScriptsStore } from '@/stores/savedScriptsStore'
+
+/**
+ * Where a load came from, as far as its error message is concerned: a URL the
+ * user gave, a file, a paste, or the `?script=` link the page was opened on
+ */
+type ScriptSourceKind = 'url' | 'file' | 'paste' | 'link'
 
 /**
  * Custom hook to manage script loading, parsing, and URL synchronization
@@ -38,9 +43,11 @@ export function useScript() {
   const [currentScriptId, setCurrentScriptId] = useState<string | null>(null)
 
   /**
-   * Says why intake rejected a script, in the words the user sees
+   * Says what was wrong with a script intake rejected, on its own. The reason
+   * a failed load reports to analytics, and the part of the user's message
+   * that varies - see describeIntakeError, which decides the rest.
    */
-  const describeIntakeError = useCallback(
+  const intakeReason = useCallback(
     (error: IntakeError): string => {
       switch (error.kind) {
         case 'decode-failed':
@@ -65,6 +72,93 @@ export function useScript() {
   )
 
   /**
+   * Says why a load failed, in the words the user sees. Every failure message
+   * is decided here: the same rejection reads differently depending on where
+   * the script came from.
+   *
+   * - A `?script=` link the page opened (`link`) says only that it did not
+   *   load: the user did not type it, so the reason would mean nothing to them
+   * - A URL the user gave (`url`) says loading failed and why, except for an
+   *   encoded value that does not decode, which says so on its own
+   * - A file is "a JSON file" to the user, so bad JSON in one says so
+   * - A paste says only what was wrong with it
+   */
+  const describeIntakeError = useCallback(
+    (error: IntakeError, source: ScriptSourceKind): string => {
+      switch (source) {
+        case 'link':
+          return t('Failed to load script from URL')
+        case 'url':
+          return error.kind === 'decode-failed'
+            ? intakeReason(error)
+            : t('Failed to load script from URL: {{error}}', {
+                error: intakeReason(error),
+              })
+        case 'file':
+          return error.kind === 'invalid-json'
+            ? t('Failed to parse JSON file')
+            : intakeReason(error)
+        case 'paste':
+          return intakeReason(error)
+      }
+    },
+    [intakeReason, t],
+  )
+
+  /**
+   * Shows why a load failed and drops the diff, keeping as much of the script
+   * that was open as the source calls for:
+   *
+   * - `script-and-cache` (paste, file): the previous script stays on screen,
+   *   and so does its original-script cache. The diff is reset against that
+   *   cache, so it has to keep describing the script still being shown.
+   * - `script` (a URL the user gave): the previous script stays on screen but
+   *   the cache is cleared, as it always has been for this path. The cache
+   *   refills from the address bar on the next read.
+   * - `nothing` (a `?script=` link the page opened): a broken link shows no
+   *   script, rather than whichever was open, and no cache either.
+   */
+  const failLoad = useCallback(
+    (
+      message: string,
+      keep: 'script-and-cache' | 'script' | 'nothing',
+      resetModifications?: () => void,
+    ): void => {
+      setError(message)
+      if (keep === 'nothing') {
+        setScriptData(null)
+        setScriptName('')
+        setCurrentScriptId(null)
+        setCurrentScriptUrl('')
+      }
+      if (keep !== 'script-and-cache') clearOriginalScriptCache()
+      if (resetModifications) resetModifications()
+    },
+    [],
+  )
+
+  /**
+   * Puts a script on screen as the original its edits are measured against,
+   * and clears any error.
+   *
+   * The address and the diff are left to the caller, because loads differ
+   * there: a new script pushes its own address, one opened from the address
+   * bar leaves it alone. The cache is keyed by the address as it stands, so a
+   * caller that rewrites the address does so before calling this.
+   */
+  const showScript = useCallback(
+    (data: ScriptData, name: string, sourceUrl: string): void => {
+      setScriptData(data)
+      setScriptName(name)
+      setCurrentScriptUrl(sourceUrl)
+      // Populate cache so store can access original script synchronously
+      setOriginalScriptCache(data)
+      setError(null)
+    },
+    [],
+  )
+
+  /**
    * Sets a script that passed intake, updating URL
    */
   const setLoadedScript = useCallback(
@@ -73,11 +167,7 @@ export function useScript() {
       fallbackName: string,
       sourceUrl?: string,
       resetModifications?: () => void,
-    ) => {
-      setScriptData(script.data)
-      setScriptName(script.name || fallbackName)
-      setError(null)
-
+    ): void => {
       // Update URL with compressed script data
       const content = JSON.stringify(script.data)
       const encoded = compressForUrl(content)
@@ -88,11 +178,8 @@ export function useScript() {
       const newUrl = `${window.location.pathname}?${params.toString()}`
       window.history.pushState({}, '', newUrl)
 
-      // Populate cache so store can access original script synchronously
-      setOriginalScriptCache(script.data)
-
-      // Update source URL if provided, otherwise clear it
-      setCurrentScriptUrl(sourceUrl || '')
+      // Source URL if provided, otherwise cleared
+      showScript(script.data, script.name || fallbackName, sourceUrl || '')
 
       if (resetModifications) {
         // A reset picks the key of the URL written above up on its own
@@ -111,7 +198,7 @@ export function useScript() {
         syncScriptKey()
       }
     },
-    [],
+    [showScript],
   )
 
   /**
@@ -148,14 +235,6 @@ export function useScript() {
 
           setLoadedScript(result.script, name, url, resetModifications)
         } else {
-          // A link that does not decode says so on its own; anything else says
-          // what went wrong after the fact that loading failed
-          const message =
-            result.error.kind === 'decode-failed'
-              ? describeIntakeError(result.error)
-              : t('Failed to load script from URL: {{error}}', {
-                  error: describeIntakeError(result.error),
-                })
           console.error('Failed to load script from URL:', result.error)
 
           /**
@@ -166,19 +245,21 @@ export function useScript() {
           sendEvent('script_error', {
             error_type: 'load_failed',
             source: 'url',
-            error_message: describeIntakeError(result.error),
+            error_message: intakeReason(result.error),
             url: url,
           })
 
-          setError(message)
-          clearOriginalScriptCache()
-          if (resetModifications) resetModifications()
+          failLoad(
+            describeIntakeError(result.error, 'url'),
+            'script',
+            resetModifications,
+          )
         }
       } finally {
         setIsLoading(false)
       }
     },
-    [describeIntakeError, setLoadedScript, t],
+    [describeIntakeError, failLoad, intakeReason, setLoadedScript, t],
   )
 
   /**
@@ -202,7 +283,9 @@ export function useScript() {
           has_meta: result.script.meta.present,
         })
 
-        setLoadedScript(result.script, file.name, undefined, resetModifications)
+        // The name already falls back to the file name without its extension,
+        // and a file with no stem (".json") stays unnamed rather than ".json"
+        setLoadedScript(result.script, '', undefined, resetModifications)
       } else {
         /**
          * Analytics: Track JSON parsing errors from file uploads
@@ -216,16 +299,14 @@ export function useScript() {
           file_size: file.size,
         })
 
-        // A file is "a JSON file" to the user, so bad JSON says so
-        setError(
-          result.error.kind === 'invalid-json'
-            ? t('Failed to parse JSON file')
-            : describeIntakeError(result.error),
+        failLoad(
+          describeIntakeError(result.error, 'file'),
+          'script-and-cache',
+          resetModifications,
         )
-        if (resetModifications) resetModifications()
       }
     },
-    [describeIntakeError, setLoadedScript, t],
+    [describeIntakeError, failLoad, setLoadedScript],
   )
 
   /**
@@ -263,11 +344,14 @@ export function useScript() {
           content_length: jsonContent.length,
         })
 
-        setError(describeIntakeError(result.error))
-        if (resetModifications) resetModifications()
+        failLoad(
+          describeIntakeError(result.error, 'paste'),
+          'script-and-cache',
+          resetModifications,
+        )
       }
     },
-    [describeIntakeError, setLoadedScript, t],
+    [describeIntakeError, failLoad, setLoadedScript, t],
   )
 
   /**
@@ -308,13 +392,9 @@ export function useScript() {
         const savedScript = getSavedScript(scriptId)
 
         if (savedScript) {
-          setScriptData(savedScript.scriptData)
-          setScriptName(savedScript.name)
+          showScript(savedScript.scriptData, savedScript.name, '')
           setCurrentScriptId(scriptId)
-          setCurrentScriptUrl('')
-          setOriginalScriptCache(savedScript.scriptData)
           if (resetModifications) resetModifications()
-          setError(null)
 
           sendEvent('load_saved_script', {
             script_name: savedScript.name,
@@ -333,24 +413,22 @@ export function useScript() {
         const result = readScript({ kind: 'encoded', param: encodedScript })
 
         if (result.ok) {
-          setScriptData(result.script.data)
-          setScriptName(result.script.name || t('Shared Script'))
+          // The address already holds this script, so unlike setLoadedScript
+          // nothing is pushed and the diff's key is left as it is
+          showScript(
+            result.script.data,
+            result.script.name || t('Shared Script'),
+            '',
+          )
           setCurrentScriptId(null) // Clear ID for shared scripts
-          setCurrentScriptUrl('')
-          // Populate cache so store can access original script synchronously
-          setOriginalScriptCache(result.script.data)
           if (resetModifications) resetModifications()
-          setError(null)
         } else {
-          // A broken link shows no script, rather than whichever was open
           console.error('Failed to load script from URL:', result.error)
-          setScriptData(null)
-          setScriptName('')
-          setCurrentScriptId(null)
-          setCurrentScriptUrl('')
-          setError(t('Failed to load script from URL'))
-          clearOriginalScriptCache()
-          if (resetModifications) resetModifications()
+          failLoad(
+            describeIntakeError(result.error, 'link'),
+            'nothing',
+            resetModifications,
+          )
         }
       } else {
         // No script in URL - clear everything
@@ -363,7 +441,7 @@ export function useScript() {
         if (resetModifications) resetModifications()
       }
     },
-    [loadFromUrl, t],
+    [describeIntakeError, failLoad, loadFromUrl, showScript, t],
   )
 
   /**

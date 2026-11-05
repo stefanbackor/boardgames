@@ -1,5 +1,5 @@
 import { getScriptItemId, readMeta, readScript } from '@/utils/scriptIntake'
-import type { ScriptItem } from '@/types'
+import type { ScriptItem, ScriptMetaFields } from '@/types'
 
 /**
  * The original script and the `_meta` values it carries
@@ -54,9 +54,11 @@ let cachedOriginalScript: { url: string; original: OriginalScript } | null =
  */
 function lockOriginal(
   script: ScriptItem[] | null,
-  name: string,
-  author: string,
-  bootlegger: string[],
+  {
+    name,
+    author,
+    bootlegger,
+  }: Pick<ScriptMetaFields, 'name' | 'author' | 'bootlegger'>,
 ): OriginalScript {
   return Object.freeze({
     script,
@@ -67,7 +69,11 @@ function lockOriginal(
 }
 
 /** The one "nothing loaded" result, shared because there is nothing to vary */
-const EMPTY_ORIGINAL = lockOriginal(null, '', '', [])
+const EMPTY_ORIGINAL = lockOriginal(null, {
+  name: '',
+  author: '',
+  bootlegger: [],
+})
 
 /**
  * Gets the original script from URL parameters
@@ -111,7 +117,7 @@ export function getOriginalFromUrl(searchParams?: string): OriginalScript {
   }
 
   const { data, meta } = result.script
-  const original = lockOriginal(data, meta.name, meta.author, meta.bootlegger)
+  const original = lockOriginal(data, meta)
   cachedOriginalScript = { url: currentUrl, original }
   return original
 }
@@ -135,11 +141,9 @@ export function setOriginalScriptCache(
 
   if (!currentUrl) return
 
-  const { name, author, bootlegger } = readMeta(script)
-
   cachedOriginalScript = {
     url: currentUrl,
-    original: lockOriginal(script, name, author, bootlegger),
+    original: lockOriginal(script, readMeta(script)),
   }
 }
 
