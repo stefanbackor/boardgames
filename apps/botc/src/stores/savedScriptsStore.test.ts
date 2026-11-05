@@ -1,4 +1,4 @@
-import { beforeEach, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { IDBFactory } from 'fake-indexeddb'
 import type { useSavedScriptsStore } from './savedScriptsStore'
 
@@ -10,6 +10,8 @@ beforeEach(async () => {
   localStorage.clear()
   store = (await import('./savedScriptsStore')).useSavedScriptsStore
 })
+
+afterEach(() => vi.unstubAllGlobals())
 
 const save = (name = 'Script 2') =>
   store
@@ -133,4 +135,19 @@ it('starts newly saved copies unfiled and leaves exportable content free of fold
   expect(store.getState().folderLibrary.membership[copy]).toBeUndefined()
   expect(store.getState().getScript(id)?.scriptData).toEqual(['chef', 'imp'])
   expect(store.getState().getScript(id)?.encodedScript).toBe('original-content')
+})
+
+it('saves scripts and creates folders when randomUUID is unavailable on a LAN HTTP origin', async () => {
+  const getRandomValues = crypto.getRandomValues.bind(crypto)
+  vi.stubGlobal('crypto', { getRandomValues })
+  const id = await save()
+  expect(id).toMatch(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+  )
+  await store.getState().createFolderAndMove(id, 'LAN folder')
+  expect(
+    store.getState().folderLibrary.folders[
+      store.getState().folderLibrary.membership[id]
+    ].name,
+  ).toBe('LAN folder')
 })

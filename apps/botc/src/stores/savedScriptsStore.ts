@@ -1,3 +1,4 @@
+import { createLibraryId } from '@/utils/createLibraryId'
 import {
   compareNames,
   emptyFolderLibrary,
@@ -67,7 +68,7 @@ export const useSavedScriptsStore = create<SavedScriptsState>()((set, get) => ({
 
   saveScript: async (id, scriptData, name, author, encodedScript) => {
     await get().initialize()
-    const scriptId = id || crypto.randomUUID()
+    const scriptId = id || createLibraryId()
     const now = new Date().toISOString()
     const existing = get().scripts[scriptId]
     const script: SavedScript = {
@@ -89,7 +90,7 @@ export const useSavedScriptsStore = create<SavedScriptsState>()((set, get) => ({
     if (!get().scripts[scriptId]) throw new Error('Script no longer exists.')
     const folderLibrary = await updateFolderLibrary((library) => {
       const name = validateFolderName(library, value)
-      const id = crypto.randomUUID()
+      const id = createLibraryId()
       library.folders[id] = { id, name, collapsed: false }
       library.membership[scriptId] = id
     })
