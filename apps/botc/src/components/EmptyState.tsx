@@ -125,20 +125,15 @@ export function EmptyState({
       {/* Saved Scripts Section */}
       {(savedScripts.length > 0 || folders.length > 0) && (
         <>
-          <Flex direction="column" gap="0" width="100%" align="center">
-            <Flex direction="column" gap="3" width="100%" align="center">
-              <Flex gap="2" wrap="wrap" justify="center">
-                {renderScripts(unfiledScripts)}
-              </Flex>
-            </Flex>
-            {folders.map((folder, index) => {
+          <Flex direction="column" gap="2" width="100%" align="center">
+            {unfiledScripts.length > 0 && renderScripts(unfiledScripts)}
+            {folders.map((folder) => {
               const folderScripts = sortedScripts.filter(
                 (script) => folderLibrary.membership[script.id] === folder.id,
               )
               return (
                 <Flex
                   key={folder.id}
-                  mt={index > 0 ? '2' : '0'}
                   direction="column"
                   gap="0"
                   width="100%"
