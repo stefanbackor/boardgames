@@ -30,7 +30,7 @@ interface TeamSectionProps {
   team: Team
   teamColor: TeamColor
   /** The team's characters with their annotations, see buildScriptView */
-  roles: RoleView[]
+  roleViews: RoleView[]
   /**
    * Number of columns for the role grid.
    * - Defaults to 2 (original two-column layout)
@@ -50,7 +50,7 @@ interface TeamSectionProps {
 export function TeamSection({
   team,
   teamColor,
-  roles,
+  roleViews,
   columnsCount = 2,
   allRoles,
   existingRoleIds,
@@ -113,8 +113,8 @@ export function TeamSection({
 
     if (!over || active.id === over.id) return
 
-    const oldIndex = roles.findIndex((r) => r.role.id === active.id)
-    const newIndex = roles.findIndex((r) => r.role.id === over.id)
+    const oldIndex = roleViews.findIndex((r) => r.role.id === active.id)
+    const newIndex = roleViews.findIndex((r) => r.role.id === over.id)
 
     if (oldIndex !== -1 && newIndex !== -1 && onReorderRoles) {
       onReorderRoles(team, oldIndex, newIndex)
@@ -122,7 +122,7 @@ export function TeamSection({
   }
 
   const activeRole = activeId
-    ? roles.find((r) => r.role.id === activeId)
+    ? roleViews.find((r) => r.role.id === activeId)
     : undefined
 
   // Clamp the column count to at least 1 and expose via CSS variable.
@@ -169,7 +169,7 @@ export function TeamSection({
           onDragEnd={handleDragEnd}
         >
           <SortableContext
-            items={roles.map((r) => r.role.id)}
+            items={roleViews.map((r) => r.role.id)}
             strategy={rectSortingStrategy}
           >
             <Box
@@ -180,7 +180,7 @@ export function TeamSection({
                 } as React.CSSProperties
               }
             >
-              {roles.map(({ role, hatedBy, jinxes, rules, lock }) => (
+              {roleViews.map(({ role, hatedBy, jinxes, rules, lock }) => (
                 <Box key={role.id} className="role-grid-item">
                   <RoleCard
                     role={role}

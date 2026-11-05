@@ -94,13 +94,13 @@ export function ScriptContent({
   const { t } = useTranslation()
   const [townsfolk, ...mainTeams] = view.pages.characters
 
-  const teamSection = ({ team, roles: teamRoles }: TeamView) => (
+  const teamSection = ({ team, roles: roleViews }: TeamView) => (
     <TeamSection
       key={team}
       team={team}
       teamColor={TEAM_CONFIG[team].color}
       columnsCount={TEAM_CONFIG[team].columns}
-      roles={teamRoles}
+      roleViews={roleViews}
       allRoles={roles}
       existingRoleIds={view.roleIds}
       onAddRole={onAddRole}
