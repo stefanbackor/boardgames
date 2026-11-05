@@ -4,11 +4,10 @@ import type { ScriptData, SavedScript } from '@/types'
 import { compressForUrl } from '@/utils/urlCompression'
 import {
   readScript,
-  readScriptFile,
-  readScriptUrl,
   type IntakeError,
   type IntakeScript,
 } from '@/utils/scriptIntake'
+import { readScriptFile, readScriptUrl } from '@/services/scriptSources'
 import {
   setOriginalScriptCache,
   clearOriginalScriptCache,

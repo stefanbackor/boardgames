@@ -26,6 +26,7 @@ globs: ["apps/botc/**/*.ts", "apps/botc/**/*.tsx"]
 - `/src/stores/` - Zustand state stores with persist middleware
 - `/src/components/` - React components (prefer `/script/` subdirectory for script-related)
 - `/src/utils/` - Pure utility functions
+- `/src/services/` - I/O adapters (reading files, fetching URLs) that feed pure utilities
 - `/src/hooks/` - Custom React hooks
 - `/src/constants/` - Constants like Team enum and configuration
 

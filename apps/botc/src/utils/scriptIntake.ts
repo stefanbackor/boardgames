@@ -72,7 +72,8 @@ export type ScriptSource =
  * - `invalid-json`: text, or a decoded value, that is not JSON
  * - `not-array`: JSON that is not a list of characters
  * - `invalid-url`, `fetch-failed`, `network`: a remote URL, see readScriptUrl
- * - `read-failed`: a file that could not be read, see readScriptFile
+ *   in `@/services/scriptSources`
+ * - `read-failed`: a file that could not be read, see readScriptFile there
  */
 export type IntakeError =
   | { kind: 'decode-failed' }
@@ -142,86 +143,5 @@ export function readScript(source: ScriptSource): IntakeResult {
       meta,
       name: meta.name || nameHint,
     },
-  }
-}
-
-/** The file name without its extension */
-const fileStem = (name: string) => name.replace(/\.[^/.]+$/, '')
-
-/**
- * Reads a script from a file, named after the file when its metadata is not.
- *
- * @param file - The uploaded file
- * @param read - Reads the file as text; File#text unless a test says otherwise
- */
-export async function readScriptFile(
-  file: File,
-  read: (file: File) => Promise<string> = (file) => file.text(),
-): Promise<IntakeResult> {
-  let text: string
-  try {
-    text = await read(file)
-  } catch {
-    return reject({ kind: 'read-failed' })
-  }
-  return readScript({ kind: 'text', text, nameHint: fileStem(file.name) })
-}
-
-/** How a remote URL delivered its script */
-export type ScriptUrlKind = 'encoded_tool_url' | 'direct_json'
-
-/**
- * Reads a script from a URL. A URL carrying a `script` parameter - the
- * official script tool, or anything using its link format - is decoded on the
- * spot; any other URL is fetched and its body read as JSON, named after the
- * file it points at when the metadata is not.
- *
- * @param url - The URL as the user gave it
- * @param fetchImpl - Fetches the URL; the global fetch unless a test says otherwise
- * @returns The result, and how the URL delivered it once it is known to be one
- */
-export async function readScriptUrl(
-  url: string,
-  fetchImpl: typeof fetch = fetch,
-): Promise<IntakeResult & { urlKind?: ScriptUrlKind }> {
-  let parsedUrl: URL
-  try {
-    parsedUrl = new URL(url)
-  } catch {
-    return reject({ kind: 'invalid-url' })
-  }
-
-  const param = parsedUrl.searchParams.get('script')
-  if (param) {
-    return {
-      ...readScript({ kind: 'encoded', param }),
-      urlKind: 'encoded_tool_url',
-    }
-  }
-
-  let text: string
-  try {
-    const response = await fetchImpl(url)
-    if (!response.ok) {
-      return {
-        ...reject({ kind: 'fetch-failed', statusText: response.statusText }),
-        urlKind: 'direct_json',
-      }
-    }
-    text = await response.text()
-  } catch (error) {
-    return {
-      ...reject({
-        kind: 'network',
-        message: error instanceof Error ? error.message : String(error),
-      }),
-      urlKind: 'direct_json',
-    }
-  }
-
-  const nameHint = fileStem(url.split('/').pop() ?? '')
-  return {
-    ...readScript({ kind: 'text', text, nameHint }),
-    urlKind: 'direct_json',
   }
 }
