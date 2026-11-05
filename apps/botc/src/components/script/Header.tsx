@@ -6,6 +6,12 @@ import { Check, Trash2 } from 'lucide-react'
 interface Props {
   name: string
   author: string
+  /**
+   * Whether the author earns a "by" line, from the script view so the screen,
+   * print and PDF agree. Without it the line only shows while it can be edited,
+   * and stays off paper.
+   */
+  hasAuthor: boolean
   isModified?: boolean
   showSave?: boolean
   isSaved?: boolean
@@ -19,6 +25,7 @@ interface Props {
 export function Header({
   name,
   author,
+  hasAuthor,
   isModified,
   showSave,
   isSaved,
@@ -31,7 +38,6 @@ export function Header({
   const { t } = useTranslation()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const authorRef = useRef<HTMLSpanElement>(null)
-  const hasAuthor = author.trim() !== ''
   /**
    * The text as it was when editing started. Edits are committed on every
    * keystroke, so the props are no use to Escape by the time it is pressed -

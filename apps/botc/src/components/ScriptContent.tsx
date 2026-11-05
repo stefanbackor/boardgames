@@ -122,6 +122,7 @@ export function ScriptContent({
           <Header
             name={view.name}
             author={view.author}
+            hasAuthor={view.hasAuthor}
             isModified={scriptIsModified}
             showSave={showSave}
             isSaved={isSaved}
@@ -162,7 +163,11 @@ export function ScriptContent({
       >
         {/* The editable header above stays on the roles page, so this one only shows on paper */}
         <div className="hidden print:block">
-          <Header name={view.name} author={view.author} />
+          <Header
+            name={view.name}
+            author={view.author}
+            hasAuthor={view.hasAuthor}
+          />
         </div>
         {/* An empty team stays on screen to be added to, but not on paper */}
         {view.pages.extras.map((teamView) => (
