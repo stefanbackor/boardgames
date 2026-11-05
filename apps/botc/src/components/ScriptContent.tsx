@@ -31,6 +31,7 @@ interface ScriptContentProps {
   showSave?: boolean
   /** Whether the script is saved (has an ID) */
   isSaved?: boolean
+  savedScriptId?: string
   /** Handler to save changes */
   onSave: () => void
   /** Handler to revert changes */
@@ -80,6 +81,7 @@ export function ScriptContent({
   scriptIsModified,
   showSave,
   isSaved,
+  savedScriptId,
   onSave,
   onRevert,
   onDelete,
@@ -126,6 +128,7 @@ export function ScriptContent({
             isModified={scriptIsModified}
             showSave={showSave}
             isSaved={isSaved}
+            savedScriptId={savedScriptId}
             onSave={onSave}
             onRevert={onRevert}
             onDelete={onDelete}
