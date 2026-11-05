@@ -201,7 +201,9 @@ export function useScript() {
           has_meta: result.script.meta.present,
         })
 
-        setLoadedScript(result.script, file.name, undefined, resetModifications)
+        // The name already falls back to the file name without its extension,
+        // and a file with no stem (".json") stays unnamed rather than ".json"
+        setLoadedScript(result.script, '', undefined, resetModifications)
       } else {
         /**
          * Analytics: Track JSON parsing errors from file uploads
