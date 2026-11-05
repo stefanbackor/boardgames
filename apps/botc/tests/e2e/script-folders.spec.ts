@@ -138,10 +138,26 @@ test('homepage sorts naturally, persists collapse, manages empty folders, and de
   await page.goto(first)
   await page.getByRole('button', { name: 'In Folder 10', exact: true }).click()
   await page.getByRole('button', { name: 'No folder', exact: true }).click()
+  await expect(
+    page.getByRole('button', { name: 'Folder', exact: true }),
+  ).toBeVisible()
   await page.goto('/')
   await expect(
     page.getByRole('region', { name: 'Folder 10', exact: true }),
   ).toBeVisible()
+  const emptyFolder = page.getByRole('region', {
+    name: 'Folder 10',
+    exact: true,
+  })
+  await expect(emptyFolder.getByText('This folder is empty.')).toBeVisible()
+  await emptyFolder
+    .getByRole('button', { name: 'Folder 10', exact: true })
+    .click()
+  await expect(emptyFolder.getByText('This folder is empty.')).toBeHidden()
+  await emptyFolder
+    .getByRole('button', { name: 'Folder 10', exact: true })
+    .click()
+  await expect(emptyFolder.getByText('This folder is empty.')).toBeVisible()
   await page
     .getByRole('button', { name: 'Edit folder Folder 10', exact: true })
     .click()

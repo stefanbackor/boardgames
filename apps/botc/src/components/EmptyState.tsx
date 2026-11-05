@@ -130,60 +130,66 @@ export function EmptyState({
               {renderScripts(unfiledScripts)}
             </Flex>
           </Flex>
-          {folders.map((folder) => (
-            <Flex
-              key={folder.id}
-              direction="column"
-              gap="3"
-              width="100%"
-              align="center"
-              role="region"
-              aria-label={folder.name}
-            >
-              <Flex align="center" gap="2" width="100%" my="2">
-                <Button
-                  variant="ghost"
-                  aria-expanded={!folder.collapsed}
-                  aria-controls={`folder-${folder.id}`}
-                  onClick={async () => {
-                    try {
-                      await setFolderCollapsed(folder.id, !folder.collapsed)
-                      setFolderError('')
-                    } catch {
-                      setFolderError(
-                        t('Could not update folders. Please try again.'),
-                      )
-                    }
-                  }}
-                >
-                  {folder.collapsed ? (
-                    <ChevronRight size={16} />
+          {folders.map((folder) => {
+            const folderScripts = sortedScripts.filter(
+              (script) => folderLibrary.membership[script.id] === folder.id,
+            )
+            return (
+              <Flex
+                key={folder.id}
+                direction="column"
+                gap="3"
+                width="100%"
+                align="center"
+                role="region"
+                aria-label={folder.name}
+              >
+                <Flex align="center" gap="2" width="100%" my="2">
+                  <Button
+                    variant="ghost"
+                    aria-expanded={!folder.collapsed}
+                    aria-controls={`folder-${folder.id}`}
+                    onClick={async () => {
+                      try {
+                        await setFolderCollapsed(folder.id, !folder.collapsed)
+                        setFolderError('')
+                      } catch {
+                        setFolderError(
+                          t('Could not update folders. Please try again.'),
+                        )
+                      }
+                    }}
+                  >
+                    {folder.collapsed ? (
+                      <ChevronRight size={16} />
+                    ) : (
+                      <ChevronDown size={16} />
+                    )}
+                    {folder.name}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    aria-label={t('Edit folder {{folder}}', {
+                      folder: folder.name,
+                    })}
+                    onClick={() => setEditingFolder(folder.id)}
+                  >
+                    <Settings size={16} />
+                  </Button>
+                  <Separator decorative orientation="horizontal" size="4" />
+                </Flex>
+                <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
+                  {folderScripts.length > 0 ? (
+                    renderScripts(folderScripts)
                   ) : (
-                    <ChevronDown size={16} />
+                    <Text size="2" color="gray">
+                      {t('This folder is empty.')}
+                    </Text>
                   )}
-                  {folder.name}
-                </Button>
-                <Button
-                  variant="ghost"
-                  aria-label={t('Edit folder {{folder}}', {
-                    folder: folder.name,
-                  })}
-                  onClick={() => setEditingFolder(folder.id)}
-                >
-                  <Settings size={16} />
-                </Button>
-                <Separator decorative orientation="horizontal" size="4" />
+                </div>
               </Flex>
-              <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
-                {renderScripts(
-                  sortedScripts.filter(
-                    (script) =>
-                      folderLibrary.membership[script.id] === folder.id,
-                  ),
-                )}
-              </div>
-            </Flex>
-          ))}
+            )
+          })}
           {folderError && (
             <Text role="alert" color="red">
               {folderError}
