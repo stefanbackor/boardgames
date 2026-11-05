@@ -140,7 +140,7 @@ export function EmptyState({
               role="region"
               aria-label={folder.name}
             >
-              <Flex align="center" gap="2">
+              <Flex align="center" gap="2" width="100%" my="2">
                 <Button
                   variant="ghost"
                   aria-expanded={!folder.collapsed}
@@ -172,6 +172,7 @@ export function EmptyState({
                 >
                   <Settings size={16} />
                 </Button>
+                <Separator decorative orientation="horizontal" size="4" />
               </Flex>
               <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
                 {renderScripts(
