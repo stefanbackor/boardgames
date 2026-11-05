@@ -29,6 +29,7 @@ export function NightFirstSetup({ roles, scriptName }: NightFirstSetupProps) {
               key={item.id}
               name={item.name}
               image={item.image}
+              isCustom={item.isCustom}
               marker={item.marker}
               reminder={item.reminder}
             />
