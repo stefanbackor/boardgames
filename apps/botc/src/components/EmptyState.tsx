@@ -144,6 +144,11 @@ export function EmptyState({
                   <Flex align="center" gap="2" width="100%">
                     <Button
                       variant="ghost"
+                      style={{
+                        flex: 1,
+                        minWidth: 0,
+                        justifyContent: 'flex-start',
+                      }}
                       aria-expanded={!folder.collapsed}
                       aria-controls={`folder-${folder.id}`}
                       onClick={async () => {
@@ -162,9 +167,14 @@ export function EmptyState({
                       ) : (
                         <ChevronDown size={16} />
                       )}
-                      {folder.name}
+                      <Text style={{ flexShrink: 0 }}>{folder.name}</Text>
+                      <Separator
+                        decorative
+                        orientation="horizontal"
+                        size="4"
+                        style={{ flex: 1 }}
+                      />
                     </Button>
-                    <Separator decorative orientation="horizontal" size="4" />
                     <Button
                       variant="ghost"
                       color="gray"
