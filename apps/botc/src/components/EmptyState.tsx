@@ -135,7 +135,7 @@ export function EmptyState({
                 <Flex
                   key={folder.id}
                   direction="column"
-                  gap="0"
+                  gap="2"
                   width="100%"
                   align="center"
                   role="region"
