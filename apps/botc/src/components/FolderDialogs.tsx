@@ -115,7 +115,7 @@ export function FolderDialog({
             <>
               <Text>
                 {t(
-                  'Delete this folder? Its scripts will be kept and become unfiled.',
+                  'Delete this folder? No scripts will be deleted or changed. They will simply become unfiled.',
                 )}
               </Text>
               <Button

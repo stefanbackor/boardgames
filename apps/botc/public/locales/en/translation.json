@@ -37,7 +37,7 @@
   "Create folder and move": "Create folder and move",
   "Delete": "Delete",
   "Delete folder": "Delete folder",
-  "Delete this folder? Its scripts will be kept and become unfiled.": "Delete this folder? Its scripts will be kept and become unfiled.",
+  "Delete this folder? No scripts will be deleted or changed. They will simply become unfiled.": "Delete this folder? No scripts will be deleted or changed. They will simply become unfiled.",
   "Demons": "Demons",
   "Describe the homebrew rule": "Describe the homebrew rule",
   "Done": "Done",

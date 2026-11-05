@@ -118,7 +118,7 @@ test('homepage sorts naturally, persists collapse, manages empty folders, and de
   await page.getByRole('button', { name: 'Delete folder', exact: true }).click()
   await expect(
     page.getByText(
-      'Delete this folder? Its scripts will be kept and become unfiled.',
+      'Delete this folder? No scripts will be deleted or changed. They will simply become unfiled.',
     ),
   ).toBeVisible()
   await page.getByRole('button', { name: 'Cancel', exact: true }).click()
