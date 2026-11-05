@@ -135,7 +135,7 @@ export function EmptyState({
                 <Flex
                   key={folder.id}
                   direction="column"
-                  gap="2"
+                  gap="0"
                   width="100%"
                   align="center"
                   role="region"
@@ -175,7 +175,11 @@ export function EmptyState({
                     </Button>
                     <Separator decorative orientation="horizontal" size="4" />
                   </Flex>
-                  <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
+                  <div
+                    id={`folder-${folder.id}`}
+                    hidden={folder.collapsed}
+                    style={{ marginTop: 'var(--space-2)' }}
+                  >
                     {folderScripts.length > 0 ? (
                       renderScripts(folderScripts)
                     ) : (
