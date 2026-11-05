@@ -107,7 +107,7 @@ test('homepage sorts naturally, persists collapse, manages empty folders, and de
     .getByRole('button', { name: 'Edit folder Folder 2', exact: true })
     .click()
   await page.getByLabel('Folder name', { exact: true }).fill('Folder 1')
-  await page.getByRole('button', { name: 'Rename folder', exact: true }).click()
+  await page.getByRole('button', { name: 'Rename', exact: true }).click()
   await expect(page.getByRole('region').first()).toHaveAttribute(
     'aria-label',
     'Folder 1',
@@ -115,7 +115,7 @@ test('homepage sorts naturally, persists collapse, manages empty folders, and de
   await page
     .getByRole('button', { name: 'Edit folder Folder 1', exact: true })
     .click()
-  await page.getByRole('button', { name: 'Delete folder', exact: true }).click()
+  await page.getByRole('button', { name: 'Delete', exact: true }).click()
   await expect(
     page.getByText(
       'Delete this folder? No scripts will be deleted or changed. They will simply become unfiled.',
@@ -128,7 +128,7 @@ test('homepage sorts naturally, persists collapse, manages empty folders, and de
   await page
     .getByRole('button', { name: 'Edit folder Folder 1', exact: true })
     .click()
-  await page.getByRole('button', { name: 'Delete folder', exact: true }).click()
+  await page.getByRole('button', { name: 'Delete', exact: true }).click()
   await page
     .getByRole('button', { name: 'Confirm delete folder', exact: true })
     .click()

@@ -96,7 +96,7 @@ export function FolderDialog({
                   disabled={busy}
                 />
                 <Button type="submit" disabled={busy}>
-                  {t(scriptId ? 'Create folder and move' : 'Rename folder')}
+                  {t(scriptId ? 'Create folder and move' : 'Rename')}
                 </Button>
                 {!scriptId && (
                   <Button
@@ -106,7 +106,7 @@ export function FolderDialog({
                     disabled={busy}
                     onClick={() => setConfirmDelete(true)}
                   >
-                    {t('Delete folder')}
+                    {t('Delete')}
                   </Button>
                 )}
               </Flex>
