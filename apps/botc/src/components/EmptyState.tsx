@@ -164,8 +164,10 @@ export function EmptyState({
                       )}
                       {folder.name}
                     </Button>
+                    <Separator decorative orientation="horizontal" size="4" />
                     <Button
                       variant="ghost"
+                      color="gray"
                       aria-label={t('Edit folder {{folder}}', {
                         folder: folder.name,
                       })}
@@ -173,7 +175,6 @@ export function EmptyState({
                     >
                       <Settings size={16} />
                     </Button>
-                    <Separator decorative orientation="horizontal" size="4" />
                   </Flex>
                   <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
                     {folderScripts.length > 0 ? (
