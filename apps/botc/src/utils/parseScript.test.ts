@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { parseScript, getScriptItemId } from './parseScript'
+import { parseScript } from './parseScript'
+import { getScriptItemId } from './scriptIntake'
 import { roles as baseRolesData } from '@/data/roles.en'
 import type { Role } from '@/types'
 import fs from 'fs'
@@ -104,7 +105,7 @@ describe('parseScript', () => {
 
       const result = parseScript(scriptData as any, baseRoles)
 
-      expect(result.meta).toBeUndefined()
+      expect(result.meta.present).toBe(false)
       expect(result.roles).toHaveLength(2)
     })
 
@@ -211,9 +212,7 @@ describe('parseScript', () => {
           const hasMeta = scriptData.some((item: any) => item.id === '_meta')
 
           if (hasMeta) {
-            expect(result.meta).toBeDefined()
-            expect(result.meta?.id).toBe('_meta')
-            expect(result.meta?.name).toBeDefined()
+            expect(result.meta.present).toBe(true)
           }
         })
 
@@ -358,7 +357,7 @@ describe('parseScript', () => {
     it('should handle empty script data', () => {
       const result = parseScript([], baseRoles)
 
-      expect(result.meta).toBeUndefined()
+      expect(result.meta.present).toBe(false)
       expect(result.roles).toEqual([])
     })
 

@@ -31,24 +31,6 @@ vi.mock('@/utils/urlCompression', () => ({
   }),
 }))
 
-// Mock the parseScript utility
-// Only extractMeta is stubbed: the rest of the module is real, so helpers like
-// getScriptItemId are exercised rather than replaced by a second copy of
-// themselves that could agree with a bug
-vi.mock('@/utils/parseScript', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@/utils/parseScript')>()),
-  extractMeta: vi.fn((script: ScriptItem[]) => {
-    const metaItem = script.find((item) => {
-      if (typeof item === 'string') return false
-      return item.id === '_meta'
-    })
-    if (metaItem && typeof metaItem === 'object') {
-      return metaItem as { name?: string; author?: string }
-    }
-    return null
-  }),
-}))
-
 describe('scriptModificationHelpers', () => {
   beforeEach(() => {
     clearOriginalScriptCache()

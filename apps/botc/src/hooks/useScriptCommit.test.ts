@@ -7,7 +7,7 @@ import {
   setOriginalScriptCache,
 } from '@/stores/scriptModificationStore'
 import type { ScriptData } from '@/types'
-import { extractMeta } from '@/utils/parseScript'
+import { readMeta } from '@/utils/scriptIntake'
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -139,9 +139,7 @@ describe('asynchronous script commits', () => {
       await act(async () => {
         await result.current.handleSaveChanges()
       })
-      const savedMeta = extractMeta(
-        vi.mocked(props.saveScript).mock.lastCall![1],
-      )
+      const savedMeta = readMeta(vi.mocked(props.saveScript).mock.lastCall![1])
       expect(savedMeta?.name).toBe(field === 'name' ? 'B' : 'A')
       expect(savedMeta?.author).toBe(
         field === 'author' ? 'Author B' : 'Author A',

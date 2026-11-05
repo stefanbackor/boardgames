@@ -4,7 +4,7 @@ import type { ScriptData } from '@/utils/parseScript'
 import { compressForUrl } from '@/utils/urlCompression'
 import { sendEvent } from '@/utils/analytics'
 import { useScriptModificationStore } from '@/stores/scriptModificationStore'
-import { extractMeta, getScriptItemId } from '@/utils/parseScript'
+import { getScriptItemId, readMeta } from '@/utils/scriptIntake'
 import { buildCommittedScript } from '@/utils/commitScript'
 import type { MetaOverrides, SavedScript } from '@/types'
 
@@ -266,7 +266,7 @@ export function useScriptCommit({
      * Key insights: Revert frequency, indicates UX friction or user uncertainty
      */
     sendEvent('revert_changes', {
-      script_name: extractMeta(scriptData || [])?.name || 'unknown',
+      script_name: readMeta(scriptData || []).name || 'unknown',
     })
 
     /**

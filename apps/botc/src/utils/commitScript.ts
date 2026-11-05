@@ -1,8 +1,5 @@
-import { extractMeta, getScriptItemId } from './parseScript'
-import {
-  applyBootleggerRules,
-  normalizeBootleggerRules,
-} from './bootleggerRules'
+import { getScriptItemId, readMeta } from './scriptIntake'
+import { applyBootleggerRules } from './bootleggerRules'
 import type { MetaOverrides, ScriptData, ScriptItem } from '@/types'
 
 /**
@@ -45,23 +42,21 @@ export function buildCommittedScript(
   scriptData: ScriptData,
   metaOverrides: MetaOverrides | null,
 ): CommittedScript {
-  const currentMeta = extractMeta(scriptData)
+  const currentMeta = readMeta(scriptData)
 
   const name =
-    metaOverrides?.name !== undefined
-      ? metaOverrides.name
-      : currentMeta?.name || ''
+    metaOverrides?.name !== undefined ? metaOverrides.name : currentMeta.name
   const author =
     metaOverrides?.author !== undefined
       ? metaOverrides.author
-      : currentMeta?.author || ''
+      : currentMeta.author
 
   // Homebrew rules live in _meta.bootlegger (official script tool format)
   const bootleggerOverride = metaOverrides?.bootlegger
   const bootlegger =
     bootleggerOverride !== undefined
       ? bootleggerOverride
-      : normalizeBootleggerRules(currentMeta?.bootlegger)
+      : currentMeta.bootlegger
 
   /**
    * Applies the resolved values to the `_meta` item, leaving every other key

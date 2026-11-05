@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import type { Role, ParsedRole } from '@/types'
-import { getScriptItemId } from '@/utils/parseScript'
+import { getScriptItemId } from '@/utils/scriptIntake'
 import type { ScriptData } from '@/utils/parseScript'
 import { sendEvent } from '@/utils/analytics'
 

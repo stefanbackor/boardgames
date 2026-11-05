@@ -8,6 +8,7 @@ export type { Role, RoleTranslation, ParsedRole } from './role'
 // Script types
 export type {
   ScriptMeta,
+  ScriptMetaFields,
   ScriptRole,
   ScriptData,
   ScriptItem,

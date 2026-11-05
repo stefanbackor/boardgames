@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { extractMeta } from '@/utils/parseScript'
+import { readMeta } from '@/utils/scriptIntake'
 import type { ScriptItem, ScriptData, MetaOverrides } from '@/types'
 import {
   areBootleggerRulesEqual,
@@ -445,10 +445,7 @@ export const useScriptModificationStore = create<ScriptModificationState>()(
         const original = getOriginalFromUrl()
         const originalIds = getRoleIds(original.script || [])
         const currentIds = getRoleIds(script)
-        const meta = extractMeta(script)
-        const name = meta?.name || ''
-        const author = meta?.author || ''
-        const rules = normalizeBootleggerRules(meta?.bootlegger)
+        const { name, author, bootlegger: rules } = readMeta(script)
         const overrides: MetaOverrides = {}
         if (name !== original.name) overrides.name = name
         if (author !== original.author) overrides.author = author

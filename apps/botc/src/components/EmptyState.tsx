@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Flex, Text, Button, Link, Tooltip, Separator } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
-import { getScriptMeta, parseScript } from '@/utils/parseScript'
+import { parseScript } from '@/utils/parseScript'
+import { readMeta } from '@/utils/scriptIntake'
 import { getImageScale, getProxiedImageUrl } from '@/utils/imageUrl'
 import type { CarouselScript } from '@/hooks/useCarouselScripts'
 import type { SavedScript } from '@/types'
@@ -135,7 +136,7 @@ export function EmptyState({
             size="2"
             onClick={() => onLoadScript(JSON.stringify(script.json))}
           >
-            {getScriptMeta(script.json)?.name || script.key}
+            {readMeta(script.json).name || script.key}
           </Button>
         ))}
       </Flex>

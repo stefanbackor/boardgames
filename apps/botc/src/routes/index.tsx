@@ -13,7 +13,6 @@ import { PdfDebugPreview } from '@/components/PdfDebugPreview'
 import type { PrintSections } from '@/components/PrintDropdown'
 import { parseScript } from '@/utils/parseScript'
 import { whenPrintImagesReady } from '@/utils/printImages'
-import { normalizeBootleggerRules } from '@/utils/bootleggerRules'
 import { buildCommittedScript } from '@/utils/commitScript'
 import { compressForUrl } from '@/utils/urlCompression'
 import { generateMetaDescription } from '@/utils/generateMetaDescription'
@@ -154,10 +153,7 @@ function App() {
   const displayScriptName = getName() ?? (meta?.name || scriptName)
 
   // Homebrew rules from _meta.bootlegger; unsaved edits from the store win
-  const metaBootleggerRules = useMemo(
-    () => normalizeBootleggerRules(meta?.bootlegger),
-    [meta],
-  )
+  const metaBootleggerRules = useMemo(() => meta?.bootlegger ?? [], [meta])
   const editedBootleggerRules = getBootleggerRules()
   const bootleggerRules = editedBootleggerRules ?? metaBootleggerRules
   const hasBootleggerRules = bootleggerRules.length > 0

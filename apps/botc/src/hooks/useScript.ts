@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ScriptData, SavedScript } from '@/types'
 import { compressForUrl, decompressFromUrl } from '@/utils/urlCompression'
-import { extractMeta } from '@/utils/parseScript'
+import { readMeta } from '@/utils/scriptIntake'
 import {
   setOriginalScriptCache,
   clearOriginalScriptCache,
@@ -48,8 +48,7 @@ export function useScript() {
         return false
       }
 
-      const meta = extractMeta(parsed)
-      const name = meta?.name || fallbackName
+      const name = readMeta(parsed).name || fallbackName
 
       setScriptData(parsed as ScriptData)
       setScriptName(name)
@@ -126,7 +125,7 @@ export function useScript() {
             throw new Error(t('Invalid script format: expected an array'))
           }
 
-          const name = extractMeta(parsed)?.name || t('Script from URL')
+          const name = readMeta(parsed).name || t('Script from URL')
 
           /**
            * Analytics: Track script loaded from encoded URL parameter
@@ -137,7 +136,7 @@ export function useScript() {
             source: 'url',
             url_type: 'encoded_tool_url',
             domain: parsedUrl.hostname,
-            has_meta: !!extractMeta(parsed),
+            has_meta: readMeta(parsed).present,
             script_name: name,
           })
 
@@ -158,7 +157,7 @@ export function useScript() {
 
           // Extract name from meta or use filename from URL
           const urlName =
-            extractMeta(parsed)?.name ||
+            readMeta(parsed).name ||
             url
               .split('/')
               .pop()
@@ -174,7 +173,7 @@ export function useScript() {
             source: 'url',
             url_type: 'direct_json',
             domain: parsedUrl.hostname,
-            has_meta: !!extractMeta(parsed),
+            has_meta: readMeta(parsed).present,
             script_name: urlName,
           })
 
@@ -220,7 +219,7 @@ export function useScript() {
           const content = e.target?.result as string
           const parsed = JSON.parse(content)
           const fileName = file.name.replace(/\.[^/.]+$/, '')
-          const name = extractMeta(parsed)?.name || fileName
+          const name = readMeta(parsed).name || fileName
 
           /**
            * Analytics: Track script loaded from file upload
@@ -232,7 +231,7 @@ export function useScript() {
             file_name: file.name,
             file_size: file.size,
             script_name: name,
-            has_meta: !!extractMeta(parsed),
+            has_meta: readMeta(parsed).present,
           })
 
           parseAndSetScript(parsed, name, undefined, resetModifications)
@@ -265,7 +264,7 @@ export function useScript() {
     (jsonContent: string, resetModifications?: () => void) => {
       try {
         const parsed = JSON.parse(jsonContent)
-        const name = extractMeta(parsed)?.name || t('Pasted Script')
+        const name = readMeta(parsed).name || t('Pasted Script')
 
         /**
          * Analytics: Track script loaded from JSON paste
@@ -276,7 +275,7 @@ export function useScript() {
           source: 'paste',
           content_length: jsonContent.length,
           script_name: name,
-          has_meta: !!extractMeta(parsed),
+          has_meta: readMeta(parsed).present,
         })
 
         parseAndSetScript(parsed, name, undefined, resetModifications)
@@ -366,7 +365,7 @@ export function useScript() {
           const parsed = JSON.parse(decoded)
 
           if (Array.isArray(parsed)) {
-            const name = extractMeta(parsed)?.name || t('Shared Script')
+            const name = readMeta(parsed).name || t('Shared Script')
             setScriptData(parsed as ScriptData)
             setScriptName(name)
             setCurrentScriptId(null) // Clear ID for shared scripts

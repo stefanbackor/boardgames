@@ -1,6 +1,5 @@
 import { decompressFromUrl } from '@/utils/urlCompression'
-import { extractMeta, getScriptItemId } from '@/utils/parseScript'
-import { normalizeBootleggerRules } from '@/utils/bootleggerRules'
+import { getScriptItemId, readMeta } from '@/utils/scriptIntake'
 import type { ScriptItem } from '@/types'
 
 /**
@@ -115,10 +114,7 @@ export function getOriginalFromUrl(searchParams?: string): OriginalScript {
     }
 
     // Extract name, author and homebrew rules from _meta object
-    const metaObj = extractMeta(parsed)
-    const name = metaObj?.name || ''
-    const author = metaObj?.author || ''
-    const bootlegger = normalizeBootleggerRules(metaObj?.bootlegger)
+    const { name, author, bootlegger } = readMeta(parsed)
 
     const original = lockOriginal(parsed, name, author, bootlegger)
     cachedOriginalScript = { url: currentUrl, original }
@@ -149,10 +145,7 @@ export function setOriginalScriptCache(
 
   if (!currentUrl) return
 
-  const metaObj = extractMeta(script)
-  const name = metaObj?.name || ''
-  const author = metaObj?.author || ''
-  const bootlegger = normalizeBootleggerRules(metaObj?.bootlegger)
+  const { name, author, bootlegger } = readMeta(script)
 
   cachedOriginalScript = {
     url: currentUrl,
