@@ -53,6 +53,16 @@ export interface TeamView {
   hiddenWhenEmpty: boolean
 }
 
+/**
+ * Unsaved edits, null where nothing was recorded. An empty string or list is
+ * an edit too: a name the user cleared must not come back from the metadata.
+ */
+export interface ScriptOverrides {
+  name: string | null
+  author: string | null
+  bootleggerRules: string[] | null
+}
+
 /** What the script view is built from */
 export interface ScriptViewInput {
   /** The characters as parseScript resolved them */
@@ -60,18 +70,18 @@ export interface ScriptViewInput {
   meta: ScriptMetaFields
   /** The name to show when neither an edit nor the metadata has one */
   fallbackName: string
-  /**
-   * Unsaved edits, null where nothing was recorded. An empty string or list is
-   * an edit too: a name the user cleared must not come back from the metadata.
-   */
-  overrides: {
-    name: string | null
-    author: string | null
-    bootleggerRules: string[] | null
-  }
+  overrides: ScriptOverrides
   /** Every character, to add the Bootlegger and Djinn from */
   catalog: Role[]
   jinxes: Jinx[]
+}
+
+/** The teams as the sheet lays them out, a page each */
+export interface ScriptPages {
+  /** Townsfolk, Outsiders, Minions and Demons */
+  characters: TeamView[]
+  /** Travellers, Fabled and Loric */
+  extras: TeamView[]
 }
 
 /**
@@ -86,12 +96,7 @@ export interface ScriptView {
   /** Every character on the sheet, the auto-added Bootlegger and Djinn included */
   roles: ParsedRole[]
   roleIds: ReadonlySet<string>
-  pages: {
-    /** Townsfolk, Outsiders, Minions and Demons */
-    characters: TeamView[]
-    /** Travellers, Fabled and Loric */
-    extras: TeamView[]
-  }
+  pages: ScriptPages
 }
 
 /**
@@ -173,5 +178,5 @@ export function buildScriptView({
  * Whether a team goes on paper - print and PDF alike. An empty team the sheet
  * can do without is left off.
  */
-export const isTeamOnPaper = (team: TeamView) =>
+export const isTeamOnPaper = (team: TeamView): boolean =>
   team.roles.length > 0 || !team.hiddenWhenEmpty

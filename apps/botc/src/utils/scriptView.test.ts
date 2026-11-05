@@ -6,6 +6,7 @@ import type { ParsedRole, ScriptMetaFields } from '@/types'
 import {
   buildScriptView,
   isTeamOnPaper,
+  type ScriptOverrides,
   type ScriptViewInput,
 } from './scriptView'
 
@@ -29,15 +30,27 @@ const noMeta: ScriptMetaFields = {
   bootlegger: [],
 }
 
-const build = (input: Partial<ScriptViewInput> = {}) =>
+const noOverrides: ScriptOverrides = {
+  name: null,
+  author: null,
+  bootleggerRules: null,
+}
+
+/** Builds a view, naming only the edits a test makes */
+const build = ({
+  overrides,
+  ...input
+}: Partial<Omit<ScriptViewInput, 'overrides'>> & {
+  overrides?: Partial<ScriptOverrides>
+} = {}) =>
   buildScriptView({
     roles: [official('washerwoman'), official('imp')],
     meta: noMeta,
     fallbackName: 'Fallback',
-    overrides: { name: null, author: null, bootleggerRules: null },
     catalog,
     jinxes,
     ...input,
+    overrides: { ...noOverrides, ...overrides },
   })
 
 const ids = (view: ReturnType<typeof build>) => view.roles.map((r) => r.id)
@@ -47,7 +60,7 @@ describe('buildScriptView', () => {
     it('takes the edited name over the metadata', () => {
       const view = build({
         meta: { ...noMeta, name: 'Meta' },
-        overrides: { name: 'Edited', author: null, bootleggerRules: null },
+        overrides: { name: 'Edited' },
       })
 
       expect(view.name).toBe('Edited')
@@ -56,7 +69,7 @@ describe('buildScriptView', () => {
     it('keeps a name the user cleared', () => {
       const view = build({
         meta: { ...noMeta, name: 'Meta' },
-        overrides: { name: '', author: null, bootleggerRules: null },
+        overrides: { name: '' },
       })
 
       expect(view.name).toBe('')
@@ -72,7 +85,7 @@ describe('buildScriptView', () => {
     it('has no author line for an author that is empty or only spaces', () => {
       for (const author of [null, '', '   ']) {
         const view = build({
-          overrides: { name: null, author, bootleggerRules: null },
+          overrides: { author },
         })
 
         expect(view.hasAuthor).toBe(false)
@@ -89,7 +102,7 @@ describe('buildScriptView', () => {
     it('keeps an author the user cleared', () => {
       const view = build({
         meta: { ...noMeta, author: 'Steven' },
-        overrides: { name: null, author: '', bootleggerRules: null },
+        overrides: { author: '' },
       })
 
       expect(view.author).toBe('')
@@ -160,7 +173,7 @@ describe('buildScriptView', () => {
     it('takes edited rules over the metadata', () => {
       const view = build({
         meta: { ...noMeta, bootlegger: ['Rule A'] },
-        overrides: { name: null, author: null, bootleggerRules: ['Rule B'] },
+        overrides: { bootleggerRules: ['Rule B'] },
       })
 
       expect(
@@ -172,7 +185,7 @@ describe('buildScriptView', () => {
     it('keeps the Bootlegger until saving when every rule was deleted', () => {
       const view = build({
         meta: { ...noMeta, bootlegger: ['Rule A'] },
-        overrides: { name: null, author: null, bootleggerRules: [] },
+        overrides: { bootleggerRules: [] },
       })
       const bootlegger = view.roles.find((r) => r.id === 'bootlegger')
 
