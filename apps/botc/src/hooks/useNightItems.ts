@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { NightMarker } from '@/constants/nightMarkers'
-import type { Role } from '@/types'
+import type { ParsedRole, Role } from '@/types'
 import { formatRoleDisplayName } from '@/utils/roleDisplayName'
 import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
 
@@ -22,8 +22,11 @@ export type NightItem = {
     }
 )
 
-/** A role on a night sheet; parsed roles say whether they are custom */
-type NightRole = Role & { isCustom?: boolean }
+/**
+ * A role on a night sheet. Parsed roles say whether they are custom; a plain
+ * role is taken as official.
+ */
+type NightRole = Role & Partial<Pick<ParsedRole, 'isCustom'>>
 
 /** A step with its place in the night */
 type OrderedNightItem = NightItem & { order: number }
