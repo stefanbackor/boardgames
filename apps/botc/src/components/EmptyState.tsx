@@ -131,13 +131,14 @@ export function EmptyState({
                 {renderScripts(unfiledScripts)}
               </Flex>
             </Flex>
-            {folders.map((folder) => {
+            {folders.map((folder, index) => {
               const folderScripts = sortedScripts.filter(
                 (script) => folderLibrary.membership[script.id] === folder.id,
               )
               return (
                 <Flex
                   key={folder.id}
+                  mt={index > 0 ? '2' : '0'}
                   direction="column"
                   gap="0"
                   width="100%"
