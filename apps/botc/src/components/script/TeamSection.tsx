@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Flex, Badge, Separator, IconButton, Box } from '@radix-ui/themes'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -24,14 +24,13 @@ import { useTeamLabels } from '@/hooks/useTeamLabels'
 import { RoleCard } from './RoleCard'
 import { AddRoleModal } from './AddRoleModal'
 import { useAddRoleModalStore } from '@/stores/addRoleModalStore'
-import { jinxes as baseJinxes } from '@/data/jinxes.en'
-import type { Jinx } from '@/types/jinx'
-import { getDjinnJinxes, getHatedByMap } from '@/utils/scriptJinxes'
+import type { LockReason, RoleView } from '@/utils/scriptView'
 
 interface TeamSectionProps {
   team: Team
   teamColor: TeamColor
-  roles: Role[]
+  /** The team's characters with their annotations, see buildScriptView */
+  roles: RoleView[]
   /**
    * Number of columns for the role grid.
    * - Defaults to 2 (original two-column layout)
@@ -39,27 +38,13 @@ interface TeamSectionProps {
    */
   columnsCount?: number
   allRoles?: Role[]
-  existingRoleIds?: Set<string>
+  existingRoleIds?: ReadonlySet<string>
   onAddRole?: (role: Role) => void
   onRemoveRole?: (roleId: string) => void
   onReplaceRole?: (oldRoleId: string, newRole: Role) => void
   onReorderRoles?: (team: string, fromIndex: number, toIndex: number) => void
-  scriptRoles?: Role[]
-  /**
-   * Optional jinx data, already localized for the current language.
-   * Falls back to base English jinxes when not provided.
-   */
-  jinxes?: Jinx[]
-  /** Homebrew rules from `_meta.bootlegger`, shown on the Bootlegger card */
-  bootleggerRules?: string[]
   /** Called with the new rule list; omit to render the rules read-only */
   onBootleggerRulesChange?: (rules: string[]) => void
-  /**
-   * Why a role cannot be taken out of the script, by role id. The reason is
-   * worked out where the script content is known, so that the card can name it
-   * rather than guess at it.
-   */
-  lockedRoles?: Record<string, string>
 }
 
 export function TeamSection({
@@ -73,13 +58,14 @@ export function TeamSection({
   onRemoveRole,
   onReplaceRole,
   onReorderRoles,
-  scriptRoles,
-  jinxes: jinxesOverride,
-  bootleggerRules,
   onBootleggerRulesChange,
-  lockedRoles,
 }: TeamSectionProps) {
   const { t } = useTranslation()
+  const lockReasons: Record<LockReason, string> = {
+    'homebrew': t('Homebrew characters or rules require the Bootlegger'),
+    'unsaved-rules': t('Save the script to remove the Bootlegger'),
+    'jinxes': t('Jinxed characters require the Djinn'),
+  }
   const teamLabels = useTeamLabels()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [replaceRoleId, setReplaceRoleId] = useState<string | undefined>()
@@ -127,33 +113,20 @@ export function TeamSection({
 
     if (!over || active.id === over.id) return
 
-    const oldIndex = roles.findIndex((r) => r.id === active.id)
-    const newIndex = roles.findIndex((r) => r.id === over.id)
+    const oldIndex = roles.findIndex((r) => r.role.id === active.id)
+    const newIndex = roles.findIndex((r) => r.role.id === over.id)
 
     if (oldIndex !== -1 && newIndex !== -1 && onReorderRoles) {
       onReorderRoles(team, oldIndex, newIndex)
     }
   }
 
-  const activeRole = activeId ? roles.find((r) => r.id === activeId) : null
+  const activeRole = activeId
+    ? roles.find((r) => r.role.id === activeId)
+    : undefined
 
   // Clamp the column count to at least 1 and expose via CSS variable.
   const gridColumnsCount = Math.max(1, columnsCount)
-
-  // Use language-appropriate jinx data if provided
-  const jinxes = jinxesOverride ?? baseJinxes
-
-  // Compute jinxes for djinn role if scriptRoles is provided
-  const djinnJinxes = useMemo(
-    () => (scriptRoles ? getDjinnJinxes(scriptRoles, jinxes) : []),
-    [scriptRoles, jinxes],
-  )
-
-  // Compute "hated by" information for each role
-  const hatedByMap = useMemo(
-    () => (scriptRoles ? getHatedByMap(scriptRoles, jinxes) : new Map()),
-    [scriptRoles, jinxes],
-  )
 
   return (
     <>
@@ -196,7 +169,7 @@ export function TeamSection({
           onDragEnd={handleDragEnd}
         >
           <SortableContext
-            items={roles.map((r) => r.id)}
+            items={roles.map((r) => r.role.id)}
             strategy={rectSortingStrategy}
           >
             <Box
@@ -207,7 +180,7 @@ export function TeamSection({
                 } as React.CSSProperties
               }
             >
-              {roles.map((role) => (
+              {roles.map(({ role, hatedBy, jinxes, rules, lock }) => (
                 <Box key={role.id} className="role-grid-item">
                   <RoleCard
                     role={role}
@@ -216,21 +189,13 @@ export function TeamSection({
                     // homebrew content keeps the Bootlegger, an active jinx
                     // keeps the Djinn - so taking them out would do nothing.
                     // Say why rather than dropping the control.
-                    lockedReason={lockedRoles?.[role.id]}
+                    lockedReason={lock && lockReasons[lock]}
                     onSearch={canAddRoles ? handleSearch : undefined}
                     isDraggable={!!onReorderRoles}
-                    jinxes={role.id === 'djinn' ? djinnJinxes : undefined}
-                    hatedBy={hatedByMap.get(role.id)}
-                    rules={
-                      role.id === 'bootlegger'
-                        ? (bootleggerRules ?? [])
-                        : undefined
-                    }
-                    onRulesChange={
-                      role.id === 'bootlegger'
-                        ? onBootleggerRulesChange
-                        : undefined
-                    }
+                    jinxes={jinxes}
+                    hatedBy={hatedBy}
+                    rules={rules}
+                    onRulesChange={rules ? onBootleggerRulesChange : undefined}
                   />
                 </Box>
               ))}
@@ -245,15 +210,11 @@ export function TeamSection({
                 }}
               >
                 <RoleCard
-                  role={activeRole}
+                  role={activeRole.role}
                   isDraggable={false}
                   // Frozen rather than read-only, so the preview keeps the
                   // height of the card it was picked up from
-                  rules={
-                    activeRole.id === 'bootlegger'
-                      ? (bootleggerRules ?? [])
-                      : undefined
-                  }
+                  rules={activeRole.rules}
                   frozenRules={!!onBootleggerRulesChange}
                 />
               </Box>

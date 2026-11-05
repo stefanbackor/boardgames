@@ -23,7 +23,7 @@ interface AddRoleModalProps {
   onOpenChange: (open: boolean) => void
   team: Team
   allRoles: Role[]
-  existingRoleIds: Set<string>
+  existingRoleIds: ReadonlySet<string>
   onAddRole: (role: Role) => void
   onRemoveRole: (roleId: string) => void
   onReplaceRole?: (oldRoleId: string, newRole: Role) => void

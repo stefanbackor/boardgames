@@ -16,11 +16,7 @@ import { whenPrintImagesReady } from '@/utils/printImages'
 import { buildCommittedScript } from '@/utils/commitScript'
 import { compressForUrl } from '@/utils/urlCompression'
 import { generateMetaDescription } from '@/utils/generateMetaDescription'
-import {
-  applyAutoRoles,
-  isBootleggerRequired,
-  isDjinnRequired,
-} from '@/utils/scriptAutoRoles'
+import { buildScriptView } from '@/utils/scriptView'
 import { useBaseScripts } from '@/hooks/useBaseScripts'
 import { useCarouselScripts } from '@/hooks/useCarouselScripts'
 import { useMetaTags } from '@/hooks/useMetaTags'
@@ -137,81 +133,48 @@ function App() {
   const roles = useTranslatedRoles(language)
   const activeJinxes = useActiveJinxes(language)
 
-  // Parse script and apply auto-roles
   const parsedScript = useMemo(
     () => (scriptData ? parseScript(scriptData, roles) : null),
     [scriptData, roles],
   )
-  const meta = parsedScript?.meta
-  const parsedRoles = parsedScript?.roles
 
   /**
-   * The name on screen. `??` rather than `||`: getName() answers null when
-   * nothing has been recorded, so an edit wins even when it is empty - a name
-   * the user cleared must not be replaced by the one they cleared it from.
+   * Unsaved edits, null where nothing was recorded - an edit wins even when it
+   * is empty, so a name the user cleared does not come back from `_meta`
    */
-  const displayScriptName = getName() ?? (meta?.name || scriptName)
+  const nameOverride = getName()
+  const authorOverride = getAuthor()
+  const bootleggerRulesOverride = getBootleggerRules()
 
-  // Homebrew rules from _meta.bootlegger; unsaved edits from the store win
-  const metaBootleggerRules = useMemo(() => meta?.bootlegger ?? [], [meta])
-  const editedBootleggerRules = getBootleggerRules()
-  const bootleggerRules = editedBootleggerRules ?? metaBootleggerRules
-  const hasBootleggerRules = bootleggerRules.length > 0
-
-  // Deleting the last rule must not take the editor away with it, so an
-  // unsaved rule edit keeps the Bootlegger around even at zero rules
-  const hasHomebrewRules = hasBootleggerRules || editedBootleggerRules !== null
-
-  // Auto-add bootlegger if there are custom roles or homebrew rules, and djinn
-  // if there are jinxed roles. Auto-remove djinn if there are no active jinx pairs
-  const scriptRoles = useMemo(() => {
-    if (!parsedRoles) return null
-    return applyAutoRoles(parsedRoles, activeJinxes, roles, {
-      hasHomebrewRules,
-    })
-  }, [parsedRoles, roles, activeJinxes, hasHomebrewRules])
-
-  /**
-   * Why a role cannot be taken out of the script, by role id. Taking one out
-   * does nothing while the auto-roles put it straight back, so the card says
-   * why instead of offering a control that changes nothing.
-   */
-  const lockedRoles = useMemo(() => {
-    if (!scriptRoles) return undefined
-
-    const locked: Record<string, string> = {}
-
-    /**
-     * The Bootlegger's two reasons are worth telling apart. Homebrew content is
-     * a property of the script; an emptied rule list only holds the Bootlegger
-     * until the script is saved, and blaming rules that are no longer there is
-     * how a tooltip loses the reader.
-     */
-    if (
-      isBootleggerRequired(scriptRoles, {
-        hasHomebrewRules: hasBootleggerRules,
-      })
-    ) {
-      // Homebrew characters, or rules that are actually there
-      locked.bootlegger = t(
-        'Homebrew characters or rules require the Bootlegger',
-      )
-    } else if (hasHomebrewRules) {
-      // Nothing but the open rule editor is holding it, and a save closes that
-      locked.bootlegger = t('Save the script to remove the Bootlegger')
-    }
-
-    if (isDjinnRequired(scriptRoles, activeJinxes)) {
-      locked.djinn = t('Jinxed characters require the Djinn')
-    }
-
-    return locked
-  }, [scriptRoles, activeJinxes, hasBootleggerRules, hasHomebrewRules, t])
-
-  // Track existing role IDs for filtering in add modal
-  const existingRoleIds = useMemo(() => {
-    return new Set(scriptRoles?.map((role) => role.id) || [])
-  }, [scriptRoles])
+  // The script as players see it, unsaved edits included - see buildScriptView
+  const view = useMemo(
+    () =>
+      parsedScript
+        ? buildScriptView({
+            roles: parsedScript.roles,
+            meta: parsedScript.meta,
+            fallbackName: scriptName,
+            overrides: {
+              name: nameOverride,
+              author: authorOverride,
+              bootleggerRules: bootleggerRulesOverride,
+            },
+            catalog: roles,
+            jinxes: activeJinxes,
+          })
+        : null,
+    [
+      parsedScript,
+      scriptName,
+      nameOverride,
+      authorOverride,
+      bootleggerRulesOverride,
+      roles,
+      activeJinxes,
+    ],
+  )
+  const scriptRoles = view?.roles ?? null
+  const displayScriptName = view ? view.name : (nameOverride ?? scriptName)
 
   // Sample and carousel scripts for empty state
   const sampleScripts = useBaseScripts()
@@ -344,9 +307,9 @@ function App() {
   } = useScriptPdf({
     roles: scriptRoles ?? [],
     name: displayScriptName,
-    author: getAuthor() ?? meta?.author ?? '',
+    author: view?.author ?? '',
     jinxes: activeJinxes,
-    bootleggerRules,
+    bootleggerRules: view?.bootleggerRules ?? [],
   })
 
   // Script modification handlers (from hook)
@@ -795,14 +758,10 @@ function App() {
           </div>
 
           {/* Script content when loaded */}
-          {scriptData && scriptRoles && (
+          {scriptData && view && (
             <ScriptContent
-              scriptRoles={scriptRoles}
-              displayScriptName={displayScriptName}
-              meta={meta}
+              view={view}
               roles={roles}
-              activeJinxes={activeJinxes}
-              existingRoleIds={existingRoleIds}
               printSections={printSections}
               scriptIsModified={scriptIsModified}
               showSave={showSaveButton}
@@ -816,10 +775,7 @@ function App() {
               onRemoveRole={handleRemoveRole}
               onReplaceRole={handleReplaceRole}
               onReorderRoles={handleReorderRoles}
-              getAuthor={getAuthor}
-              bootleggerRules={bootleggerRules}
               onBootleggerRulesChange={handleBootleggerRulesChange}
-              lockedRoles={lockedRoles}
             />
           )}
 

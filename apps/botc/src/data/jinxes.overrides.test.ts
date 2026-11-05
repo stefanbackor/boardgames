@@ -281,7 +281,7 @@ describe('jinx data: role names inside reasons', () => {
   )
 })
 
-/** Same algorithm as TeamSection's `djinnJinxes` memo. */
+/** Same algorithm as getDjinnJinxes, which feeds the Djinn's card. */
 function djinnRows(scriptRoles: Array<Role>, jinxes: Array<Jinx>) {
   const ids = new Set(scriptRoles.map((r) => r.id))
   const rows: Array<{
