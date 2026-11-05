@@ -137,4 +137,18 @@ test.describe('Homepage', () => {
     await expect(page.getByText('První noc', { exact: true })).toBeVisible()
     await expect(page.getByText('First Night', { exact: true })).toHaveCount(0)
   })
+
+  test('should reject pasted JSON that is not a list', async ({ page }) => {
+    await page.goto('/')
+    // The label is "Paste" on mobile viewports
+    await page.getByRole('button', { name: /^(Paste JSON|Paste)$/ }).click()
+    await page
+      .locator('textarea')
+      .fill(JSON.stringify({ id: '_meta', name: 'Not a script' }))
+    await page.getByRole('button', { name: 'Load Script' }).click()
+
+    await expect(
+      page.getByText('Invalid script format: expected an array'),
+    ).toBeVisible()
+  })
 })

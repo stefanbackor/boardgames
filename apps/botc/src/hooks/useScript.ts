@@ -1,8 +1,14 @@
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ScriptData, SavedScript } from '@/types'
-import { compressForUrl, decompressFromUrl } from '@/utils/urlCompression'
-import { extractMeta } from '@/utils/parseScript'
+import { compressForUrl } from '@/utils/urlCompression'
+import {
+  readScript,
+  readScriptFile,
+  readScriptUrl,
+  type IntakeError,
+  type IntakeScript,
+} from '@/utils/scriptIntake'
 import {
   setOriginalScriptCache,
   clearOriginalScriptCache,
@@ -32,31 +38,48 @@ export function useScript() {
   const [currentScriptId, setCurrentScriptId] = useState<string | null>(null)
 
   /**
-   * Parses and sets script data, updating URL
+   * Says why intake rejected a script, in the words the user sees
    */
-  const parseAndSetScript = useCallback(
-    async (
-      parsed: unknown[],
+  const describeIntakeError = useCallback(
+    (error: IntakeError): string => {
+      switch (error.kind) {
+        case 'decode-failed':
+          return t('Failed to load script from URL')
+        case 'invalid-json':
+          return t('Failed to parse JSON')
+        case 'not-array':
+          return t('Invalid script format: expected an array')
+        case 'invalid-url':
+          return t('Invalid URL format')
+        case 'fetch-failed':
+          return t('Failed to fetch script: {{statusText}}', {
+            statusText: error.statusText,
+          })
+        case 'network':
+          return error.message
+        case 'read-failed':
+          return t('Failed to parse JSON file')
+      }
+    },
+    [t],
+  )
+
+  /**
+   * Sets a script that passed intake, updating URL
+   */
+  const setLoadedScript = useCallback(
+    (
+      script: IntakeScript,
       fallbackName: string,
       sourceUrl?: string,
       resetModifications?: () => void,
-    ): Promise<boolean> => {
-      if (!Array.isArray(parsed)) {
-        setError(t('Invalid script format: expected an array'))
-        clearOriginalScriptCache()
-        if (resetModifications) resetModifications()
-        return false
-      }
-
-      const meta = extractMeta(parsed)
-      const name = meta?.name || fallbackName
-
-      setScriptData(parsed as ScriptData)
-      setScriptName(name)
+    ) => {
+      setScriptData(script.data)
+      setScriptName(script.name || fallbackName)
       setError(null)
 
       // Update URL with compressed script data
-      const content = JSON.stringify(parsed)
+      const content = JSON.stringify(script.data)
       const encoded = compressForUrl(content)
 
       const params = new URLSearchParams()
@@ -66,7 +89,7 @@ export function useScript() {
       window.history.pushState({}, '', newUrl)
 
       // Populate cache so store can access original script synchronously
-      setOriginalScriptCache(parsed as ScriptData)
+      setOriginalScriptCache(script.data)
 
       // Update source URL if provided, otherwise clear it
       setCurrentScriptUrl(sourceUrl || '')
@@ -87,10 +110,8 @@ export function useScript() {
          */
         syncScriptKey()
       }
-
-      return true
     },
-    [t],
+    [],
   )
 
   /**
@@ -101,161 +122,110 @@ export function useScript() {
    */
   const loadFromUrl = useCallback(
     async (url: string, resetModifications?: () => void) => {
+      setError(null)
+      setIsLoading(true)
+
       try {
-        setError(null)
-        setIsLoading(true)
+        const result = await readScriptUrl(url)
 
-        // Check if this is a URL with an encoded script parameter
-        let parsedUrl: URL
-        try {
-          parsedUrl = new URL(url)
-        } catch {
-          throw new Error(t('Invalid URL format'))
-        }
-
-        const scriptParam = parsedUrl.searchParams.get('script')
-
-        // If there's a script parameter, try to decode it instead of fetching
-        // This handles both official BOTC tool URLs and any other tool using the same format
-        if (scriptParam) {
-          // Decode the script parameter from URL
-          const decoded = decompressFromUrl(scriptParam)
-          const parsed = JSON.parse(decoded)
-
-          if (!Array.isArray(parsed)) {
-            throw new Error(t('Invalid script format: expected an array'))
-          }
-
-          const name = extractMeta(parsed)?.name || t('Script from URL')
+        if (result.ok) {
+          const name = result.script.name || t('Script from URL')
 
           /**
-           * Analytics: Track script loaded from encoded URL parameter
-           * Purpose: Understand usage of script-sharing feature and traffic sources
-           * Key insights: Which domains are sharing scripts, success rate of shared links
+           * Analytics: Track script loaded from a URL
+           * Purpose: Understand usage of script-sharing and how users discover
+           * scripts from external sources
+           * Key insights: Which domains are sharing scripts, popular script
+           * repositories, success rate of shared links
            */
           sendEvent('load_script', {
             source: 'url',
-            url_type: 'encoded_tool_url',
-            domain: parsedUrl.hostname,
-            has_meta: !!extractMeta(parsed),
+            url_type: result.urlKind,
+            domain: new URL(url).hostname,
+            has_meta: result.script.meta.present,
             script_name: name,
           })
 
-          await parseAndSetScript(parsed, name, url, resetModifications)
+          setLoadedScript(result.script, name, url, resetModifications)
         } else {
-          // No script parameter - fetch from direct JSON URL
-          const response = await fetch(url)
-
-          if (!response.ok) {
-            throw new Error(
-              t('Failed to fetch script: {{statusText}}', {
-                statusText: response.statusText,
-              }),
-            )
-          }
-
-          const parsed = await response.json()
-
-          // Extract name from meta or use filename from URL
-          const urlName =
-            extractMeta(parsed)?.name ||
-            url
-              .split('/')
-              .pop()
-              ?.replace(/\.[^/.]+$/, '') ||
-            t('Script from URL')
+          // A link that does not decode says so on its own; anything else says
+          // what went wrong after the fact that loading failed
+          const message =
+            result.error.kind === 'decode-failed'
+              ? describeIntakeError(result.error)
+              : t('Failed to load script from URL: {{error}}', {
+                  error: describeIntakeError(result.error),
+                })
+          console.error('Failed to load script from URL:', result.error)
 
           /**
-           * Analytics: Track script loaded from direct JSON URL
-           * Purpose: Understand how users discover and load scripts from external sources
-           * Key insights: Popular script repositories, direct JSON file usage patterns
+           * Analytics: Track script loading errors from URLs
+           * Purpose: Monitor and debug issues with script loading from external sources
+           * Key insights: Common error patterns, problematic domains, URL format issues
            */
-          sendEvent('load_script', {
+          sendEvent('script_error', {
+            error_type: 'load_failed',
             source: 'url',
-            url_type: 'direct_json',
-            domain: parsedUrl.hostname,
-            has_meta: !!extractMeta(parsed),
-            script_name: urlName,
+            error_message: describeIntakeError(result.error),
+            url: url,
           })
 
-          await parseAndSetScript(parsed, urlName, url, resetModifications)
+          setError(message)
+          clearOriginalScriptCache()
+          if (resetModifications) resetModifications()
         }
-      } catch (err) {
-        console.error('Failed to load script from URL:', err)
-
-        /**
-         * Analytics: Track script loading errors from URLs
-         * Purpose: Monitor and debug issues with script loading from external sources
-         * Key insights: Common error patterns, problematic domains, URL format issues
-         */
-        sendEvent('script_error', {
-          error_type: 'load_failed',
-          source: 'url',
-          error_message: err instanceof Error ? err.message : 'Unknown error',
-          url: url,
-        })
-
-        setError(
-          t('Failed to load script from URL: {{error}}', {
-            error: err instanceof Error ? err.message : t('Unknown error'),
-          }),
-        )
-        clearOriginalScriptCache()
-        if (resetModifications) resetModifications()
       } finally {
         setIsLoading(false)
       }
     },
-    [parseAndSetScript, t],
+    [describeIntakeError, setLoadedScript, t],
   )
 
   /**
    * Loads a script from a File object
    */
   const loadFromFile = useCallback(
-    (file: File, resetModifications?: () => void) => {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const content = e.target?.result as string
-          const parsed = JSON.parse(content)
-          const fileName = file.name.replace(/\.[^/.]+$/, '')
-          const name = extractMeta(parsed)?.name || fileName
+    async (file: File, resetModifications?: () => void) => {
+      const result = await readScriptFile(file)
 
-          /**
-           * Analytics: Track script loaded from file upload
-           * Purpose: Understand local file usage patterns and file sizes
-           * Key insights: Average file sizes, file naming patterns, upload success rate
-           */
-          sendEvent('load_script', {
-            source: 'file',
-            file_name: file.name,
-            file_size: file.size,
-            script_name: name,
-            has_meta: !!extractMeta(parsed),
-          })
+      if (result.ok) {
+        /**
+         * Analytics: Track script loaded from file upload
+         * Purpose: Understand local file usage patterns and file sizes
+         * Key insights: Average file sizes, file naming patterns, upload success rate
+         */
+        sendEvent('load_script', {
+          source: 'file',
+          file_name: file.name,
+          file_size: file.size,
+          script_name: result.script.name,
+          has_meta: result.script.meta.present,
+        })
 
-          parseAndSetScript(parsed, name, undefined, resetModifications)
-        } catch (err) {
-          /**
-           * Analytics: Track JSON parsing errors from file uploads
-           * Purpose: Identify common issues with user-provided JSON files
-           * Key insights: Malformed JSON patterns, file encoding issues
-           */
-          sendEvent('script_error', {
-            error_type: 'parse_failed',
-            source: 'file',
-            file_name: file.name,
-            file_size: file.size,
-          })
+        setLoadedScript(result.script, file.name, undefined, resetModifications)
+      } else {
+        /**
+         * Analytics: Track JSON parsing errors from file uploads
+         * Purpose: Identify common issues with user-provided JSON files
+         * Key insights: Malformed JSON patterns, file encoding issues
+         */
+        sendEvent('script_error', {
+          error_type: 'parse_failed',
+          source: 'file',
+          file_name: file.name,
+          file_size: file.size,
+        })
 
-          setError(t('Failed to parse JSON file'))
-          if (resetModifications) resetModifications()
-        }
+        // A file is "a JSON file" to the user, so bad JSON says so
+        setError(
+          result.error.kind === 'invalid-json'
+            ? t('Failed to parse JSON file')
+            : describeIntakeError(result.error),
+        )
+        if (resetModifications) resetModifications()
       }
-      reader.readAsText(file)
     },
-    [parseAndSetScript, t],
+    [describeIntakeError, setLoadedScript, t],
   )
 
   /**
@@ -263,9 +233,10 @@ export function useScript() {
    */
   const loadFromJson = useCallback(
     (jsonContent: string, resetModifications?: () => void) => {
-      try {
-        const parsed = JSON.parse(jsonContent)
-        const name = extractMeta(parsed)?.name || t('Pasted Script')
+      const result = readScript({ kind: 'text', text: jsonContent })
+
+      if (result.ok) {
+        const name = result.script.name || t('Pasted Script')
 
         /**
          * Analytics: Track script loaded from JSON paste
@@ -276,11 +247,11 @@ export function useScript() {
           source: 'paste',
           content_length: jsonContent.length,
           script_name: name,
-          has_meta: !!extractMeta(parsed),
+          has_meta: result.script.meta.present,
         })
 
-        parseAndSetScript(parsed, name, undefined, resetModifications)
-      } catch (err) {
+        setLoadedScript(result.script, name, undefined, resetModifications)
+      } else {
         /**
          * Analytics: Track JSON parsing errors from paste
          * Purpose: Identify issues with pasted content
@@ -292,12 +263,11 @@ export function useScript() {
           content_length: jsonContent.length,
         })
 
-        setError(t('Failed to parse JSON'))
+        setError(describeIntakeError(result.error))
         if (resetModifications) resetModifications()
-        console.error(err)
       }
     },
-    [parseAndSetScript, t],
+    [describeIntakeError, setLoadedScript, t],
   )
 
   /**
@@ -360,24 +330,24 @@ export function useScript() {
 
       // Priority 3: encoded script in URL
       if (encodedScript) {
-        try {
-          // Decompress from URL (handles both compressed and legacy uncompressed formats)
-          const decoded = decompressFromUrl(encodedScript)
-          const parsed = JSON.parse(decoded)
+        const result = readScript({ kind: 'encoded', param: encodedScript })
 
-          if (Array.isArray(parsed)) {
-            const name = extractMeta(parsed)?.name || t('Shared Script')
-            setScriptData(parsed as ScriptData)
-            setScriptName(name)
-            setCurrentScriptId(null) // Clear ID for shared scripts
-            setCurrentScriptUrl('')
-            // Populate cache so store can access original script synchronously
-            setOriginalScriptCache(parsed as ScriptData)
-            if (resetModifications) resetModifications()
-            setError(null)
-          }
-        } catch (err) {
-          console.error('Failed to load script from URL:', err)
+        if (result.ok) {
+          setScriptData(result.script.data)
+          setScriptName(result.script.name || t('Shared Script'))
+          setCurrentScriptId(null) // Clear ID for shared scripts
+          setCurrentScriptUrl('')
+          // Populate cache so store can access original script synchronously
+          setOriginalScriptCache(result.script.data)
+          if (resetModifications) resetModifications()
+          setError(null)
+        } else {
+          // A broken link shows no script, rather than whichever was open
+          console.error('Failed to load script from URL:', result.error)
+          setScriptData(null)
+          setScriptName('')
+          setCurrentScriptId(null)
+          setCurrentScriptUrl('')
           setError(t('Failed to load script from URL'))
           clearOriginalScriptCache()
           if (resetModifications) resetModifications()

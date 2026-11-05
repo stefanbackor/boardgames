@@ -1,6 +1,4 @@
-import { decompressFromUrl } from '@/utils/urlCompression'
-import { extractMeta, getScriptItemId } from '@/utils/parseScript'
-import { normalizeBootleggerRules } from '@/utils/bootleggerRules'
+import { getScriptItemId, readMeta, readScript } from '@/utils/scriptIntake'
 import type { ScriptItem } from '@/types'
 
 /**
@@ -104,30 +102,18 @@ export function getOriginalFromUrl(searchParams?: string): OriginalScript {
     return EMPTY_ORIGINAL
   }
 
-  try {
-    // Decompress (handles both compressed and uncompressed formats)
-    const decoded = decompressFromUrl(encodedScript)
-    const parsed = JSON.parse(decoded) as ScriptItem[]
+  const result = readScript({ kind: 'encoded', param: encodedScript })
 
-    if (!Array.isArray(parsed)) {
-      cachedOriginalScript = { url: currentUrl, original: EMPTY_ORIGINAL }
-      return EMPTY_ORIGINAL
-    }
-
-    // Extract name, author and homebrew rules from _meta object
-    const metaObj = extractMeta(parsed)
-    const name = metaObj?.name || ''
-    const author = metaObj?.author || ''
-    const bootlegger = normalizeBootleggerRules(metaObj?.bootlegger)
-
-    const original = lockOriginal(parsed, name, author, bootlegger)
-    cachedOriginalScript = { url: currentUrl, original }
-    return original
-  } catch (error) {
-    console.error('Error parsing script from URL:', error)
+  if (!result.ok) {
+    console.error('Error parsing script from URL:', result.error)
     cachedOriginalScript = { url: currentUrl, original: EMPTY_ORIGINAL }
     return EMPTY_ORIGINAL
   }
+
+  const { data, meta } = result.script
+  const original = lockOriginal(data, meta.name, meta.author, meta.bootlegger)
+  cachedOriginalScript = { url: currentUrl, original }
+  return original
 }
 
 /**
@@ -149,10 +135,7 @@ export function setOriginalScriptCache(
 
   if (!currentUrl) return
 
-  const metaObj = extractMeta(script)
-  const name = metaObj?.name || ''
-  const author = metaObj?.author || ''
-  const bootlegger = normalizeBootleggerRules(metaObj?.bootlegger)
+  const { name, author, bootlegger } = readMeta(script)
 
   cachedOriginalScript = {
     url: currentUrl,

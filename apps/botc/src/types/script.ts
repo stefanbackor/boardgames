@@ -64,10 +64,26 @@ export interface MetaOverrides {
 }
 
 /**
+ * Script metadata as the rest of the app reads it: every field checked, so a
+ * `_meta.name` of 42 or an author of `{}` reads as absent rather than flowing
+ * on as a "string". See readMeta.
+ */
+export interface ScriptMetaFields {
+  /** Whether the script carries a `_meta` object at all, valid or not */
+  present: boolean
+  /** The name, or an empty string when absent or not a string */
+  name: string
+  /** The author, or an empty string when absent or not a string */
+  author: string
+  /** The Bootlegger rules, trimmed, empty ones dropped */
+  bootlegger: string[]
+}
+
+/**
  * Result of parsing a script
  */
 export interface ParseScriptResult {
-  meta?: ScriptMeta
+  meta: ScriptMetaFields
   roles: Array<Role & { isCustom: boolean }>
 }
 
