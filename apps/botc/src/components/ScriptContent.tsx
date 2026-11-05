@@ -5,44 +5,24 @@ import { NightFirstSetup } from '@/components/script/NightFirstSetup'
 import { NightOtherSetup } from '@/components/script/NightOtherSetup'
 import { PlayerCountTable } from '@/components/script/PlayerCountTable'
 import { Footer } from '@/components/Footer'
-import type { Role, ParsedRole } from '@/types'
-import type { Jinx } from '@/types/jinx'
+import type { Role } from '@/types'
 import type { PrintSections } from '@/components/PrintDropdown'
-import { Team, TEAM_CONFIG } from '@/constants'
+import { TEAM_CONFIG } from '@/constants'
+import {
+  isTeamOnPaper,
+  type ScriptView,
+  type TeamView,
+} from '@/utils/scriptView'
 import { useTranslation } from 'react-i18next'
-
-/**
- * Script metadata type
- */
-interface ScriptMeta {
-  name?: string
-  author?: string
-}
-
-/**
- * The Bootlegger's homebrew rules, as {@link TeamSection} takes them
- */
-type BootleggerRuleProps = Pick<
-  ScriptContentProps,
-  'bootleggerRules' | 'onBootleggerRulesChange'
->
 
 /**
  * Props for the ScriptContent component
  */
 interface ScriptContentProps {
-  /** Parsed roles with resolved data */
-  scriptRoles: ParsedRole[]
-  /** Display name for the script */
-  displayScriptName: string
-  /** Script metadata */
-  meta: ScriptMeta | undefined
+  /** The script as players see it, see buildScriptView */
+  view: ScriptView
   /** All available roles (translated) */
   roles: Role[]
-  /** Active jinx data for current language */
-  activeJinxes: Jinx[]
-  /** Set of existing role IDs in the script */
-  existingRoleIds: Set<string>
   /** Print section visibility configuration */
   printSections: PrintSections
   /** Whether the script has been modified */
@@ -69,17 +49,8 @@ interface ScriptContentProps {
   onReplaceRole: (oldRoleId: string, newRole: Role) => void
   /** Handler to reorder roles */
   onReorderRoles: (team: string, fromIndex: number, toIndex: number) => void
-  /** Function to get author from store */
-  getAuthor: () => string | null
-  /** Homebrew rules from `_meta.bootlegger`, shown on the Bootlegger card */
-  bootleggerRules?: string[]
   /** Handler when the homebrew rules change */
   onBootleggerRulesChange?: (rules: string[]) => void
-  /**
-   * Why a role cannot be taken out of the script, by role id. Removing one that
-   * is held would be undone right away, so the card says why instead.
-   */
-  lockedRoles?: Record<string, string>
 }
 
 /**
@@ -88,12 +59,8 @@ interface ScriptContentProps {
  *
  * @example
  * <ScriptContent
- *   scriptRoles={scriptRoles}
- *   displayScriptName={displayScriptName}
- *   meta={meta}
+ *   view={view}
  *   roles={roles}
- *   activeJinxes={activeJinxes}
- *   existingRoleIds={existingRoleIds}
  *   printSections={printSections}
  *   scriptIsModified={scriptIsModified}
  *   onSave={handleSaveChanges}
@@ -104,16 +71,11 @@ interface ScriptContentProps {
  *   onRemoveRole={handleRemoveRole}
  *   onReplaceRole={handleReplaceRole}
  *   onReorderRoles={handleReorderRoles}
- *   getAuthor={getAuthor}
  * />
  */
 export function ScriptContent({
-  scriptRoles,
-  displayScriptName,
-  meta,
+  view,
   roles,
-  activeJinxes,
-  existingRoleIds,
   printSections,
   scriptIsModified,
   showSave,
@@ -127,24 +89,27 @@ export function ScriptContent({
   onRemoveRole,
   onReplaceRole,
   onReorderRoles,
-  getAuthor,
-  bootleggerRules,
   onBootleggerRulesChange,
-  lockedRoles,
 }: ScriptContentProps) {
   const { t } = useTranslation()
+  const [townsfolk, ...mainTeams] = view.pages.characters
 
-  /**
-   * The Bootlegger's homebrew rules only concern the section its card is drawn
-   * in, so the rest are spared props they have nothing to put them on. The team
-   * is read off the script rather than assumed: a script is free to list the
-   * Bootlegger under a team of its own choosing.
-   */
-  const bootleggerTeam = scriptRoles.find(
-    (role) => role.id === 'bootlegger',
-  )?.team
-  const bootleggerFor = (team: Team): BootleggerRuleProps =>
-    team === bootleggerTeam ? { bootleggerRules, onBootleggerRulesChange } : {}
+  const teamSection = ({ team, roles: roleViews }: TeamView) => (
+    <TeamSection
+      key={team}
+      team={team}
+      teamColor={TEAM_CONFIG[team].color}
+      columnsCount={TEAM_CONFIG[team].columns}
+      roleViews={roleViews}
+      allRoles={roles}
+      existingRoleIds={view.roleIds}
+      onAddRole={onAddRole}
+      onRemoveRole={onRemoveRole}
+      onReplaceRole={onReplaceRole}
+      onReorderRoles={onReorderRoles}
+      onBootleggerRulesChange={onBootleggerRulesChange}
+    />
+  )
 
   return (
     <Flex direction="column" gap="9">
@@ -155,8 +120,9 @@ export function ScriptContent({
       >
         <Flex direction="column" style={{ pageBreakInside: 'avoid' }}>
           <Header
-            name={displayScriptName}
-            author={getAuthor() ?? meta?.author ?? ''}
+            name={view.name}
+            author={view.author}
+            hasAuthor={view.hasAuthor}
             isModified={scriptIsModified}
             showSave={showSave}
             isSaved={isSaved}
@@ -167,50 +133,14 @@ export function ScriptContent({
             onAuthorChange={onAuthorChange}
           />
           {/* Render first team (townsfolk) without wrapper for proper page break handling */}
-          <TeamSection
-            key={Team.Townsfolk}
-            team={Team.Townsfolk}
-            teamColor={TEAM_CONFIG[Team.Townsfolk].color}
-            columnsCount={TEAM_CONFIG[Team.Townsfolk].columns}
-            roles={scriptRoles.filter((role) => role.team === Team.Townsfolk)}
-            allRoles={roles}
-            existingRoleIds={existingRoleIds}
-            onAddRole={onAddRole}
-            onRemoveRole={onRemoveRole}
-            onReplaceRole={onReplaceRole}
-            onReorderRoles={onReorderRoles}
-            scriptRoles={scriptRoles}
-            jinxes={activeJinxes}
-            lockedRoles={lockedRoles}
-            {...bootleggerFor(Team.Townsfolk)}
-          />
+          {teamSection(townsfolk)}
         </Flex>
         {/* Render main teams (outsider, minion, demon) */}
-        {[Team.Outsider, Team.Minion, Team.Demon].map((team) => {
-          const teamRoles = scriptRoles.filter((role) => role.team === team)
-          const config = TEAM_CONFIG[team]
-
-          return (
-            <div key={team} style={{ pageBreakInside: 'avoid' }}>
-              <TeamSection
-                team={team}
-                teamColor={config.color}
-                columnsCount={config.columns}
-                roles={teamRoles}
-                allRoles={roles}
-                existingRoleIds={existingRoleIds}
-                onAddRole={onAddRole}
-                onRemoveRole={onRemoveRole}
-                onReplaceRole={onReplaceRole}
-                onReorderRoles={onReorderRoles}
-                scriptRoles={scriptRoles}
-                jinxes={activeJinxes}
-                lockedRoles={lockedRoles}
-                {...bootleggerFor(team)}
-              />
-            </div>
-          )
-        })}
+        {mainTeams.map((teamView) => (
+          <div key={teamView.team} style={{ pageBreakInside: 'avoid' }}>
+            {teamSection(teamView)}
+          </div>
+        ))}
         <Flex mt="4" justify="end">
           <Text size="2" color="gray">
             {t('*Not the first night')}
@@ -234,39 +164,20 @@ export function ScriptContent({
         {/* The editable header above stays on the roles page, so this one only shows on paper */}
         <div className="hidden print:block">
           <Header
-            name={displayScriptName}
-            author={getAuthor() ?? meta?.author ?? ''}
+            name={view.name}
+            author={view.author}
+            hasAuthor={view.hasAuthor}
           />
         </div>
-        {[Team.Traveler, Team.Fabled, Team.Loric].map((team) => {
-          const teamRoles = scriptRoles.filter((role) => role.team === team)
-          const config = TEAM_CONFIG[team]
-          const isEmpty = teamRoles.length === 0
-
-          return (
-            <div
-              key={team}
-              className={isEmpty && config.hideIfEmpty ? 'print:hidden' : ''}
-            >
-              <TeamSection
-                team={team}
-                teamColor={config.color}
-                columnsCount={config.columns}
-                roles={teamRoles}
-                allRoles={roles}
-                existingRoleIds={existingRoleIds}
-                onAddRole={onAddRole}
-                onRemoveRole={onRemoveRole}
-                onReplaceRole={onReplaceRole}
-                onReorderRoles={onReorderRoles}
-                scriptRoles={scriptRoles}
-                jinxes={activeJinxes}
-                lockedRoles={lockedRoles}
-                {...bootleggerFor(team)}
-              />
-            </div>
-          )
-        })}
+        {/* An empty team stays on screen to be added to, but not on paper */}
+        {view.pages.extras.map((teamView) => (
+          <div
+            key={teamView.team}
+            className={isTeamOnPaper(teamView) ? '' : 'print:hidden'}
+          >
+            {teamSection(teamView)}
+          </div>
+        ))}
 
         {/* Player Count Table */}
         <PlayerCountTable />
@@ -280,7 +191,7 @@ export function ScriptContent({
             printSections.roles || printSections.tables ? 'always' : 'auto',
         }}
       >
-        <NightFirstSetup roles={scriptRoles} scriptName={displayScriptName} />
+        <NightFirstSetup roles={view.roles} scriptName={view.name} />
       </div>
 
       {/* Other Nights Section */}
@@ -295,7 +206,7 @@ export function ScriptContent({
               : 'auto',
         }}
       >
-        <NightOtherSetup roles={scriptRoles} scriptName={displayScriptName} />
+        <NightOtherSetup roles={view.roles} scriptName={view.name} />
         <Footer />
       </div>
     </Flex>

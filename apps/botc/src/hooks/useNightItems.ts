@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { NightMarker } from '@/constants/nightMarkers'
-import type { Role } from '@/types'
+import type { ParsedRole, Role } from '@/types'
 import { formatRoleDisplayName } from '@/utils/roleDisplayName'
 import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
 
@@ -13,9 +13,20 @@ export type NightItem = {
   name: string
   reminder: string
 } & (
-  | { marker: NightMarker; image?: undefined }
-  | { marker?: undefined; image?: string }
+  | { marker: NightMarker; image?: undefined; isCustom?: undefined }
+  | {
+      marker?: undefined
+      image?: string
+      /** A custom character's image is shown as the script gives it */
+      isCustom?: boolean
+    }
 )
+
+/**
+ * A role on a night sheet. Parsed roles say whether they are custom; a plain
+ * role is taken as official.
+ */
+type NightRole = Role & Partial<Pick<ParsedRole, 'isCustom'>>
 
 /** A step with its place in the night */
 type OrderedNightItem = NightItem & { order: number }
@@ -37,7 +48,7 @@ const inOrder = (steps: OrderedNightItem[]) =>
  * @param roles - The roles of the script
  * @returns The steps to list on the first night's sheet
  */
-export function useFirstNightItems(roles: Role[]): NightItem[] {
+export function useFirstNightItems(roles: NightRole[]): NightItem[] {
   const { t: tContent } = useTranslation('content')
   const showEnglishNames = useDisplayOptionsStore(
     (state) => state.showEnglishNames,
@@ -45,13 +56,16 @@ export function useFirstNightItems(roles: Role[]): NightItem[] {
 
   const roleSteps = roles
     .filter((role) => role.firstNight > 0)
-    .map((role): OrderedNightItem => ({
-      id: role.id,
-      name: formatRoleDisplayName(role, showEnglishNames),
-      image: role.image,
-      reminder: role.firstNightReminder,
-      order: role.firstNight,
-    }))
+    .map(
+      (role): OrderedNightItem => ({
+        id: role.id,
+        name: formatRoleDisplayName(role, showEnglishNames),
+        image: role.image,
+        isCustom: role.isCustom,
+        reminder: role.firstNightReminder,
+        order: role.firstNight,
+      }),
+    )
 
   return inOrder([
     ...roleSteps,
@@ -84,7 +98,7 @@ export function useFirstNightItems(roles: Role[]): NightItem[] {
  * @param roles - The roles of the script
  * @returns The steps to list on the other nights' sheet
  */
-export function useOtherNightItems(roles: Role[]): NightItem[] {
+export function useOtherNightItems(roles: NightRole[]): NightItem[] {
   const { t: tContent } = useTranslation('content')
   const showEnglishNames = useDisplayOptionsStore(
     (state) => state.showEnglishNames,
@@ -92,13 +106,16 @@ export function useOtherNightItems(roles: Role[]): NightItem[] {
 
   const roleSteps = roles
     .filter((role) => role.otherNight > 0)
-    .map((role): OrderedNightItem => ({
-      id: role.id,
-      name: formatRoleDisplayName(role, showEnglishNames),
-      image: role.image,
-      reminder: role.otherNightReminder,
-      order: role.otherNight,
-    }))
+    .map(
+      (role): OrderedNightItem => ({
+        id: role.id,
+        name: formatRoleDisplayName(role, showEnglishNames),
+        image: role.image,
+        isCustom: role.isCustom,
+        reminder: role.otherNightReminder,
+        order: role.otherNight,
+      }),
+    )
 
   return inOrder([
     markerStep('dusk', 'dusk', tContent('Dusk'), 1),

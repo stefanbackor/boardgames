@@ -15,6 +15,7 @@ import {
   getEnglishRoleName,
 } from '@/utils/roleDisplayName'
 import { getProxiedImageUrl, getImageScale } from '@/utils/imageUrl'
+import type { DjinnJinx, JinxedBy } from '@/utils/scriptJinxes'
 import { BootleggerRules } from './BootleggerRules'
 import { RoleImage } from './RoleImage'
 import { useDisplayOptionsStore } from '@/stores/displayOptionsStore'
@@ -25,14 +26,10 @@ interface RoleCardProps {
   onRemove?: (roleId: string) => void
   onSearch?: (roleId: string) => void
   isDraggable?: boolean
-  jinxes?: Array<{
-    id: string
-    name: string
-    reason: string
-    role1Image: string
-    role2Image: string
-  }>
-  hatedBy?: Array<{ id: string; name: string; image: string }>
+  /** The Djinn only: every jinx between two characters of the script */
+  jinxes?: DjinnJinx[]
+  /** The script's characters jinxed with this one */
+  hatedBy?: JinxedBy[]
   /** Homebrew rules to list under the ability (Bootlegger only) */
   rules?: string[]
   /** Called with the new rule list; omit to render the rules read-only */

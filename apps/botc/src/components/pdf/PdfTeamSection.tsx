@@ -1,13 +1,9 @@
 import { Text, View } from '@react-pdf/renderer'
-import { Team, TEAM_CONFIG } from '@/constants'
+import { TEAM_CONFIG } from '@/constants'
 import type { Role } from '@/types'
 import { formatRoleDisplayName } from '@/utils/roleDisplayName'
-import {
-  getDjinnJinxes,
-  getHatedByMap,
-  type DjinnJinx,
-  type JinxedBy,
-} from '@/utils/scriptJinxes'
+import type { DjinnJinx, JinxedBy } from '@/utils/scriptJinxes'
+import type { RoleView, TeamView } from '@/utils/scriptView'
 import { PdfRoleImage } from './PdfRoleImage'
 import { PdfRuns } from './PdfRuns'
 import {
@@ -31,7 +27,7 @@ interface RoleCardProps {
 }
 
 interface PdfTeamSectionProps {
-  team: Team
+  teamView: TeamView
   data: ScriptPdfData
 }
 
@@ -109,37 +105,30 @@ const estimatedCardHeight = (role: Role, rules: string[]) => {
  * One team with its header. Like the printed sheet it moves to the next page
  * whole rather than split, unless it would not fit on any page.
  */
-export function PdfTeamSection({ team, data }: PdfTeamSectionProps) {
-  const teamRoles = data.roles.filter((role) => role.team === team)
-  const hatedByMap = getHatedByMap(data.roles, data.jinxes)
-  const djinnJinxes = getDjinnJinxes(data.roles, data.jinxes)
+export function PdfTeamSection({ teamView, data }: PdfTeamSectionProps) {
+  const { team, roles: teamRoles } = teamView
 
-  const rulesFor = (role: Role) =>
-    role.id === 'bootlegger' ? data.bootleggerRules.filter(Boolean) : []
-  const card = (role: Role) => (
+  const card = ({ role, hatedBy, jinxes, rules }: RoleView) => (
     <RoleCard
       key={role.id}
       role={role}
       displayName={formatRoleDisplayName(role, data.showEnglishNames)}
-      hatedBy={hatedByMap.get(role.id)}
-      jinxes={role.id === 'djinn' ? djinnJinxes : undefined}
-      rules={rulesFor(role)}
+      hatedBy={hatedBy}
+      jinxes={jinxes}
+      rules={rules}
     />
   )
+  const cardHeight = ({ role, rules }: RoleView) =>
+    estimatedCardHeight(role, rules ?? [])
 
   // The columns of the printed sheet: anything without its own count gets two
   const split =
     (TEAM_CONFIG[team].columns ?? 2) === 1
       ? teamRoles.length
-      : balancedColumnSplit(
-          teamRoles.map((role) => estimatedCardHeight(role, rulesFor(role))),
-        )
+      : balancedColumnSplit(teamRoles.map(cardHeight))
 
-  const columnHeight = (column: Role[]) =>
-    column.reduce(
-      (sum, role) => sum + estimatedCardHeight(role, rulesFor(role)),
-      0,
-    )
+  const columnHeight = (column: RoleView[]) =>
+    column.reduce((sum, roleView) => sum + cardHeight(roleView), 0)
   const tallestColumn = Math.max(
     columnHeight(teamRoles.slice(0, split)),
     columnHeight(teamRoles.slice(split)),

@@ -11,6 +11,8 @@ interface NightRoleItemProps {
   name: string
   /** The role's image. A custom role may have none, and then shows no avatar */
   image?: string
+  /** A custom character's image is loaded as the script gives it, unproxied */
+  isCustom?: boolean
   /** Stands in for the image on a step that belongs to no role */
   marker?: NightMarker
   reminder: string
@@ -19,6 +21,7 @@ interface NightRoleItemProps {
 export function NightRoleItem({
   name,
   image,
+  isCustom,
   marker,
   reminder,
 }: NightRoleItemProps) {
@@ -32,7 +35,7 @@ export function NightRoleItem({
             <Avatar
               size="4"
               radius="full"
-              src={getProxiedImageUrl(image)}
+              src={isCustom ? image : getProxiedImageUrl(image)}
               fallback={<ImageIcon />}
               className="print:hidden"
             />
@@ -58,7 +61,9 @@ export function NightRoleItem({
           <Text
             size="2"
             style={{ lineHeight: '1.33' }}
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatReminder(reminder)) }}
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(formatReminder(reminder)),
+            }}
           />
         )}
       </Flex>

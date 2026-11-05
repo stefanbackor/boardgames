@@ -42,6 +42,19 @@ describe('night items', () => {
     expect(custom?.image).toBeUndefined()
   })
 
+  it('says which steps belong to a custom role, whose image is not proxied', () => {
+    const { result } = renderHook(() =>
+      useFirstNightItems([
+        { ...role({ id: 'custom', image: 'https://x/c.png' }), isCustom: true },
+        { ...role({ id: 'official', image: 'official.png' }), isCustom: false },
+      ]),
+    )
+    const step = (id: string) => result.current.find((item) => item.id === id)
+
+    expect(step('custom')?.isCustom).toBe(true)
+    expect(step('official')?.isCustom).toBe(false)
+  })
+
   it('leaves out roles that do not wake that night', () => {
     const { result } = renderHook(() =>
       useOtherNightItems([role({ otherNight: 0 })]),

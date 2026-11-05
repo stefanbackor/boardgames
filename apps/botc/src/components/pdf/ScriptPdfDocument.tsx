@@ -1,20 +1,16 @@
 import { Document, Page, pdf, Text, View } from '@react-pdf/renderer'
 import { PLAYER_DISTRIBUTION } from '@/constants/playerDistribution'
-import { Team } from '@/constants'
+import type { Team } from '@/constants'
 import type { NightItem } from '@/hooks/useNightItems'
-import type { Role } from '@/types'
-import type { Jinx } from '@/types/jinx'
+import { isTeamOnPaper, type ScriptView } from '@/utils/scriptView'
 import { PdfNightPage } from './PdfNightPage'
 import { PdfTeamSection } from './PdfTeamSection'
 import { cssPx, registerFonts, styles } from './pdfStyles'
 
 /** Everything the PDF draws, already resolved and translated */
 export interface ScriptPdfData {
-  roles: Role[]
-  name: string
-  author: string
-  jinxes: Jinx[]
-  bootleggerRules: string[]
+  /** The script as it is on screen, see buildScriptView */
+  view: ScriptView
   firstNightItems: NightItem[]
   otherNightItems: NightItem[]
   showEnglishNames: boolean
@@ -33,8 +29,7 @@ export interface ScriptPdfData {
 }
 
 interface HeaderProps {
-  name: string
-  author: string
+  view: ScriptView
   by: string
 }
 
@@ -46,15 +41,15 @@ interface ScriptDocumentProps {
   data: ScriptPdfData
 }
 
-function Header({ name, author, by }: HeaderProps) {
+function Header({ view, by }: HeaderProps) {
   return (
     // One Text, because react-pdf has no baseline alignment between two of them
     <Text style={styles.scriptHeader}>
-      {name}
-      {author.trim() !== '' && (
+      {view.name}
+      {view.hasAuthor && (
         <Text style={{ fontSize: cssPx(18) }}>
           {'  '}
-          {by} {author}
+          {by} {view.author}
         </Text>
       )}
     </Text>
@@ -87,27 +82,24 @@ function PlayerTable({ labels }: PlayerTableProps) {
 }
 
 function ScriptDocument({ data }: ScriptDocumentProps) {
-  const { name, author, labels } = data
+  const { view, labels } = data
+  const { name } = view
 
   return (
     <Document title={name}>
       <Page size="A4" style={styles.page}>
-        <Header name={name} author={author} by={labels.by} />
-        {[Team.Townsfolk, Team.Outsider, Team.Minion, Team.Demon].map(
-          (team) => (
-            <PdfTeamSection key={team} team={team} data={data} />
-          ),
-        )}
+        <Header view={view} by={labels.by} />
+        {view.pages.characters.map((teamView) => (
+          <PdfTeamSection key={teamView.team} teamView={teamView} data={data} />
+        ))}
         <Text style={styles.notFirstNight}>{labels.notFirstNight}</Text>
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Header name={name} author={author} by={labels.by} />
-        {[Team.Traveler, Team.Fabled, Team.Loric]
-          .filter((team) => data.roles.some((role) => role.team === team))
-          .map((team) => (
-            <PdfTeamSection key={team} team={team} data={data} />
-          ))}
+        <Header view={view} by={labels.by} />
+        {view.pages.extras.filter(isTeamOnPaper).map((teamView) => (
+          <PdfTeamSection key={teamView.team} teamView={teamView} data={data} />
+        ))}
         <PlayerTable labels={labels} />
       </Page>
 
