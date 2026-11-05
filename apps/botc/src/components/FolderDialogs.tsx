@@ -86,11 +86,9 @@ export function FolderDialog({
               }}
             >
               <Flex direction="column" gap="3">
-                <Text as="label" htmlFor="folder-name">
-                  {t('Folder name')}
-                </Text>
                 <TextField.Root
                   id="folder-name"
+                  aria-label={t('Folder name')}
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   disabled={busy}
