@@ -67,12 +67,13 @@ globs: ["apps/botc/**/*.ts", "apps/botc/**/*.tsx"]
 - Pure functions only in `/src/utils/`
 - Test all utility functions
 - Export named functions (no default exports)
-- Common utilities: parseScript, imageUrl, urlCompression, sanitizeHtml
+- Common utilities: scriptIntake, parseScript, imageUrl, urlCompression, sanitizeHtml
 
 ## URL Handling
 - Scripts can be compressed in URL for sharing
 - Use `urlCompression.ts` utilities for encoding/decoding
-- Extract metadata with `parseScript.extractMeta()`
+- Bring untrusted script input (paste, file, link, remote URL) in through script intake: `readScript()` from `scriptIntake.ts`, or `readScriptFile()` / `readScriptUrl()` from `/src/services/scriptSources.ts`
+- Read script metadata with `readMeta()` from `scriptIntake.ts`
 
 ## Best Practices
 - Always handle custom roles (isCustom flag on ParsedRole)
