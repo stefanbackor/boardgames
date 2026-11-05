@@ -138,6 +138,27 @@ export function useScript() {
   )
 
   /**
+   * Puts a script on screen as the original its edits are measured against,
+   * and clears any error.
+   *
+   * The address and the diff are left to the caller, because loads differ
+   * there: a new script pushes its own address, one opened from the address
+   * bar leaves it alone. The cache is keyed by the address as it stands, so a
+   * caller that rewrites the address does so before calling this.
+   */
+  const showScript = useCallback(
+    (data: ScriptData, name: string, sourceUrl: string): void => {
+      setScriptData(data)
+      setScriptName(name)
+      setCurrentScriptUrl(sourceUrl)
+      // Populate cache so store can access original script synchronously
+      setOriginalScriptCache(data)
+      setError(null)
+    },
+    [],
+  )
+
+  /**
    * Sets a script that passed intake, updating URL
    */
   const setLoadedScript = useCallback(
@@ -147,10 +168,6 @@ export function useScript() {
       sourceUrl?: string,
       resetModifications?: () => void,
     ): void => {
-      setScriptData(script.data)
-      setScriptName(script.name || fallbackName)
-      setError(null)
-
       // Update URL with compressed script data
       const content = JSON.stringify(script.data)
       const encoded = compressForUrl(content)
@@ -161,11 +178,8 @@ export function useScript() {
       const newUrl = `${window.location.pathname}?${params.toString()}`
       window.history.pushState({}, '', newUrl)
 
-      // Populate cache so store can access original script synchronously
-      setOriginalScriptCache(script.data)
-
-      // Update source URL if provided, otherwise clear it
-      setCurrentScriptUrl(sourceUrl || '')
+      // Source URL if provided, otherwise cleared
+      showScript(script.data, script.name || fallbackName, sourceUrl || '')
 
       if (resetModifications) {
         // A reset picks the key of the URL written above up on its own
@@ -184,7 +198,7 @@ export function useScript() {
         syncScriptKey()
       }
     },
-    [],
+    [showScript],
   )
 
   /**
@@ -378,13 +392,9 @@ export function useScript() {
         const savedScript = getSavedScript(scriptId)
 
         if (savedScript) {
-          setScriptData(savedScript.scriptData)
-          setScriptName(savedScript.name)
+          showScript(savedScript.scriptData, savedScript.name, '')
           setCurrentScriptId(scriptId)
-          setCurrentScriptUrl('')
-          setOriginalScriptCache(savedScript.scriptData)
           if (resetModifications) resetModifications()
-          setError(null)
 
           sendEvent('load_saved_script', {
             script_name: savedScript.name,
@@ -403,14 +413,15 @@ export function useScript() {
         const result = readScript({ kind: 'encoded', param: encodedScript })
 
         if (result.ok) {
-          setScriptData(result.script.data)
-          setScriptName(result.script.name || t('Shared Script'))
+          // The address already holds this script, so unlike setLoadedScript
+          // nothing is pushed and the diff's key is left as it is
+          showScript(
+            result.script.data,
+            result.script.name || t('Shared Script'),
+            '',
+          )
           setCurrentScriptId(null) // Clear ID for shared scripts
-          setCurrentScriptUrl('')
-          // Populate cache so store can access original script synchronously
-          setOriginalScriptCache(result.script.data)
           if (resetModifications) resetModifications()
-          setError(null)
         } else {
           console.error('Failed to load script from URL:', result.error)
           failLoad(
@@ -430,7 +441,7 @@ export function useScript() {
         if (resetModifications) resetModifications()
       }
     },
-    [describeIntakeError, failLoad, loadFromUrl, t],
+    [describeIntakeError, failLoad, loadFromUrl, showScript, t],
   )
 
   /**
