@@ -304,13 +304,7 @@ function App() {
     downloadPdf,
     isGenerating: isGeneratingPdf,
     error: pdfError,
-  } = useScriptPdf({
-    roles: scriptRoles ?? [],
-    name: displayScriptName,
-    author: view?.author ?? '',
-    jinxes: activeJinxes,
-    bootleggerRules: view?.bootleggerRules ?? [],
-  })
+  } = useScriptPdf({ view })
 
   // Script modification handlers (from hook)
   const {
@@ -719,7 +713,7 @@ function App() {
   // Dev-only: add &pdf-debug to a script's URL to see its PDF instead of the app
   if (
     import.meta.env.DEV &&
-    scriptRoles &&
+    pdfData &&
     new URLSearchParams(window.location.search).has('pdf-debug')
   ) {
     return <PdfDebugPreview data={pdfData} />
