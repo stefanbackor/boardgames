@@ -1,3 +1,7 @@
+import { Settings, ChevronDown, ChevronRight } from 'lucide-react'
+import { FolderDialog } from './FolderDialogs'
+import { useSavedScriptsStore } from '@/stores/savedScriptsStore'
+import { compareNames } from '@/stores/folderLibrary'
 import { useState } from 'react'
 import { Flex, Text, Button, Link, Tooltip, Separator } from '@radix-ui/themes'
 import { Trans, useTranslation } from 'react-i18next'
@@ -69,51 +73,142 @@ export function EmptyState({
     return demons.map((demon) => demon.image).filter(Boolean)
   }
 
+  const { folderLibrary, setFolderCollapsed } = useSavedScriptsStore()
+  const [editingFolder, setEditingFolder] = useState<string | null>(null)
+  const [folderError, setFolderError] = useState('')
+  const folders = Object.values(folderLibrary.folders).sort(compareNames)
+  const sortedScripts = [...savedScripts].sort(compareNames)
+  const unfiledScripts = sortedScripts.filter(
+    (script) => !folderLibrary.folders[folderLibrary.membership[script.id]],
+  )
+  const renderScripts = (scripts: SavedScript[]) => (
+    <Flex gap="2" wrap="wrap" justify="center">
+      {scripts.map((script) => {
+        const demonImages = getDemonImages(script)
+        return (
+          <Flex key={script.id} direction="row" gap="2" align="center">
+            <Button variant="soft" onClick={() => onLoadSavedScript(script.id)}>
+              <Flex direction="row" gap="2" align="center">
+                {demonImages.length > 0 && (
+                  <Flex direction="row" gap="0" align="center">
+                    {demonImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={getProxiedImageUrl(image)}
+                        alt=""
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          aspectRatio: '1/1',
+                          borderRadius: '50%',
+                          backgroundColor:
+                            'color-mix(in srgb, var(--color-background) 80%, transparent)',
+                          objectFit: 'cover',
+                          transform: `scale(${getImageScale(image)})`,
+                        }}
+                      />
+                    ))}
+                  </Flex>
+                )}
+
+                <Text>{script.name}</Text>
+              </Flex>
+            </Button>
+          </Flex>
+        )
+      })}
+    </Flex>
+  )
+
   return (
     <Flex direction="column" align="center" justify="center" gap="4">
       {/* Saved Scripts Section */}
-      {savedScripts.length > 0 && (
+      {(savedScripts.length > 0 || folders.length > 0) && (
         <>
-          <Flex direction="column" gap="3" width="100%" align="center">
-            <Flex gap="2" wrap="wrap" justify="center">
-              {savedScripts.map((script) => {
-                const demonImages = getDemonImages(script)
-                return (
-                  <Flex key={script.id} direction="row" gap="2" align="center">
+          <Flex direction="column" gap="2" width="100%" align="center">
+            {unfiledScripts.length > 0 && renderScripts(unfiledScripts)}
+            {folders.map((folder) => {
+              const folderScripts = sortedScripts.filter(
+                (script) => folderLibrary.membership[script.id] === folder.id,
+              )
+              return (
+                <Flex
+                  key={folder.id}
+                  direction="column"
+                  gap="2"
+                  width="100%"
+                  align="center"
+                  role="region"
+                  aria-label={folder.name}
+                >
+                  <Flex align="center" gap="2" width="100%">
                     <Button
-                      variant="soft"
-                      onClick={() => onLoadSavedScript(script.id)}
+                      variant="ghost"
+                      style={{
+                        flex: 1,
+                        minWidth: 0,
+                        justifyContent: 'flex-start',
+                      }}
+                      aria-expanded={!folder.collapsed}
+                      aria-controls={`folder-${folder.id}`}
+                      onClick={async () => {
+                        try {
+                          await setFolderCollapsed(folder.id, !folder.collapsed)
+                          setFolderError('')
+                        } catch {
+                          setFolderError(
+                            t('Could not update folders. Please try again.'),
+                          )
+                        }
+                      }}
                     >
-                      <Flex direction="row" gap="2" align="center">
-                        {demonImages.length > 0 && (
-                          <Flex direction="row" gap="0" align="center">
-                            {demonImages.map((image, index) => (
-                              <img
-                                key={index}
-                                src={getProxiedImageUrl(image)}
-                                alt=""
-                                style={{
-                                  width: '16px',
-                                  height: '16px',
-                                  aspectRatio: '1/1',
-                                  borderRadius: '50%',
-                                  backgroundColor:
-                                    'color-mix(in srgb, var(--color-background) 80%, transparent)',
-                                  objectFit: 'cover',
-                                  transform: `scale(${getImageScale(image)})`,
-                                }}
-                              />
-                            ))}
-                          </Flex>
-                        )}
-
-                        <Text>{script.name}</Text>
-                      </Flex>
+                      {folder.collapsed ? (
+                        <ChevronRight size={16} />
+                      ) : (
+                        <ChevronDown size={16} />
+                      )}
+                      <Text style={{ flexShrink: 0 }}>{folder.name}</Text>
+                      <Separator
+                        decorative
+                        orientation="horizontal"
+                        size="4"
+                        style={{ flex: 1 }}
+                      />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      color="gray"
+                      aria-label={t('Edit folder {{folder}}', {
+                        folder: folder.name,
+                      })}
+                      onClick={() => setEditingFolder(folder.id)}
+                    >
+                      <Settings size={16} />
                     </Button>
                   </Flex>
-                )
-              })}
-            </Flex>
+                  <div id={`folder-${folder.id}`} hidden={folder.collapsed}>
+                    {folderScripts.length > 0 ? (
+                      renderScripts(folderScripts)
+                    ) : (
+                      <Text size="2" color="gray">
+                        {t('This folder is empty.')}
+                      </Text>
+                    )}
+                  </div>
+                </Flex>
+              )
+            })}
+            {folderError && (
+              <Text role="alert" color="red">
+                {folderError}
+              </Text>
+            )}
+            {editingFolder && (
+              <FolderDialog
+                folderId={editingFolder}
+                onClose={() => setEditingFolder(null)}
+              />
+            )}
           </Flex>
           <Separator size="4" />
         </>

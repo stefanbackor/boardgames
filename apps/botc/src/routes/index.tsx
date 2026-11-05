@@ -760,6 +760,7 @@ function App() {
               scriptIsModified={scriptIsModified}
               showSave={showSaveButton}
               isSaved={!!currentScriptId}
+              savedScriptId={currentScriptId || undefined}
               onSave={handleSaveChanges}
               onRevert={handleRevertChanges}
               onDelete={currentScriptId ? handleDeleteCurrentScript : undefined}

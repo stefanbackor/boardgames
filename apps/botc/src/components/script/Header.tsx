@@ -1,3 +1,4 @@
+import { ScriptFolderButton } from '@/components/FolderDialogs'
 import { useRef, useEffect } from 'react'
 import { Flex, Heading, Text, Button, Tooltip, Badge } from '@radix-ui/themes'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +16,7 @@ interface Props {
   isModified?: boolean
   showSave?: boolean
   isSaved?: boolean
+  savedScriptId?: string
   onSave?: () => void
   onRevert?: () => void
   onDelete?: () => void
@@ -29,6 +31,7 @@ export function Header({
   isModified,
   showSave,
   isSaved,
+  savedScriptId,
   onSave,
   onRevert,
   onDelete,
@@ -230,6 +233,9 @@ export function Header({
            * click would land on neither button. Nothing that shows up with
            * `isModified` belongs after Save.
            */}
+          {savedScriptId && (
+            <ScriptFolderButton key={savedScriptId} scriptId={savedScriptId} />
+          )}
           {onRevert && isModified && (
             <Button size="1" color="gray" onClick={onRevert}>
               {t('Revert')}

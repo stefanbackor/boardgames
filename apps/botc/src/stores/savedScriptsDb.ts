@@ -1,3 +1,4 @@
+import { emptyFolderLibrary, type FolderLibrary } from './folderLibrary'
 import type { SavedScript } from '@/types'
 
 const LEGACY_KEY = 'botc-saved-scripts'
@@ -121,8 +122,44 @@ export function writeSavedScript(script: SavedScript): Promise<void> {
   })
 }
 
-export function deleteSavedScript(id: string): Promise<void> {
-  return mutateSavedScripts((store) => {
-    store.delete(id)
+export function deleteSavedScript(id: string): Promise<FolderLibrary> {
+  return updateFolderLibrary((library, scripts) => {
+    scripts.delete(id)
+    delete library.membership[id]
   })
+}
+
+/** Read and update folder metadata within one IndexedDB transaction. */
+export async function updateFolderLibrary(
+  update?: (library: FolderLibrary, scripts: IDBObjectStore) => void,
+): Promise<FolderLibrary> {
+  const db = await openDatabase()
+  try {
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(
+        ['metadata', 'scripts'],
+        update ? 'readwrite' : 'readonly',
+      )
+      const store = tx.objectStore('metadata')
+      const request = store.get('folder-library')
+      let library: FolderLibrary
+      let failure: unknown
+      request.onsuccess = () => {
+        library = request.result || emptyFolderLibrary()
+        try {
+          if (update) {
+            update(library, tx.objectStore('scripts'))
+            store.put(library, 'folder-library')
+          }
+        } catch (error) {
+          failure = error
+          tx.abort()
+        }
+      }
+      tx.oncomplete = () => resolve(library)
+      tx.onabort = () => reject(failure || tx.error)
+    })
+  } finally {
+    db.close()
+  }
 }
