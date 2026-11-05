@@ -86,7 +86,6 @@ export interface ScriptView {
   /** Every character on the sheet, the auto-added Bootlegger and Djinn included */
   roles: ParsedRole[]
   roleIds: ReadonlySet<string>
-  bootleggerRules: string[]
   pages: {
     /** Townsfolk, Outsiders, Minions and Demons */
     characters: TeamView[]
@@ -163,7 +162,6 @@ export function buildScriptView({
     hasAuthor: author.trim() !== '',
     roles,
     roleIds: new Set(roles.map((role) => role.id)),
-    bootleggerRules,
     pages: {
       characters: CHARACTER_TEAMS.map(teamView),
       extras: EXTRA_TEAMS.map(teamView),

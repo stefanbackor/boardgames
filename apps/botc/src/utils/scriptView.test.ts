@@ -153,7 +153,6 @@ describe('buildScriptView', () => {
         (r) => r.role.id === 'bootlegger',
       )
 
-      expect(view.bootleggerRules).toEqual(['Rule A'])
       expect(bootlegger?.rules).toEqual(['Rule A'])
       expect(bootlegger?.lock).toBe('homebrew')
     })
@@ -164,7 +163,10 @@ describe('buildScriptView', () => {
         overrides: { name: null, author: null, bootleggerRules: ['Rule B'] },
       })
 
-      expect(view.bootleggerRules).toEqual(['Rule B'])
+      expect(
+        view.pages.extras[2].roles.find((r) => r.role.id === 'bootlegger')
+          ?.rules,
+      ).toEqual(['Rule B'])
     })
 
     it('keeps the Bootlegger until saving when every rule was deleted', () => {
