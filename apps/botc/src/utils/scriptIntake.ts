@@ -88,6 +88,7 @@ export type IntakeError =
 export interface IntakeScript {
   /** The script data exactly as it arrived */
   data: ScriptData
+  /** The validated script metadata, see readMeta */
   meta: ScriptMetaFields
   /**
    * The name from the script metadata, else the source's name hint, else an
@@ -96,6 +97,11 @@ export interface IntakeScript {
   name: string
 }
 
+/**
+ * What intake answers: the script, or why it was rejected. A union rather than
+ * a throw, so every caller has to decide what each failure looks like to the
+ * user.
+ */
 export type IntakeResult =
   | { ok: true; script: IntakeScript }
   | { ok: false; error: IntakeError }

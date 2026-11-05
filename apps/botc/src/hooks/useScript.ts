@@ -72,7 +72,7 @@ export function useScript() {
       fallbackName: string,
       sourceUrl?: string,
       resetModifications?: () => void,
-    ) => {
+    ): void => {
       setScriptData(script.data)
       setScriptName(script.name || fallbackName)
       setError(null)
