@@ -110,6 +110,35 @@ test.describe('Script from URL', () => {
     })
   })
 
+  test('should clear the open script when a script link fails to load', async ({
+    page,
+  }) => {
+    const compressed = await compressScriptForUrl([
+      { id: '_meta', name: 'Test Script' },
+      'washerwoman',
+    ])
+    await page.goto(`/?script=${encodeURIComponent(compressed)}`)
+    await expect(page.getByText('Test Script').first()).toBeVisible({
+      timeout: 10000,
+    })
+
+    // A link that decodes to JSON but not to a list of characters. Reached by
+    // Back/Forward rather than page.goto, so the open script is still in
+    // memory and only the app clearing it can make it go away.
+    const notAList = await compressScriptForUrl({ id: '_meta' })
+    await page.evaluate((param) => {
+      window.history.pushState({}, '', `/?script=${param}`)
+    }, encodeURIComponent(notAList))
+    await page.goBack()
+    await expect(page.getByText('Test Script').first()).toBeVisible()
+    await page.goForward()
+
+    await expect(
+      page.getByText('Failed to load script from URL', { exact: true }),
+    ).toBeVisible({ timeout: 10000 })
+    await expect(page.getByText('Test Script')).toHaveCount(0)
+  })
+
   test('should update URL when committing script changes', async ({ page }) => {
     await page.goto('/')
     // Load a sample script
@@ -164,7 +193,9 @@ test.describe('Script from URL', () => {
 
     // Grant clipboard permissions (only supported in Chromium)
     if (browserName === 'chromium') {
-      await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
+      await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write'])
 
       // Click share button
       await shareButton.click()
